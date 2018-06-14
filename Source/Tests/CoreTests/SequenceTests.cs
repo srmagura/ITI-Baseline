@@ -5,7 +5,7 @@ using Iti.Core.Sequences;
 using Iti.Core.UnitOfWork;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BasicTests
+namespace CoreTests
 {
     [TestClass]
     public class SequenceTests

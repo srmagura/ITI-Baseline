@@ -12,6 +12,7 @@ using Iti.Email;
 using Iti.Inversion;
 using Iti.Logging;
 using Iti.Logging.Job;
+using Iti.Passwords;
 using Iti.Sms;
 
 namespace AppConfig
@@ -41,6 +42,7 @@ namespace AppConfig
             ConfigureSequences();
             ConfigureApplication();
             ConfigureJobProcessors();
+            ConfigurePasswords();
         }
 
         private static void Settings<T>()
@@ -106,6 +108,11 @@ namespace AppConfig
         {
             IOC.RegisterType<ISmsSender, QueuedSmsSender>();
             IOC.RegisterType<ISmsRepository, EfSmsRepository>();
+        }
+
+        private static void ConfigurePasswords()
+        {
+            IOC.RegisterType<IPasswordEncoder, DefaultPasswordEncoder>();
         }
     }
 }

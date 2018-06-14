@@ -8,7 +8,7 @@ using Iti.Logging;
 using Iti.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BasicTests
+namespace CoreTests
 {
     [TestClass]
     public class LogTests

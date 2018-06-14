@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AppConfig;
-using BasicTests.Helpers;
+using CoreTests.Helpers;
 using Domain;
 using Domain.Events;
 using FooSampleApp.Application.Interfaces;
@@ -14,7 +14,7 @@ using Iti.ValueObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 
-namespace BasicTests
+namespace CoreTests
 {
     [TestClass]
     public class FooTests

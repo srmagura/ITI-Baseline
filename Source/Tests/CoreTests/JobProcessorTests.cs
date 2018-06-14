@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using AppConfig;
-using BasicTests.Helpers;
+using CoreTests.Helpers;
 using DataContext;
 using Iti.Core.DateTime;
 using Iti.Core.DomainEvents;
@@ -13,7 +12,7 @@ using Iti.Logging.Job;
 using Iti.Sms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace BasicTests
+namespace CoreTests
 {
     [TestClass]
     public class JobProcessorTests

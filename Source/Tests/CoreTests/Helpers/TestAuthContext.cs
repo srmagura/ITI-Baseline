@@ -1,6 +1,6 @@
 ﻿using FooSampleApp.Auth;
 
-namespace BasicTests.Helpers
+namespace CoreTests.Helpers
 {
     public class TestAuthContext : IAppAuthContext
     {

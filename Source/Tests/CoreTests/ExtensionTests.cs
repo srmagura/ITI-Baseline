@@ -4,7 +4,7 @@ using Iti.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TimeZone =Iti.Core.DateTime.TimeZone;
 
-namespace BasicTests
+namespace CoreTests
 {
     [TestClass]
     public class ExtensionTests

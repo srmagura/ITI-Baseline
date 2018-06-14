@@ -2,7 +2,7 @@
 using Domain.Events;
 using Iti.Core.DomainEvents;
 
-namespace BasicTests.Helpers
+namespace CoreTests.Helpers
 {
     public class TestFooEventHandlers :
         IDomainEventHandler<FooCreatedEvent>,

@@ -139,6 +139,10 @@
       <Project>{419F8117-B6F4-4D9E-ACDF-D4E042601994}</Project>
       <Name>Iti.Logging</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Baseline\Iti.Passwords\Iti.Passwords.csproj">
+      <Project>{11E9369D-4328-4A69-B64D-B5F28423C207}</Project>
+      <Name>Iti.Passwords</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Baseline\Iti.Sms\Iti.Sms.csproj">
       <Project>{47FF4856-B936-4AC9-97AE-9B56B6B11A6E}</Project>
       <Name>Iti.Sms</Name>

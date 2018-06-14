@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Iti.Sms;
 
-namespace BasicTests.Helpers
+namespace CoreTests.Helpers
 {
     public class TestSmsRepository : ISmsRepository
     {
