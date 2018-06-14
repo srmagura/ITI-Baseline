@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Iti.Baseline</id>
+    <version>1.0.1</version>
+    <authors>Todd</authors>
+    <owners>Todd</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Interface Technologies, Inc. Baseline DDD</description>
+    <releaseNotes>Initial Release</releaseNotes>
+    <copyright>Copyright 2018</copyright>
+    <tags></tags>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="11.0.2" />
+    </dependencies>
+  </metadata>
+  <files>
+  	<file src="Iti.Auth\bin\Debug\Iti.Auth.dll" target="lib\net471\Iti.Auth.dll" />
+  	<file src="Baseline\bin\Debug\Iti.Core.dll" target="lib\net471\Iti.Core.dll" />
+  	<file src="Iti.Email\bin\Debug\Iti.Email.dll" target="lib\net471\Iti.Email.dll" />
+  	<file src="Iti.Inversion\bin\Debug\Iti.Inversion.dll" target="lib\net471\Iti.Inversion.dll" />
+  	<file src="Iti.Logging\bin\Debug\Iti.Logging.dll" target="lib\net471\Iti.Logging.dll" />
+  	<file src="Iti.Logging.Job\bin\Debug\Iti.Logging.Job.dll" target="lib\net471\Iti.Logging.Job.dll" />
+  	<file src="Iti.Sms\bin\Debug\Iti.Sms.dll" target="lib\net471\Iti.Sms.dll" />
+  	<file src="Iti.Common\bin\Debug\Iti.Utilities.dll" target="lib\net471\Iti.Utilities.dll" />
+  	<file src="Iti.ValueObjects\bin\Debug\Iti.ValueObjects.dll" target="lib\net471\Iti.ValueObjects.dll" />
+  </files>
+</package>
