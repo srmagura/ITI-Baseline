@@ -3,3 +3,18 @@ Users ?
 Password Resets ?
 AUDIT ?
 
+======================================================================
+DOCUMENT
+======================================================================
+
+SERVICE: LOG
+
+SERVICE: Authentication
+	... Login
+	... Password Resets
+SERVICE: Audit
+SERVICE: UserTracker
+
+SERVICE: EMAIL
+SERVICE: SMS
+

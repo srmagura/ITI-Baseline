@@ -151,6 +151,10 @@
     <Compile Include="Migrations\20180615163051_UserTracking.designer.cs">
       <DependentUpon>20180615163051_UserTracking.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20180615171335_Catchup.cs" />
+    <Compile Include="Migrations\20180615171335_Catchup.designer.cs">
+      <DependentUpon>20180615171335_Catchup.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\SampleDataContextModelSnapshot.cs" />
     <Compile Include="SampleDataContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
