@@ -52,8 +52,9 @@ namespace CoreTests
         [TestMethod]
         public void PasswordReset()
         {
-            TestEmailSender.Sent.Clear();
             var svc = IOC.Resolve<IAuthenticationService>();
+
+            TestEmailSender.Sent.Clear();
 
             svc.RequestPasswordReset(new EmailAddress("todd@iticentral.com"));
 
