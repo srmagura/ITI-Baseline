@@ -4,7 +4,9 @@ using Domain.DomainServices;
 using Iti.Core.Configuration;
 using Iti.Core.DomainEvents;
 using Iti.Core.Sequences;
+using Iti.Core.Services;
 using Iti.Core.UnitOfWork;
+using Iti.Core.UserTracker;
 using Iti.Email;
 using Iti.Inversion;
 using Iti.Logging;
@@ -34,6 +36,9 @@ namespace AppConfig
             IOC.Initialize();
 
             DataMapConfig.Initialize();
+
+            IOC.RegisterType<IUserTracker, EfUserTracker>();
+            IOC.RegisterType<IUserTrackingDataContext, SampleDataContext>();
 
             ConfigureLogging();
             ConfigureEmail();

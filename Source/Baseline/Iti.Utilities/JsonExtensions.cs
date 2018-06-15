@@ -12,11 +12,16 @@ namespace Iti.Utilities
 
         public static void Dump(this object obj, string tag, Action<string> output)
         {
-            var json = JsonConvert.SerializeObject(obj, Formatting.Indented);
+            var json = obj.ToJson();
 
             tag = tag == null ? "" : $" {tag} ";
             output($"==={tag}===================================================");
             output(json);
+        }
+
+        public static string ToJson(this object obj, Formatting formatting = Formatting.Indented)
+        {
+            return JsonConvert.SerializeObject(obj, formatting, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
         }
     }
 }

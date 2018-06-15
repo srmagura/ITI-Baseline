@@ -6,5 +6,6 @@ namespace SampleApp.Application.Interfaces
     {
         void Add(Foo foo);
         Foo Get(FooId id);
+        void Remove(FooId id);
     }
 }

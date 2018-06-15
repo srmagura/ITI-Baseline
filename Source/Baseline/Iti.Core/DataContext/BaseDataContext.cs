@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.AccessControl;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using Iti.Core.Audit;
 using Iti.Core.DomainEvents;
+using Iti.Inversion;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iti.Core.DataContext
@@ -12,7 +15,11 @@ namespace Iti.Core.DataContext
     {
         public override int SaveChanges()
         {
+            ChangeTracker.DetectChanges();
+
             UpdateEntityMaps();
+            HandleAudit();
+
             return base.SaveChanges();
         }
 
@@ -32,6 +39,12 @@ namespace Iti.Core.DataContext
                     Mapper.Map(dbEntity.MappedEntity, dbEntity);
                 }
             }
+        }
+
+        private void HandleAudit()
+        {
+            if (this is IAuditDataContext dc)
+                Auditor.Process(dc, ChangeTracker);
         }
 
         //

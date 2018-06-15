@@ -4,14 +4,16 @@ using DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataContext.Migrations
 {
     [DbContext(typeof(SampleDataContext))]
-    partial class SampleDataContextModelSnapshot : ModelSnapshot
+    [Migration("20180615143601_Audit")]
+    partial class Audit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,12 +78,6 @@ namespace DataContext.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Aggregate")
-                        .HasMaxLength(64);
-
-                    b.Property<string>("AggregateId")
-                        .HasMaxLength(64);
-
                     b.Property<string>("Changes");
 
                     b.Property<string>("Entity")
@@ -93,33 +89,9 @@ namespace DataContext.Migrations
                     b.Property<string>("Event")
                         .HasMaxLength(64);
 
-                    b.Property<string>("User")
-                        .HasMaxLength(64);
-
-                    b.Property<DateTimeOffset>("WhenUtc");
-
                     b.HasKey("Id");
 
                     b.ToTable("AuditEntries");
-                });
-
-            modelBuilder.Entity("Iti.Core.Services.UserTrack", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTimeOffset>("LastAccessUtc");
-
-                    b.Property<string>("Service")
-                        .HasMaxLength(128);
-
-                    b.Property<string>("UserId")
-                        .HasMaxLength(128);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserTracks");
                 });
 
             modelBuilder.Entity("Iti.Email.EmailRecord", b =>

@@ -16,6 +16,7 @@ namespace Iti.AuthService
         private readonly IPasswordEncoder _pwEncoder;
 
         public BaseAuthenticationService(AuthenticationServiceSettings settings, IAuthContext auth, IAuthenticationRepository repo, IPasswordEncoder pwEncoder)
+            : base(auth)
         {
             _settings = settings;
             _auth = auth;

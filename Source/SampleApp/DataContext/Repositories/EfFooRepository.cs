@@ -24,5 +24,12 @@ namespace DataContext.Repositories
 
             return dbfoo?.ToEntity<Foo>();
         }
+
+        public void Remove(FooId id)
+        {
+            var dbfoo = Context.Foos.FirstOrDefault(p => p.Id == id.Guid);
+            if (dbfoo != null)
+                Context.Remove(dbfoo);
+        }
     }
 }

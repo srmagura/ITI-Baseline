@@ -5,6 +5,7 @@ using Domain.DomainServices;
 using Iti.Auth;
 using Iti.Core.Services;
 using Iti.Core.UnitOfWork;
+using Iti.Core.UserTracker;
 using Iti.Inversion;
 using Iti.ValueObjects;
 using SampleApp.Application.Dto;
@@ -13,7 +14,7 @@ using SampleApp.Auth;
 
 namespace SampleApp.Application
 {
-    public class FooAppService : ApplicationService, IFooAppService
+    public class FooAppService : ApplicationService, IFooAppService, IUserTracking
     {
         private readonly IAppAuthContext _auth;
         private readonly IAppPermissions _perms;
@@ -21,6 +22,7 @@ namespace SampleApp.Application
         private readonly IFooQueries _queries;
 
         public FooAppService(IAppAuthContext auth, IAppPermissions perms, IFooRepository repo, IFooQueries queries)
+            : base(auth)
         {
             _auth = auth;
             _perms = perms;
@@ -126,6 +128,26 @@ namespace SampleApp.Application
                     uow.Commit();
 
                     return foo.Id;
+                }
+            }
+            catch (Exception exc)
+            {
+                Handle(exc);
+                throw;
+            }
+        }
+
+        public void Remove(FooId id)
+        {
+            Authorize.Require(_perms.CanManageFoos);
+
+            try
+            {
+                using (var uow = UnitOfWork.Begin())
+                {
+                    _repo.Remove(id);
+
+                    uow.Commit();
                 }
             }
             catch (Exception exc)

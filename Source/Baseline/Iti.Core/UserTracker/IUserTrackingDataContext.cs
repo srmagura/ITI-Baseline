@@ -2,11 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace Iti.Logging
+namespace Iti.Core.UserTracker
 {
-    public interface ILogDataContext : IDisposable
+    public interface IUserTrackingDataContext : IDisposable
     {
-        DbSet<LogEntry> LogEntries { get; }
+        DbSet<UserTrack> UserTracks { get; }
         DatabaseFacade Database { get; }
         int SaveChanges();
     }

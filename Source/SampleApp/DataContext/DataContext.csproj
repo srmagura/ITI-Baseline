@@ -135,6 +135,22 @@
     <Compile Include="Migrations\20180614165438_Initial.designer.cs">
       <DependentUpon>20180614165438_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20180615143601_Audit.cs" />
+    <Compile Include="Migrations\20180615143601_Audit.designer.cs">
+      <DependentUpon>20180615143601_Audit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20180615143941_Audit2.cs" />
+    <Compile Include="Migrations\20180615143941_Audit2.designer.cs">
+      <DependentUpon>20180615143941_Audit2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20180615155315_Audit3.cs" />
+    <Compile Include="Migrations\20180615155315_Audit3.designer.cs">
+      <DependentUpon>20180615155315_Audit3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20180615163051_UserTracking.cs" />
+    <Compile Include="Migrations\20180615163051_UserTracking.designer.cs">
+      <DependentUpon>20180615163051_UserTracking.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\SampleDataContextModelSnapshot.cs" />
     <Compile Include="SampleDataContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

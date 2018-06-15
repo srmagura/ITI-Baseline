@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using AppConfig;
 using CoreTests.Helpers;
+using DataContext;
 using Domain;
 using Domain.Events;
 using Iti.Auth;
 using Iti.Core.DomainEvents;
 using Iti.Inversion;
+using Iti.Logging;
+using Iti.Utilities;
 using Iti.ValueObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
@@ -27,6 +30,8 @@ namespace CoreTests
 
             IOC.RegisterType<IAuthContext, TestAuthContext>();
             IOC.RegisterType<IAppAuthContext, TestAuthContext>();
+
+            IOC.RegisterType<ILogWriter, ConsoleLogWriter>();
 
             DomainEvents.Register<FooCreatedEvent, TestFooEventHandlers>();
             DomainEvents.Register<FooAddressChangedEvent, TestFooEventHandlers>();
@@ -116,6 +121,24 @@ namespace CoreTests
             Assert.AreEqual(1, TestFooEventHandlers.FooCreated);
             Assert.AreEqual(1, TestFooEventHandlers.FooAddressChanged);
             Assert.AreEqual(0, TestFooEventHandlers.FooBarsChanged);
+
+            /* AUDIT TEST ... SHOULD MOVE */
+            DumpAudit(fooId);
+        }
+
+        private static void DumpAudit(FooId fooId)
+        {
+            using (var db = new SampleDataContext())
+            {
+                var id = fooId.Guid.ToString();
+
+                var audit = db.AuditEntries
+                    .Where(p => p.Aggregate == "Foo" && p.AggregateId == id)
+                    .OrderBy(p => p.Id)
+                    .ToList();
+                ;
+                audit.ConsoleDump("AUDIT");
+            }
         }
 
         [TestMethod]
@@ -140,6 +163,18 @@ namespace CoreTests
             foreach (var bar in bars)
                 Assert.IsTrue(foo.Bars.Any(p => p.Name == bar.Name));
 
+            fooName = "Some New Name for this Foo!";
+            svc.SetName(fooId, fooName);
+
+            svc.SetAddress(fooId, new Address("x", "x", "x", "x", "x"));
+            foo = svc.Get(fooId);
+            Assert.AreEqual(fooName, foo.Name);
+            Assert.AreEqual("x", foo.Address.Line1);
+            Assert.AreEqual("x", foo.Address.Line2);
+            Assert.AreEqual("x", foo.Address.City);
+            Assert.AreEqual("x", foo.Address.State);
+            Assert.AreEqual("x", foo.Address.Zip);
+
             svc.RemoveBar(fooId, bars[0].Name);
             foo = svc.Get(fooId);
             Dump("Get", foo);
@@ -163,6 +198,11 @@ namespace CoreTests
             Assert.AreEqual(0, foo.Bars.Count(p => p.Name == "New Bar!"));
             Assert.AreEqual(3, foo.Bars.Count(p => p.Name == "Same Name"));
             Dump("Final", foo);
+
+            svc.Remove(fooId);
+
+            /* AUDIT TEST ... SHOULD MOVE */
+            DumpAudit(fooId);
         }
 
         [TestMethod]

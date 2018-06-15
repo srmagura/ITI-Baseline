@@ -131,6 +131,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Audit\AuditAppService.cs" />
+    <Compile Include="Audit\AuditProperty.cs" />
+    <Compile Include="Audit\AuditRecord.cs" />
+    <Compile Include="Audit\Auditor.cs" />
+    <Compile Include="Audit\AuditRecordDto.cs" />
+    <Compile Include="Audit\IAuditAppPermissions.cs" />
+    <Compile Include="Audit\IAuditAppService.cs" />
+    <Compile Include="Audit\IDbAudited.cs" />
+    <Compile Include="Audit\IDbAuditedChild.cs" />
+    <Compile Include="Audit\IAuditDataContext.cs" />
     <Compile Include="Configuration\IConfigurationLoader.cs" />
     <Compile Include="DataContext\BaseDataContext.cs" />
     <Compile Include="DataContext\DbEntity.cs" />
@@ -161,11 +171,19 @@
     <Compile Include="Sequences\ISequenceResolver.cs" />
     <Compile Include="Sequences\Sequence.cs" />
     <Compile Include="Services\ApplicationService.cs" />
+    <Compile Include="Services\ConsoleUserTracker.cs" />
     <Compile Include="Services\DomainService.cs" />
+    <Compile Include="UserTracker\EfUserTracker.cs" />
+    <Compile Include="UserTracker\IUserTracker.cs" />
+    <Compile Include="UserTracker\IUserTrackingDataContext.cs" />
     <Compile Include="Services\JobProcessor.cs" />
+    <Compile Include="UserTracker\NullUserTracker.cs" />
+    <Compile Include="UserTracker\UserTrack.cs" />
+    <Compile Include="UserTracker\UserTrackDto.cs" />
     <Compile Include="UnitOfWork\DbContextScopeUnitOfWork.cs" />
     <Compile Include="UnitOfWork\IUnitOfWork.cs" />
     <Compile Include="UnitOfWork\UnitOfWork.cs" />
+    <Compile Include="UserTracker\IUserTracking.cs" />
     <Compile Include="Validation\Require.cs" />
     <Compile Include="Validation\ValidationException.cs" />
     <Compile Include="ValueObjects\ValueObject.cs" />
@@ -180,6 +198,10 @@
     <Content Include="TODO.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Iti.Auth\Iti.Auth.csproj">
+      <Project>{99CBDC91-57D5-4A07-9697-73153CF05144}</Project>
+      <Name>Iti.Auth</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Iti.Exceptions\Iti.Exceptions.csproj">
       <Project>{1F870394-F389-4BD4-8BD7-A95355622F59}</Project>
       <Name>Iti.Exceptions</Name>

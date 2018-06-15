@@ -2,11 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace Iti.Logging
+namespace Iti.Core.Audit
 {
-    public interface ILogDataContext : IDisposable
+    public interface IAuditDataContext : IDisposable
     {
-        DbSet<LogEntry> LogEntries { get; }
+        DbSet<AuditRecord> AuditEntries { get; }
         DatabaseFacade Database { get; }
         int SaveChanges();
     }

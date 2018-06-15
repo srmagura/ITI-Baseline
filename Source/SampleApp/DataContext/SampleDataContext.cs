@@ -1,6 +1,9 @@
 ﻿using System.Configuration;
+using Iti.Core.Audit;
 using Iti.Core.DataContext;
 using Iti.Core.Sequences;
+using Iti.Core.Services;
+using Iti.Core.UserTracker;
 using Iti.Email;
 using Iti.Inversion;
 using Iti.Logging;
@@ -10,7 +13,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace DataContext
 {
-    public class SampleDataContext : BaseDataContext, ILogDataContext
+    public class SampleDataContext : BaseDataContext, ILogDataContext, IAuditDataContext, IUserTrackingDataContext
     {
         public const string DefaultDatabaseName = "ItiBaselineSample";
 
@@ -38,11 +41,11 @@ namespace DataContext
         private static string GetConnectionString()
         {
             IOC.TryResolve<ConnectionStrings>(out var connStrings);
-            var connString = connStrings != null 
-                ? connStrings.DefaultDataContext 
+            var connString = connStrings != null
+                ? connStrings.DefaultDataContext
                 : ConfigurationManager.ConnectionStrings["DefaultDataContext"]?.ConnectionString;
 
-            return connString 
+            return connString
                    ?? $"Server=localhost;Database={DefaultDatabaseName};Trusted_Connection=True;";
         }
 
@@ -56,5 +59,7 @@ namespace DataContext
         public DbSet<LogEntry> LogEntries { get; set; }
         public DbSet<EmailRecord> EmailRecords { get; set; }
         public DbSet<SmsRecord> SmsRecords { get; set; }
+        public DbSet<AuditRecord> AuditEntries { get; set; }
+        public DbSet<UserTrack> UserTracks { get; set; }
     }
 }

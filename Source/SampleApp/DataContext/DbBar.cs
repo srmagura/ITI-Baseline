@@ -1,10 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Iti.Core.Audit;
 using Iti.Core.DataContext;
 
 namespace DataContext
 {
-    public class DbBar : DbEntity
+    public class DbBar : DbEntity, IDbAuditedChild
     {
         public Guid FooId { get; set; }
         public DbFoo Foo { get; set; }
@@ -14,5 +15,12 @@ namespace DataContext
 
         [MaxLength(64)]
         public string NotInEntity { get; set; }
+
+        // AUDIT
+
+        public string AuditEntityName => "Bar";
+        public string AuditEntityId => Id.ToString();
+        public string AuditAggregateName => "Foo";
+        public string AuditAggregateId => FooId.ToString();
     }
 }

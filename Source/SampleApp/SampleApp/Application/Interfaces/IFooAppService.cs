@@ -12,7 +12,10 @@ namespace SampleApp.Application.Interfaces
         FooJunkDto JunkFor(FooId id);
         FooDto Get(FooId id);
         List<FooDto> GetList();
+
         FooId CreateFoo(string name, List<Bar> bars);
+        void Remove(FooId id);
+
         void SetName(FooId id, string newName);
         void RemoveBar(FooId id, string name);
         void AddBar(FooId id, string name);
