@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using Domain;
-using FooSampleApp.Application.Dto;
+using SampleApp.Application.Dto;
 
-namespace FooSampleApp.Application.Interfaces
+namespace SampleApp.Application.Interfaces
 {
     public interface IFooQueries
     {

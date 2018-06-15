@@ -1,4 +1,4 @@
-﻿using FooSampleApp.Auth;
+﻿using SampleApp.Auth;
 
 namespace CoreTests.Helpers
 {

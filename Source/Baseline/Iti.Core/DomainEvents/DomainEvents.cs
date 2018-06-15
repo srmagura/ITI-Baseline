@@ -4,7 +4,7 @@ using Iti.Inversion;
 
 namespace Iti.Core.DomainEvents
 {
-    public static class DomainEvents
+    public class DomainEvents
     {
         private static readonly Dictionary<Type, List<Type>> Handlers = new Dictionary<Type, List<Type>>();
 

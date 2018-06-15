@@ -5,14 +5,14 @@ using AppConfig;
 using CoreTests.Helpers;
 using Domain;
 using Domain.Events;
-using FooSampleApp.Application.Interfaces;
-using FooSampleApp.Auth;
 using Iti.Auth;
 using Iti.Core.DomainEvents;
 using Iti.Inversion;
 using Iti.ValueObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
+using SampleApp.Application.Interfaces;
+using SampleApp.Auth;
 
 namespace CoreTests
 {

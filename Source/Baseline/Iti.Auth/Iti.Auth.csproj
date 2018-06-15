@@ -40,8 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Authorize.cs" />
     <Compile Include="IAuthContext.cs" />
+    <Compile Include="NotAuthenticationException.cs" />
+    <Compile Include="NotAuthorizedException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Iti.Exceptions\Iti.Exceptions.csproj">
+      <Project>{1F870394-F389-4BD4-8BD7-A95355622F59}</Project>
+      <Name>Iti.Exceptions</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

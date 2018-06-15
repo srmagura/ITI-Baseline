@@ -1,6 +1,6 @@
 ﻿using Domain;
 
-namespace FooSampleApp.Application.Dto
+namespace SampleApp.Application.Dto
 {
     public class FooReferenceDto
     {

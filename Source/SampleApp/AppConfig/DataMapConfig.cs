@@ -4,10 +4,10 @@ using System.Linq;
 using AutoMapper;
 using DataContext;
 using Domain;
-using FooSampleApp.Application.Dto;
 using Iti.Core.Mapping;
 using Iti.Core.ValueObjects;
 using Iti.ValueObjects;
+using SampleApp.Application.Dto;
 
 namespace AppConfig
 {

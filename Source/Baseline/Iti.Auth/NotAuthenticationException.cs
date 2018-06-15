@@ -1,6 +1,7 @@
 ﻿using System;
+using Iti.Exceptions;
 
-namespace Iti.Core.Exceptions
+namespace Iti.Auth
 {
     public class NotAuthenticationException : DomainException
     {

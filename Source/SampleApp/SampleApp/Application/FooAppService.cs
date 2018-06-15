@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using Domain;
 using Domain.DomainServices;
-using FooSampleApp.Application.Dto;
-using FooSampleApp.Application.Interfaces;
-using FooSampleApp.Auth;
+using Iti.Auth;
 using Iti.Core.Services;
 using Iti.Core.UnitOfWork;
 using Iti.Inversion;
 using Iti.ValueObjects;
+using SampleApp.Application.Dto;
+using SampleApp.Application.Interfaces;
+using SampleApp.Auth;
 
-namespace FooSampleApp.Application
+namespace SampleApp.Application
 {
     public class FooAppService : ApplicationService, IFooAppService
     {

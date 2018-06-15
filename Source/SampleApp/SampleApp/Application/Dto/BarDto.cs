@@ -1,4 +1,4 @@
-﻿namespace FooSampleApp.Application.Dto
+﻿namespace SampleApp.Application.Dto
 {
     public class BarDto
     {

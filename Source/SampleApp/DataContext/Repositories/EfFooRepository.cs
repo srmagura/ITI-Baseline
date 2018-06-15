@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using Domain;
-using FooSampleApp.Application.Interfaces;
 using Iti.Core.DataContext;
 using Iti.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
+using SampleApp.Application.Interfaces;
 
 namespace DataContext.Repositories
 {

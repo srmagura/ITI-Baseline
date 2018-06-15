@@ -1,10 +1,8 @@
-﻿using Iti.Core.Exceptions;
-
-namespace FooSampleApp.Auth
+﻿namespace Iti.Auth
 {
     public class Authorize
     {
-        public static void AnyUser(IAppAuthContext auth)
+        public static void AnyUser(IAuthContext auth)
         {
             if (auth == null || !auth.IsAuthenticated)
                 throw new NotAuthenticationException();

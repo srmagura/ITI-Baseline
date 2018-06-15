@@ -7,7 +7,7 @@ namespace Iti.Email
 {
     public class EmailRecord : AggregateRoot
     {
-        [Obsolete("Persistence use only")]
+        [Obsolete("Serialization use only")]
         protected EmailRecord() { }
 
         public EmailRecord(string toAddress, string subject, string body)

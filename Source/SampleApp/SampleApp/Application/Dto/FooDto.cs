@@ -2,7 +2,7 @@
 using Domain;
 using Iti.ValueObjects;
 
-namespace FooSampleApp.Application.Dto
+namespace SampleApp.Application.Dto
 {
     public class FooDto
     {

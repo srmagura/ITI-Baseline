@@ -1,6 +1,6 @@
 ﻿using Domain;
 
-namespace FooSampleApp.Application.Interfaces
+namespace SampleApp.Application.Interfaces
 {
     public interface IFooRepository
     {

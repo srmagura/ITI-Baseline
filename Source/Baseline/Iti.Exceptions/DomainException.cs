@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Iti.Core.Exceptions
+namespace Iti.Exceptions
 {
     public class DomainException : Exception
     {

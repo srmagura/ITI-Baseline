@@ -1,4 +1,4 @@
-﻿namespace FooSampleApp.Auth
+﻿namespace SampleApp.Auth
 {
     public class AppPermissions : IAppPermissions
     {

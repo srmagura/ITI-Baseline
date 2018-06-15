@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Iti.Inversion;
 using Iti.Logging;
 
 namespace Iti.Core.DomainEvents
@@ -34,7 +35,8 @@ namespace Iti.Core.DomainEvents
         {
             try
             {
-                var handler = Activator.CreateInstance(handlerType);
+                // var handler = Activator.CreateInstance(handlerType);
+                var handler = IOC.TryResolveByType(handlerType);
 
                 var handleMethod = handler.GetType().GetMethod("Handle", new[] { ev.GetType() });
                 if (handleMethod != null)

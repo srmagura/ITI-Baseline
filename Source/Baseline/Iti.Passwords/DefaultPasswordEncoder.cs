@@ -16,7 +16,7 @@ namespace Iti.Passwords
         public const int SaltIndex = 1;
         public const int Pbkdf2Index = 2;
 
-        public string Encode(string password)
+        public EncodedPassword Encode(string password)
         {
             // Generate a random salt
             var csprng = new RNGCryptoServiceProvider();
@@ -26,17 +26,21 @@ namespace Iti.Passwords
             // Hash the password and encode the parameters
             var hash = PBKDF2(password, salt, Pbkdf2Iterations, HashByteSize);
 
-            return $"{Pbkdf2Iterations}:{Convert.ToBase64String(salt)}:{Convert.ToBase64String(hash)}";
+            var enc = $"{Pbkdf2Iterations}:{Convert.ToBase64String(salt)}:{Convert.ToBase64String(hash)}";
+
+            return new EncodedPassword(enc);
         }
 
-        public bool Validate(string password, string encodedPassword)
+        public bool Validate(string password, EncodedPassword encodedPassword)
         {
             try
             {
+                var enc = encodedPassword.Value;
+
                 // Extract the parameters from the hash
                 char[] delimiter = { ':' };
 
-                var split = encodedPassword.Split(delimiter);
+                var split = enc.Split(delimiter);
 
                 var iterations = Int32.Parse(split[IterationIndex]);
                 var salt = Convert.FromBase64String(split[SaltIndex]);
@@ -52,18 +56,18 @@ namespace Iti.Passwords
             }
         }
 
-        public bool IsValid(string newPassword)
+        public bool IsValid(string password)
         {
             var hasUpperCase = false;
             var hasNonAlpha = false;
 
-            if (!newPassword.HasValue())
+            if (!password.HasValue())
                 return false;
 
-            if (newPassword.Length < 8)
+            if (password.Length < 8)
                 return false;
 
-            foreach (var ch in newPassword)
+            foreach (var ch in password)
             {
                 if (char.IsUpper(ch))
                     hasUpperCase = true;

@@ -1,9 +1,6 @@
 ﻿using DataContext;
 using DataContext.Repositories;
 using Domain.DomainServices;
-using FooSampleApp.Application;
-using FooSampleApp.Application.Interfaces;
-using FooSampleApp.Auth;
 using Iti.Core.Configuration;
 using Iti.Core.DomainEvents;
 using Iti.Core.Sequences;
@@ -14,6 +11,9 @@ using Iti.Logging;
 using Iti.Logging.Job;
 using Iti.Passwords;
 using Iti.Sms;
+using SampleApp.Application;
+using SampleApp.Application.Interfaces;
+using SampleApp.Auth;
 
 namespace AppConfig
 {

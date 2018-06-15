@@ -16,8 +16,11 @@
   </metadata>
   <files>
   	<file src="..\Source\Baseline\Iti.Auth\bin\Debug\Iti.Auth.dll" target="lib\net471\Iti.Auth.dll" />
+  	<file src="..\Source\Baseline\Iti.Authentication\bin\Debug\Iti.Authentication.dll" target="lib\net471\Iti.Authentication.dll" />
   	<file src="..\Source\Baseline\Iti.Core\bin\Debug\Iti.Core.dll" target="lib\net471\Iti.Core.dll" />
   	<file src="..\Source\Baseline\Iti.Email\bin\Debug\Iti.Email.dll" target="lib\net471\Iti.Email.dll" />
+  	<file src="..\Source\Baseline\Iti.Passwords\bin\Debug\Iti.Passwords.dll" target="lib\net471\Iti.Passwords.dll" />
+  	<file src="..\Source\Baseline\Iti.Exceptions\bin\Debug\Iti.Exceptions.dll" target="lib\net471\Iti.Exceptions.dll" />
   	<file src="..\Source\Baseline\Iti.Inversion\bin\Debug\Iti.Inversion.dll" target="lib\net471\Iti.Inversion.dll" />
   	<file src="..\Source\Baseline\Iti.Logging\bin\Debug\Iti.Logging.dll" target="lib\net471\Iti.Logging.dll" />
   	<file src="..\Source\Baseline\Iti.Logging.Job\bin\Debug\Iti.Logging.Job.dll" target="lib\net471\Iti.Logging.Job.dll" />

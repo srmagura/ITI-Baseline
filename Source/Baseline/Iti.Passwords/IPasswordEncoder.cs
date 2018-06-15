@@ -2,8 +2,8 @@
 {
     public interface IPasswordEncoder
     {
-        string Encode(string plainTextPassword);
-        bool Validate(string password, string userEncPassword);
-        bool IsValid(string newPassword);
+        EncodedPassword Encode(string plainTextPassword);
+        bool Validate(string password, EncodedPassword userEncPassword);
+        bool IsValid(string password);
     }
 }

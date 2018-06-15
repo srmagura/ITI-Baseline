@@ -5,7 +5,7 @@ namespace Iti.Sms
 {
     public class SmsRecord : AggregateRoot
     {
-        [Obsolete("Persistence use only")]
+        [Obsolete("Serialization use only")]
         protected SmsRecord() { }
 
         public SmsRecord(string toAddress, string body)

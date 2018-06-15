@@ -1,6 +1,6 @@
 ﻿using Iti.Auth;
 
-namespace FooSampleApp.Auth
+namespace SampleApp.Auth
 {
     public interface IAppAuthContext : IAuthContext
     {

@@ -156,9 +156,6 @@
     <Compile Include="Entites\Identity.cs" />
     <Compile Include="Entites\Member.cs" />
     <Compile Include="Entites\SequentialGuid.cs" />
-    <Compile Include="Exceptions\DomainException.cs" />
-    <Compile Include="Exceptions\NotAuthenticationException.cs" />
-    <Compile Include="Exceptions\NotAuthorizedException.cs" />
     <Compile Include="Mapping\BaseDataMapConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Queries.cs" />
@@ -173,6 +170,7 @@
     <Compile Include="UnitOfWork\IUnitOfWork.cs" />
     <Compile Include="UnitOfWork\UnitOfWork.cs" />
     <Compile Include="Validation\Require.cs" />
+    <Compile Include="Validation\ValidationException.cs" />
     <Compile Include="ValueObjects\ValueObject.cs" />
     <Compile Include="ValueObjects\ValueObjectExtensions.cs" />
   </ItemGroup>
@@ -185,6 +183,10 @@
     <Content Include="TODO.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Iti.Exceptions\Iti.Exceptions.csproj">
+      <Project>{1F870394-F389-4BD4-8BD7-A95355622F59}</Project>
+      <Name>Iti.Exceptions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Iti.Inversion\Iti.Inversion.csproj">
       <Project>{7D6EEE26-1091-4960-9254-08FAFDB3EB63}</Project>
       <Name>Iti.Inversion</Name>

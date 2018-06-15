@@ -3,10 +3,10 @@ using System.Linq;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain;
-using FooSampleApp.Application.Dto;
-using FooSampleApp.Application.Interfaces;
 using Iti.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
+using SampleApp.Application.Dto;
+using SampleApp.Application.Interfaces;
 
 namespace DataContext.Repositories
 {

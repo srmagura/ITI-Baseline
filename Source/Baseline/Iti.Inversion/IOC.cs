@@ -26,6 +26,12 @@ namespace Iti.Inversion
             return Container.Resolve<T>();
         }
 
+        public static object TryResolveByType(Type type)
+        {
+            Container.TryResolve(type, out var inst);
+            return inst;
+        }
+
         public static bool TryResolve<T>(out T result)
         {
             return Container.TryResolve(out result);
@@ -66,5 +72,6 @@ namespace Iti.Inversion
 
             ContainerBuilder.RegisterInstance(instance);
         }
+
     }
 }
