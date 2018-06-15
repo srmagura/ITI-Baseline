@@ -2,9 +2,9 @@
 <package >
   <metadata>
     <id>Iti.Baseline</id>
-    <version>1.0.2</version>
-    <authors>Todd</authors>
-    <owners>Todd</owners>
+    <version>1.0.4</version>
+    <authors>John Todd</authors>
+    <owners>John Todd</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Interface Technologies, Inc. Baseline DDD</description>
     <releaseNotes>Initial Release</releaseNotes>
@@ -12,6 +12,10 @@
     <tags></tags>
     <dependencies>
       <dependency id="Newtonsoft.Json" version="11.0.2" />
+		<dependency id="AutoMapper" version="7.0.0" />
+		<dependency id="Autofac" version="4.8.1" />
+		<dependency id="EntityFrameworkCore.DbContextScope" version="1.0.0" />
+		<dependency id="Twilio" version="5.13.3" />
     </dependencies>
   </metadata>
   <files>
