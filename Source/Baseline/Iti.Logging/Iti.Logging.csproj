@@ -108,13 +108,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleWriter.cs" />
+    <Compile Include="ConsoleLogWriter.cs" />
     <Compile Include="EfLogWriter.cs" />
     <Compile Include="ILogDataContext.cs" />
     <Compile Include="ILogWriter.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="LogEntry.cs" />
-    <Compile Include="NullWriter.cs" />
+    <Compile Include="NullLogWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

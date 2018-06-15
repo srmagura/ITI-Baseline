@@ -2,12 +2,12 @@
 
 namespace Iti.Authentication
 {
-    public class PasswordResetKeyCreated : BaseDomainEvent
+    public class PasswordResetKeyCreatedEvent : BaseDomainEvent
     {
         public PasswordResetKeyId PasswordResetKeyId { get; }
         public string Key { get; }
 
-        public PasswordResetKeyCreated(PasswordResetKey pwrk)
+        public PasswordResetKeyCreatedEvent(PasswordResetKey pwrk)
         {
             PasswordResetKeyId = pwrk.Id;
             Key = pwrk.Key;

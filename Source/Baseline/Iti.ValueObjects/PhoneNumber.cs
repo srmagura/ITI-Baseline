@@ -22,7 +22,7 @@ namespace Iti.ValueObjects
 
         public override bool HasValue()
         {
-            throw new System.NotImplementedException();
+            return Value.HasValue();
         }
     }
 }

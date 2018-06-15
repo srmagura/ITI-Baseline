@@ -6,25 +6,27 @@ using Iti.Logging;
 
 namespace Iti.Authentication
 {
-    public class PasswordResetKeyCreatedHandler : IDomainEventHandler<PasswordResetKeyCreated>
+    public class PasswordResetKeyCreatedHandler : IDomainEventHandler<PasswordResetKeyCreatedEvent>
     {
         private readonly IEmailSender _emailer;
         private readonly IAuthenticationRepository _repo;
+        private readonly IAuthenticationUrlResolver _urlBuilder;
 
-        // TODO:JT:XXX: test that this will actually work!!!
-        public PasswordResetKeyCreatedHandler(IEmailSender emailer, IAuthenticationRepository repo)
+        public PasswordResetKeyCreatedHandler(IEmailSender emailer, IAuthenticationRepository repo, IAuthenticationUrlResolver urlBuilder)
         {
             _emailer = emailer;
             _repo = repo;
+            _urlBuilder = urlBuilder;
         }
 
-        public void Handle(PasswordResetKeyCreated ev)
+        public void Handle(PasswordResetKeyCreatedEvent ev)
         {
             using (var uow = UnitOfWork.Begin())
             {
                 var subject = "Password Reset Request";
 
-                var body = "TODO:JT:XXX: URL LINK";
+                var url = _urlBuilder.PasswordResetUrl(ev.Key);
+                var body = $"Click here to reset your password: {url}";
 
                 var pwrk = _repo.GetPasswordResetKey(ev.Key);
                 if (pwrk == null)

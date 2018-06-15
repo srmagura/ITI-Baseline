@@ -119,6 +119,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthenticationTests.cs" />
     <Compile Include="ExtensionTests.cs" />
     <Compile Include="FooTests.cs" />
     <Compile Include="Helpers\TestAuthContext.cs" />
@@ -129,7 +130,6 @@
     <Compile Include="LogTests.cs" />
     <Compile Include="PasswordTests.cs" />
     <Compile Include="SequenceTests.cs" />
-    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -137,6 +137,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Baseline\Iti.Authentication\Iti.Authentication.csproj">
+      <Project>{E42B7494-EB5F-4E1F-ACBC-34AC070EAE99}</Project>
+      <Name>Iti.Authentication</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Baseline\Iti.Auth\Iti.Auth.csproj">
       <Project>{99CBDC91-57D5-4A07-9697-73153CF05144}</Project>
       <Name>Iti.Auth</Name>

@@ -18,7 +18,7 @@ namespace Iti.Authentication
             Key = Guid.NewGuid().ToString().MaxLength(FieldLengths.PasswordResetKey.Key);
             Email = email;
 
-            DomainEvents.Raise(new PasswordResetKeyCreated(this));
+            DomainEvents.Raise(new PasswordResetKeyCreatedEvent(this));
         }
 
         //
