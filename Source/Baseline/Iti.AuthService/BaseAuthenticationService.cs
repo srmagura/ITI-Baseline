@@ -6,7 +6,7 @@ using Iti.Core.UnitOfWork;
 using Iti.Passwords;
 using Iti.ValueObjects;
 
-namespace Iti.Authentication
+namespace Iti.AuthService
 {
     public class BaseAuthenticationService : ApplicationService, IAuthenticationService
     {

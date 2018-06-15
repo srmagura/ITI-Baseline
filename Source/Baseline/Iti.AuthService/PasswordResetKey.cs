@@ -5,7 +5,7 @@ using Iti.Core.Entites;
 using Iti.Utilities;
 using Iti.ValueObjects;
 
-namespace Iti.Authentication
+namespace Iti.AuthService
 {
     public class PasswordResetKey : AggregateRoot
     {

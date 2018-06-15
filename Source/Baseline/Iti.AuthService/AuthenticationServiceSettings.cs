@@ -1,4 +1,4 @@
-﻿namespace Iti.Authentication
+﻿namespace Iti.AuthService
 {
     public class AuthenticationServiceSettings
     {

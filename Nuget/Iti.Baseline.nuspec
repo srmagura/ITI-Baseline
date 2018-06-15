@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Iti.Baseline</id>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
     <authors>John Todd</authors>
     <owners>John Todd</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -20,7 +20,7 @@
   </metadata>
   <files>
   	<file src="..\Source\Baseline\Iti.Auth\bin\Debug\Iti.Auth.dll" target="lib\net471\Iti.Auth.dll" />
-  	<file src="..\Source\Baseline\Iti.Authentication\bin\Debug\Iti.Authentication.dll" target="lib\net471\Iti.Authentication.dll" />
+  	<file src="..\Source\Baseline\Iti.AuthService\bin\Debug\Iti.AuthService.dll" target="lib\net471\Iti.AuthService.dll" />
   	<file src="..\Source\Baseline\Iti.Core\bin\Debug\Iti.Core.dll" target="lib\net471\Iti.Core.dll" />
   	<file src="..\Source\Baseline\Iti.Email\bin\Debug\Iti.Email.dll" target="lib\net471\Iti.Email.dll" />
   	<file src="..\Source\Baseline\Iti.Passwords\bin\Debug\Iti.Passwords.dll" target="lib\net471\Iti.Passwords.dll" />

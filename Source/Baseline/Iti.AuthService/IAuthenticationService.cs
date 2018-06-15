@@ -1,6 +1,6 @@
 ﻿using Iti.ValueObjects;
 
-namespace Iti.Authentication
+namespace Iti.AuthService
 {
     public interface IAuthenticationService
     {

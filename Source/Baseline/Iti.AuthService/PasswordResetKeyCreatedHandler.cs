@@ -1,10 +1,9 @@
-﻿using System;
-using Iti.Core.DomainEvents;
+﻿using Iti.Core.DomainEvents;
 using Iti.Core.UnitOfWork;
 using Iti.Email;
 using Iti.Logging;
 
-namespace Iti.Authentication
+namespace Iti.AuthService
 {
     public class PasswordResetKeyCreatedHandler : IDomainEventHandler<PasswordResetKeyCreatedEvent>
     {

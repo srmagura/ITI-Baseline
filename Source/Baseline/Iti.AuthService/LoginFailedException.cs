@@ -1,7 +1,7 @@
 ﻿using System;
 using Iti.Exceptions;
 
-namespace Iti.Authentication
+namespace Iti.AuthService
 {
     public class LoginFailedException : DomainException
     {

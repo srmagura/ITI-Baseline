@@ -4,7 +4,7 @@ using System.Linq;
 using AppConfig;
 using CoreTests.Helpers;
 using Iti.Auth;
-using Iti.Authentication;
+using Iti.AuthService;
 using Iti.Core.DomainEvents;
 using Iti.Email;
 using Iti.Inversion;

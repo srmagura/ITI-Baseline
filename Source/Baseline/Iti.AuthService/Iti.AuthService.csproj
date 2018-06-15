@@ -7,8 +7,8 @@
     <ProjectGuid>{E42B7494-EB5F-4E1F-ACBC-34AC070EAE99}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Iti.Authentication</RootNamespace>
-    <AssemblyName>Iti.Authentication</AssemblyName>
+    <RootNamespace>Iti.AuthService</RootNamespace>
+    <AssemblyName>Iti.AuthService</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
