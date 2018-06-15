@@ -23,21 +23,24 @@ namespace CoreTests
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            DefaultAppConfig.Initialize();
+            using (new DebugTimer("App Configuration"))
+            {
+                DefaultAppConfig.Initialize();
 
-            IOC.RegisterType<IAuthContext, TestAuthContext>();
-            IOC.RegisterType<IAppAuthContext, TestAuthContext>();
+                IOC.RegisterType<IAuthContext, TestAuthContext>();
+                IOC.RegisterType<IAppAuthContext, TestAuthContext>();
 
-            IOC.RegisterType<IAuthenticationService, BaseAuthenticationService>();
-            IOC.RegisterType<IAuthenticationRepository, TestAuthRepo>();
-            IOC.RegisterType<IAuthenticationUrlResolver, TestAuthUrlResolver>();
+                IOC.RegisterType<IAuthenticationService, BaseAuthenticationService>();
+                IOC.RegisterType<IAuthenticationRepository, TestAuthRepo>();
+                IOC.RegisterType<IAuthenticationUrlResolver, TestAuthUrlResolver>();
 
-            IOC.RegisterType<IEmailSender, TestEmailSender>();
-            IOC.RegisterType<ILogWriter, ConsoleLogWriter>();
+                IOC.RegisterType<IEmailSender, TestEmailSender>();
+                IOC.RegisterType<ILogWriter, ConsoleLogWriter>();
 
-            DomainEvents.ClearRegistrations();
+                DomainEvents.ClearRegistrations();
 
-            DomainEvents.Register<PasswordResetKeyCreatedEvent, PasswordResetKeyCreatedHandler>();
+                DomainEvents.Register<PasswordResetKeyCreatedEvent, PasswordResetKeyCreatedHandler>();
+            }
         }
 
         [TestMethod]
