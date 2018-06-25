@@ -24,7 +24,7 @@ namespace Iti.Core.Sequences
                 {
                     result.Read();
                     var value = (long)result[0];
-                    // Console.WriteLine($"SEQUENCE: [{value}]");
+
                     return value;
                 }
             }

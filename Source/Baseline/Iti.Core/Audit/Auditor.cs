@@ -13,8 +13,6 @@ namespace Iti.Core.Audit
 {
     public static class Auditor
     {
-        // TODO:JT: BUG? -- changing value object does not appear to trigger audit !!!
-
         internal static void Process(IAuditDataContext db, ChangeTracker changeTracker)
         {
             if (db == null)
@@ -47,34 +45,6 @@ namespace Iti.Core.Audit
                 try
                 {
                     var entity = entry.Entity;
-
-                    if (entity.GetType().Name == "DbFoo" || entity.GetType().Name == "Address")
-                    {
-                        Console.WriteLine($"DEBUG: ENTITY: {entity.GetType().Name}: {entry.State}");
-                        foreach (var prop in entry.CurrentValues.Properties)
-                        {
-                            Console.WriteLine($"   ... CV Prop {prop.Name}");
-                        }
-
-                        foreach (var prop in entry.Properties)
-                        {
-                            Console.WriteLine($"   +++ Prop {prop.Metadata.Name} ({prop.Metadata.ClrType.Name})");
-                        }
-
-                        foreach (var col in entry.Collections)
-                        {
-                            Console.WriteLine($"   *** Col {col.Metadata.Name} ({col.Metadata.ClrType.Name}");
-                        }
-
-                        foreach(var re in entry.References)
-                        {
-                            Console.WriteLine($"   !!! {re.Metadata.Name} {re.CurrentValue.GetType().Name} -- Mod:{re.IsModified}");
-                            re.CurrentValue.ConsoleDump("REFERENCE");
-                            var ex = changeTracker.Context.Entry(re.CurrentValue);
-                            Console.WriteLine($"   >>> {ex?.State}");
-                        }
-
-                    }
 
                     if (entity is IDbAudited auditEntity)
                     {

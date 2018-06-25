@@ -31,20 +31,25 @@ namespace AppConfig
                 cfg.DisableConstructorMapping();
                 cfg.Advanced.AllowAdditiveTypeMapCreation = true;
 
+                ValueObjectConfigs(cfg);
+
                 FooConfig(cfg);
                 BarConfig(cfg);
                 FooDtoConfigs(cfg);
 
-                cfg.CreateMap<TimeZone, TimeZone>();
-                cfg.CreateMap<Address, Address>();
-                cfg.CreateMap<EmailAddress, EmailAddress>();
-                cfg.CreateMap<PersonName, PersonName>();
-                cfg.CreateMap<PhoneNumber, PhoneNumber>();
-                cfg.CreateMap<EncodedPassword, EncodedPassword>();
-
             });
 
             Mapper.AssertConfigurationIsValid();
+        }
+
+        private static void ValueObjectConfigs(IMapperConfigurationExpression cfg)
+        {
+            cfg.CreateMap<TimeZone, TimeZone>();
+            cfg.CreateMap<Address, Address>();
+            cfg.CreateMap<EmailAddress, EmailAddress>();
+            cfg.CreateMap<PersonName, PersonName>();
+            cfg.CreateMap<PhoneNumber, PhoneNumber>();
+            cfg.CreateMap<EncodedPassword, EncodedPassword>();
         }
 
         private static void FooDtoConfigs(IMapperConfigurationExpression cfg)

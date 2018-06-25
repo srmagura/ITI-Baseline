@@ -15,11 +15,8 @@ namespace Iti.Core.Mapping
         {
             if (existing != null)
             {
-                Console.WriteLine("DATA:CREATE: Using exising instance");
                 return existing;
             }
-
-            Console.WriteLine("DATA:CREATE: Create new instance");
 
             return Activator.CreateInstance(typeof(T),
                     BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
@@ -60,10 +57,7 @@ namespace Iti.Core.Mapping
             if (dbValue == null)
                 dbValue = CreateInstance(dbValue);
 
-            // TODO:JT: is not working???
             Mapper.Map(eValue, dbValue);
-
-            // TODO:JT: remove console writelines
 
             return dbValue;
         }
