@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Iti.Auth;
+using Iti.Core.ValueObjects;
 using Iti.Inversion;
 using Iti.Logging;
 using Iti.Utilities;
@@ -11,6 +12,12 @@ using Newtonsoft.Json;
 
 namespace Iti.Core.Audit
 {
+    //
+    // NOTE: This is not yet completely tested.
+    //       Specifically, nested objects (value objects, collections, etc.) need to be more
+    //       thoroughly tested to make sure all changes are captured correctly.
+    //
+
     public static class Auditor
     {
         internal static void Process(IAuditDataContext db, ChangeTracker changeTracker)
@@ -90,20 +97,50 @@ namespace Iti.Core.Audit
             var currentValues = state == EntityState.Deleted ? entry.OriginalValues : entry.CurrentValues;
             AddNestedFields(auditProperties, state, "", currentValues, origValues);
 
-            return auditProperties.ToJson(Formatting.None);
+            foreach (var rf in entry.References)
+            {
+                if (rf?.TargetEntry?.Entity is IValueObject vobj)
+                {
+                    // Console.WriteLine($"****** REF: {rf.Metadata.Name} / {rf.Metadata.PropertyInfo.Name}");
+
+                    var rfstate = rf.TargetEntry.State;
+
+                    var rfOrigValues = state == EntityState.Modified ? rf.TargetEntry.OriginalValues : null;
+                    var rfCurrentValues = state == EntityState.Deleted ? rf.TargetEntry.OriginalValues : rf.TargetEntry.CurrentValues;
+
+                    AddNestedFields(auditProperties, rfstate, rf.Metadata.Name, rfCurrentValues, rfOrigValues);
+                }
+            }
+
+            var auditResult = auditProperties.ToJson(Formatting.None);
+
+            /*
+            if (entry.Entity.GetType().Name == "DbFoo")
+            {
+                Console.WriteLine("((((((((((((((((((((((((((((");
+                Console.WriteLine("AUDIT");
+                Console.WriteLine(auditResult);
+                Console.WriteLine("))))))))))))))))))))))))))))");
+            }
+            */
+
+            return auditResult;
         }
 
-        private static void AddNestedFields(List<AuditProperty> auditProperties, EntityState state, string prefix, PropertyValues currentValues, PropertyValues originValues)
+        private static void AddNestedFields(List<AuditProperty> auditProperties, EntityState state, string prefix, PropertyValues currentValues, PropertyValues originalValues)
         {
             foreach (var prop in currentValues.Properties)
             {
+                if (prop.IsShadowProperty)
+                    continue;
+
                 var fieldName = prop.Name;
 
                 if (fieldName == "HasValue" || fieldName.EndsWith("BackingField"))
                     continue;
 
                 var currValue = currentValues[fieldName];
-                var origValue = originValues?[fieldName];
+                var origValue = originalValues?[fieldName];
 
                 if (currValue is PropertyValues)
                 {
@@ -120,6 +157,9 @@ namespace Iti.Core.Audit
 
         private static AuditProperty AddField(EntityState state, string fieldName, object currValue, object origValue)
         {
+            if (currValue == null && origValue == null)
+                return null;
+
             var includeField = true;
             if (state == EntityState.Modified)
                 includeField = (currValue?.ToString() != origValue?.ToString());

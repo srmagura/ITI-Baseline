@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Iti.Core.ValueObjects
 {
     [Owned]
-    public abstract class ValueObject<T> : IEquatable<T>, IDto
+    public abstract class ValueObject<T> : IEquatable<T>, IDto, IValueObject
         where T : ValueObject<T>
     {
         // public long Id { get; protected set; } // MAKE EFCORE HAPPY... SIGH

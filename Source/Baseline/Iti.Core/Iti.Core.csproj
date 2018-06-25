@@ -186,6 +186,7 @@
     <Compile Include="UserTracker\IUserTracking.cs" />
     <Compile Include="Validation\Require.cs" />
     <Compile Include="Validation\ValidationException.cs" />
+    <Compile Include="ValueObjects\IValueObject.cs" />
     <Compile Include="ValueObjects\ValueObject.cs" />
     <Compile Include="ValueObjects\ValueObjectExtensions.cs" />
   </ItemGroup>
