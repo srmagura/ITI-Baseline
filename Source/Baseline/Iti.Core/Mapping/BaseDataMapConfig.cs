@@ -50,12 +50,12 @@ namespace Iti.Core.Mapping
         {
             if (eValue == null)
             {
-                dbValue = CreateInstance<T>(dbValue);
+                dbValue = CreateInstance(dbValue);
                 return dbValue;
             }
 
             if (dbValue == null)
-                dbValue = CreateInstance(dbValue);
+                dbValue = CreateInstance((T) null);
 
             Mapper.Map(eValue, dbValue);
 
@@ -93,7 +93,7 @@ namespace Iti.Core.Mapping
 
         protected static Guid GetDbId(Entity e)
         {
-            var prop = e.GetType().GetProperty("Id", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            var prop = e.GetType().GetProperty("Id", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             var id = prop?.GetValue(e) as Identity;
             return id?.Guid ?? Guid.Empty;
         }

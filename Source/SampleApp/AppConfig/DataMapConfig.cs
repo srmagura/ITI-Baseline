@@ -19,7 +19,7 @@ namespace AppConfig
             new DataMapConfig()._Initialize();
         }
 
-        private static bool _isInit = false;
+        private static bool _isInit;
         private void _Initialize()
         {
             if (_isInit)
