@@ -6,6 +6,7 @@ using DataContext;
 using Domain;
 using Iti.Core.Mapping;
 using Iti.Core.ValueObjects;
+using Iti.Passwords;
 using Iti.ValueObjects;
 using SampleApp.Application.Dto;
 
@@ -33,6 +34,14 @@ namespace AppConfig
                 FooConfig(cfg);
                 BarConfig(cfg);
                 FooDtoConfigs(cfg);
+
+                cfg.CreateMap<TimeZone, TimeZone>();
+                cfg.CreateMap<Address, Address>();
+                cfg.CreateMap<EmailAddress, EmailAddress>();
+                cfg.CreateMap<PersonName, PersonName>();
+                cfg.CreateMap<PhoneNumber, PhoneNumber>();
+                cfg.CreateMap<EncodedPassword, EncodedPassword>();
+
             });
 
             Mapper.AssertConfigurationIsValid();
@@ -99,14 +108,14 @@ namespace AppConfig
             cfg.CreateMap<Foo, DbFoo>()
 
                 .ForMember(p => p.NotInEntity, opt => opt.Ignore())
-
+                .ForMember(p => p.Address, opt => opt.Ignore())
                 .ForMember(p => p.Bars, opt => opt.Ignore())
                 .ForMember(p => p.SomeInts, opt => opt.Ignore())
                 .ForMember(p => p.SomeGuids, opt => opt.Ignore())
 
                 .AfterMap((e, db) =>
                 {
-                    db.Address = e.Address ?? CreateInstance<Address>();
+                    db.Address = MapValueObject(e.Address, db.Address); //e.Address ?? CreateInstance(db.Address);
                     db.Bars = MapCollection(e.Bars, db.Bars);
                     db.SomeInts = string.Join(",", e.SomeInts);
                     db.SomeGuids = string.Join("|", e.SomeGuids);
@@ -123,5 +132,7 @@ namespace AppConfig
                 })
                 ;
         }
+
+
     }
 }

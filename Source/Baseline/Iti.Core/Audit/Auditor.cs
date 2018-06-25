@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Iti.Auth;
 using Iti.Inversion;
 using Iti.Logging;
@@ -46,6 +47,34 @@ namespace Iti.Core.Audit
                 try
                 {
                     var entity = entry.Entity;
+
+                    if (entity.GetType().Name == "DbFoo" || entity.GetType().Name == "Address")
+                    {
+                        Console.WriteLine($"DEBUG: ENTITY: {entity.GetType().Name}: {entry.State}");
+                        foreach (var prop in entry.CurrentValues.Properties)
+                        {
+                            Console.WriteLine($"   ... CV Prop {prop.Name}");
+                        }
+
+                        foreach (var prop in entry.Properties)
+                        {
+                            Console.WriteLine($"   +++ Prop {prop.Metadata.Name} ({prop.Metadata.ClrType.Name})");
+                        }
+
+                        foreach (var col in entry.Collections)
+                        {
+                            Console.WriteLine($"   *** Col {col.Metadata.Name} ({col.Metadata.ClrType.Name}");
+                        }
+
+                        foreach(var re in entry.References)
+                        {
+                            Console.WriteLine($"   !!! {re.Metadata.Name} {re.CurrentValue.GetType().Name} -- Mod:{re.IsModified}");
+                            re.CurrentValue.ConsoleDump("REFERENCE");
+                            var ex = changeTracker.Context.Entry(re.CurrentValue);
+                            Console.WriteLine($"   >>> {ex?.State}");
+                        }
+
+                    }
 
                     if (entity is IDbAudited auditEntity)
                     {
@@ -98,21 +127,21 @@ namespace Iti.Core.Audit
         {
             foreach (var prop in currentValues.Properties)
             {
-                var field = prop.Name;
+                var fieldName = prop.Name;
 
-                if (field == "HasValue" || field.EndsWith("BackingField"))
+                if (fieldName == "HasValue" || fieldName.EndsWith("BackingField"))
                     continue;
 
-                var currValue = currentValues[field];
-                var origValue = originValues?[field];
+                var currValue = currentValues[fieldName];
+                var origValue = originValues?[fieldName];
 
                 if (currValue is PropertyValues)
                 {
-                    AddNestedFields(auditProperties, state, $"{prefix}.{field}", currValue as PropertyValues, origValue as PropertyValues);
+                    AddNestedFields(auditProperties, state, $"{prefix}.{fieldName}", currValue as PropertyValues, origValue as PropertyValues);
                 }
                 else
                 {
-                    var changeInfo = AddField(state, $"{prefix}.{field}", currValue, origValue);
+                    var changeInfo = AddField(state, $"{prefix}.{fieldName}", currValue, origValue);
                     if (changeInfo != null)
                         auditProperties.Add(changeInfo);
                 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AppConfig;
+using AutoMapper;
 using CoreTests.Helpers;
 using DataContext;
 using Domain;
@@ -166,7 +167,10 @@ namespace CoreTests
             fooName = "Some New Name for this Foo!";
             svc.SetName(fooId, fooName);
 
+            Console.WriteLine("===========================================================");
             svc.SetAddress(fooId, new Address("x", "x", "x", "x", "x"));
+            Console.WriteLine("===========================================================");
+
             foo = svc.Get(fooId);
             Assert.AreEqual(fooName, foo.Name);
             Assert.AreEqual("x", foo.Address.Line1);
@@ -221,6 +225,16 @@ namespace CoreTests
             var list = ToList(s, Guid.Parse);
             Assert.IsNotNull(list);
             Assert.AreEqual(0, list.Count);
+        }
+
+        [TestMethod]
+        public void AddressMapTest()
+        {
+            var addr1 = new Address("x", "x", "x", "x", "x");
+            var addr2 = new Address("y", "y", "y", "y", "y");
+
+            Mapper.Map(addr1, addr2);
+            Assert.AreEqual(addr1.City, addr2.City);
         }
 
         //

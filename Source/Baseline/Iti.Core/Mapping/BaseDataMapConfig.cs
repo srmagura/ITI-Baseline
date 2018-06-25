@@ -10,9 +10,17 @@ namespace Iti.Core.Mapping
 {
     public class BaseDataMapConfig
     {
-        protected static T CreateInstance<T>()
+        protected static T CreateInstance<T>(T existing)
             where T : class
         {
+            if (existing != null)
+            {
+                Console.WriteLine("DATA:CREATE: Using exising instance");
+                return existing;
+            }
+
+            Console.WriteLine("DATA:CREATE: Create new instance");
+
             return Activator.CreateInstance(typeof(T),
                     BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
                     null, new object[] { }, null)
@@ -38,6 +46,26 @@ namespace Iti.Core.Mapping
 
             var prop = obj.GetType().GetProperty(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             prop?.SetValue(obj, value);
+        }
+
+        protected static T MapValueObject<T>(T eValue, T dbValue) 
+            where T : class
+        {
+            if (eValue == null)
+            {
+                dbValue = CreateInstance<T>(dbValue);
+                return dbValue;
+            }
+
+            if (dbValue == null)
+                dbValue = CreateInstance(dbValue);
+
+            // TODO:JT: is not working???
+            Mapper.Map(eValue, dbValue);
+
+            // TODO:JT: remove console writelines
+
+            return dbValue;
         }
 
         protected static List<TDb> MapCollection<TEntity, TDb>(IReadOnlyCollection<TEntity> eList, List<TDb> dbList)
