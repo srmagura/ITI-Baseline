@@ -71,6 +71,9 @@ namespace Iti.Core.Audit
                         {
                             aggregateId = child.AuditAggregateId;
                             aggregateName = child.AuditAggregateName;
+
+                            if (!child.HasParent)
+                                changeType = "Deleted";
                         }
 
                         var audit = new AuditRecord(auth?.UserId, auth?.UserName,
@@ -105,6 +108,12 @@ namespace Iti.Core.Audit
         private static string GetChangeDetails(EntityEntry entry)
         {
             var state = entry.State;
+
+            if (entry.Entity is IDbAuditedChild ch)
+            {
+                if (!ch.HasParent)
+                    state = EntityState.Deleted;
+            }
 
             var auditProperties = new List<AuditProperty>();
 

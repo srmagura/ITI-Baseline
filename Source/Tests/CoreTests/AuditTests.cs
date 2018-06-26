@@ -12,6 +12,7 @@ using Iti.Core.Entites;
 using Iti.Inversion;
 using Iti.Logging;
 using Iti.ValueObjects;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SampleApp.Auth;
 
@@ -60,7 +61,7 @@ namespace CoreTests
                 db.Foos.Add(foo);
                 db.SaveChanges();
 
-                var nextAuditId = DumpAudit(fooId);
+                var nextAuditId = DumpAudit(fooId, auditId);
                 Assert.AreNotEqual(auditId, nextAuditId);
                 auditId = nextAuditId;
             }
@@ -81,7 +82,7 @@ namespace CoreTests
 
                 db.SaveChanges();
 
-                var nextAuditId = DumpAudit(fooId);
+                var nextAuditId = DumpAudit(fooId, auditId);
                 Assert.AreNotEqual(auditId, nextAuditId);
                 auditId = nextAuditId;
             }
@@ -102,7 +103,7 @@ namespace CoreTests
 
                 db.SaveChanges();
 
-                var nextAuditId = DumpAudit(fooId);
+                var nextAuditId = DumpAudit(fooId, auditId);
                 Assert.AreNotEqual(auditId, nextAuditId);
                 auditId = nextAuditId;
             }
@@ -117,6 +118,58 @@ namespace CoreTests
                 Assert.AreEqual("2", foo.Address.City);
             }
 
+            Section("Add Bar");
+
+            using (var db = new SampleDataContext())
+            {
+                var foo = db.Foos
+                    .Include(p => p.Bars)
+                    .FirstOrDefault(p => p.Id == fooId);
+                Assert.IsNotNull(foo);
+
+                foo.Bars.Add(new DbBar
+                {
+                    Id = SequentialGuid.Next(),
+                    Name = Guid.NewGuid().ToString(),
+                    NotInEntity = "RemoveMe!",
+                });
+
+                foo.Bars.Add(new DbBar
+                {
+                    Id = SequentialGuid.Next(),
+                    Name = Guid.NewGuid().ToString(),
+                    NotInEntity = "DoNotRemoveMe",
+                });
+
+                db.SaveChanges();
+
+                AssertBarCount(fooId, 2);
+
+                var nextAuditId = DumpAudit(fooId, auditId);
+                Assert.AreNotEqual(auditId, nextAuditId);
+                auditId = nextAuditId;
+            }
+
+            Section("Remove Bar");
+
+            using (var db = new SampleDataContext())
+            {
+                var foo = db.Foos
+                    .Include(p => p.Bars)
+                    .FirstOrDefault(p => p.Id == fooId);
+                Assert.IsNotNull(foo);
+
+                foo.Bars.RemoveAll(p => p.NotInEntity == "RemoveMe!");
+
+                db.SaveChanges();
+
+                AssertBarCount(fooId, 1);
+
+                var nextAuditId = DumpAudit(fooId, auditId);
+                Assert.AreNotEqual(auditId, nextAuditId);
+                auditId = nextAuditId;
+            }
+
             Section("Remove");
 
             using (var db = new SampleDataContext())
@@ -127,9 +180,18 @@ namespace CoreTests
                 db.Foos.Remove(foo);
                 db.SaveChanges();
 
-                var nextAuditId = DumpAudit(fooId);
+                var nextAuditId = DumpAudit(fooId, auditId);
                 Assert.AreNotEqual(auditId, nextAuditId);
                 auditId = nextAuditId;
+            }
+        }
+
+        private void AssertBarCount(Guid fooId, int expectedCount)
+        {
+            using (var db = new SampleDataContext())
+            {
+                var barCount = db.Bars.Count(p => p.FooId == fooId);
+                Assert.AreEqual(expectedCount, barCount);
             }
         }
 
@@ -140,21 +202,27 @@ namespace CoreTests
             Console.WriteLine();
         }
 
-        private long DumpAudit(Guid fooId)
+        private long DumpAudit(Guid fooId, long lastId)
         {
             using (var db = new SampleDataContext())
             {
-                var audit = db.AuditEntries
-                    .Where(p => p.Entity == "Foo" && p.EntityId == fooId.ToString())
+                var auditList = db.AuditEntries
+                    .Where(p => p.Aggregate == "Foo" && p.AggregateId == fooId.ToString())
+                    .Where(p => p.Id > lastId)
                     .OrderByDescending(p => p.Id)
-                    .FirstOrDefault();
+                    .ToList();
 
-                Assert.IsNotNull(audit);
+                Assert.IsNotNull(auditList);
+                Assert.IsTrue(auditList.Count > 0);
 
-                Console.WriteLine($"AUDIT: {audit.Event}");
-                Console.WriteLine(audit.Changes);
+                foreach (var audit in auditList)
+                {
+                    Console.WriteLine($"AUDIT: {audit.Event}: {audit.Entity}:{audit.EntityId} (of {audit.Aggregate}:{audit.AggregateId})");
+                    Console.WriteLine(audit.Changes);
+                    Console.WriteLine();
+                }
 
-                return audit.Id;
+                return auditList.Max(p => p.Id);
             }
         }
     }

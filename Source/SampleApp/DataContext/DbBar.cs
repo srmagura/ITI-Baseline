@@ -22,5 +22,7 @@ namespace DataContext
         public string AuditEntityId => Id.ToString();
         public string AuditAggregateName => "Foo";
         public string AuditAggregateId => FooId.ToString();
+
+        public bool HasParent => Foo != null;
     }
 }
