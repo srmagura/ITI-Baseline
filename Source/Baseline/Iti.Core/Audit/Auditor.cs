@@ -139,16 +139,6 @@ namespace Iti.Core.Audit
 
             var auditResult = auditProperties.ToJson(Formatting.None);
 
-            /*
-            if (entry.Entity.GetType().Name == "DbFoo")
-            {
-                Console.WriteLine("((((((((((((((((((((((((((((");
-                Console.WriteLine("AUDIT");
-                Console.WriteLine(auditResult);
-                Console.WriteLine("))))))))))))))))))))))))))))");
-            }
-            */
-
             return auditResult;
         }
 
