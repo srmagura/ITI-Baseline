@@ -21,6 +21,9 @@ namespace Iti.Core.Audit
             EntityId = entityId.MaxLength(64);
             Event = eventName.MaxLength(64);
             Changes = changes;
+
+            if (Event == "Unchanged")
+                Event = "Modified";
         }
 
         //

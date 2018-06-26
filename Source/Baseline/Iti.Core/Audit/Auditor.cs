@@ -55,8 +55,10 @@ namespace Iti.Core.Audit
 
                     if (entity is IDbAudited auditEntity)
                     {
-                        if (entry.State == EntityState.Unchanged
-                            || entry.State == EntityState.Detached)
+                        if (entry.State == EntityState.Detached)
+                            continue;
+
+                        if (entry.State == EntityState.Unchanged && !HasReferenceChanges(entry))
                             continue;
 
                         var changeType = entry.State.ToString();
@@ -75,6 +77,7 @@ namespace Iti.Core.Audit
                             aggregateName, aggregateId,
                             auditEntity.AuditEntityName, auditEntity.AuditEntityId,
                             changeType, changes);
+
                         list.Add(audit);
                     }
                 }
@@ -87,28 +90,41 @@ namespace Iti.Core.Audit
             return list;
         }
 
+        private static bool HasReferenceChanges(EntityEntry entry)
+        {
+            return entry.References.Any(HasChanges);
+        }
+
+        private static bool HasChanges(ReferenceEntry entry)
+        {
+            return entry.TargetEntry.State == EntityState.Added
+                   || entry.TargetEntry.State == EntityState.Modified
+                   || entry.TargetEntry.State == EntityState.Deleted;
+        }
+
         private static string GetChangeDetails(EntityEntry entry)
         {
             var state = entry.State;
 
             var auditProperties = new List<AuditProperty>();
 
-            var origValues = state == EntityState.Modified ? entry.OriginalValues : null;
-            var currentValues = state == EntityState.Deleted ? entry.OriginalValues : entry.CurrentValues;
-            AddNestedFields(auditProperties, state, "", currentValues, origValues);
+            //
+
+            var fromValues = entry.OriginalValues;
+            var toValues = entry.CurrentValues;
+
+            if (state == EntityState.Added || state == EntityState.Deleted)
+                toValues = null;
+
+            AddNestedFields(auditProperties, state, "", fromValues, toValues);
+
+            //
 
             foreach (var rf in entry.References)
             {
                 if (rf?.TargetEntry?.Entity is IValueObject vobj)
                 {
-                    // Console.WriteLine($"****** REF: {rf.Metadata.Name} / {rf.Metadata.PropertyInfo.Name}");
-
-                    var rfstate = rf.TargetEntry.State;
-
-                    var rfOrigValues = state == EntityState.Modified ? rf.TargetEntry.OriginalValues : null;
-                    var rfCurrentValues = state == EntityState.Deleted ? rf.TargetEntry.OriginalValues : rf.TargetEntry.CurrentValues;
-
-                    AddNestedFields(auditProperties, rfstate, rf.Metadata.Name, rfCurrentValues, rfOrigValues);
+                    AddValueObject(rf, auditProperties);
                 }
             }
 
@@ -127,9 +143,23 @@ namespace Iti.Core.Audit
             return auditResult;
         }
 
-        private static void AddNestedFields(List<AuditProperty> auditProperties, EntityState state, string prefix, PropertyValues currentValues, PropertyValues originalValues)
+        private static void AddValueObject(ReferenceEntry rf, List<AuditProperty> auditProperties)
         {
-            foreach (var prop in currentValues.Properties)
+            var state = rf.TargetEntry.State;
+
+            var fromValues = rf.TargetEntry.OriginalValues;
+            var toValues = rf.TargetEntry.CurrentValues;
+
+            if (state == EntityState.Added || state == EntityState.Deleted)
+                toValues = null;
+
+            AddNestedFields(auditProperties, state, rf.Metadata.Name, fromValues, toValues);
+        }
+
+        private static void AddNestedFields(List<AuditProperty> auditProperties, EntityState state, string prefix, 
+            PropertyValues fromValues, PropertyValues toValues)
+        {
+            foreach (var prop in fromValues.Properties)
             {
                 if (prop.IsShadowProperty)
                     continue;
@@ -139,35 +169,40 @@ namespace Iti.Core.Audit
                 if (fieldName == "HasValue" || fieldName.EndsWith("BackingField"))
                     continue;
 
-                var currValue = currentValues[fieldName];
-                var origValue = originalValues?[fieldName];
+                var fromValue = fromValues[fieldName];
+                var toValue = toValues?[fieldName];
 
-                if (currValue is PropertyValues)
+                if (fromValue is PropertyValues)
                 {
-                    AddNestedFields(auditProperties, state, $"{prefix}.{fieldName}", currValue as PropertyValues, origValue as PropertyValues);
+                    // TODO: don't think this ever gets called with EFCore2
+                    AddNestedFields(auditProperties, state, $"{prefix}.{fieldName}", 
+                        fromValue as PropertyValues, toValue as PropertyValues);
                 }
                 else
                 {
-                    var changeInfo = AddField(state, $"{prefix}.{fieldName}", currValue, origValue);
+                    var changeInfo = AddField(state, $"{prefix}.{fieldName}", fromValue, toValue);
                     if (changeInfo != null)
                         auditProperties.Add(changeInfo);
                 }
             }
         }
 
-        private static AuditProperty AddField(EntityState state, string fieldName, object currValue, object origValue)
+        private static AuditProperty AddField(EntityState state, string fieldName, object fromValue, object toValue)
         {
-            if (currValue == null && origValue == null)
+            if (fromValue == null && toValue == null)
                 return null;
 
-            var includeField = true;
-            if (state == EntityState.Modified)
-                includeField = (currValue?.ToString() != origValue?.ToString());
+            if (fromValue?.ToString() == toValue?.ToString())
+                return null;
 
-            return includeField
-                    ? new AuditProperty(fieldName, origValue?.ToString(), currValue?.ToString())
-                    : null
-                ;
+            if (state == EntityState.Added)
+            {
+                var temp = fromValue;
+                fromValue = toValue;
+                toValue = temp;
+            }
+
+            return new AuditProperty(fieldName, fromValue?.ToString(), toValue?.ToString());
         }
     }
 }

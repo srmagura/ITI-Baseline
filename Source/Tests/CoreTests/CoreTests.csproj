@@ -124,6 +124,7 @@
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuditTests.cs" />
     <Compile Include="AuthenticationTests.cs" />
     <Compile Include="ExtensionTests.cs" />
     <Compile Include="FooTests.cs" />

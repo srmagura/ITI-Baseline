@@ -167,9 +167,11 @@ namespace CoreTests
             fooName = "Some New Name for this Foo!";
             svc.SetName(fooId, fooName);
 
-            Console.WriteLine("===========================================================");
+            Console.WriteLine();
+            Console.WriteLine("************************************************************************");
             svc.SetAddress(fooId, new Address("x", "x", "x", "x", "x"));
-            Console.WriteLine("===========================================================");
+            Console.WriteLine("************************************************************************");
+            Console.WriteLine();
 
             foo = svc.Get(fooId);
             Assert.AreEqual(fooName, foo.Name);
