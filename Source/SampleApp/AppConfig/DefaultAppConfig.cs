@@ -4,7 +4,6 @@ using Domain.DomainServices;
 using Iti.Core.Configuration;
 using Iti.Core.DomainEvents;
 using Iti.Core.Sequences;
-using Iti.Core.Services;
 using Iti.Core.UnitOfWork;
 using Iti.Core.UserTracker;
 using Iti.Email;
@@ -57,7 +56,7 @@ namespace AppConfig
             if (inst == null)
                 return;
 
-            IOC.RegisterInstance<T>(inst);
+            IOC.RegisterInstance(inst);
         }
 
         private static void ConfigureJobProcessors()

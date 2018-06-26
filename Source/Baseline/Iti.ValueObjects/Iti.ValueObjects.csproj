@@ -30,9 +30,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=7.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AutoMapper.7.0.0\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Address.cs" />
+    <Compile Include="DefaultValueObjectMap.cs" />
     <Compile Include="FieldLengths.cs" />
     <Compile Include="EmailAddress.cs" />
     <Compile Include="PersonName.cs" />
@@ -53,6 +58,10 @@
       <Project>{EC19D5E7-FF7C-41EF-9800-5D89BB21BABA}</Project>
       <Name>Iti.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Iti.Passwords\Iti.Passwords.csproj">
+      <Project>{11E9369D-4328-4A69-B64D-B5F28423C207}</Project>
+      <Name>Iti.Passwords</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Iti.Utilities\Iti.Utilities.csproj">
       <Project>{5468D93C-5AE7-4041-A6AE-B881CD1FEFE4}</Project>
       <Name>Iti.Utilities</Name>
@@ -60,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

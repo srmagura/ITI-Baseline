@@ -5,6 +5,7 @@ using System.Reflection;
 using AutoMapper;
 using Iti.Core.DataContext;
 using Iti.Core.Entites;
+using Iti.Core.ValueObjects;
 
 namespace Iti.Core.Mapping
 {
@@ -108,5 +109,25 @@ namespace Iti.Core.Mapping
                 .ConvertUsing(p => new TIdent().WithId<TIdent>(p))
                 ;
         }
+
+        /*
+        protected static void ConfigureValueObjects(IMapperConfigurationExpression cfg)
+        {
+            var vobjTypeList = (from domainAssembly in AppDomain.CurrentDomain.GetAssemblies()
+                from assemblyType in domainAssembly.GetTypes()
+                where typeof(IValueObject).IsAssignableFrom(assemblyType)
+                select assemblyType).ToArray();
+
+            foreach (var vobjType in vobjTypeList)
+            {
+                if (vobjType.Name == "IValueObject" || vobjType.Name == "ValueObject`1")
+                    continue;
+
+                Console.WriteLine($"CONFIG VALUE OBJECT: {vobjType.Name}");
+
+                cfg.CreateMap(vobjType, vobjType);
+            }
+        }
+        */
     }
 }

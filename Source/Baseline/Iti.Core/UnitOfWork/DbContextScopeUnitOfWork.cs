@@ -42,7 +42,5 @@ namespace Iti.Core.UnitOfWork
 
             Task.Run(() => DomainEvents.DomainEvents.HandleEvents(events));
         }
-
-
     }
 }

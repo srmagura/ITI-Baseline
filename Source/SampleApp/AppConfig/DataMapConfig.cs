@@ -31,17 +31,18 @@ namespace AppConfig
                 cfg.DisableConstructorMapping();
                 cfg.Advanced.AllowAdditiveTypeMapCreation = true;
 
-                ValueObjectConfigs(cfg);
+                //ValueObjectConfigs(cfg);
+                DefaultValueObjectMap.Configure(cfg);
 
                 FooConfig(cfg);
                 BarConfig(cfg);
                 FooDtoConfigs(cfg);
-
             });
 
             Mapper.AssertConfigurationIsValid();
         }
 
+        /*
         private static void ValueObjectConfigs(IMapperConfigurationExpression cfg)
         {
             cfg.CreateMap<TimeZone, TimeZone>();
@@ -51,6 +52,7 @@ namespace AppConfig
             cfg.CreateMap<PhoneNumber, PhoneNumber>();
             cfg.CreateMap<EncodedPassword, EncodedPassword>();
         }
+        */
 
         private static void FooDtoConfigs(IMapperConfigurationExpression cfg)
         {
