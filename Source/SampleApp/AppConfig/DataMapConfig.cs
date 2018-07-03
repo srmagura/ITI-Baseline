@@ -31,6 +31,8 @@ namespace AppConfig
                 cfg.DisableConstructorMapping();
                 cfg.Advanced.AllowAdditiveTypeMapCreation = true;
 
+                cfg.AddGlobalIgnore("MappedEntity");
+
                 //ValueObjectConfigs(cfg);
                 DefaultValueObjectMap.Configure(cfg);
 
@@ -58,8 +60,6 @@ namespace AppConfig
         {
             cfg.CreateMap<string, List<int>>()
                 .ConvertUsing(s => ToList(s, int.Parse));
-
-            cfg.AddGlobalIgnore("MappedEntity");
 
             cfg.CreateMap<DbFoo, FooReferenceDto>()
                 .ProjectUsing(p => new FooReferenceDto
