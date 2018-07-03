@@ -155,6 +155,10 @@
     <Compile Include="Migrations\20180615171335_Catchup.designer.cs">
       <DependentUpon>20180615171335_Catchup.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20180703151926_MultipleOwned.cs" />
+    <Compile Include="Migrations\20180703151926_MultipleOwned.designer.cs">
+      <DependentUpon>20180703151926_MultipleOwned.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\SampleDataContextModelSnapshot.cs" />
     <Compile Include="SampleDataContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

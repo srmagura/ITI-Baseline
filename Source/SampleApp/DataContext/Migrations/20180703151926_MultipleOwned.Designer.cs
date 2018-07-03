@@ -4,14 +4,16 @@ using DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataContext.Migrations
 {
     [DbContext(typeof(SampleDataContext))]
-    partial class SampleDataContextModelSnapshot : ModelSnapshot
+    [Migration("20180703151926_MultipleOwned")]
+    partial class MultipleOwned
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -247,30 +249,6 @@ namespace DataContext.Migrations
                             b1.HasOne("DataContext.DbFoo")
                                 .WithOne("Address")
                                 .HasForeignKey("Iti.ValueObjects.Address", "DbFooId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
-
-                    b.OwnsOne("Iti.ValueObjects.PersonName", "PersonName", b1 =>
-                        {
-                            b1.Property<Guid>("DbFooId");
-
-                            b1.Property<string>("First")
-                                .HasMaxLength(64);
-
-                            b1.Property<string>("Last")
-                                .HasMaxLength(64);
-
-                            b1.Property<string>("Middle")
-                                .HasMaxLength(64);
-
-                            b1.Property<string>("Prefix")
-                                .HasMaxLength(64);
-
-                            b1.ToTable("Foos");
-
-                            b1.HasOne("DataContext.DbFoo")
-                                .WithOne("PersonName")
-                                .HasForeignKey("Iti.ValueObjects.PersonName", "DbFooId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
 
