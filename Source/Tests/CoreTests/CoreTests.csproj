@@ -128,6 +128,7 @@
     <Compile Include="AuthenticationTests.cs" />
     <Compile Include="ExtensionTests.cs" />
     <Compile Include="FooTests.cs" />
+    <Compile Include="GeoLocationTests.cs" />
     <Compile Include="Helpers\TestAuthContext.cs" />
     <Compile Include="Helpers\TestEmailRepository.cs" />
     <Compile Include="Helpers\TestFooEventHandlers.cs" />
@@ -158,6 +159,10 @@
     <ProjectReference Include="..\..\Baseline\Iti.Email\Iti.Email.csproj">
       <Project>{0F87B3FC-D4E1-4BE2-95A4-61AE490484F1}</Project>
       <Name>Iti.Email</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Baseline\Iti.Geolocation\Iti.Geolocation.csproj">
+      <Project>{BDFA55D4-D84A-4BF5-8719-35E5B8073F54}</Project>
+      <Name>Iti.Geolocation</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Baseline\Iti.Inversion\Iti.Inversion.csproj">
       <Project>{7D6EEE26-1091-4960-9254-08FAFDB3EB63}</Project>

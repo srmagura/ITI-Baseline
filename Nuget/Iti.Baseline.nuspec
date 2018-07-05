@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Iti.Baseline</id>
-    <version>1.0.9</version>
+    <version>1.0.10</version>
     <authors>John Todd</authors>
     <owners>John Todd</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -31,5 +31,6 @@
   	<file src="..\Source\Baseline\Iti.Sms\bin\Debug\Iti.Sms.dll" target="lib\net471\Iti.Sms.dll" />
   	<file src="..\Source\Baseline\Iti.Utilities\bin\Debug\Iti.Utilities.dll" target="lib\net471\Iti.Utilities.dll" />
   	<file src="..\Source\Baseline\Iti.ValueObjects\bin\Debug\Iti.ValueObjects.dll" target="lib\net471\Iti.ValueObjects.dll" />
+  	<file src="..\Source\Baseline\Iti.Geolocation\bin\Debug\Iti.Geolocation.dll" target="lib\net471\Iti.Geolocation.dll" />
   </files>
 </package>

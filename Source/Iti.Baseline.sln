@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iti.Exceptions", "Baseline\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iti.AuthService", "Baseline\Iti.AuthService\Iti.AuthService.csproj", "{E42B7494-EB5F-4E1F-ACBC-34AC070EAE99}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iti.Geolocation", "Baseline\Iti.Geolocation\Iti.Geolocation.csproj", "{BDFA55D4-D84A-4BF5-8719-35E5B8073F54}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -117,6 +119,10 @@ Global
 		{E42B7494-EB5F-4E1F-ACBC-34AC070EAE99}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E42B7494-EB5F-4E1F-ACBC-34AC070EAE99}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E42B7494-EB5F-4E1F-ACBC-34AC070EAE99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDFA55D4-D84A-4BF5-8719-35E5B8073F54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDFA55D4-D84A-4BF5-8719-35E5B8073F54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDFA55D4-D84A-4BF5-8719-35E5B8073F54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDFA55D4-D84A-4BF5-8719-35E5B8073F54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -139,6 +145,7 @@ Global
 		{11E9369D-4328-4A69-B64D-B5F28423C207} = {97BB7539-7827-484A-BD90-4FFA97CBB02B}
 		{1F870394-F389-4BD4-8BD7-A95355622F59} = {97BB7539-7827-484A-BD90-4FFA97CBB02B}
 		{E42B7494-EB5F-4E1F-ACBC-34AC070EAE99} = {97BB7539-7827-484A-BD90-4FFA97CBB02B}
+		{BDFA55D4-D84A-4BF5-8719-35E5B8073F54} = {97BB7539-7827-484A-BD90-4FFA97CBB02B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C0D71BF4-38D5-4748-8717-82E5865206FC}

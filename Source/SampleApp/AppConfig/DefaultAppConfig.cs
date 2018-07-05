@@ -7,6 +7,7 @@ using Iti.Core.Sequences;
 using Iti.Core.UnitOfWork;
 using Iti.Core.UserTracker;
 using Iti.Email;
+using Iti.Geolocation;
 using Iti.Inversion;
 using Iti.Logging;
 using Iti.Logging.Job;
@@ -47,6 +48,7 @@ namespace AppConfig
             ConfigureApplication();
             ConfigureJobProcessors();
             ConfigurePasswords();
+            ConfigureGeolocation();
         }
 
         private static void Settings<T>()
@@ -117,6 +119,12 @@ namespace AppConfig
         private static void ConfigurePasswords()
         {
             IOC.RegisterType<IPasswordEncoder, DefaultPasswordEncoder>();
+        }
+
+        private static void ConfigureGeolocation()
+        {
+            Settings<GoogleGeoLocatorSettings>();
+            IOC.RegisterType<IGeolocator, GoogleGeoLocator>();
         }
     }
 }

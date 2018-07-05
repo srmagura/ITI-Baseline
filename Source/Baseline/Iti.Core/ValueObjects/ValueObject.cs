@@ -11,7 +11,7 @@ namespace Iti.Core.ValueObjects
     public abstract class ValueObject<T> : IEquatable<T>, IDto, IValueObject
         where T : ValueObject<T>
     {
-        public long Id { get; protected set; } // MAKE EFCORE HAPPY... SIGH
+        // public long Id { get; protected set; } // MAKE EFCORE HAPPY... SIGH
 
         public abstract bool HasValue();
 

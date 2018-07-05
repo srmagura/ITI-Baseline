@@ -42,5 +42,10 @@ namespace Iti.ValueObjects
         {
             return HasAnyValue(Line1, Line2, City, State, Zip);
         }
+
+        public override string ToString()
+        {
+            return $"{Line1}, {(Line2.HasValue() ? $"{Line2}," : "")} {City}, {State} {Zip}";
+        }
     }
 }

@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DebugTimer.cs" />
+    <Compile Include="DecimalExtensions.cs" />
     <Compile Include="JsonExtensions.cs" />
     <Compile Include="ListExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -167,6 +167,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\Queries.cs" />
     <Compile Include="Repositories\Repository.cs" />
+    <Compile Include="RequestTrace\ConsoleRequestTrace.cs" />
+    <Compile Include="RequestTrace\IRequestTrace.cs" />
     <Compile Include="Sequences\EfSequenceResolver.cs" />
     <Compile Include="Sequences\ISequenceResolver.cs" />
     <Compile Include="Sequences\Sequence.cs" />
