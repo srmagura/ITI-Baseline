@@ -8,19 +8,29 @@ namespace Iti.ValueObjects
     {
         protected GeoLocation() { }
 
-        public GeoLocation(decimal longitude, decimal latitude, bool isConfident, string locationType, string formattedAddress)
+        public GeoLocation(string source, decimal longitude, decimal latitude, bool isValid, bool isConfident, string status, string locationType, string formattedAddress)
         {
+            Source = source.MaxLength(16);
             Longitude = longitude;
             Latitude = latitude;
+            IsValid = isValid;
             IsConfident = isConfident;
+            Status = status.MaxLength(64);
             LocationType = locationType.MaxLength(64);
             FormattedAddress = formattedAddress.MaxLength(128);
         }
 
+        [MaxLength(16)]
+        public string Source { get; protected set; }
+
         public decimal? Longitude { get; protected set; }
         public decimal? Latitude { get; protected set; }
 
+        public bool IsValid { get; protected set; }
         public bool IsConfident { get; protected set; }
+
+        [MaxLength(64)]
+        public string Status { get; protected set; }
 
         [MaxLength(64)]
         public string LocationType { get; protected set; }

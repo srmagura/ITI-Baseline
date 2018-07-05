@@ -13,7 +13,11 @@ namespace Iti.Geolocation
 {
     public class GoogleGeoLocator : IGeolocator
     {
+        public const string Source = "Google";
+
         private readonly GoogleGeoLocatorSettings _settings;
+
+        private GeoLocation InvalidGoogleResult(string status) => new GeoLocation(Source, 0, 0, false, false, status, "ERROR", "");
 
         public GoogleGeoLocator(GoogleGeoLocatorSettings settings)
         {
@@ -38,19 +42,18 @@ namespace Iti.Geolocation
 
             trace?.WriteTrace(requestUrl, responseJson);
 
-            var result = JsonConvert.DeserializeObject<GoogleGeoCodeResult>(responseJson);
+            var googleResult = JsonConvert.DeserializeObject<GoogleGeoCodeResult>(responseJson);
 
-            switch (result.Status)
+            if (googleResult.Status != "OK")
             {
-                case "OK":
-                    return HandleGoodResult(result, address);
-                default:
-                    LogError(address, result.Status);
-                    return null;
+                LogError(address, googleResult.Status);
+                return InvalidGoogleResult(googleResult.Status);
             }
+
+            return HandleGoodResult(googleResult, address);
         }
 
-        private static void LogError(Address address, string message)
+        private void LogError(Address address, string message)
         {
             Log.Error($"Geo Location error for [{address}]: {message}");
         }
@@ -65,7 +68,7 @@ namespace Iti.Geolocation
             return kilometers * MilesPerKilometer;
         }
 
-        private static string FormatAddressForUrl(Address info)
+        private string FormatAddressForUrl(Address info)
         {
             var lines = new List<string> { info.Line1, info.City, info.State, info.Zip }
                 .Where(s => !string.IsNullOrEmpty(s))
@@ -73,32 +76,32 @@ namespace Iti.Geolocation
             return string.Join(",+", lines);
         }
 
-        private static GeoLocation HandleGoodResult(GoogleGeoCodeResult result, Address address)
+        private GeoLocation HandleGoodResult(GoogleGeoCodeResult result, Address address)
         {
             var googleResult = result.Results.FirstOrDefault();
             if (googleResult == null)
             {
                 LogError(address, "No result returned");
-                return null;
+                return InvalidGoogleResult("ERROR:NO_RESULT");
             }
 
             var geometry = googleResult.Geometry;
             if (geometry == null)
             {
                 LogError(address, "No geometry returned");
-                return null;
+                return InvalidGoogleResult("ERROR:NO_GEOMETRY");
             }
 
             var location = geometry.Location;
             if (location == null)
             {
                 LogError(address, "No location returned");
-                return null;
+                return InvalidGoogleResult("ERROR:NO_LOCATION");
             }
 
             var isConfident = geometry.LocationType.EqualsIgnoreCase("ROOFTOP");
 
-            return new GeoLocation((decimal)location.Lng, (decimal)location.Lat, isConfident, geometry.LocationType, googleResult.FormattedAddress);
+            return new GeoLocation(Source, (decimal)location.Lng, (decimal)location.Lat, true, isConfident, result.Status, geometry.LocationType, googleResult.FormattedAddress);
         }
     }
 }

@@ -47,6 +47,7 @@ namespace CoreTests
             result.ConsoleDump();
 
             Assert.IsNotNull(result);
+            Assert.IsTrue(result.IsValid);
             Assert.IsTrue(result.IsConfident);
             Assert.AreEqual(35.735m, result.Latitude.RoundTo(3));
             Assert.AreEqual(-78.908m, result.Longitude.RoundTo(3));
@@ -64,6 +65,7 @@ namespace CoreTests
             result.ConsoleDump();
 
             Assert.IsNotNull(result);
+            Assert.IsTrue(result.IsValid);
             Assert.IsFalse(result.IsConfident);
         }
 
@@ -78,7 +80,11 @@ namespace CoreTests
             var result = geo.Geocode(address, _trace);
             result.ConsoleDump();
 
-            Assert.IsNull(result);
+            Assert.IsNotNull(result);
+            Assert.IsFalse(result.IsValid);
+            Assert.IsFalse(result.IsConfident);
+            Assert.AreEqual(0, result.Latitude.RoundTo(3));
+            Assert.AreEqual(0, result.Longitude.RoundTo(3));
         }
     }
 }
