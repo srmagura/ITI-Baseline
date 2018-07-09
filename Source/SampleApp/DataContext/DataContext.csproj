@@ -167,6 +167,10 @@
     <Compile Include="Migrations\20180709133207_UpdateFooValueObjects.designer.cs">
       <DependentUpon>20180709133207_UpdateFooValueObjects.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20180709134213_RemoveValObjId.cs" />
+    <Compile Include="Migrations\20180709134213_RemoveValObjId.designer.cs">
+      <DependentUpon>20180709134213_RemoveValObjId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\SampleDataContextModelSnapshot.cs" />
     <Compile Include="SampleDataContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -34,6 +34,21 @@ namespace Iti.Core.Mapping
             return list;
         }
 
+        protected static void SetValueObject<T>(object obj, string fieldName, T valObj)
+            where T : ValueObject<T>
+        {
+            valObj = valObj.NullIfNoValue();
+
+            var field = obj.GetType().GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance);
+            if (field != null)
+            {
+                field.SetValue(obj, valObj);
+            }
+
+            var prop = obj.GetType().GetProperty(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            prop?.SetValue(obj, valObj);
+        }
+
         protected static void SetPrivateField(object obj, string fieldName, object value)
         {
             var field = obj.GetType().GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance);
@@ -46,7 +61,7 @@ namespace Iti.Core.Mapping
             prop?.SetValue(obj, value);
         }
 
-        protected static T MapValueObject<T>(T eValue, T dbValue) 
+        protected static T MapValueObject<T>(T eValue, T dbValue)
             where T : class
         {
             if (eValue == null)
@@ -56,7 +71,7 @@ namespace Iti.Core.Mapping
             }
 
             if (dbValue == null)
-                dbValue = CreateInstance((T) null);
+                dbValue = CreateInstance((T)null);
 
             Mapper.Map(eValue, dbValue);
 
