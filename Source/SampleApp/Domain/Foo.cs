@@ -36,6 +36,8 @@ namespace Domain
         public string Name { get; protected set; }
 
         public Address Address { get; protected set; }  // NOTE: ValueObject (nullable)
+        public PersonName PersonName { get; protected set; }
+        public PhoneNumber PhoneNumber { get; protected set; }
 
         public decimal SomeMoney { get; protected set; }
 

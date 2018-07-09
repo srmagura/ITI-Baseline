@@ -60,6 +60,12 @@ namespace Iti.Logging
         private static IAuthContext _auth;
         private static readonly object LockObject = new object();
 
+        public static void RefreshHandlers()
+        {
+            _auth = null;
+            _writer = null;
+        }
+
         private static void ResolveHandlers()
         {
             if (_auth != null && _writer != null)

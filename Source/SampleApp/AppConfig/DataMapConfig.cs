@@ -123,6 +123,8 @@ namespace AppConfig
                 .AfterMap((e, db) =>
                 {
                     db.Address = MapValueObject(e.Address, db.Address); //e.Address ?? CreateInstance(db.Address);
+                    db.PersonName = MapValueObject(e.PersonName, db.PersonName);
+                    db.PhoneNumber = MapValueObject(e.PhoneNumber, db.PhoneNumber);
                     db.Bars = MapCollection(e.Bars, db.Bars);
                     db.SomeInts = string.Join(",", e.SomeInts);
                     db.SomeGuids = string.Join("|", e.SomeGuids);
@@ -133,6 +135,8 @@ namespace AppConfig
                 .AfterMap((db, e) =>
                 {
                     SetPrivateField(e, "Address", db.Address.NullIfNoValue());
+                    SetPrivateField(e, "PersonName", db.PersonName.NullIfNoValue());
+                    SetPrivateField(e, "PhoneNumber", db.PhoneNumber.NullIfNoValue());
                     SetPrivateField(e, "_bars", Mapper.Map<List<Bar>>(db.Bars));
                     SetPrivateField(e, "_someInts", ToList(db.SomeInts, int.Parse));
                     SetPrivateField(e, "_someGuids", ToList(db.SomeGuids, Guid.Parse));

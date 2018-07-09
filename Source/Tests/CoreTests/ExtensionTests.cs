@@ -1,14 +1,38 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Iti.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TimeZone =Iti.Core.DateTime.TimeZone;
+using TimeZone = Iti.Core.DateTime.TimeZone;
 
 namespace CoreTests
 {
     [TestClass]
     public class ExtensionTests
     {
+        [TestMethod]
+        public void ListDelim()
+        {
+            var list = new List<int> { 1, 2, 3, 4 };
+            var s = list.ToDelimited("|");
+            Console.WriteLine(s);
+            Assert.AreEqual("|1|2|3|4|", s);
+
+            s = list.ToDelimited("|", false);
+            Console.WriteLine(s);
+            Assert.AreEqual("1|2|3|4", s);
+
+            list = new List<int>();
+            s = list.ToDelimited("|");
+            Console.WriteLine(s);
+            Assert.AreEqual("", s);
+
+            s = list.ToDelimited("|", false);
+            Console.WriteLine(s);
+            Assert.AreEqual("", s);
+
+        }
+
         [TestMethod]
         public void CleanPhone()
         {

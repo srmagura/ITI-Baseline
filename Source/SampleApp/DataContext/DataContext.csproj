@@ -163,6 +163,10 @@
     <Compile Include="Migrations\20180703152011_MultipleOwned2.designer.cs">
       <DependentUpon>20180703152011_MultipleOwned2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20180709133207_UpdateFooValueObjects.cs" />
+    <Compile Include="Migrations\20180709133207_UpdateFooValueObjects.designer.cs">
+      <DependentUpon>20180709133207_UpdateFooValueObjects.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\SampleDataContextModelSnapshot.cs" />
     <Compile Include="SampleDataContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

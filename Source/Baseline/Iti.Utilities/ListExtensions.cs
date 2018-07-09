@@ -8,5 +8,13 @@ namespace Iti.Utilities
         {
             return list != null && list.Count > 0;
         }
+
+        public static string ToDelimited<T>(this List<T> list, string delim, bool wrap = true)
+        {
+            var s = string.Join(delim, list);
+            if (!s.HasValue())
+                return "";
+            return wrap ? $"{delim}{s}{delim}" : s;
+        }
     }
 }

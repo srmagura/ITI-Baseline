@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AppConfig;
 using DataContext;
 using Iti.Core.DomainEvents;
+using Iti.Inversion;
 using Iti.Logging;
 using Iti.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -17,6 +18,8 @@ namespace CoreTests
         public static void ClassInitialize(TestContext context)
         {
             DefaultAppConfig.Initialize();
+
+            Log.RefreshHandlers();
 
             DomainEvents.ClearRegistrations();
         }

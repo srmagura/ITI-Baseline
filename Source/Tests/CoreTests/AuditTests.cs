@@ -43,6 +43,13 @@ namespace CoreTests
             var nullAddr = Activator.CreateInstance(typeof(Address),
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
                 null, new object[] { }, null) as Address;
+            var nullPhone = Activator.CreateInstance(typeof(PhoneNumber),
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                null, new object[] { }, null) as PhoneNumber;
+            var nullName = Activator.CreateInstance(typeof(PersonName),
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                null, new object[] { }, null) as PersonName;
+
             var addr1 = new Address("1", "1", "1", "1", "1");
             var addr2 = new Address("2", "2", "2", "2", "2");
 
@@ -56,6 +63,8 @@ namespace CoreTests
                     Name = "Created",
                     NotInEntity = "Foo!",
                     Address = nullAddr,
+                    PersonName = nullName,
+                    PhoneNumber = nullPhone,
                 };
 
                 db.Foos.Add(foo);
