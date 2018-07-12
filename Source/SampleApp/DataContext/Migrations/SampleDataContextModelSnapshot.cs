@@ -15,7 +15,7 @@ namespace DataContext.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.0-rtm-30799")
+                .HasAnnotation("ProductVersion", "2.1.1-rtm-30846")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("Relational:Sequence:sequences.Default", "'Default', 'sequences', '1', '1', '', '', 'Int64', 'False'")
                 .HasAnnotation("Relational:Sequence:sequences.OrderNumber", "'OrderNumber', 'sequences', '10000', '5', '', '', 'Int64', 'False'")

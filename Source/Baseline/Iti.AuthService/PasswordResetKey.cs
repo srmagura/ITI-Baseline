@@ -12,23 +12,17 @@ namespace Iti.AuthService
         [Obsolete("Serialization use only")]
         protected PasswordResetKey() { }
 
-        public PasswordResetKey(IAuthenticationUser authUser, EmailAddress email)
+        public PasswordResetKey(EmailAddress email)
         {
-            AuthUserId = authUser.IdAsString().MaxLength(FieldLengths.PasswordResetKey.AuthUserId);
-            Key = Guid.NewGuid().ToString().MaxLength(FieldLengths.PasswordResetKey.Key);
+            Key = Guid.NewGuid().ToString().MaxLength(128);
             Email = email;
-
-            DomainEvents.Raise(new PasswordResetKeyCreatedEvent(this));
         }
 
         //
 
         public PasswordResetKeyId Id { get; protected set; } = new PasswordResetKeyId();
 
-        [MaxLength(FieldLengths.PasswordResetKey.AuthUserId)]
-        public string AuthUserId { get; protected set; }
-
-        [MaxLength(FieldLengths.PasswordResetKey.Key)]
+        [MaxLength(128)]
         public string Key { get; protected set; }
 
         public EmailAddress Email { get; protected set; }

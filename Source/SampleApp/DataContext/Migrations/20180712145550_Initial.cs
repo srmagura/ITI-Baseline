@@ -22,6 +22,27 @@ namespace DataContext.Migrations
                 incrementBy: 5);
 
             migrationBuilder.CreateTable(
+                name: "AuditEntries",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    WhenUtc = table.Column<DateTimeOffset>(nullable: false),
+                    UserId = table.Column<string>(maxLength: 64, nullable: true),
+                    UserName = table.Column<string>(maxLength: 64, nullable: true),
+                    Aggregate = table.Column<string>(maxLength: 64, nullable: true),
+                    AggregateId = table.Column<string>(maxLength: 64, nullable: true),
+                    Entity = table.Column<string>(maxLength: 64, nullable: true),
+                    EntityId = table.Column<string>(maxLength: 64, nullable: true),
+                    Event = table.Column<string>(maxLength: 64, nullable: true),
+                    Changes = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AuditEntries", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "EmailRecords",
                 columns: table => new
                 {
@@ -49,6 +70,11 @@ namespace DataContext.Migrations
                     DateCreatedUtc = table.Column<DateTimeOffset>(nullable: false),
                     Name = table.Column<string>(maxLength: 64, nullable: true),
                     NotInEntity = table.Column<string>(maxLength: 64, nullable: true),
+                    PersonName_Prefix = table.Column<string>(maxLength: 64, nullable: true),
+                    PersonName_First = table.Column<string>(maxLength: 64, nullable: true),
+                    PersonName_Middle = table.Column<string>(maxLength: 64, nullable: true),
+                    PersonName_Last = table.Column<string>(maxLength: 64, nullable: true),
+                    PhoneNumber_Value = table.Column<string>(maxLength: 16, nullable: true),
                     Address_Line1 = table.Column<string>(maxLength: 64, nullable: true),
                     Address_Line2 = table.Column<string>(maxLength: 64, nullable: true),
                     Address_City = table.Column<string>(maxLength: 64, nullable: true),
@@ -105,6 +131,21 @@ namespace DataContext.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserTracks",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    LastAccessUtc = table.Column<DateTimeOffset>(nullable: false),
+                    UserId = table.Column<string>(maxLength: 128, nullable: true),
+                    Service = table.Column<string>(maxLength: 128, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserTracks", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Bars",
                 columns: table => new
                 {
@@ -134,6 +175,9 @@ namespace DataContext.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AuditEntries");
+
+            migrationBuilder.DropTable(
                 name: "Bars");
 
             migrationBuilder.DropTable(
@@ -144,6 +188,9 @@ namespace DataContext.Migrations
 
             migrationBuilder.DropTable(
                 name: "SmsRecords");
+
+            migrationBuilder.DropTable(
+                name: "UserTracks");
 
             migrationBuilder.DropTable(
                 name: "Foos");

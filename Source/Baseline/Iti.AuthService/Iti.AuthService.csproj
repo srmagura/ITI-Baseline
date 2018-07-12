@@ -41,21 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthenticationServiceSettings.cs" />
-    <Compile Include="BaseAuthenticationService.cs" />
-    <Compile Include="FieldLengths.cs" />
-    <Compile Include="IAuthenticationId.cs" />
-    <Compile Include="IAuthenticationRepository.cs" />
-    <Compile Include="IAuthenticationService.cs" />
-    <Compile Include="IAuthenticationUrlResolver.cs" />
-    <Compile Include="IAuthenticationUser.cs" />
     <Compile Include="IncorrectPasswordException.cs" />
     <Compile Include="InvalidPasswordException.cs" />
     <Compile Include="InvalidResetKeyException.cs" />
     <Compile Include="LoginFailedException.cs" />
     <Compile Include="PasswordResetKey.cs" />
-    <Compile Include="PasswordResetKeyCreatedEvent.cs" />
-    <Compile Include="PasswordResetKeyCreatedHandler.cs" />
     <Compile Include="PasswordResetKeyId.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
