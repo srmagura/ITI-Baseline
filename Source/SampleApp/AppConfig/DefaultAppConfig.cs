@@ -40,6 +40,8 @@ namespace AppConfig
             IOC.RegisterType<IUserTracker, EfUserTracker>();
             IOC.RegisterType<IUserTrackingDataContext, SampleDataContext>();
 
+            IOC.RegisterInstance(new GoogleGeoLocatorSettings() { ApiKey = "AIzaSyCHs9wcZRaJ8IUbLSqk5Aji5gmcrnu8jec" });
+
             ConfigureLogging();
             ConfigureEmail();
             ConfigureSms();
