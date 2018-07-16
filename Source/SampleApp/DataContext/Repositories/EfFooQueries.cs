@@ -38,23 +38,22 @@ namespace DataContext.Repositories
 
         public FooDto Get(FooId id)
         {
-            var foo = Context.Foos
+            return Context.Foos
                 .Include(p => p.Bars)
-                .FirstOrDefault(p => p.Id == id.Guid);
-
-            return Mapper.Map<FooDto>(foo);
+                .Where(p => p.Id == id.Guid)
+                .ProjectTo<FooDto>()
+                .FirstOrDefault();
         }
 
         public List<FooDto> GetList()
         {
-            var list = Context.Foos
+            return Context.Foos
                     .Include(p => p.Bars)
                     .OrderByDescending(p => p.DateCreatedUtc)
                     .Take(10)
+                    .ProjectTo<FooDto>()
                     .ToList()
                 ;
-
-            return Mapper.Map<List<FooDto>>(list);
         }
     }
 }

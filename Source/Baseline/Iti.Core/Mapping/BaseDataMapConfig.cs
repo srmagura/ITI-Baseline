@@ -114,16 +114,19 @@ namespace Iti.Core.Mapping
             return id?.Guid ?? Guid.Empty;
         }
 
+        /*
         protected static void MapIdentity<TIdent>(IMapperConfigurationExpression cfg)
             where TIdent : Identity, new()
         {
             cfg.CreateMap<TIdent, Guid>()
-                .ConvertUsing(p => p.Guid)
+                .ConstructUsing(p => p.Guid)
                 ;
+
             cfg.CreateMap<Guid, TIdent>()
-                .ConvertUsing(p => new TIdent().WithId<TIdent>(p))
+                .ConstructUsing(p => new TIdent().WithId<TIdent>(p))
                 ;
         }
+        */
 
         /*
         protected static void ConfigureValueObjects(IMapperConfigurationExpression cfg)

@@ -14,6 +14,6 @@ namespace SampleApp.Application.Dto
 
         public List<BarDto> Bars { get; set; }
 
-        public List<int> SomeInts { get; set; }
+        public string SomeInts { get; set; }
     }
 }

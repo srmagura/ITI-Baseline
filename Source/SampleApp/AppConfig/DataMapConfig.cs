@@ -33,7 +33,6 @@ namespace AppConfig
 
                 cfg.AddGlobalIgnore("MappedEntity");
 
-                //ValueObjectConfigs(cfg);
                 DefaultValueObjectMap.Configure(cfg);
 
                 FooConfig(cfg);
@@ -43,18 +42,6 @@ namespace AppConfig
 
             Mapper.AssertConfigurationIsValid();
         }
-
-        /*
-        private static void ValueObjectConfigs(IMapperConfigurationExpression cfg)
-        {
-            cfg.CreateMap<TimeZone, TimeZone>();
-            cfg.CreateMap<Address, Address>();
-            cfg.CreateMap<EmailAddress, EmailAddress>();
-            cfg.CreateMap<PersonName, PersonName>();
-            cfg.CreateMap<PhoneNumber, PhoneNumber>();
-            cfg.CreateMap<EncodedPassword, EncodedPassword>();
-        }
-        */
 
         private static void FooDtoConfigs(IMapperConfigurationExpression cfg)
         {
@@ -79,7 +66,8 @@ namespace AppConfig
                 ;
 
             cfg.CreateMap<DbFoo, FooDto>()
-                .ConvertUsing(foo => new FooDto
+                .ForMember(p => p.SomeInts, opt => opt.MapFrom(src => src.SomeInts.Split(',').Select(int.Parse).ToList()))
+                .ProjectUsing(foo => new FooDto
                 {
                     Id = new FooId(foo.Id),
                     Name = foo.Name,
@@ -87,7 +75,8 @@ namespace AppConfig
                     Address = foo.Address.NullIfNoValue(),
                     SomeNumber = foo.SomeNumber,
                     Bars = Mapper.Map<List<BarDto>>(foo.Bars),
-                    SomeInts = foo.SomeInts.Split(',').Select(int.Parse).ToList()
+                    SomeInts = foo.SomeInts,
+                    // SomeInts = foo.SomeInts.Split(',').Select(int.Parse).ToList()
                 });
 
             cfg.CreateMap<DbFoo, FooJunkDto>()
@@ -98,30 +87,41 @@ namespace AppConfig
 
         private void BarConfig(IMapperConfigurationExpression cfg)
         {
-            MapIdentity<BarId>(cfg);
+            cfg.CreateMap<BarId, Guid>()
+                .ProjectUsing(p => p.Guid);
+            cfg.CreateMap<Guid, BarId>()
+                .ProjectUsing(p => new BarId(p));
 
             cfg.CreateMap<Bar, DbBar>()
                 .ForMember(p => p.FooId, opt => opt.Ignore())
                 .ForMember(p => p.Foo, opt => opt.Ignore())
                 .ForMember(p => p.NotInEntity, opt => opt.Ignore())
+                .AfterMap((e, db) => { db.Id = e.Id.Guid; })
                 .ReverseMap()
+                .AfterMap((db, e) =>
+                {
+                    // e.Id = new BarId(db.Id);
+                    SetPrivateField(e, "Id", new BarId(db.Id));
+                })
                 ;
         }
 
         private void FooConfig(IMapperConfigurationExpression cfg)
         {
-            MapIdentity<FooId>(cfg);
+            cfg.CreateMap<FooId, Guid>()
+                .ProjectUsing(p => p.Guid);
+            cfg.CreateMap<Guid, FooId>()
+                .ProjectUsing(p => new FooId(p));
 
             cfg.CreateMap<Foo, DbFoo>()
-
                 .ForMember(p => p.NotInEntity, opt => opt.Ignore())
                 .ForMember(p => p.Address, opt => opt.Ignore())
                 .ForMember(p => p.Bars, opt => opt.Ignore())
                 .ForMember(p => p.SomeInts, opt => opt.Ignore())
                 .ForMember(p => p.SomeGuids, opt => opt.Ignore())
-
                 .AfterMap((e, db) =>
                 {
+                    db.Id = e.Id.Guid;
                     db.Address = MapValueObject(e.Address, db.Address); //e.Address ?? CreateInstance(db.Address);
                     db.PersonName = MapValueObject(e.PersonName, db.PersonName);
                     db.PhoneNumber = MapValueObject(e.PhoneNumber, db.PhoneNumber);
@@ -129,11 +129,10 @@ namespace AppConfig
                     db.SomeInts = string.Join(",", e.SomeInts);
                     db.SomeGuids = string.Join("|", e.SomeGuids);
                 })
-
                 .ReverseMap()
-
                 .AfterMap((db, e) =>
                 {
+                    SetPrivateField(e, "Id", new FooId(db.Id));
                     SetPrivateField(e, "Address", db.Address.NullIfNoValue());
                     SetPrivateField(e, "PersonName", db.PersonName.NullIfNoValue());
                     SetPrivateField(e, "PhoneNumber", db.PhoneNumber.NullIfNoValue());

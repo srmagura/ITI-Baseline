@@ -109,9 +109,10 @@ namespace CoreTests
 
             Assert.AreEqual(fooId.Guid, foo.Id.Guid);
 
-            Assert.AreEqual(5, foo.SomeInts.Count);
+            var someIntList = foo.SomeInts.Split(',').Select(int.Parse).ToList();
+            Assert.AreEqual(5, someIntList.Count);
             foreach (var i in new List<int> { 1, 3, 5, 7, 9 })
-                Assert.AreEqual(1, foo.SomeInts.Count(p => p == i));
+                Assert.AreEqual(1, someIntList.Count(p => p == i));
             Assert.IsNull(foo.Address);
 
             svc.SetAddress(fooId, new Address("1", "2", "3", "4", "5"));
