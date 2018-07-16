@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GeoLocationHelper.cs" />
     <Compile Include="GoogleResults\Geometry.cs" />
     <Compile Include="GoogleResults\GoogleGeoCodeResult.cs" />
     <Compile Include="GoogleGeoLocatorSettings.cs" />

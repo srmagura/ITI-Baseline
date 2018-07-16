@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using Iti.Core.RequestTrace;
@@ -23,13 +22,6 @@ namespace Iti.Geolocation
         {
             _settings = settings;
         }
-
-        //
-        // Note: GPS 1's digit = 111 km
-        //
-
-        public const decimal KilometersPerMile = 1.60934m;
-        public const decimal MilesPerKilometer = 1m / KilometersPerMile;
 
         public GeoLocation Geocode(Address address, IRequestTrace trace = null)
         {
@@ -56,16 +48,6 @@ namespace Iti.Geolocation
         private void LogError(Address address, string message)
         {
             Log.Error($"Geo Location error for [{address}]: {message}");
-        }
-
-        public decimal MilesToKilometers(decimal miles)
-        {
-            return miles * KilometersPerMile;
-        }
-
-        public decimal KilometersToMiles(decimal kilometers)
-        {
-            return kilometers * MilesPerKilometer;
         }
 
         private string FormatAddressForUrl(Address info)
