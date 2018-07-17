@@ -16,6 +16,7 @@ namespace Iti.Core.DateTime
         //
 
         public static string DefaultTimeZoneId => Handler.DefaultTimeZoneId;
+        public static TimeZoneInfo DefaultTimeZone => Lookup(DefaultTimeZoneId);
 
         public static DateTimeOffset ToUtc(string timeZoneId, DateTimeOffset localDateTime) => Handler.ToUtc(timeZoneId, localDateTime);
 

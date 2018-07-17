@@ -84,6 +84,19 @@ namespace CoreTests
         }
 
         [TestMethod]
+        public void EasternTime()
+        {
+            var s = TimeZoneInfo.Local.Id;
+            Console.WriteLine(s);
+
+            s = DateTimeService.DefaultTimeZoneId;
+            Console.WriteLine(s);
+
+            var tz = DateTimeService.Lookup("Eastern Standard Time");
+            Console.WriteLine(tz.Id);
+        }
+
+        [TestMethod]
         public void TimeZoneUtcConvert()
         {
             var utcnow = DateTimeOffset.Parse("2018-06-14 6:00:00 pm");
