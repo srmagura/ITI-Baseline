@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Iti.Core.DateTime;
 using Iti.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TimeZone = Iti.Core.DateTime.TimeZone;
 
 namespace CoreTests
 {
@@ -88,14 +88,11 @@ namespace CoreTests
         {
             var utcnow = DateTimeOffset.Parse("2018-06-14 6:00:00 pm");
 
-            var tz = TimeZone.Default;
-
-            var defaultNow = tz.FromUtc(utcnow);
+            var defaultNow = DateTimeService.FromUtc(DateTimeService.DefaultTimeZoneId, utcnow);
             Console.WriteLine(defaultNow);
             Assert.AreEqual("6/14/2018 2:00:00 PM -04:00", defaultNow.ToString());
 
-            var tz2 = new TimeZone("Eastern Standard Time");
-            var explicitNow = tz2.FromUtc(utcnow);
+            var explicitNow = DateTimeService.FromUtc("Eastern Standard Time", utcnow);
             Console.WriteLine(explicitNow);
             Assert.AreEqual("6/14/2018 2:00:00 PM -04:00", explicitNow.ToString());
         }

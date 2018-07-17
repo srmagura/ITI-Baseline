@@ -13,7 +13,6 @@ namespace Iti.ValueObjects
             cfg.CreateMap<EmailAddress, EmailAddress>();
             cfg.CreateMap<PersonName, PersonName>();
             cfg.CreateMap<PhoneNumber, PhoneNumber>();
-            cfg.CreateMap<TimeZone, TimeZone>();
         }
     }
 }

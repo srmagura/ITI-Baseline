@@ -144,10 +144,9 @@
     <Compile Include="DataContext\BaseDataContext.cs" />
     <Compile Include="DataContext\DbEntity.cs" />
     <Compile Include="DateTime\DateTimeService.cs" />
-    <Compile Include="DateTime\WindowsDateTimeService.cs" />
     <Compile Include="DateTime\FieldLengths.cs" />
     <Compile Include="DateTime\IDateTimeService.cs" />
-    <Compile Include="DateTime\TimeZone.cs" />
+    <Compile Include="DateTime\WindowsDateTimeService.cs" />
     <Compile Include="DomainEvents\BaseDomainEvent.cs" />
     <Compile Include="DomainEvents\BaseDomainEventProcessor.cs" />
     <Compile Include="DomainEvents\IDomainEventContext.cs" />

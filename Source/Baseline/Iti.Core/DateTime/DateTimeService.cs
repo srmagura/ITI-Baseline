@@ -16,10 +16,11 @@ namespace Iti.Core.DateTime
         //
 
         public static string DefaultTimeZoneId => Handler.DefaultTimeZoneId;
-        public static TimeZone DefaultTimeZone => TimeZone.Default;
 
-        public static DateTimeOffset ToUtc(TimeZone tz, System.DateTime localDateTime) => Handler.ToUtc(tz, localDateTime);
+        public static DateTimeOffset ToUtc(string timeZoneId, DateTimeOffset localDateTime) => Handler.ToUtc(timeZoneId, localDateTime);
 
-        public static DateTimeOffset FromUtc(TimeZone tz, System.DateTime utcDateTime) => Handler.FromUtc(tz, utcDateTime);
+        public static DateTimeOffset FromUtc(string timeZoneId, DateTimeOffset utcDateTime) => Handler.FromUtc(timeZoneId, utcDateTime);
+
+        public static TimeZoneInfo Lookup(string timeZoneId) => Handler.Lookup(timeZoneId);
     }
 }

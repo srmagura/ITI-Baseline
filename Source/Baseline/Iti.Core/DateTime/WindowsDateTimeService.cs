@@ -6,25 +6,30 @@ namespace Iti.Core.DateTime
     {
         public string DefaultTimeZoneId => "Eastern Standard Time";
 
+        public TimeZoneInfo Lookup(string timeZoneId)
+        {
+            return TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
+        }
+
         public DateTimeOffset UtcNow()
         {
             return DateTimeOffset.UtcNow;
         }
 
-        public DateTimeOffset ToUtc(TimeZone tz, System.DateTime localDateTime)
+        public DateTimeOffset ToUtc(string timeZoneId, DateTimeOffset localDateTime)
         {
-            // assumes TimeZone.Id is windows TimeZoneInfo.Id string
-            var tzInfo = TimeZoneInfo.FindSystemTimeZoneById(tz.Id);
+            // assumes timeZoneId is windows TimeZoneInfo.Id string
+            var tzInfo = TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
 
-            return TimeZoneInfo.ConvertTimeToUtc(localDateTime, tzInfo);
+            return TimeZoneInfo.ConvertTimeToUtc(localDateTime.DateTime, tzInfo);
         }
 
-        public DateTimeOffset FromUtc(TimeZone tz, System.DateTime utcDateTime)
+        public DateTimeOffset FromUtc(string timeZoneId, DateTimeOffset utcDateTime)
         {
-            // assumes TimeZone.Id is windows TimeZoneInfo.Id string
-            var tzInfo = TimeZoneInfo.FindSystemTimeZoneById(tz.Id);
+            // assumes timeZoneId is windows TimeZoneInfo.Id string
+            var tzInfo = TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
 
-            return TimeZoneInfo.ConvertTimeFromUtc(utcDateTime, tzInfo);
+            return TimeZoneInfo.ConvertTimeFromUtc(utcDateTime.DateTime, tzInfo);
         }
     }
 }

@@ -5,9 +5,10 @@ namespace Iti.Core.DateTime
     public interface IDateTimeService
     {
         string DefaultTimeZoneId { get; }
+        TimeZoneInfo Lookup(string timeZoneId);
 
         DateTimeOffset UtcNow();
-        DateTimeOffset ToUtc(TimeZone tz, System.DateTime localDateTime);
-        DateTimeOffset FromUtc(TimeZone tz, System.DateTime utcDateTime);
+        DateTimeOffset ToUtc(string timeZoneId, DateTimeOffset localDateTime);
+        DateTimeOffset FromUtc(string timeZoneId, DateTimeOffset utcDateTime);
     }
 }
