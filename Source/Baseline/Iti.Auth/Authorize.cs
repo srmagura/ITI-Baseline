@@ -5,7 +5,7 @@
         public static void AnyUser(IAuthContext auth)
         {
             if (auth == null || !auth.IsAuthenticated)
-                throw new NotAuthenticationException();
+                throw new NotAuthenticatedException();
         }
 
         public static void Require(bool b)

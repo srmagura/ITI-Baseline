@@ -3,14 +3,14 @@ using Iti.Exceptions;
 
 namespace Iti.Auth
 {
-    public class NotAuthenticationException : DomainException
+    public class NotAuthenticatedException : DomainException
     {
-        public NotAuthenticationException() 
+        public NotAuthenticatedException() 
             : base("User not authenticated")
         {
         }
 
-        public NotAuthenticationException(Exception innerException) 
+        public NotAuthenticatedException(Exception innerException) 
             : base("User not authenticated", innerException)
         {
         }

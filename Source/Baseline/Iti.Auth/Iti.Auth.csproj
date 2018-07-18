@@ -42,7 +42,7 @@
   <ItemGroup>
     <Compile Include="Authorize.cs" />
     <Compile Include="IAuthContext.cs" />
-    <Compile Include="NotAuthenticationException.cs" />
+    <Compile Include="NotAuthenticatedException.cs" />
     <Compile Include="NotAuthorizedException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
