@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 
 namespace Iti.Core.Entites
 {

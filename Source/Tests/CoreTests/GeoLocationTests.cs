@@ -86,5 +86,25 @@ namespace CoreTests
             Assert.AreEqual(0, result.Latitude.RoundTo(3));
             Assert.AreEqual(0, result.Longitude.RoundTo(3));
         }
+
+        [TestMethod]
+        public void WeirdAddressTest()
+        {
+            var geo = IOC.Resolve<IGeolocator>();
+
+            var address = new Address("4034 Winecott Drive", "", "Apex", "NC", "27502");
+            var result = geo.Geocode(address, _trace);
+            result.ConsoleDump();
+
+            address = new Address("x","x","x","WY","x");
+            result = geo.Geocode(address, _trace);
+            result.ConsoleDump();
+
+            Assert.IsNotNull(result);
+            Assert.IsFalse(result.IsValid);
+            Assert.IsFalse(result.IsConfident);
+            Assert.AreEqual(0, result.Latitude.RoundTo(3));
+            Assert.AreEqual(0, result.Longitude.RoundTo(3));
+        }
     }
 }

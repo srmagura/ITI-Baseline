@@ -11,10 +11,10 @@ namespace Iti.ValueObjects
 
         public Address(string line1, string line2, string city, string state, string zip)
         {
-            Require.NotEmpty(line1, "Invalid Address");
-            Require.NotEmpty(city, "Invalid Address");
-            Require.NotEmpty(state, "Invalid Address");
-            Require.NotEmpty(zip, "Invalid Address");
+            Require.NotEmpty(line1, "Invalid Address: Line1");
+            Require.NotEmpty(city, "Invalid Address: City");
+            Require.NotEmpty(state, "Invalid Address: State");
+            Require.NotEmpty(zip, "Invalid Address: Zip");
 
             Line1 = line1?.Trim().MaxLength(FieldLengths.Address.Line1);
             Line2 = line2?.Trim().MaxLength(FieldLengths.Address.Line2);

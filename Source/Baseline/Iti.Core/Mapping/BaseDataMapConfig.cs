@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Reflection;
 using AutoMapper;
@@ -114,19 +115,18 @@ namespace Iti.Core.Mapping
             return id?.Guid ?? Guid.Empty;
         }
 
-        /*
-        protected static void MapIdentity<TIdent>(IMapperConfigurationExpression cfg)
+        protected static void MapIdentity<TIdent>(IMapperConfigurationExpression cfg, Func<Guid, TIdent> constr)
             where TIdent : Identity, new()
         {
+            cfg.CreateMap<TIdent, Guid?>()
+                .ProjectUsing(p => p == null ? (Guid?)null : p.Guid);
+            cfg.CreateMap<Guid?, TIdent>()
+                .ProjectUsing(p => p == null ? null : constr(p.Value));
             cfg.CreateMap<TIdent, Guid>()
-                .ConstructUsing(p => p.Guid)
-                ;
-
+                .ProjectUsing(p => p.Guid);
             cfg.CreateMap<Guid, TIdent>()
-                .ConstructUsing(p => new TIdent().WithId<TIdent>(p))
-                ;
+                .ProjectUsing(p => constr(p));
         }
-        */
 
         /*
         protected static void ConfigureValueObjects(IMapperConfigurationExpression cfg)
