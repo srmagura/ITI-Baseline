@@ -21,28 +21,32 @@ namespace Iti.Email
 
         public override void Run()
         {
+            SendEmail();
+            Cleanup();
+        }
+
+        private void SendEmail()
+        {
             try
             {
-                using (var uow = UnitOfWork.Begin())
-                {
-                    _repo.ForEachPendingOrRetry(SendEmail);
-
-                    CleanupEmail();
-
-                    uow.Commit();
-                }
-
+                _repo.ForEachPendingOrRetry(SendEmail);
             }
             catch (Exception exc)
             {
-                Output("ERROR: EmailJobProcessor.Run", exc);
-                Log.Error("EmailJobProcessor.Run", exc);
+                HandleException(exc);
             }
         }
 
-        private void CleanupEmail()
+        private void Cleanup()
         {
-            _repo.CleanupOldEmails(_settings.EmailLifetimeDays);
+            try
+            {
+                _repo.CleanupOldEmails(_settings.EmailLifetimeDays);
+            }
+            catch (Exception exc)
+            {
+                HandleException(exc);
+            }
         }
 
         private void SendEmail(EmailRecord rec)

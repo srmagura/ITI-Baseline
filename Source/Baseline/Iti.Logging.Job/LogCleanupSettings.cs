@@ -2,6 +2,6 @@
 {
     public class LogCleanupSettings
     {
-        public int LogLifetimeDays { get; set; }
+        public int LogLifetimeDays { get; set; } = 90;
     }
 }

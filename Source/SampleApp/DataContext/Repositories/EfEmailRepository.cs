@@ -29,11 +29,13 @@ namespace DataContext.Repositories
                 var pending = db.EmailRecords
                     .Where(p => p.Status == EmailStatus.Pending
                                 && (p.NextRetry == null || p.NextRetry <= now))
+                    .OrderBy(p => p.DateCreatedUtc)
                     .ToList();
 
                 foreach (var item in pending)
                 {
                     callback(item);
+                    db.SaveChanges();
                 }
             }
         }

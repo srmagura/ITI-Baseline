@@ -3,6 +3,7 @@ using System.Linq;
 using AppConfig;
 using CoreTests.Helpers;
 using DataContext;
+using DataContext.Repositories;
 using Iti.Core.DateTime;
 using Iti.Core.DomainEvents;
 using Iti.Email;
@@ -10,6 +11,7 @@ using Iti.Inversion;
 using Iti.Logging;
 using Iti.Logging.Job;
 using Iti.Sms;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CoreTests
@@ -37,7 +39,7 @@ namespace CoreTests
 
             using (var db = new SampleDataContext())
             {
-                var entry = new LogEntry("Test","test","test","test","test","test","test");
+                var entry = new LogEntry("Test", "test", "test", "test", "test", "test", "test");
                 entry.WhenUtc = DateTimeService.UtcNow.AddYears(-1);
                 db.LogEntries.Add(entry);
                 db.SaveChanges();
@@ -69,8 +71,30 @@ namespace CoreTests
             var proc = IOC.Resolve<EmailJobProcessor>();
             proc.Run();
 
-            Assert.IsTrue(TestEmailRepository.Records.TrueForAll(p=>p.Status == EmailStatus.Sent));
+            Assert.IsTrue(TestEmailRepository.Records.TrueForAll(p => p.Status == EmailStatus.Sent));
             Assert.IsTrue(TestEmailRepository.WasCleanedUp);
+        }
+
+        [TestMethod]
+        public void EmailProcDbTest()
+        {
+            using (var db = new SampleDataContext())
+            {
+                db.Database.ExecuteSqlCommand("DELETE FROM EmailRecords");
+
+                var email = new EmailRecord("todd@iticentral.com", "Test Email", "This is a test!");
+                db.EmailRecords.Add(email);
+                db.SaveChanges();
+            }
+
+            var proc = new EmailJobProcessor(new EmailJobSettings(), new ConsoleEmailSender(), new EfEmailRepository());
+            proc.Run();
+
+            using (var db = new SampleDataContext())
+            {
+                var recs = db.EmailRecords.ToList();
+                Assert.IsTrue(recs.All(p => p.Status == EmailStatus.Sent));
+            }
         }
 
         [TestMethod]

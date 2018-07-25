@@ -1,4 +1,5 @@
 ﻿using System;
+using Iti.Logging;
 
 namespace Iti.Core.Services
 {
@@ -16,6 +17,21 @@ namespace Iti.Core.Services
 
             if (exc != null)
                 Console.WriteLine(exc);
+        }
+
+        protected void HandleException(Exception exc)
+        {
+            try
+            {
+                var nm = GetType().Name;
+
+                Output($"ERROR: {nm}", exc);
+                Log.Error($"{nm}", exc);
+            }
+            catch (Exception)
+            {
+                // eat it
+            }
         }
     }
 }

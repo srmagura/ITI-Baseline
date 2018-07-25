@@ -31,8 +31,7 @@ namespace Iti.Logging.Job
             }
             catch (Exception exc)
             {
-                Output("ERROR: LogCleanupJobProcessor.Run", exc);
-                Log.Error("LogCleanupJobProcessor.Run", exc);
+                HandleException(exc);
             }
         }
     }
