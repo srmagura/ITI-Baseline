@@ -27,6 +27,9 @@ namespace Iti.Core.Audit
 
                 using (var db = IOC.TryResolve<IAuditDataContext>())
                 {
+                    if (db == null)
+                        throw new Exception("IAuditDataContext not registered (IOC)");
+
                     var q = db.AuditEntries
                         .Where(p => p.Aggregate == entityName && p.AggregateId == entityId);
 
