@@ -95,11 +95,14 @@ namespace Iti.Core.Audit
 
         private static bool HasReferenceChanges(EntityEntry entry)
         {
-            return entry.References.Any(HasChanges);
+            return entry?.References.Any(HasChanges) ?? false;
         }
 
         private static bool HasChanges(ReferenceEntry entry)
         {
+            if (entry?.TargetEntry == null)
+                return false;
+
             return entry.TargetEntry.State == EntityState.Added
                    || entry.TargetEntry.State == EntityState.Modified
                    || entry.TargetEntry.State == EntityState.Deleted;
