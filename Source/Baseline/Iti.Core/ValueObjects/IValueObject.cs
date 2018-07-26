@@ -1,4 +1,7 @@
 ﻿namespace Iti.Core.ValueObjects
 {
-    public interface IValueObject { }
+    public interface IValueObject
+    {
+        bool HasValue();
+    }
 }
