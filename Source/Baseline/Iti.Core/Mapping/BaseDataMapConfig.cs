@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using AutoMapper;
 using Iti.Core.DataContext;
+using Iti.Core.DTOs;
 using Iti.Core.Entites;
 using Iti.Core.ValueObjects;
 
@@ -24,6 +25,147 @@ namespace Iti.Core.Mapping
                     BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
                     null, new object[] { }, null)
                 as T;
+        }
+
+        protected static object CreateInstance(Type t, object existing)
+        {
+            if (existing != null)
+                return existing;
+
+            return Activator.CreateInstance(t,
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                null, new object[] { }, null);
+        }
+
+        protected void ConfigureDtoValueObjects(IMapperConfigurationExpression cfg)
+        {
+            cfg.ForAllMaps((tm, me) =>
+            {
+                if (typeof(IDto).IsAssignableFrom(tm.DestinationType))
+                {
+                    me.AfterMap((x, dto) => DtoCleanup(dto as IDto));
+                }
+            });
+        }
+
+        private void DtoCleanup(IDto dto)
+        {
+            foreach (var prop in dto.GetType().GetProperties())
+            {
+                if (typeof(IValueObject).IsAssignableFrom(prop.PropertyType))
+                {
+                    if (prop.GetValue(dto) is IValueObject val)
+                    {
+                        if (!val.HasValue())
+                            prop.SetValue(dto, null);
+                    }
+                }
+            }
+        }
+
+        protected void ConfigureDbEntityValueObjects(IMapperConfigurationExpression cfg)
+        {
+            cfg.ForAllMaps((tm, me) =>
+            {
+                // Entity -> DbEntity
+                if (typeof(Entity).IsAssignableFrom(tm.SourceType)
+                    && typeof(DbEntity).IsAssignableFrom(tm.DestinationType))
+                {
+                    var eType = tm.SourceType;
+                    var dbType = tm.DestinationType;
+
+                    var dbProps = dbType.GetProperties();
+                    foreach (var dbProp in dbProps)
+                    {
+                        if (typeof(IValueObject).IsAssignableFrom(dbProp.PropertyType))
+                        {
+                            me.ForMember(dbProp.Name, opt => opt.Ignore());
+                            me.AfterMap((e, db) =>
+                            {
+                                var eProp = e.GetType().GetProperty(dbProp.Name);
+                                var eVal = eProp.GetValue(e);
+                                var dbVal = dbProp.GetValue(db);
+                                var val = MapValueObjectRuntime(dbProp.PropertyType, eVal, dbVal);
+                                dbProp.SetValue(db, val);
+                            });
+                        }
+                        else if (typeof(DbEntity).IsAssignableFrom(dbProp.PropertyType))
+                        {
+                            var eProp = eType.GetProperty(dbProp.Name);
+                            if (eProp == null)
+                            {
+                                me.ForMember(dbProp.Name, opt => opt.Ignore());
+                            }
+
+                            var idPropName = $"{dbProp.Name}Id";
+                            var idProp = tm.DestinationType.GetProperty(idPropName);
+                            var eIdProp = eType.GetProperty(idPropName);
+                            if (idProp != null && eIdProp == null)
+                            {
+                                me.ForMember(idPropName, opt => opt.Ignore());
+                            }
+                        }
+                        else // ignore unmapped
+                        {
+                            if (eType.GetProperty(dbProp.Name) == null)
+                            {
+                                me.ForMember(dbProp.Name, opt => opt.Ignore());
+                            }
+                        }
+                    }
+                }
+
+                // DbEntity -> Entity
+                if (typeof(DbEntity).IsAssignableFrom(tm.SourceType)
+                    && typeof(Entity).IsAssignableFrom(tm.DestinationType))
+                {
+                    var props = tm.DestinationType.GetProperties();
+                    foreach (var prop in props)
+                    {
+                        if (typeof(IValueObject).IsAssignableFrom(prop.PropertyType))
+                        {
+                            me.AfterMap((db, e) =>
+                            {
+                                var dbProp = db.GetType().GetProperty(prop.Name);
+                                var dbVal = dbProp.GetValue(db);
+                                SetValueObjectRuntime(prop.PropertyType, e, prop.Name, dbVal as IValueObject);
+                            });
+                        }
+                    }
+                }
+            });
+        }
+
+
+
+        private void SetValueObjectRuntime(Type t, object obj, string fieldName, IValueObject valObj)
+        {
+            valObj = valObj.NullIfNoValue();
+
+            var field = obj.GetType().GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance);
+            if (field != null)
+            {
+                field.SetValue(obj, valObj);
+            }
+
+            var prop = obj.GetType().GetProperty(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            prop?.SetValue(obj, valObj);
+        }
+
+        private object MapValueObjectRuntime(Type t, object eValue, object dbValue)
+        {
+            if (eValue == null)
+            {
+                dbValue = CreateInstance(t, dbValue);
+                return dbValue;
+            }
+
+            if (dbValue == null)
+                dbValue = CreateInstance(t, null);
+
+            Mapper.Map(eValue, dbValue);
+
+            return dbValue;
         }
 
         protected static List<T> ToList<T>(string s, Func<string, T> convert)
@@ -127,25 +269,36 @@ namespace Iti.Core.Mapping
             cfg.CreateMap<Guid, TIdent>()
                 .ProjectUsing(p => constr(p));
         }
+    }
 
-        /*
-        protected static void ConfigureValueObjects(IMapperConfigurationExpression cfg)
+    public static class MapperExtensions
+    {
+        public static IMappingExpression<TSource, TDestination>
+            IgnoreAllNonExisting<TSource, TDestination>(this IMappingExpression<TSource, TDestination> expression)
         {
-            var vobjTypeList = (from domainAssembly in AppDomain.CurrentDomain.GetAssemblies()
-                from assemblyType in domainAssembly.GetTypes()
-                where typeof(IValueObject).IsAssignableFrom(assemblyType)
-                select assemblyType).ToArray();
-
-            foreach (var vobjType in vobjTypeList)
+            var sourceType = typeof(TSource);
+            var destinationType = typeof(TDestination);
+            var existingMaps = Mapper.Configuration
+                .GetAllTypeMaps()
+                .First(x => x.SourceType.Equals(sourceType) && x.DestinationType.Equals(destinationType));
+            foreach (var property in existingMaps.GetUnmappedPropertyNames())
             {
-                if (vobjType.Name == "IValueObject" || vobjType.Name == "ValueObject`1")
-                    continue;
-
-                Console.WriteLine($"CONFIG VALUE OBJECT: {vobjType.Name}");
-
-                cfg.CreateMap(vobjType, vobjType);
+                expression.ForMember(property, opt => opt.Ignore());
             }
+            return expression;
         }
-        */
+
+        public static IMappingExpression
+            IgnoreAllNonExisting(this IMappingExpression expression, Type sourceType, Type destinationType)
+        {
+            var existingMaps = Mapper.Configuration
+                .GetAllTypeMaps()
+                .First(x => x.SourceType.Equals(sourceType) && x.DestinationType.Equals(destinationType));
+            foreach (var property in existingMaps.GetUnmappedPropertyNames())
+            {
+                expression.ForMember(property, opt => opt.Ignore());
+            }
+            return expression;
+        }
     }
 }
