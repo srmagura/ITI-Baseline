@@ -1,32 +1,36 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Cryptography;
+using Iti.Exceptions;
 using Iti.Utilities;
 
 namespace Iti.Passwords
 {
-    public class DefaultPasswordEncoder : IPasswordEncoder
+    public class DefaultPasswordEncoder : IPasswordEncoder<EncodedPassword>
     {
-        // The following constants may be changed without breaking existing hashes.
-        public const int SaltByteSize = 24;
-        public const int HashByteSize = 24;
-        public const int Pbkdf2Iterations = 1000;
+        private readonly DefaultPasswordEncoderSettings _settings;
 
+        // The following constants may be changed without breaking existing hashes.
         public const int IterationIndex = 0;
         public const int SaltIndex = 1;
         public const int Pbkdf2Index = 2;
+
+        public DefaultPasswordEncoder(DefaultPasswordEncoderSettings settings)
+        {
+            _settings = settings;
+        }
 
         public EncodedPassword Encode(string password)
         {
             // Generate a random salt
             var csprng = new RNGCryptoServiceProvider();
-            var salt = new byte[SaltByteSize];
+            var salt = new byte[_settings.SaltByteSize];
             csprng.GetBytes(salt);
 
             // Hash the password and encode the parameters
-            var hash = PBKDF2(password, salt, Pbkdf2Iterations, HashByteSize);
+            var hash = PBKDF2(password, salt, _settings.Pbkdf2Iterations, _settings.HashByteSize);
 
-            var enc = $"{Pbkdf2Iterations}:{Convert.ToBase64String(salt)}:{Convert.ToBase64String(hash)}";
+            var enc = $"{_settings.Pbkdf2Iterations}:{Convert.ToBase64String(salt)}:{Convert.ToBase64String(hash)}";
 
             return new EncodedPassword(enc);
         }
@@ -35,7 +39,9 @@ namespace Iti.Passwords
         {
             try
             {
-                var enc = encodedPassword.Value;
+                var enc = encodedPassword?.Value;
+                if (enc == null)
+                    throw new DomainException("Invalid Encoded Password type");
 
                 // Extract the parameters from the hash
                 char[] delimiter = { ':' };
@@ -74,16 +80,16 @@ namespace Iti.Passwords
                 else if (!char.IsLetter(ch))
                     hasNonAlpha = true;
             }
-            
+
             return hasUpperCase && hasNonAlpha;
         }
 
-        private static bool BinaryEquals(byte[] hash, byte[] testHash)
+        private bool BinaryEquals(byte[] hash, byte[] testHash)
         {
             return (hash.Length == testHash.Length) && !hash.Where((t, i) => t != testHash[i]).Any();
         }
 
-        private static byte[] PBKDF2(string password, byte[] salt, int iterations, int outputBytes)
+        private byte[] PBKDF2(string password, byte[] salt, int iterations, int outputBytes)
         {
             var pbkdf2 = new Rfc2898DeriveBytes(password, salt)
             {

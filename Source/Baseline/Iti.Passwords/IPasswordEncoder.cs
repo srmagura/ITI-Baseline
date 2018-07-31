@@ -1,9 +1,9 @@
 ﻿namespace Iti.Passwords
 {
-    public interface IPasswordEncoder
+    public interface IPasswordEncoder<TEncodedPassword>
     {
-        EncodedPassword Encode(string plainTextPassword);
-        bool Validate(string password, EncodedPassword userEncPassword);
+        TEncodedPassword Encode(string plainTextPassword);
+        bool Validate(string password, TEncodedPassword userEncPassword);
         bool IsValid(string password);
     }
 }

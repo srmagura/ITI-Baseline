@@ -4,7 +4,7 @@ using Iti.Utilities;
 
 namespace Iti.Passwords
 {
-    public class EncodedPassword : ValueObject<EncodedPassword>
+    public class EncodedPassword : ValueObject<EncodedPassword>, IEncodedPassword
     {
         protected EncodedPassword() { }
 

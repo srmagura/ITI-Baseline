@@ -120,7 +120,9 @@ namespace AppConfig
 
         private static void ConfigurePasswords()
         {
-            IOC.RegisterType<IPasswordEncoder, DefaultPasswordEncoder>();
+            IOC.RegisterType<IPasswordEncoder<EncodedPassword>, DefaultPasswordEncoder>();
+
+            Settings<DefaultPasswordEncoderSettings>();
         }
 
         private static void ConfigureGeolocation()
