@@ -131,6 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Audit\AuditAppService.cs" />
+    <Compile Include="Audit\AuditEvents.cs" />
     <Compile Include="Audit\AuditProperty.cs" />
     <Compile Include="Audit\AuditRecord.cs" />
     <Compile Include="Audit\Auditor.cs" />
