@@ -8,6 +8,7 @@ using Iti.Email;
 using Iti.Inversion;
 using Iti.Logging;
 using Iti.Sms;
+using Iti.Voice;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
@@ -59,6 +60,7 @@ namespace DataContext
         public DbSet<LogEntry> LogEntries { get; set; }
         public DbSet<EmailRecord> EmailRecords { get; set; }
         public DbSet<SmsRecord> SmsRecords { get; set; }
+        public DbSet<VoiceRecord> VoiceRecords { get; set; }
         public DbSet<AuditRecord> AuditEntries { get; set; }
         public DbSet<UserTrack> UserTracks { get; set; }
     }

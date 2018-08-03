@@ -6,7 +6,7 @@ namespace Iti.Sms
     {
         public void Send(string toSmsAddress, string body)
         {
-            Console.WriteLine("=== SMS ===============================");
+            Console.WriteLine($"=== SMS: {toSmsAddress} ===============================");
             Console.WriteLine($"{body}");
             Console.WriteLine("-----------------------------------------");
         }

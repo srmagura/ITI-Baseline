@@ -120,6 +120,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SmtpSettings.cs" />
     <Compile Include="TwilioSmsSettings.cs" />
+    <Compile Include="TwilioVoiceSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Baseline\Iti.Core\Iti.Core.csproj">
@@ -157,6 +158,10 @@
     <ProjectReference Include="..\..\Baseline\Iti.ValueObjects\Iti.ValueObjects.csproj">
       <Project>{906759AF-D61B-46BA-A181-F3E3F013BADA}</Project>
       <Name>Iti.ValueObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Iti.Voice\Iti.Voice.csproj">
+      <Project>{4C357CFA-ADA2-443C-A87E-3F328ECFB53F}</Project>
+      <Name>Iti.Voice</Name>
     </ProjectReference>
     <ProjectReference Include="..\DataContext\DataContext.csproj">
       <Project>{0EF0F84B-6572-486F-9F9F-3AD9AB97432E}</Project>

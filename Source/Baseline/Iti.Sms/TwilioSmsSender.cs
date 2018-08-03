@@ -1,6 +1,4 @@
-﻿using System.Net;
-using System.Net.Mail;
-using Twilio;
+﻿using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 
 namespace Iti.Sms
@@ -18,8 +16,8 @@ namespace Iti.Sms
         {
             TwilioClient.Init(_settings.Sid, _settings.AuthToken);
             var message = MessageResource.Create(
-                to: new Twilio.Types.PhoneNumber(toAddress),
-                from: new Twilio.Types.PhoneNumber(_settings.FromPhone),
+                to: new Twilio.Types.PhoneNumber($"+1{toAddress}"),
+                from: new Twilio.Types.PhoneNumber($"+1{_settings.FromPhone}"),
                 body: body);
         }
     }

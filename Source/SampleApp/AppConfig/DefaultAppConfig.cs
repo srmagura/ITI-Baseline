@@ -13,6 +13,7 @@ using Iti.Logging;
 using Iti.Logging.Job;
 using Iti.Passwords;
 using Iti.Sms;
+using Iti.Voice;
 using SampleApp.Application;
 using SampleApp.Application.Interfaces;
 using SampleApp.Auth;
@@ -45,6 +46,7 @@ namespace AppConfig
             ConfigureLogging();
             ConfigureEmail();
             ConfigureSms();
+            ConfigureVoice();
             ConfigureDomainEvents();
             ConfigureSequences();
             ConfigureApplication();
@@ -116,6 +118,12 @@ namespace AppConfig
         {
             IOC.RegisterType<ISmsSender, QueuedSmsSender>();
             IOC.RegisterType<ISmsRepository, EfSmsRepository>();
+        }
+
+        private static void ConfigureVoice()
+        {
+            IOC.RegisterType<IVoiceSender, QueuedVoiceSender>();
+            IOC.RegisterType<IVoiceRepository, EfVoiceRepository>();
         }
 
         private static void ConfigurePasswords()
