@@ -9,9 +9,11 @@
             _repo = repo;
         }
 
-        public void Send(string toVoiceAddress, string callbackUrl, string body)
+        public void Send(string toVoiceAddress, string body, string callbackUrl = null)
         {
-            var rec = new VoiceRecord(toVoiceAddress, callbackUrl, body);
+            // recordId is not used here (even if passed in)
+
+            var rec = new VoiceRecord(toVoiceAddress, body);
             _repo.Add(rec);
         }
     }

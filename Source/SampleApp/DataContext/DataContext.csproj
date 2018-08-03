@@ -138,6 +138,10 @@
     <Compile Include="Migrations\20180712145550_Initial.designer.cs">
       <DependentUpon>20180712145550_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20180803183253_Voice.cs" />
+    <Compile Include="Migrations\20180803183253_Voice.designer.cs">
+      <DependentUpon>20180803183253_Voice.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\SampleDataContextModelSnapshot.cs" />
     <Compile Include="Repositories\EfVoiceRepository.cs" />
     <Compile Include="SampleDataContext.cs" />

@@ -8,11 +8,10 @@ namespace Iti.Voice
         [Obsolete("Serialization use only")]
         protected VoiceRecord() { }
 
-        public VoiceRecord(string toAddress, string callbackUrl, string body)
+        public VoiceRecord(string toAddress, string body)
         {
             ToAddress = toAddress;
             Body = body;
-            CallbackUrl = callbackUrl;
         }
 
         //
@@ -24,8 +23,6 @@ namespace Iti.Voice
         public DateTimeOffset? SentUtc { get; set; }
 
         public string ToAddress { get; protected set; }
-
-        public string CallbackUrl { get; protected set; }
 
         public string Body { get; protected set; }
 
