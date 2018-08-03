@@ -14,7 +14,7 @@ namespace Iti.Voice
             _settings = settings;
         }
 
-        public void Send(string toPhoneNumber, string content, string callbackUrl)
+        public void Send(string toPhoneNumber, string callbackUrl)
         {
             TwilioClient.Init(_settings.Sid, _settings.AuthToken);
 

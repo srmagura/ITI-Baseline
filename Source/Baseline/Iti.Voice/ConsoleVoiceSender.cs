@@ -4,7 +4,7 @@ namespace Iti.Voice
 {
     public class ConsoleVoiceSender : IVoiceSender
     {
-        public void Send(string toPhoneNumber, string content, string callbackUrl = null)
+        public void Send(string toPhoneNumber, string content)
         {
             Console.WriteLine($"=== Voice: {toPhoneNumber} ===============================");
             Console.WriteLine($"{content}");

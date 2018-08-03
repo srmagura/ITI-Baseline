@@ -2,6 +2,6 @@
 {
     public interface IVoiceSender
     {
-        void Send(string toPhoneNumber, string content, string callbackUrl = null);
+        void Send(string toPhoneNumber, string content);
     }
 }
