@@ -74,11 +74,11 @@
     <Compile Include="VoiceStatus.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Baseline\Iti.Core\Iti.Core.csproj">
+    <ProjectReference Include="..\Iti.Core\Iti.Core.csproj">
       <Project>{EC19D5E7-FF7C-41EF-9800-5D89BB21BABA}</Project>
       <Name>Iti.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Baseline\Iti.Logging\Iti.Logging.csproj">
+    <ProjectReference Include="..\Iti.Logging\Iti.Logging.csproj">
       <Project>{419F8117-B6F4-4D9E-ACDF-D4E042601994}</Project>
       <Name>Iti.Logging</Name>
     </ProjectReference>

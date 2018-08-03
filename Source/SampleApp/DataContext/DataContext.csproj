@@ -172,7 +172,7 @@
       <Project>{906759AF-D61B-46BA-A181-F3E3F013BADA}</Project>
       <Name>Iti.ValueObjects</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Iti.Voice\Iti.Voice.csproj">
+    <ProjectReference Include="..\..\Baseline\Iti.Voice\Iti.Voice.csproj">
       <Project>{4C357CFA-ADA2-443C-A87E-3F328ECFB53F}</Project>
       <Name>Iti.Voice</Name>
     </ProjectReference>
