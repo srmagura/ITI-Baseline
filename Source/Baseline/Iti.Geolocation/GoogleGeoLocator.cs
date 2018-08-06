@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using Iti.Core.DateTime;
 using Iti.Core.RequestTrace;
 using Iti.Geolocation.GoogleResults;
 using Iti.Logging;
@@ -25,24 +27,37 @@ namespace Iti.Geolocation
 
         public GeoLocation Geocode(Address address, IRequestTrace trace = null)
         {
-            var requestUrl = "https://maps.googleapis.com/maps/api/geocode/json";
+            var requestUrl = "";
+            var responseJson = "";
+            var begin = DateTimeService.UtcNow;
 
-            requestUrl += $"?address={FormatAddressForUrl(address)}&sensor=false&key={_settings.ApiKey}";
-
-            var webClient = new WebClient();
-            var responseJson = webClient.DownloadString(requestUrl);
-
-            trace?.WriteTrace(requestUrl, responseJson);
-
-            var googleResult = JsonConvert.DeserializeObject<GoogleGeoCodeResult>(responseJson);
-
-            if (googleResult.Status != "OK")
+            try
             {
-                LogError(address, googleResult.Status);
-                return InvalidGoogleResult(googleResult.Status);
-            }
+                requestUrl = "https://maps.googleapis.com/maps/api/geocode/json";
 
-            return HandleGoodResult(googleResult, address);
+                requestUrl += $"?address={FormatAddressForUrl(address)}&sensor=false&key={_settings.ApiKey}";
+
+                var webClient = new WebClient();
+                responseJson = webClient.DownloadString(requestUrl);
+
+                var googleResult = JsonConvert.DeserializeObject<GoogleGeoCodeResult>(responseJson);
+
+                if (googleResult.Status != "OK")
+                {
+                    LogError(address, googleResult.Status);
+                    trace?.WriteTrace(begin, requestUrl, "", responseJson);
+                    return InvalidGoogleResult(googleResult.Status);
+                }
+
+                trace?.WriteTrace(begin, requestUrl, "", responseJson);
+                return HandleGoodResult(googleResult, address);
+            }
+            catch (Exception exc)
+            {
+                Log.Error("Error google geo encoding", exc);
+                trace?.WriteTrace(begin, requestUrl, "", responseJson, exc);
+                return InvalidGoogleResult("ERROR");
+            }
         }
 
         private void LogError(Address address, string message)

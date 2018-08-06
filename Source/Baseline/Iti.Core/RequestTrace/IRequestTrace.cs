@@ -1,13 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace Iti.Core.RequestTrace
 {
     public interface IRequestTrace
     {
-        void WriteTrace(string response);
-        void WriteTrace(string request, string response);
+        void WriteTrace(DateTimeOffset dateBeginUtc, string url, string request, string response, Exception exc = null);
     }
 }
