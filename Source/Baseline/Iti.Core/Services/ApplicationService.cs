@@ -9,11 +9,11 @@ namespace Iti.Core.Services
 {
     public abstract class ApplicationService
     {
-        private readonly IAuthContext _baseAuth;
+        protected readonly IAuthContext Authorize;
 
         protected ApplicationService(IAuthContext baseAuth)
         {
-            _baseAuth = baseAuth;
+            Authorize = baseAuth;
 
             if (this is IUserTracking ut)
             {
@@ -23,20 +23,20 @@ namespace Iti.Core.Services
 
         private void TrackUser()
         {
-            if (_baseAuth == null)
+            if (Authorize == null)
                 return;
 
-            if (!_baseAuth.IsAuthenticated)
+            if (!Authorize.IsAuthenticated)
                 return;
 
-            if (_baseAuth.UserId.EqualsIgnoreCase("SYSTEM") || _baseAuth.UserName.EqualsIgnoreCase("SYSTEM"))
+            if (Authorize.UserId.EqualsIgnoreCase("SYSTEM") || Authorize.UserName.EqualsIgnoreCase("SYSTEM"))
                 return;
 
             var tracker = IOC.TryResolve<IUserTracker>();
             if (tracker == null)
                 return;
 
-            var userId = _baseAuth.UserId;
+            var userId = Authorize.UserId;
             var service = this.GetType().Name;
             tracker.OnUserAppServiceAccess(userId, service);
         }

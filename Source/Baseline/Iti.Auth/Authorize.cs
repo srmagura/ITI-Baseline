@@ -1,22 +1,24 @@
 ﻿namespace Iti.Auth
 {
-    public class Authorize
+    public static class AuthContextExtensions
     {
-        public static void AnyUser(IAuthContext auth)
+        public static void AnyUser(this IAuthContext auth)
         {
-            if (auth == null || !auth.IsAuthenticated)
+            if( auth == null || !auth.IsAuthenticated )
                 throw new NotAuthenticatedException();
         }
 
-        public static void Require(bool b)
+        public static void Require(this IAuthContext auth, bool b)
         {
-            if (!b)
+            auth.AnyUser();
+
+            if(!b)
                 throw new NotAuthorizedException();
         }
 
-        public static void Unauthenticated()
+        public static void Unauthenticated(this IAuthContext auth)
         {
-            // do nothing... everyone is authenticated
+            // do nothing
         }
     }
 }

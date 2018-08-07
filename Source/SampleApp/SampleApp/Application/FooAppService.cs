@@ -36,7 +36,7 @@ namespace SampleApp.Application
 
         public FooReferenceDto ReferenceFor(FooId id)
         {
-            Authorize.AnyUser(_auth);
+            Authorize.AnyUser();
 
             try
             {
@@ -81,7 +81,7 @@ namespace SampleApp.Application
 
         public FooDto Get(FooId id)
         {
-            Authorize.AnyUser(_auth);
+            Authorize.AnyUser();
 
             try
             {
@@ -96,7 +96,7 @@ namespace SampleApp.Application
 
         public List<FooDto> GetList()
         {
-            Authorize.AnyUser(_auth);
+            Authorize.AnyUser();
 
             try
             {
