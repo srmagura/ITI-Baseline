@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Authorize.cs" />
+    <Compile Include="AuthContextExtensions.cs" />
     <Compile Include="IAuthContext.cs" />
     <Compile Include="NotAuthenticatedException.cs" />
     <Compile Include="NotAuthorizedException.cs" />
