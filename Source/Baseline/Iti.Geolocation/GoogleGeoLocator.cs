@@ -17,15 +17,17 @@ namespace Iti.Geolocation
         public const string Source = "Google";
 
         private readonly GoogleGeoLocatorSettings _settings;
+        private readonly IRequestTrace _trace;
 
         private GeoLocation InvalidGoogleResult(string status) => new GeoLocation(Source, 0, 0, false, false, status, "ERROR", "");
 
-        public GoogleGeoLocator(GoogleGeoLocatorSettings settings)
+        public GoogleGeoLocator(GoogleGeoLocatorSettings settings, IRequestTrace trace)
         {
             _settings = settings;
+            _trace = trace;
         }
 
-        public GeoLocation Geocode(Address address, IRequestTrace trace = null)
+        public GeoLocation Geocode(Address address)
         {
             var requestUrl = "";
             var responseJson = "";
@@ -45,17 +47,17 @@ namespace Iti.Geolocation
                 if (googleResult.Status != "OK")
                 {
                     LogError(address, googleResult.Status);
-                    trace?.WriteTrace(begin, requestUrl, "", responseJson);
+                    _trace?.WriteTrace(begin, requestUrl, "", responseJson);
                     return InvalidGoogleResult(googleResult.Status);
                 }
 
-                trace?.WriteTrace(begin, requestUrl, "", responseJson);
+                _trace?.WriteTrace(begin, requestUrl, "", responseJson);
                 return HandleGoodResult(googleResult, address);
             }
             catch (Exception exc)
             {
                 Log.Error("Error google geo encoding", exc);
-                trace?.WriteTrace(begin, requestUrl, "", responseJson, exc);
+                _trace?.WriteTrace(begin, requestUrl, "", responseJson, exc);
                 return InvalidGoogleResult("ERROR");
             }
         }

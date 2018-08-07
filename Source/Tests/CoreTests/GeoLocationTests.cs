@@ -43,7 +43,7 @@ namespace CoreTests
             var address = new Address("4034 Winecott Drive", null, "Apex", "NC", "27502");
             address.ConsoleDump();
 
-            var result = geo.Geocode(address, _trace);
+            var result = geo.Geocode(address);
             result.ConsoleDump();
 
             Assert.IsNotNull(result);
@@ -61,7 +61,7 @@ namespace CoreTests
             var address = new Address("9999 Winecott Drive", null, "Apex", "NC", "27502");
             address.ConsoleDump();
 
-            var result = geo.Geocode(address, _trace);
+            var result = geo.Geocode(address);
             result.ConsoleDump();
 
             Assert.IsNotNull(result);
@@ -77,7 +77,7 @@ namespace CoreTests
             var address = new Address("9999 Fooble Drive", null, "Apex", "XX", "27599");
             address.ConsoleDump();
 
-            var result = geo.Geocode(address, _trace);
+            var result = geo.Geocode(address);
             result.ConsoleDump();
 
             Assert.IsNotNull(result);
@@ -93,11 +93,11 @@ namespace CoreTests
             var geo = IOC.Resolve<IGeolocator>();
 
             var address = new Address("4034 Winecott Drive", "", "Apex", "NC", "27502");
-            var result = geo.Geocode(address, _trace);
+            var result = geo.Geocode(address);
             result.ConsoleDump();
 
             address = new Address("x","x","x","WY","x");
-            result = geo.Geocode(address, _trace);
+            result = geo.Geocode(address);
             result.ConsoleDump();
 
             Assert.IsNotNull(result);

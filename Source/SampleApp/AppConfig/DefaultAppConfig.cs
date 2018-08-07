@@ -3,6 +3,7 @@ using DataContext.Repositories;
 using Domain.DomainServices;
 using Iti.Core.Configuration;
 using Iti.Core.DomainEvents;
+using Iti.Core.RequestTrace;
 using Iti.Core.Sequences;
 using Iti.Core.UnitOfWork;
 using Iti.Core.UserTracker;
@@ -42,6 +43,8 @@ namespace AppConfig
             IOC.RegisterType<IUserTrackingDataContext, SampleDataContext>();
 
             IOC.RegisterInstance(new GoogleGeoLocatorSettings() { ApiKey = "AIzaSyCHs9wcZRaJ8IUbLSqk5Aji5gmcrnu8jec" });
+
+            IOC.RegisterType<IRequestTrace, ConsoleRequestTrace>();
 
             ConfigureLogging();
             ConfigureEmail();
