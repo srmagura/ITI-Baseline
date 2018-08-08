@@ -29,7 +29,7 @@ namespace CoreTests
             IOC.RegisterType<ILogWriter, ConsoleLogWriter>();
 
             // TODO:JT:XXX: need an ITI google api key
-            IOC.RegisterInstance(new GoogleGeoLocatorSettings() { ApiKey = "AIzaSyCCQVFpJfK8jH4hVvjAjnx_j1QNcM3QA3s" });
+            IOC.RegisterInstance(new GoogleGeoLocatorSettings() { ApiKey = "AIzaSyCHs9wcZRaJ8IUbLSqk5Aji5gmcrnu8jec" });
         }
 
         [TestMethod]

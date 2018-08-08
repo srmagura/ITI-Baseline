@@ -9,6 +9,7 @@ using Iti.Logging;
 using Iti.Utilities;
 using Iti.ValueObjects;
 using Newtonsoft.Json;
+using TimeZoneConverter;
 
 namespace Iti.Geolocation
 {
@@ -62,9 +63,65 @@ namespace Iti.Geolocation
             }
         }
 
+        public TimeZoneInfo TimezoneFor(GeoLocation location)
+        {
+            if (location.Latitude == null || location.Longitude == null)
+                return null;
+
+            return TimezoneFor(location.Latitude.Value, location.Longitude.Value);
+        }
+
+        public TimeZoneInfo TimezoneFor(decimal latitude, decimal longitude)
+        {
+            var requestUrl = "";
+            var responseJson = "";
+            var begin = DateTimeService.UtcNow;
+
+            try
+            {
+                requestUrl = "https://maps.googleapis.com/maps/api/timezone/json";
+
+                var seconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+
+                requestUrl += $"?location={latitude},{longitude}&timestamp={seconds}&key={_settings.ApiKey}";
+
+                var webClient = new WebClient();
+                responseJson = webClient.DownloadString(requestUrl);
+
+                var googleResult = JsonConvert.DeserializeObject<TimeZoneLookupResult>(responseJson);
+
+                if (googleResult.Status != "OK")
+                {
+                    LogError(latitude, longitude, googleResult.Status);
+                    _trace?.WriteTrace(begin, requestUrl, "", responseJson);
+                    return null;
+                }
+
+                _trace?.WriteTrace(begin, requestUrl, "", responseJson);
+                return ConvertTimeZone(googleResult);
+            }
+            catch (Exception exc)
+            {
+                Log.Error("Error google geo encoding", exc);
+                _trace?.WriteTrace(begin, requestUrl, "", responseJson, exc);
+                return null;
+            }
+        }
+
+        private TimeZoneInfo ConvertTimeZone(TimeZoneLookupResult result)
+        {
+            var winId = TZConvert.IanaToWindows(result.TimeZoneId);
+            return DateTimeService.Lookup(winId);
+        }
+
         private void LogError(Address address, string message)
         {
             Log.Error($"Geo Location error for [{address}]: {message}");
+        }
+
+        private void LogError(decimal lat, decimal lng, string message)
+        {
+            Log.Error($"TimeZone lookup error for [{lat},{lng}]: {message}");
         }
 
         private string FormatAddressForUrl(Address info)

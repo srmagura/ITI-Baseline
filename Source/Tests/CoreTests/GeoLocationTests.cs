@@ -28,7 +28,7 @@ namespace CoreTests
             IOC.RegisterType<ILogWriter, ConsoleLogWriter>();
 
             // TODO:JT:XXX: need an ITI google api key
-            IOC.RegisterInstance(new GoogleGeoLocatorSettings() { ApiKey = "AIzaSyCCQVFpJfK8jH4hVvjAjnx_j1QNcM3QA3s" });
+            IOC.RegisterInstance(new GoogleGeoLocatorSettings() { ApiKey = "AIzaSyCHs9wcZRaJ8IUbLSqk5Aji5gmcrnu8jec" });
 
             _trace = new ConsoleRequestTrace();
         }
@@ -96,13 +96,35 @@ namespace CoreTests
             var result = geo.Geocode(address);
             result.ConsoleDump();
 
-            address = new Address("x","x","x","WY","x");
+            address = new Address("x", "x", "x", "WY", "x");
             result = geo.Geocode(address);
             result.ConsoleDump();
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.IsValid);  // really should be false !?
             Assert.IsTrue(result.IsConfident); // really should be false !?
+        }
+
+        [TestMethod]
+        public void TimeZoneTest()
+        {
+            var geo = IOC.Resolve<IGeolocator>();
+
+            var address = new Address("4034 Winecott Drive", "", "Apex", "NC", "27502");
+            var loc = geo.Geocode(address);
+
+            var tz = geo.TimezoneFor(loc);
+            Assert.IsNotNull(tz);
+            Assert.AreEqual("Eastern Standard Time", tz.Id);
+
+            //
+
+            address = new Address("41325 Tollhouse Rd", "", "Shaver Lake", "CA", "93664");
+            loc = geo.Geocode(address);
+
+            tz = geo.TimezoneFor(loc);
+            Assert.IsNotNull(tz);
+            Assert.AreEqual("Pacific Standard Time", tz.Id);
         }
     }
 }

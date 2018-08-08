@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Iti.Baseline</id>
-    <version>1.1.7</version>
+    <version>1.1.9</version>
     <authors>Interface Technologies, Inc.</authors>
     <owners>Interface Technologies, Inc.</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -16,6 +16,7 @@
 		<dependency id="Autofac" version="4.8.1" />
 		<dependency id="EntityFrameworkCore.DbContextScope" version="1.0.0" />
 		<dependency id="Twilio" version="5.13.3" />
+		<dependency id="TimeZoneConverter" version="2.4.1" />
     </dependencies>
   </metadata>
   <files>
