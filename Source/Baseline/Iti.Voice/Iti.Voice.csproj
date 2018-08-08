@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="ConsoleVoiceSender.cs" />
     <Compile Include="ITwilioVoiceSettings.cs" />
+    <Compile Include="IVoiceMessage.cs" />
     <Compile Include="IVoiceRepository.cs" />
     <Compile Include="IVoiceSender.cs" />
     <Compile Include="NullVoiceSender.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="TwilioVoiceSender.cs" />
     <Compile Include="VoiceJobProcessor.cs" />
     <Compile Include="VoiceJobSettings.cs" />
+    <Compile Include="VoiceMessage.cs" />
     <Compile Include="VoiceRecord.cs" />
     <Compile Include="VoiceStatus.cs" />
   </ItemGroup>
