@@ -54,6 +54,7 @@
     <Compile Include="GoogleResults\Geometry.cs" />
     <Compile Include="GoogleResults\GoogleGeoCodeResult.cs" />
     <Compile Include="GoogleGeoLocatorSettings.cs" />
+    <Compile Include="GoogleResults\TimeZoneLookupResult.cs" />
     <Compile Include="IGeolocator.cs" />
     <Compile Include="GoogleGeoLocator.cs" />
     <Compile Include="GoogleResults\Location.cs" />
