@@ -177,6 +177,7 @@
     <Compile Include="Services\ConsoleUserTracker.cs" />
     <Compile Include="Services\DomainService.cs" />
     <Compile Include="UrlShortener\IUrlShortener.cs" />
+    <Compile Include="UrlShortener\NoOpUrlShortener.cs" />
     <Compile Include="UrlShortener\TinyUrlShortener.cs" />
     <Compile Include="UserTracker\EfUserTracker.cs" />
     <Compile Include="UserTracker\IUserTracker.cs" />
