@@ -1,4 +1,5 @@
-﻿using AppConfig;
+﻿using System;
+using AppConfig;
 using CoreTests.Helpers;
 using Iti.Auth;
 using Iti.Core.DomainEvents;
@@ -125,6 +126,20 @@ namespace CoreTests
             tz = geo.TimezoneFor(loc);
             Assert.IsNotNull(tz);
             Assert.AreEqual("Pacific Standard Time", tz.Id);
+        }
+
+        [TestMethod]
+        public void DistanceTest()
+        {
+            var geo = IOC.Resolve<IGeolocator>();
+
+            var from = new Address("4034 Winecott Drive", "", "Apex", "NC", "27502");
+            var to = new Address("2435 Lynn Road", "Suite 206", "Raleigh", "NC", "27612");
+
+            var dist = geo.GetDrivingDistance(from, to);
+            Console.WriteLine($"DISTANCE: {dist}");
+
+            Assert.IsTrue(dist > 24 && dist < 25);
         }
     }
 }

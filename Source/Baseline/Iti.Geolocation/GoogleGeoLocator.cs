@@ -108,6 +108,43 @@ namespace Iti.Geolocation
             }
         }
 
+        public double GetDrivingDistance(Address from, Address to)
+        {
+            // USES: GOOGLE DIRECTIONS API
+
+            var requestUrl = "";
+            var responseJson = "";
+            var begin = DateTimeService.UtcNow;
+
+            try
+            {
+                requestUrl = "https://maps.googleapis.com/maps/api/directions/json";
+
+                requestUrl += $"?origin={FormatAddressForUrl(from)}&destination={FormatAddressForUrl(to)}&key={_settings.ApiKey}";
+
+                var webClient = new WebClient();
+                responseJson = webClient.DownloadString(requestUrl);
+
+                var googleResult = JsonConvert.DeserializeObject<GoogleDirectionsResult>(responseJson);
+
+                if (googleResult.Status != "OK")
+                {
+                    LogError(from, to, googleResult.Status);
+                    _trace?.WriteTrace(begin, requestUrl, "", responseJson);
+                    return 0;
+                }
+
+                _trace?.WriteTrace(begin, requestUrl, "", responseJson);
+                return googleResult.DistanceInMiles;
+            }
+            catch (Exception exc)
+            {
+                Log.Error("Error google distance", exc);
+                _trace?.WriteTrace(begin, requestUrl, "", responseJson, exc);
+                return 0;
+            }
+        }
+
         private TimeZoneInfo ConvertTimeZone(TimeZoneLookupResult result)
         {
             var winId = TZConvert.IanaToWindows(result.TimeZoneId);
@@ -117,6 +154,11 @@ namespace Iti.Geolocation
         private void LogError(Address address, string message)
         {
             Log.Error($"Geo Location error for [{address}]: {message}");
+        }
+
+        private void LogError(Address from, Address to, string message)
+        {
+            Log.Error($"Geo Location error for [{from}] to [{to}]: {message}");
         }
 
         private void LogError(decimal lat, decimal lng, string message)
