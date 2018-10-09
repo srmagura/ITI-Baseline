@@ -21,8 +21,11 @@ namespace Iti.Email
 
         public override void Run()
         {
-            SendEmail();
-            Cleanup();
+            using (UnitOfWork.Begin())
+            {
+                SendEmail();
+                Cleanup();
+            }
         }
 
         private void SendEmail()

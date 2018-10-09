@@ -15,6 +15,7 @@ namespace Iti.Logging
             string hostname, string process, string thread, 
             string message, Exception exception = null)
         {
+            WhenUtc = DateTimeOffset.UtcNow;
             Level = level.MaxLength(16);
             UserId = userId.MaxLength(128);
             UserName = userName.MaxLength(128);
