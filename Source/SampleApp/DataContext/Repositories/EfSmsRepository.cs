@@ -27,7 +27,7 @@ namespace DataContext.Repositories
 
                 var pending = db.SmsRecords
                     .Where(p => p.Status == SmsStatus.Pending
-                                && (p.NextRetry == null || p.NextRetry <= now))
+                                && (p.NextRetryUtc == null || p.NextRetryUtc <= now))
                     .ToList();
 
                 foreach (var item in pending)

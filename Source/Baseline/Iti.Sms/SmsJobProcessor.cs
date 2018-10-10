@@ -66,7 +66,7 @@ namespace Iti.Sms
                 else
                 {
                     rec.RetryCount++;
-                    rec.NextRetry = DateTimeService.UtcNow.AddMinutes(_settings.SmsRetryMinutes);
+                    rec.NextRetryUtc = DateTimeService.UtcNow.AddMinutes(_settings.SmsRetryMinutes);
                 }
             }
         }

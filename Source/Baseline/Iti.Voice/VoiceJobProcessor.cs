@@ -66,7 +66,7 @@ namespace Iti.Voice
                 else
                 {
                     rec.RetryCount++;
-                    rec.NextRetry = DateTimeService.UtcNow.AddMinutes(_settings.VoiceRetryMinutes);
+                    rec.NextRetryUtc = DateTimeService.UtcNow.AddMinutes(_settings.VoiceRetryMinutes);
                 }
             }
         }

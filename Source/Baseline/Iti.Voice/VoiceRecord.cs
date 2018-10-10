@@ -27,6 +27,6 @@ namespace Iti.Voice
         public string Body { get; protected set; }
 
         public int RetryCount { get; set; }
-        public DateTimeOffset? NextRetry { get; set; }
+        public DateTimeOffset? NextRetryUtc { get; set; }
     }
 }
