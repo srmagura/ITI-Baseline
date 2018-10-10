@@ -24,11 +24,11 @@ namespace DataContext.Repositories
         {
             using (var db = new SampleDataContext())
             {
-                var now = DateTimeService.UtcNow;
+                var utcNow = DateTimeService.UtcNow;
 
                 var pending = db.EmailRecords
                     .Where(p => p.Status == EmailStatus.Pending
-                                && (p.NextRetry == null || p.NextRetry <= now))
+                                && (p.NextRetryUtc == null || p.NextRetryUtc <= utcNow))
                     .OrderBy(p => p.DateCreatedUtc)
                     .ToList();
 

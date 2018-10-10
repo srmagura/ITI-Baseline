@@ -142,6 +142,10 @@
     <Compile Include="Migrations\20180803183253_Voice.designer.cs">
       <DependentUpon>20180803183253_Voice.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20181010122754_emailRetryUtc.cs" />
+    <Compile Include="Migrations\20181010122754_emailRetryUtc.designer.cs">
+      <DependentUpon>20181010122754_emailRetryUtc.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\SampleDataContextModelSnapshot.cs" />
     <Compile Include="Repositories\EfVoiceRepository.cs" />
     <Compile Include="SampleDataContext.cs" />

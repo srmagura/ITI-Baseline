@@ -1,6 +1,8 @@
-﻿namespace AppConfig
+﻿using Iti.Email;
+
+namespace AppConfig
 {
-    public class SmtpSettings
+    public class SmtpSettings : ISmtpSettings
     {
         public string FromEmailAddress { get; set; } = "atlas@iticentral.com";
         public string FromDisplayName { get; set; } = "Support - Interface Technologies, Inc.";

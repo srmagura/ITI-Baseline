@@ -73,7 +73,7 @@ namespace Iti.Email
                 else
                 {
                     rec.RetryCount++;
-                    rec.NextRetry = DateTimeService.UtcNow.AddMinutes(_settings.EmailRetryMinutes);
+                    rec.NextRetryUtc = DateTimeService.UtcNow.AddMinutes(_settings.EmailRetryMinutes);
                 }
             }
         }
