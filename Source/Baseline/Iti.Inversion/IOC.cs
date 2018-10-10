@@ -73,5 +73,14 @@ namespace Iti.Inversion
             ContainerBuilder.RegisterInstance(instance);
         }
 
+        public static void RegisterInstance<TInt, T>(T instance)
+            where T : TInt 
+            where TInt : class
+        {
+            if (_container != null)
+                throw new Exception("Container has already been built. You shouldn't register any more types.");
+
+            ContainerBuilder.RegisterInstance<TInt>(instance);
+        }
     }
 }
