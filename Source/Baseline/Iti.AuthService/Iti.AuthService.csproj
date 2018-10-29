@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E42B7494-EB5F-4E1F-ACBC-34AC070EAE99}</ProjectGuid>
+    <ProjectGuid>{C255C301-87D5-4405-9702-9002E869A935}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Iti.AuthService</RootNamespace>
     <AssemblyName>Iti.AuthService</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -50,36 +51,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Iti.Auth\Iti.Auth.csproj">
-      <Project>{99CBDC91-57D5-4A07-9697-73153CF05144}</Project>
-      <Name>Iti.Auth</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Iti.Core\Iti.Core.csproj">
-      <Project>{EC19D5E7-FF7C-41EF-9800-5D89BB21BABA}</Project>
-      <Name>Iti.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Iti.Email\Iti.Email.csproj">
-      <Project>{0F87B3FC-D4E1-4BE2-95A4-61AE490484F1}</Project>
-      <Name>Iti.Email</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Iti.Exceptions\Iti.Exceptions.csproj">
-      <Project>{1F870394-F389-4BD4-8BD7-A95355622F59}</Project>
+      <Project>{FAB96EE7-B34F-47FC-AF96-9CC31AC7F8BC}</Project>
       <Name>Iti.Exceptions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Iti.Logging\Iti.Logging.csproj">
-      <Project>{419F8117-B6F4-4D9E-ACDF-D4E042601994}</Project>
-      <Name>Iti.Logging</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Iti.Passwords\Iti.Passwords.csproj">
-      <Project>{11E9369D-4328-4A69-B64D-B5F28423C207}</Project>
-      <Name>Iti.Passwords</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Iti.Utilities\Iti.Utilities.csproj">
-      <Project>{5468D93C-5AE7-4041-A6AE-B881CD1FEFE4}</Project>
+      <Project>{C1F67BFC-F215-45C6-9CEE-9C20F15E87D0}</Project>
       <Name>Iti.Utilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Iti.ValueObjects\Iti.ValueObjects.csproj">
-      <Project>{906759AF-D61B-46BA-A181-F3E3F013BADA}</Project>
+      <Project>{4B0910BC-97DC-48E8-AC13-EDDF285951EA}</Project>
       <Name>Iti.ValueObjects</Name>
     </ProjectReference>
   </ItemGroup>

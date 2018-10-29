@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{906759AF-D61B-46BA-A181-F3E3F013BADA}</ProjectGuid>
+    <ProjectGuid>{4B0910BC-97DC-48E8-AC13-EDDF285951EA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Iti.ValueObjects</RootNamespace>
     <AssemblyName>Iti.ValueObjects</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -50,24 +51,20 @@
   <ItemGroup>
     <Compile Include="Address.cs" />
     <Compile Include="DefaultValueObjectMap.cs" />
-    <Compile Include="FieldLengths.cs" />
     <Compile Include="EmailAddress.cs" />
+    <Compile Include="FieldLengths.cs" />
     <Compile Include="GeoLocation.cs" />
     <Compile Include="PersonName.cs" />
     <Compile Include="PhoneNumber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Iti.Core\Iti.Core.csproj">
-      <Project>{EC19D5E7-FF7C-41EF-9800-5D89BB21BABA}</Project>
-      <Name>Iti.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Iti.Passwords\Iti.Passwords.csproj">
-      <Project>{11E9369D-4328-4A69-B64D-B5F28423C207}</Project>
+      <Project>{34AA24F5-8836-4253-8B78-415BD293A820}</Project>
       <Name>Iti.Passwords</Name>
     </ProjectReference>
     <ProjectReference Include="..\Iti.Utilities\Iti.Utilities.csproj">
-      <Project>{5468D93C-5AE7-4041-A6AE-B881CD1FEFE4}</Project>
+      <Project>{C1F67BFC-F215-45C6-9CEE-9C20F15E87D0}</Project>
       <Name>Iti.Utilities</Name>
     </ProjectReference>
   </ItemGroup>

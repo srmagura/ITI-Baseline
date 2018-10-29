@@ -4,13 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{99CBDC91-57D5-4A07-9697-73153CF05144}</ProjectGuid>
+    <ProjectGuid>{57FEFE74-6578-4B99-A416-AAE694F37ADC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Iti.Auth</RootNamespace>
     <AssemblyName>Iti.Auth</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Iti.Exceptions\Iti.Exceptions.csproj">
-      <Project>{1F870394-F389-4BD4-8BD7-A95355622F59}</Project>
+      <Project>{FAB96EE7-B34F-47FC-AF96-9CC31AC7F8BC}</Project>
       <Name>Iti.Exceptions</Name>
     </ProjectReference>
   </ItemGroup>
