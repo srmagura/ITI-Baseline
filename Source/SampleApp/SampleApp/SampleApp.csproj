@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{87796BC1-1466-44D7-8F5E-04EEC8832860}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SampleApp</RootNamespace>
+    <AssemblyName>SampleApp</AssemblyName>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Application\Dto\BarDto.cs" />
+    <Compile Include="Application\Dto\FooDto.cs" />
+    <Compile Include="Application\Dto\FooJunkDto.cs" />
+    <Compile Include="Application\Dto\FooReferenceDto.cs" />
+    <Compile Include="Application\Dto\FooSummaryDto.cs" />
+    <Compile Include="Application\FooAppService.cs" />
+    <Compile Include="Application\Interfaces\IFooAppService.cs" />
+    <Compile Include="Application\Interfaces\IFooQueries.cs" />
+    <Compile Include="Application\Interfaces\IFooRepository.cs" />
+    <Compile Include="Auth\AppPermissions.cs" />
+    <Compile Include="Auth\IAppAuthContext.cs" />
+    <Compile Include="Auth\IAppPermissions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Baseline\Iti.Auth\Iti.Auth.csproj">
+      <Project>{57FEFE74-6578-4B99-A416-AAE694F37ADC}</Project>
+      <Name>Iti.Auth</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Baseline\Iti.Core\Iti.Core.csproj">
+      <Project>{4035A0B1-F751-48BB-B096-0CE88F428176}</Project>
+      <Name>Iti.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Baseline\Iti.Inversion\Iti.Inversion.csproj">
+      <Project>{AEA5A010-E8FE-42F3-9C4D-07EF380AFB65}</Project>
+      <Name>Iti.Inversion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Baseline\Iti.ValueObjects\Iti.ValueObjects.csproj">
+      <Project>{4B0910BC-97DC-48E8-AC13-EDDF285951EA}</Project>
+      <Name>Iti.ValueObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <Project>{AD2B3E74-E89B-4B0A-AABC-9BA5A115FB37}</Project>
+      <Name>Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
