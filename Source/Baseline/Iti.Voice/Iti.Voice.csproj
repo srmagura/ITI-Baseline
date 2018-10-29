@@ -73,6 +73,10 @@
     <Compile Include="VoiceStatus.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Iti.Core\Iti.Core.csproj">
+      <Project>{4035A0B1-F751-48BB-B096-0CE88F428176}</Project>
+      <Name>Iti.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Iti.Logging\Iti.Logging.csproj">
       <Project>{13D91588-2449-434B-9FA8-EE5508F180B0}</Project>
       <Name>Iti.Logging</Name>

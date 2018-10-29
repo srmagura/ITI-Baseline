@@ -59,6 +59,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Iti.Core\Iti.Core.csproj">
+      <Project>{4035A0B1-F751-48BB-B096-0CE88F428176}</Project>
+      <Name>Iti.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Iti.Passwords\Iti.Passwords.csproj">
       <Project>{34AA24F5-8836-4253-8B78-415BD293A820}</Project>
       <Name>Iti.Passwords</Name>

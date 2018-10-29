@@ -1,6 +1,4 @@
-﻿using Iti.Exceptions;
-
-namespace Iti.Core.Validation
+﻿namespace Iti.Core.Validation
 {
     public static class Require
     {

@@ -51,6 +51,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Iti.Core\Iti.Core.csproj">
+      <Project>{4035A0B1-F751-48BB-B096-0CE88F428176}</Project>
+      <Name>Iti.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Iti.Exceptions\Iti.Exceptions.csproj">
       <Project>{FAB96EE7-B34F-47FC-AF96-9CC31AC7F8BC}</Project>
       <Name>Iti.Exceptions</Name>
