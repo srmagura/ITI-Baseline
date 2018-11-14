@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Iti.Core.Validation;
 using Iti.Core.ValueObjects;
 using Iti.Utilities;
 
@@ -10,6 +11,8 @@ namespace Iti.Passwords
 
         internal EncodedPassword(string encodedValue)
         {
+            Require.NotEmpty(encodedValue, "Invalid password (empty)");
+
             Value = encodedValue;
         }
 

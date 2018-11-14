@@ -13,7 +13,7 @@ namespace Iti.ValueObjects
         {
             value = value?.DigitsOnly();
 
-            Require.NotNull(value.IsValidPhone(), "Invalid phone number");
+            Require.IsTrue(value.IsValidPhone(), "Invalid phone number");
             Value = value.MaxLength(FieldLengths.PhoneNumber.Value);
         }
 
