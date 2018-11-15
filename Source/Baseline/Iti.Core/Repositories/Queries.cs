@@ -9,7 +9,8 @@ namespace Iti.Core.Repositories
         {
             get
             {
-                var db = new TDbContext();
+                // var db = new TDbContext();
+                var db = UnitOfWork.UnitOfWork.Current<TDbContext>();
                 db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
                 return db;
             }
