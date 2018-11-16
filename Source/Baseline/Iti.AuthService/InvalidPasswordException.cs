@@ -5,11 +5,11 @@ namespace Iti.AuthService
 {
     public class InvalidPasswordException : DomainException
     {
-        public InvalidPasswordException() : base("Invalid password")
+        public InvalidPasswordException() : base("Invalid password", false)
         {
         }
 
-        public InvalidPasswordException(Exception innerException) : base("Invalid password", innerException)
+        public InvalidPasswordException(Exception innerException) : base("Invalid password", innerException, false)
         {
         }
     }

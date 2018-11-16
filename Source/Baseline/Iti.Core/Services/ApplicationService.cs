@@ -1,6 +1,8 @@
 ﻿using System;
 using Iti.Auth;
 using Iti.Core.UserTracker;
+using Iti.Core.Validation;
+using Iti.Exceptions;
 using Iti.Inversion;
 using Iti.Logging;
 using Iti.Utilities;
@@ -18,6 +20,66 @@ namespace Iti.Core.Services
             if (this is IUserTracking ut)
             {
                 TrackUser();
+            }
+        }
+
+        protected T Command<T>(Action authorize, Func<T> exec)
+        {
+            try
+            {
+                using (var uow = UnitOfWork.UnitOfWork.Begin())
+                {
+                    authorize();
+
+                    var result = exec();
+
+                    uow.Commit();
+
+                    return result;
+                }
+            }
+            catch (Exception exc)
+            {
+                Handle(exc);
+                throw;
+            }
+        }
+
+        protected void Command(Action authorize, Action exec)
+        {
+            try
+            {
+                using (var uow = UnitOfWork.UnitOfWork.Begin())
+                {
+                    authorize();
+
+                    exec();
+
+                    uow.Commit();
+                }
+            }
+            catch (Exception exc)
+            {
+                Handle(exc);
+                throw;
+            }
+        }
+
+        protected T Query<T>(Action authorize, Func<T> exec)
+        {
+            try
+            {
+                using (UnitOfWork.UnitOfWork.Begin())
+                {
+                    authorize();
+
+                    return exec();
+                }
+            }
+            catch (Exception exc)
+            {
+                Handle(exc);
+                throw;
             }
         }
 
@@ -43,6 +105,12 @@ namespace Iti.Core.Services
 
         protected void Handle(Exception exc)
         {
+            if (exc is DomainException dexc)
+            {
+                if (!dexc.AppServiceShouldLog)
+                    return;
+            }
+
             // by default, we log it... if we ever need more (like admin alerts) we'll address then
             Log.Error("Unhandled application exception", exc);
         }

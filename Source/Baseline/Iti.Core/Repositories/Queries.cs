@@ -5,14 +5,19 @@ namespace Iti.Core.Repositories
     public abstract class Queries<TDbContext>
         where TDbContext : DbContext, new()
     {
+        private TDbContext _db = null;
+
         protected TDbContext Context
         {
             get
             {
-                // var db = new TDbContext();
-                var db = UnitOfWork.UnitOfWork.Current<TDbContext>();
-                db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
-                return db;
+                if (_db == null)
+                {
+                    _db = new TDbContext();
+                    _db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+                }
+
+                return _db;
             }
         }
     }

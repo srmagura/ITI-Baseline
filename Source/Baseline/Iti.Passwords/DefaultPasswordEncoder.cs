@@ -41,7 +41,7 @@ namespace Iti.Passwords
             {
                 var enc = encodedPassword?.Value;
                 if (enc == null)
-                    throw new DomainException("Invalid Encoded Password type");
+                    throw new DomainException("Invalid Encoded Password type", true);
 
                 // Extract the parameters from the hash
                 char[] delimiter = { ':' };
