@@ -31,7 +31,15 @@ namespace Iti.Core.Audit
                         throw new Exception("IAuditDataContext not registered (IOC)");
 
                     var q = db.AuditEntries
-                        .Where(p => p.Aggregate == entityName && p.AggregateId == entityId);
+                        // .Where(p => p.Aggregate == entityName && p.AggregateId == entityId);
+                        .Where(p => (p.Entity == entityName
+                                     && p.EntityId == entityId
+                                    )
+                                    || (p.Aggregate == entityName
+                                        && p.AggregateId == entityId
+                                        && p.AggregateId != p.EntityId
+                                        && (p.Event == "Added" || p.Event == "Deleted" || p.Event == "Removed")
+                                    ));
 
                     var list = q
                         .OrderByDescending(p => p.WhenUtc)
