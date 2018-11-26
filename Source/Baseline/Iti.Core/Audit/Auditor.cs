@@ -20,6 +20,25 @@ namespace Iti.Core.Audit
 
     public static class Auditor
     {
+        private static readonly Dictionary<string, List<string>> _maskedFields = new Dictionary<string, List<string>>();
+
+        public static void MaskField(string entityName, string fieldName)
+        {
+            if (!entityName.HasValue() || !fieldName.HasValue())
+                return;
+
+            entityName = entityName.ToLower();
+            fieldName = fieldName.ToLower();
+
+            if (!_maskedFields.ContainsKey(entityName))
+            {
+                _maskedFields[entityName] = new List<string>();
+            }
+
+            if (!_maskedFields[entityName].Contains(fieldName))
+                _maskedFields[entityName].Add(fieldName);
+        }
+
         internal static void Process(IAuditDataContext db, ChangeTracker changeTracker)
         {
             if (db == null)
@@ -62,7 +81,7 @@ namespace Iti.Core.Audit
                             continue;
 
                         var changeType = entry.State.ToString();
-                        var changes = GetChangeDetails(entry);
+                        var changes = GetChangeDetails(auditEntity.AuditEntityName, entry);
 
                         var aggregateName = auditEntity.AuditEntityName;
                         var aggregateId = auditEntity.AuditEntityId;
@@ -108,7 +127,7 @@ namespace Iti.Core.Audit
                    || entry.TargetEntry.State == EntityState.Deleted;
         }
 
-        private static string GetChangeDetails(EntityEntry entry)
+        private static string GetChangeDetails(string entityName, EntityEntry entry)
         {
             var state = entry.State;
 
@@ -128,7 +147,7 @@ namespace Iti.Core.Audit
             if (state == EntityState.Added || state == EntityState.Deleted)
                 toValues = null;
 
-            AddNestedFields(auditProperties, state, "", fromValues, toValues);
+            AddNestedFields(entityName, auditProperties, state, "", fromValues, toValues);
 
             //
 
@@ -136,7 +155,7 @@ namespace Iti.Core.Audit
             {
                 if (rf?.TargetEntry?.Entity is IValueObject vobj)
                 {
-                    AddValueObject(rf, auditProperties);
+                    AddValueObject(entityName, rf, auditProperties);
                 }
             }
 
@@ -145,7 +164,7 @@ namespace Iti.Core.Audit
             return auditResult;
         }
 
-        private static void AddValueObject(ReferenceEntry rf, List<AuditProperty> auditProperties)
+        private static void AddValueObject(string entityName, ReferenceEntry rf, List<AuditProperty> auditProperties)
         {
             var state = rf.TargetEntry.State;
 
@@ -155,10 +174,10 @@ namespace Iti.Core.Audit
             if (state == EntityState.Added || state == EntityState.Deleted)
                 toValues = null;
 
-            AddNestedFields(auditProperties, state, rf.Metadata.Name, fromValues, toValues);
+            AddNestedFields(entityName, auditProperties, state, rf.Metadata.Name, fromValues, toValues);
         }
 
-        private static void AddNestedFields(List<AuditProperty> auditProperties, EntityState state, string prefix, 
+        private static void AddNestedFields(string entityName, List<AuditProperty> auditProperties, EntityState state, string prefix,
             PropertyValues fromValues, PropertyValues toValues)
         {
             foreach (var prop in fromValues.Properties)
@@ -177,19 +196,19 @@ namespace Iti.Core.Audit
                 if (fromValue is PropertyValues)
                 {
                     // TODO: don't think this ever gets called with EFCore2
-                    AddNestedFields(auditProperties, state, $"{prefix}.{fieldName}", 
+                    AddNestedFields(entityName, auditProperties, state, $"{prefix}.{fieldName}",
                         fromValue as PropertyValues, toValue as PropertyValues);
                 }
                 else
                 {
-                    var changeInfo = AddField(state, $"{prefix}.{fieldName}", fromValue, toValue);
+                    var changeInfo = AddField(entityName, state, $"{prefix}.{fieldName}", fromValue, toValue);
                     if (changeInfo != null)
                         auditProperties.Add(changeInfo);
                 }
             }
         }
 
-        private static AuditProperty AddField(EntityState state, string fieldName, object fromValue, object toValue)
+        private static AuditProperty AddField(string entityName, EntityState state, string fieldName, object fromValue, object toValue)
         {
             if (fromValue == null && toValue == null)
                 return null;
@@ -202,6 +221,22 @@ namespace Iti.Core.Audit
                 var temp = fromValue;
                 fromValue = toValue;
                 toValue = temp;
+            }
+
+            var en = entityName.ToLower();
+            if (_maskedFields.ContainsKey(en))
+            {
+                var maskedFields = _maskedFields[en];
+                var fn = fieldName.ToLower();
+                while (fn.StartsWith("."))
+                    fn = fn.Substring(1);
+                if (maskedFields.Any(p => p == fn))
+                {
+                    if (fromValue != null)
+                        fromValue = "(hidden)";
+                    if (toValue != null)
+                        toValue = "(hidden)";
+                }
             }
 
             return new AuditProperty(fieldName, fromValue?.ToString(), toValue?.ToString());

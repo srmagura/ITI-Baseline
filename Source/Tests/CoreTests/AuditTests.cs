@@ -7,6 +7,7 @@ using AutoMapper;
 using CoreTests.Helpers;
 using DataContext;
 using Iti.Auth;
+using Iti.Core.Audit;
 using Iti.Core.DomainEvents;
 using Iti.Core.Entites;
 using Iti.Inversion;
@@ -31,6 +32,8 @@ namespace CoreTests
             IOC.RegisterType<IAppAuthContext, TestAuthContext>();
 
             IOC.RegisterType<ILogWriter, ConsoleLogWriter>();
+
+            Auditor.MaskField("foo", "someNumber");
         }
 
         [TestMethod]
@@ -68,6 +71,21 @@ namespace CoreTests
                 };
 
                 db.Foos.Add(foo);
+                db.SaveChanges();
+
+                var nextAuditId = DumpAudit(fooId, auditId);
+                Assert.AreNotEqual(auditId, nextAuditId);
+                auditId = nextAuditId;
+            }
+
+            Section("MODIFY");
+            using (var db = new SampleDataContext())
+            {
+                var foo = db.Foos.FirstOrDefault(p => p.Id == fooId);
+                Assert.IsNotNull(foo);
+
+                foo.SomeNumber = 1234;
+
                 db.SaveChanges();
 
                 var nextAuditId = DumpAudit(fooId, auditId);
