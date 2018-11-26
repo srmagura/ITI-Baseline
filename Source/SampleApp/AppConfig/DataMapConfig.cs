@@ -54,14 +54,14 @@ namespace AppConfig
                 .ConvertUsing(s => ToList(s, int.Parse));
 
             cfg.CreateMap<DbFoo, FooReferenceDto>()
-                .ProjectUsing(p => new FooReferenceDto
+                .ConvertUsing(p => new FooReferenceDto
                 {
                     Id = new FooId(p.Id),
                     Name = p.Name,
                 });
 
             cfg.CreateMap<DbFoo, FooSummaryDto>()
-                .ProjectUsing(p => new FooSummaryDto
+                .ConvertUsing(p => new FooSummaryDto
                 {
                     Id = new FooId(p.Id),
                     Name = p.Name,
@@ -72,7 +72,7 @@ namespace AppConfig
 
             cfg.CreateMap<DbFoo, FooDto>()
                 .ForMember(p => p.SomeInts, opt => opt.MapFrom(src => src.SomeInts.Split(',').Select(int.Parse).ToList()))
-                .ProjectUsing(foo => new FooDto
+                .ConvertUsing(foo => new FooDto
                 {
                     Id = new FooId(foo.Id),
                     Name = foo.Name,

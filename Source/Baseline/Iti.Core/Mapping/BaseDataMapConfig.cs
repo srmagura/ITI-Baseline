@@ -260,13 +260,13 @@ namespace Iti.Core.Mapping
             where TIdent : Identity, new()
         {
             cfg.CreateMap<TIdent, Guid?>()
-                .ProjectUsing(p => p == null ? (Guid?)null : p.Guid);
+                .ConvertUsing(p => p == null ? (Guid?)null : p.Guid);
             cfg.CreateMap<Guid?, TIdent>()
-                .ProjectUsing(p => p == null ? null : constr(p.Value));
+                .ConvertUsing(p => p == null ? null : constr(p.Value));
             cfg.CreateMap<TIdent, Guid>()
-                .ProjectUsing(p => p.Guid);
+                .ConvertUsing(p => p.Guid);
             cfg.CreateMap<Guid, TIdent>()
-                .ProjectUsing(p => constr(p));
+                .ConvertUsing(p => constr(p));
         }
     }
 }
