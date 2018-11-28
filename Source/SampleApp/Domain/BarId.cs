@@ -8,5 +8,6 @@ namespace Domain
     {
         public BarId() { }
         public BarId(Guid guid) : base(guid) { }
+        public BarId(Guid? guid) : base(guid ?? default(Guid)) { }
     }
 }

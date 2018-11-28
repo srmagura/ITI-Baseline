@@ -7,5 +7,6 @@ namespace Domain
     {
         public FooId() { }
         public FooId(Guid guid) : base(guid) { }
+        public FooId(Guid? guid) : base(guid ?? default(Guid)) { }
     }
 }
