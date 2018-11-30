@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using EntityFrameworkCore.DbContextScope;
+using Iti.Utilities;
 
 namespace Iti.Core.UnitOfWork
 {
@@ -40,8 +41,11 @@ namespace Iti.Core.UnitOfWork
             var events = dec.Events.ToList();
             dec.Clear();
 
+            if (!events.HasItems())
+                return;
+
             var task = Task.Run(() => DomainEvents.DomainEvents.HandleEvents(events));
-            if (waitForDomainEvents)
+            if (waitForDomainEvents || UnitOfWork.WaitForDomainEvents)
                 task.Wait();
         }
     }

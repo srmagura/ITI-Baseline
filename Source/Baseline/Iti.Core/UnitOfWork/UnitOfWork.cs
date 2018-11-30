@@ -7,6 +7,8 @@ namespace Iti.Core.UnitOfWork
     {
         private static readonly DbContextScopeFactory ScopeFactory = new DbContextScopeFactory();
 
+        public static bool WaitForDomainEvents = false;
+
         public static IUnitOfWork Begin()
         {
             return new DbContextScopeUnitOfWork(ScopeFactory.Create(DbContextScopeOption.ForceCreateNew));
