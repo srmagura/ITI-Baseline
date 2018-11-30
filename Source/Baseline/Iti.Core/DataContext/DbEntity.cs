@@ -19,6 +19,10 @@ namespace Iti.Core.DataContext
             where TDb : DbEntity
         {
             var dbe = Mapper.Map<TDb>(e);
+
+            if (dbe != null)
+                dbe.MappedEntity = e;
+
             return dbe;
         }
 

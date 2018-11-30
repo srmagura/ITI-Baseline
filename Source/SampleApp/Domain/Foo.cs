@@ -12,7 +12,7 @@ namespace Domain
         [Obsolete("Serialization use only")]
         protected Foo() { }
 
-        internal Foo(string name, List<Bar> bars, List<int> someInts, long someNumber)
+        public Foo(string name, List<Bar> bars, List<int> someInts, long someNumber)
         {
             Name = name;
             _bars = bars;
