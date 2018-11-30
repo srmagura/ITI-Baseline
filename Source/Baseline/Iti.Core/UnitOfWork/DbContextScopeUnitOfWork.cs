@@ -13,11 +13,11 @@ namespace Iti.Core.UnitOfWork
             _dbContextScope = dbContextScope;
         }
 
-        public int Commit()
+        public int Commit(bool waitForDomainEvents = false)
         {
             var result = _dbContextScope.SaveChanges();
 
-            ProcessDomainEvents();
+            ProcessDomainEvents(waitForDomainEvents);
 
             return result;
         }
@@ -27,7 +27,7 @@ namespace Iti.Core.UnitOfWork
             _dbContextScope?.Dispose();
         }
 
-        private void ProcessDomainEvents()
+        private void ProcessDomainEvents(bool waitForDomainEvents)
         {
             var dec = DomainEvents.DomainEvents.DomainEventContext;
             if (dec == null)
@@ -40,7 +40,9 @@ namespace Iti.Core.UnitOfWork
             var events = dec.Events.ToList();
             dec.Clear();
 
-            Task.Run(() => DomainEvents.DomainEvents.HandleEvents(events));
+            var task = Task.Run(() => DomainEvents.DomainEvents.HandleEvents(events));
+            if (waitForDomainEvents)
+                task.Wait();
         }
     }
 }

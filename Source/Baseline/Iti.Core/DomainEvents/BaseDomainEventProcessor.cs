@@ -23,7 +23,6 @@ namespace Iti.Core.DomainEvents
                 {
                     CallHandler(ev, handlerType);
                 }
-
             }
             catch (Exception exc)
             {
