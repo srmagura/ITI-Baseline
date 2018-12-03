@@ -151,6 +151,7 @@
     <Compile Include="DomainEvents\IDomainEventHandler.cs" />
     <Compile Include="DomainEvents\IDomainEventProcessor.cs" />
     <Compile Include="DomainEvents\SingleTaskDomainEventProcessor.cs" />
+    <Compile Include="DTOs\DtoExtensions.cs" />
     <Compile Include="DTOs\IDto.cs" />
     <Compile Include="Entites\AggregateRoot.cs" />
     <Compile Include="Entites\Entity.cs" />

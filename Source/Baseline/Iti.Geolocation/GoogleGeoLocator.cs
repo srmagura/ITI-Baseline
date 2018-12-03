@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Web;
 using Iti.Core.DateTime;
 using Iti.Core.RequestTrace;
 using Iti.Geolocation.GoogleResults;
@@ -166,12 +167,19 @@ namespace Iti.Geolocation
             Log.Error($"TimeZone lookup error for [{lat},{lng}]: {message}");
         }
 
-        private string FormatAddressForUrl(Address info)
+        public string FormatAddressForUrl(Address info)
         {
-            var lines = new List<string> { info.Line1, info.City, info.State, info.Zip }
+            var zip = info.Zip?.Trim() ?? "";
+            if (zip.Length > 5)
+                zip = zip.Substring(0, 5);
+
+            var lines = new List<string> { info.Line1, info.City, info.State, zip }
                 .Where(s => !string.IsNullOrEmpty(s))
-                .Select(s => s.Replace(" ", "+"));
-            return string.Join(",+", lines);
+                ;
+            var joined = string.Join(", ", lines);
+
+            var urlS = HttpUtility.UrlEncode(joined);
+            return urlS;
         }
 
         private GeoLocation HandleGoodResult(GoogleGeoCodeResult result, Address address)

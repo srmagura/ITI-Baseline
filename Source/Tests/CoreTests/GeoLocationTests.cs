@@ -37,6 +37,15 @@ namespace CoreTests
         private static IRequestTrace _trace;
 
         [TestMethod]
+        public void UrlEscape()
+        {
+            var geo = new GoogleGeoLocator(new GoogleGeoLocatorSettings(), null);
+
+            var s = geo.FormatAddressForUrl(new Address("3401 E Lee Ave #b", "", "Yadkinville", "NC", "27055-99999"));
+            Console.WriteLine(s);
+        }
+
+        [TestMethod]
         public void BasicTest()
         {
             var geo = IOC.Resolve<IGeolocator>();
