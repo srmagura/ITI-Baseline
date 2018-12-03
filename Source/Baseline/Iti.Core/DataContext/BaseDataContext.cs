@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.AccessControl;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Iti.Core.Audit;
 using Iti.Core.DomainEvents;
-using Iti.Inversion;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iti.Core.DataContext
