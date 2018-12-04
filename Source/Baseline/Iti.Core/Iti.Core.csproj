@@ -172,6 +172,7 @@
     <Compile Include="Services\ApplicationService.cs" />
     <Compile Include="Services\ConsoleUserTracker.cs" />
     <Compile Include="Services\DomainService.cs" />
+    <Compile Include="Services\IDomainService.cs" />
     <Compile Include="Services\JobProcessor.cs" />
     <Compile Include="UnitOfWork\DbContextScopeUnitOfWork.cs" />
     <Compile Include="UnitOfWork\IUnitOfWork.cs" />
