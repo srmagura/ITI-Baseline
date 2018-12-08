@@ -1,0 +1,13 @@
+{
+  "name": "@interface-technologies/iti-baseline-types",
+  "version": "1.0.0",
+  "description": "TypeScript types for classes exposed by Iti.Baseline.",
+  "main": "index.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://bitbucket.org/itidev/iti.baseline.git"
+  },
+  "author": "Interface Technologies, Inc.",
+  "license": "MIT",
+  "homepage": "https://bitbucket.org/itidev/iti.baseline"
+}
