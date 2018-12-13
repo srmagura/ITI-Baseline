@@ -2,6 +2,6 @@
 {
     public interface IVoiceSender
     {
-        void Send(string toPhoneNumber, string content);
+        void Send(long? notificationId, string toPhoneNumber, string content);
     }
 }

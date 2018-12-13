@@ -2,7 +2,7 @@
 {
     public class NullSmsSender : ISmsSender
     {
-        public void Send(string toSmsAddress, string body)
+        public void Send(long? notificationId, string toSmsAddress, string body)
         {
             // DO NOTHING
         }

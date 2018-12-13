@@ -10,8 +10,9 @@ namespace Iti.Email
         [Obsolete("Serialization use only")]
         protected EmailRecord() { }
 
-        public EmailRecord(string toAddress, string subject, string body)
+        public EmailRecord(long? notificationId, string toAddress, string subject, string body)
         {
+            NotificationId = notificationId;
             ToAddress = toAddress;
             Subject = subject.MaxLength(512);
             Body = body;
@@ -20,6 +21,8 @@ namespace Iti.Email
         //
 
         public long Id { get; set; }
+
+        public long? NotificationId { get; protected set; }
 
         public EmailStatus Status { get; set; } = EmailStatus.Pending;
 

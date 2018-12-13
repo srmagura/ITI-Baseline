@@ -56,7 +56,7 @@ namespace Iti.Email
         {
             try
             {
-                _sender.Send(rec.ToAddress, rec.Subject, rec.Body);
+                _sender.Send(rec.NotificationId, rec.ToAddress, rec.Subject, rec.Body);
 
                 rec.Status = EmailStatus.Sent;
                 rec.SentUtc = DateTimeService.UtcNow;

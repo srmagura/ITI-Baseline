@@ -8,8 +8,9 @@ namespace Iti.Sms
         [Obsolete("Serialization use only")]
         protected SmsRecord() { }
 
-        public SmsRecord(string toAddress, string body)
+        public SmsRecord(long? notificationId, string toAddress, string body)
         {
+            NotificationId = notificationId;
             ToAddress = toAddress;
             Body = body;
         }
@@ -17,6 +18,8 @@ namespace Iti.Sms
         //
 
         public long Id { get; set; }
+
+        public long? NotificationId { get; protected set; }
 
         public SmsStatus Status { get; set; } = SmsStatus.Pending;
 

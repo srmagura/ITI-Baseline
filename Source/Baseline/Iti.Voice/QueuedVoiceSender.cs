@@ -9,9 +9,9 @@
             _repo = repo;
         }
 
-        public void Send(string toVoiceAddress, string body)
+        public void Send(long? notificationId, string toVoiceAddress, string body)
         {
-            var rec = new VoiceRecord(toVoiceAddress, body);
+            var rec = new VoiceRecord(notificationId, toVoiceAddress, body);
             _repo.Add(rec);
         }
     }

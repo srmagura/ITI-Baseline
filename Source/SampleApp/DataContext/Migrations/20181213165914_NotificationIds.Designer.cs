@@ -4,14 +4,16 @@ using DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataContext.Migrations
 {
     [DbContext(typeof(SampleDataContext))]
-    partial class SampleDataContextModelSnapshot : ModelSnapshot
+    [Migration("20181213165914_NotificationIds")]
+    partial class NotificationIds
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -256,10 +258,10 @@ namespace DataContext.Migrations
                 {
                     b.OwnsOne("Iti.ValueObjects.Address", "Address", b1 =>
                         {
+                            b1.Property<Guid>("DbFooId");
+
                             b1.Property<string>("City")
                                 .HasMaxLength(64);
-
-                            b1.Property<Guid>("DbFooId");
 
                             b1.Property<string>("Line1")
                                 .HasMaxLength(64);

@@ -12,7 +12,7 @@ namespace Iti.Email
             _settings = settings;
         }
 
-        public void Send(string toAddress, string subject, string body)
+        public void Send(long? notificationId, string toAddress, string subject, string body)
         {
             var smtp = new SmtpClient(_settings.SmtpServer, _settings.SmtpPort)
             {

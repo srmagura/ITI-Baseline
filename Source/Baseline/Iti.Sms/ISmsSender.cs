@@ -2,6 +2,6 @@
 {
     public interface ISmsSender
     {
-        void Send(string toSmsAddress, string body);
+        void Send(long? notificationId, string toSmsAddress, string body);
     }
 }

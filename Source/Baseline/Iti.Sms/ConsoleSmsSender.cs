@@ -4,7 +4,7 @@ namespace Iti.Sms
 {
     public class ConsoleSmsSender : ISmsSender
     {
-        public void Send(string toSmsAddress, string body)
+        public void Send(long? notificationId, string toSmsAddress, string body)
         {
             Console.WriteLine($"=== SMS: {toSmsAddress} ===============================");
             Console.WriteLine($"{body}");

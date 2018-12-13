@@ -12,7 +12,7 @@ namespace Iti.Sms
             _settings = settings;
         }
 
-        public void Send(string toAddress, string body)
+        public void Send(long? notificationId, string toAddress, string body)
         {
             TwilioClient.Init(_settings.Sid, _settings.AuthToken);
             var message = MessageResource.Create(

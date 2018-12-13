@@ -65,7 +65,7 @@ namespace CoreTests
         {
             TestEmailRepository.Initialize(new List<EmailRecord>
             {
-                new EmailRecord("todd@iticentral.com","Test email 1", "Test!"),
+                new EmailRecord(null, "todd@iticentral.com","Test email 1", "Test!"),
             });
 
             var proc = IOC.Resolve<EmailJobProcessor>();
@@ -82,7 +82,7 @@ namespace CoreTests
             {
                 db.Database.ExecuteSqlCommand("DELETE FROM EmailRecords");
 
-                var email = new EmailRecord("todd@iticentral.com", "Test Email", "This is a test!");
+                var email = new EmailRecord(null, "todd@iticentral.com", "Test Email", "This is a test!");
                 db.EmailRecords.Add(email);
                 db.SaveChanges();
             }
@@ -102,7 +102,7 @@ namespace CoreTests
         {
             TestSmsRepository.Initialize(new List<SmsRecord>
             {
-                new SmsRecord("todd@iticentral.com","Test sms 1"),
+                new SmsRecord(null, "todd@iticentral.com","Test sms 1"),
             });
 
             var proc = IOC.Resolve<SmsJobProcessor>();

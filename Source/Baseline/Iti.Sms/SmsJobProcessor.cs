@@ -49,7 +49,7 @@ namespace Iti.Sms
         {
             try
             {
-                _sender.Send(rec.ToAddress, rec.Body);
+                _sender.Send(rec.NotificationId, rec.ToAddress, rec.Body);
 
                 rec.Status = SmsStatus.Sent;
                 rec.SentUtc = DateTimeService.UtcNow;

@@ -12,9 +12,9 @@ namespace Iti.Sms
             _repo = repo;
         }
 
-        public void Send(string toSmsAddress, string body)
+        public void Send(long? notificationId, string toSmsAddress, string body)
         {
-            var rec = new SmsRecord(toSmsAddress, body);
+            var rec = new SmsRecord(notificationId, toSmsAddress, body);
             _repo.Add(rec);
         }
     }

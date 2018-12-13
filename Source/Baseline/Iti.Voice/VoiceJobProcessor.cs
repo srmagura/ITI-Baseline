@@ -49,7 +49,7 @@ namespace Iti.Voice
         {
             try
             {
-                _sender.Send(rec.ToAddress, rec.Body);
+                _sender.Send(rec.NotificationId, rec.ToAddress, rec.Body);
 
                 rec.Status = VoiceStatus.Sent;
                 rec.SentUtc = DateTimeService.UtcNow;

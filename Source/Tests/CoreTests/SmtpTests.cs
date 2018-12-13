@@ -40,7 +40,7 @@ namespace CoreTests
                 Secure = true,
             });
 
-            sender.Send("todd@iticentral.com", $"ITI: Test - {DateTime.Now}", $"This is a test.  {DateTime.Now}");
+            sender.Send(null, "todd@iticentral.com", $"ITI: Test - {DateTime.Now}", $"This is a test.  {DateTime.Now}");
         }
 
         [TestMethod]
@@ -57,24 +57,7 @@ namespace CoreTests
                 Secure = true,
             });
 
-            sender.Send("todd@iticentral.com", $"HPSPORTAL: Test - {DateTime.Now}", $"This is a test.  {DateTime.Now}");
-        }
-
-        [TestMethod]
-        public void SendEmailViaSmtp_TracRx()
-        {
-            var sender = new SmtpEmailSender(new SmtpSettings
-            {
-                FromEmailAddress = "TracRx@careservicesllc.com",
-                FromDisplayName = "TracRx Notification",
-                SmtpServer = "smtp.office365.com",
-                SmtpPort = 587,
-                SmtpUser = "TracRx@careservicesllc.com",
-                SmtpPassword = "hjWx8Q@HB4&u-4~k",
-                Secure = true,
-            });
-
-            sender.Send("todd@iticentral.com", $"TRACRX: Test - {DateTime.Now}", $"This is a test.  {DateTime.Now}");
+            sender.Send(null, "todd@iticentral.com", $"HPSPORTAL: Test - {DateTime.Now}", $"This is a test.  {DateTime.Now}");
         }
     }
 }

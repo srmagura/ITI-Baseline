@@ -4,7 +4,7 @@ namespace Iti.Email
 {
     public class ConsoleEmailSender : IEmailSender
     {
-        public void Send(string toEmailAddress, string subject, string body)
+        public void Send(long? notificationId, string toEmailAddress, string subject, string body)
         {
             Console.WriteLine("=== EMAIL ===============================");
             Console.WriteLine($"TO: {toEmailAddress}");
