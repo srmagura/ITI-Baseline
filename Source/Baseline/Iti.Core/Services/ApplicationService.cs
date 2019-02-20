@@ -37,6 +37,11 @@ namespace Iti.Core.Services
                     return result;
                 }
             }
+            catch (EntityNotFoundException enfExc)
+            {
+                Handle(enfExc);
+                return default(T);
+            }
             catch (Exception exc)
             {
                 Handle(exc);
@@ -57,6 +62,10 @@ namespace Iti.Core.Services
                     uow.Commit();
                 }
             }
+            catch (EntityNotFoundException enfExc)
+            {
+                Handle(enfExc);
+            }
             catch (Exception exc)
             {
                 Handle(exc);
@@ -74,6 +83,11 @@ namespace Iti.Core.Services
 
                     return exec();
                 }
+            }
+            catch (EntityNotFoundException enfExc)
+            {
+                Handle(enfExc);
+                return default(T);
             }
             catch (Exception exc)
             {
