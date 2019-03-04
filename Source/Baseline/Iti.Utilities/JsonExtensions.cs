@@ -30,7 +30,11 @@ namespace Iti.Utilities
 
         public static string ToJson(this object obj, Formatting formatting = Formatting.Indented)
         {
-            return JsonConvert.SerializeObject(obj, formatting, new JsonSerializerSettings() { ReferenceLoopHandling = ReferenceLoopHandling.Ignore });
+            return JsonConvert.SerializeObject(obj, formatting, new JsonSerializerSettings()
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                ObjectCreationHandling = ObjectCreationHandling.Replace,
+            });
         }
 
         public static string ToDbJson(this object obj)
@@ -85,6 +89,7 @@ namespace Iti.Utilities
         public static JsonSerializerSettings DbJsonSettings = new JsonSerializerSettings()
         {
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            ObjectCreationHandling = ObjectCreationHandling.Replace,
             ContractResolver = new PrivateStateContractResolver()
         };
     }
