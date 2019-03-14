@@ -28,7 +28,7 @@ namespace Iti.Core.DTOs
         {
             var inst = q.ProjectTo<TDto>().FirstOrDefault();
 
-            Console.WriteLine($"ProjectToDto<{typeof(TDto)}>");
+            // Console.WriteLine($"ProjectToDto<{typeof(TDto)}>");
 
             // Mapper.Map(inst, inst);
             BaseDataMapConfig.RemoveEmptyValueObjects(inst);

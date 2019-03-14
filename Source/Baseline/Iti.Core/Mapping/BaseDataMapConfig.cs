@@ -179,8 +179,8 @@ namespace Iti.Core.Mapping
         {
             if (eValue == null)
             {
-                dbValue = CreateInstance(t, null, true);
-                return dbValue;
+                eValue = CreateInstance(t, null, true);
+                // return dbValue;
             }
 
             if (dbValue == null)
