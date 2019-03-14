@@ -46,6 +46,7 @@
     <Compile Include="Application\Dto\FooJunkDto.cs" />
     <Compile Include="Application\Dto\FooReferenceDto.cs" />
     <Compile Include="Application\Dto\FooSummaryDto.cs" />
+    <Compile Include="Application\Dto\ValObjHolderDto.cs" />
     <Compile Include="Application\FooAppService.cs" />
     <Compile Include="Application\Interfaces\IFooAppService.cs" />
     <Compile Include="Application\Interfaces\IFooQueries.cs" />
@@ -67,6 +68,10 @@
     <ProjectReference Include="..\..\Baseline\Iti.Inversion\Iti.Inversion.csproj">
       <Project>{AEA5A010-E8FE-42F3-9C4D-07EF380AFB65}</Project>
       <Name>Iti.Inversion</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Baseline\Iti.Utilities\Iti.Utilities.csproj">
+      <Project>{C1F67BFC-F215-45C6-9CEE-9C20F15E87D0}</Project>
+      <Name>Iti.Utilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Baseline\Iti.ValueObjects\Iti.ValueObjects.csproj">
       <Project>{4B0910BC-97DC-48E8-AC13-EDDF285951EA}</Project>

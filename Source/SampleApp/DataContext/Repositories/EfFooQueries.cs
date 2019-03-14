@@ -3,6 +3,7 @@ using System.Linq;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain;
+using Iti.Core.DTOs;
 using Iti.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
 using SampleApp.Application.Dto;
@@ -16,43 +17,38 @@ namespace DataContext.Repositories
         {
             return Context.Foos
                 .Where(p => p.Id == id.Guid)
-                .ProjectTo<FooReferenceDto>()
-                .FirstOrDefault();
+                .ProjectToDto<FooReferenceDto>();
         }
 
         public FooSummaryDto SummaryFor(FooId id)
         {
             return Context.Foos
                 .Where(p => p.Id == id.Guid)
-                .ProjectTo<FooSummaryDto>()
-                .FirstOrDefault();
+                .ProjectToDto<FooSummaryDto>();
         }
 
         public FooJunkDto JunkFor(FooId id)
         {
             return Context.Foos
                 .Where(p => p.Id == id.Guid)
-                .ProjectTo<FooJunkDto>()
-                .FirstOrDefault();
+                .ProjectToDto<FooJunkDto>();
         }
 
         public FooDto Get(FooId id)
         {
             return Context.Foos
-                .Include(p => p.Bars)
+                // .Include(p => p.Bars)
                 .Where(p => p.Id == id.Guid)
-                .ProjectTo<FooDto>()
-                .FirstOrDefault();
+                .ProjectToDto<FooDto>();
         }
 
         public List<FooDto> GetList()
         {
             return Context.Foos
-                    .Include(p => p.Bars)
-                    .OrderByDescending(p => p.DateCreatedUtc)
-                    .Take(10)
-                    .ProjectTo<FooDto>()
-                    .ToList()
+                // .Include(p => p.Bars)
+                .OrderByDescending(p => p.DateCreatedUtc)
+                .Take(10)
+                .ProjectToDtoList<FooDto>();
                 ;
         }
     }

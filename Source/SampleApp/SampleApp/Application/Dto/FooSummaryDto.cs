@@ -1,8 +1,9 @@
 ﻿using Domain;
+using Iti.Core.DTOs;
 
 namespace SampleApp.Application.Dto
 {
-    public class FooSummaryDto
+    public class FooSummaryDto : IDto
     {
         public FooId Id { get; set; }
         public string Name { get; set; }

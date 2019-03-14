@@ -33,20 +33,33 @@ namespace AppConfig
                 cfg.AddGlobalIgnore("MappedEntity");
 
                 DefaultValueObjectMap.Configure(cfg);
+                cfg.CreateMap<ValueChild, ValueChild>();
+                cfg.CreateMap<ValueParent, ValueParent>();
 
                 FooConfig(cfg);
                 BarConfig(cfg);
                 FooDtoConfigs(cfg);
 
+                ValObjHolderConfig(cfg);
+
                 //
 
-                ConfigureDtoValueObjects(cfg);
+                // depricated: ConfigureDtoValueObjects(cfg);
                 ConfigureDbEntityValueObjects(cfg);
-
             });
 
             Mapper.AssertConfigurationIsValid();
         }
+
+        private void ValObjHolderConfig(IMapperConfigurationExpression cfg)
+        {
+            MapIdentity(cfg, guid => new ValObjHolderId(guid));
+
+            cfg.CreateMap<ValObjHolder, DbValObjHolder>();
+
+            cfg.CreateMap<DbValObjHolder, ValObjHolderDto>();
+        }
+
 
         private static void FooDtoConfigs(IMapperConfigurationExpression cfg)
         {
@@ -78,6 +91,8 @@ namespace AppConfig
                     Name = foo.Name,
                     SomeMoney = foo.SomeMoney,
                     Address = foo.Address.NullIfNoValue(),
+                    PhoneNumber = foo.PhoneNumber.NullIfNoValue(),
+                    PersonName = foo.PersonName.NullIfNoValue(),
                     SomeNumber = foo.SomeNumber,
                     Bars = Mapper.Map<List<BarDto>>(foo.Bars),
                     SomeInts = foo.SomeInts,

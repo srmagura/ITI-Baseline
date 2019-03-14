@@ -4,14 +4,16 @@ using DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DataContext.Migrations
 {
     [DbContext(typeof(SampleDataContext))]
-    partial class SampleDataContextModelSnapshot : ModelSnapshot
+    [Migration("20190314122358_FooValPar")]
+    partial class FooValPar
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,20 +70,6 @@ namespace DataContext.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Foos");
-                });
-
-            modelBuilder.Entity("DataContext.DbValObjHolder", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTimeOffset>("DateCreatedUtc");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ValObjHolders");
                 });
 
             modelBuilder.Entity("Iti.Core.Audit.AuditRecord", b =>
@@ -268,38 +256,6 @@ namespace DataContext.Migrations
 
             modelBuilder.Entity("DataContext.DbFoo", b =>
                 {
-                    b.OwnsOne("Domain.ValueParent", "ValueParent", b1 =>
-                        {
-                            b1.Property<Guid>("DbFooId");
-
-                            b1.Property<string>("ParentValue");
-
-                            b1.HasKey("DbFooId");
-
-                            b1.ToTable("Foos");
-
-                            b1.HasOne("DataContext.DbFoo")
-                                .WithOne("ValueParent")
-                                .HasForeignKey("Domain.ValueParent", "DbFooId")
-                                .OnDelete(DeleteBehavior.Cascade);
-
-                            b1.OwnsOne("Domain.ValueChild", "Child", b2 =>
-                                {
-                                    b2.Property<Guid>("ValueParentDbFooId");
-
-                                    b2.Property<string>("ChildValue");
-
-                                    b2.HasKey("ValueParentDbFooId");
-
-                                    b2.ToTable("Foos");
-
-                                    b2.HasOne("Domain.ValueParent")
-                                        .WithOne("Child")
-                                        .HasForeignKey("Domain.ValueChild", "ValueParentDbFooId")
-                                        .OnDelete(DeleteBehavior.Cascade);
-                                });
-                        });
-
                     b.OwnsOne("Iti.ValueObjects.Address", "Address", b1 =>
                         {
                             b1.Property<Guid>("DbFooId");
@@ -369,113 +325,6 @@ namespace DataContext.Migrations
                             b1.HasOne("DataContext.DbFoo")
                                 .WithOne("PhoneNumber")
                                 .HasForeignKey("Iti.ValueObjects.PhoneNumber", "DbFooId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
-                });
-
-            modelBuilder.Entity("DataContext.DbValObjHolder", b =>
-                {
-                    b.OwnsOne("Domain.ValueParent", "ValueParent", b1 =>
-                        {
-                            b1.Property<Guid>("DbValObjHolderId");
-
-                            b1.Property<string>("ParentValue");
-
-                            b1.HasKey("DbValObjHolderId");
-
-                            b1.ToTable("ValObjHolders");
-
-                            b1.HasOne("DataContext.DbValObjHolder")
-                                .WithOne("ValueParent")
-                                .HasForeignKey("Domain.ValueParent", "DbValObjHolderId")
-                                .OnDelete(DeleteBehavior.Cascade);
-
-                            b1.OwnsOne("Domain.ValueChild", "Child", b2 =>
-                                {
-                                    b2.Property<Guid>("ValueParentDbValObjHolderId");
-
-                                    b2.Property<string>("ChildValue");
-
-                                    b2.HasKey("ValueParentDbValObjHolderId");
-
-                                    b2.ToTable("ValObjHolders");
-
-                                    b2.HasOne("Domain.ValueParent")
-                                        .WithOne("Child")
-                                        .HasForeignKey("Domain.ValueChild", "ValueParentDbValObjHolderId")
-                                        .OnDelete(DeleteBehavior.Cascade);
-                                });
-                        });
-
-                    b.OwnsOne("Iti.ValueObjects.Address", "Address", b1 =>
-                        {
-                            b1.Property<Guid>("DbValObjHolderId");
-
-                            b1.Property<string>("City")
-                                .HasMaxLength(64);
-
-                            b1.Property<string>("Line1")
-                                .HasMaxLength(64);
-
-                            b1.Property<string>("Line2")
-                                .HasMaxLength(64);
-
-                            b1.Property<string>("State")
-                                .HasMaxLength(16);
-
-                            b1.Property<string>("Zip")
-                                .HasMaxLength(16);
-
-                            b1.HasKey("DbValObjHolderId");
-
-                            b1.ToTable("ValObjHolders");
-
-                            b1.HasOne("DataContext.DbValObjHolder")
-                                .WithOne("Address")
-                                .HasForeignKey("Iti.ValueObjects.Address", "DbValObjHolderId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
-
-                    b.OwnsOne("Iti.ValueObjects.PersonName", "PersonName", b1 =>
-                        {
-                            b1.Property<Guid>("DbValObjHolderId");
-
-                            b1.Property<string>("First")
-                                .HasMaxLength(64);
-
-                            b1.Property<string>("Last")
-                                .HasMaxLength(64);
-
-                            b1.Property<string>("Middle")
-                                .HasMaxLength(64);
-
-                            b1.Property<string>("Prefix")
-                                .HasMaxLength(64);
-
-                            b1.HasKey("DbValObjHolderId");
-
-                            b1.ToTable("ValObjHolders");
-
-                            b1.HasOne("DataContext.DbValObjHolder")
-                                .WithOne("PersonName")
-                                .HasForeignKey("Iti.ValueObjects.PersonName", "DbValObjHolderId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
-
-                    b.OwnsOne("Iti.ValueObjects.PhoneNumber", "PhoneNumber", b1 =>
-                        {
-                            b1.Property<Guid>("DbValObjHolderId");
-
-                            b1.Property<string>("Value")
-                                .HasMaxLength(16);
-
-                            b1.HasKey("DbValObjHolderId");
-
-                            b1.ToTable("ValObjHolders");
-
-                            b1.HasOne("DataContext.DbValObjHolder")
-                                .WithOne("PhoneNumber")
-                                .HasForeignKey("Iti.ValueObjects.PhoneNumber", "DbValObjHolderId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
                 });

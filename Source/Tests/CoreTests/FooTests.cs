@@ -154,7 +154,11 @@ namespace CoreTests
             bars.Add(new Bar(Guid.NewGuid().ToString()));
 
             var fooName = Guid.NewGuid().ToString();
-            var fooId = svc.CreateFoo(fooName, bars);
+            var fooId = svc.CreateFoo(fooName, bars,
+                new Address("4034 Winecott Drive", "", "Apex", "NC", "27502"),
+                new PersonName("Test","Test","Test"),
+                new PhoneNumber("9198675309")
+                );
 
             var foo = svc.Get(fooId);
             Dump("Foo out", foo);

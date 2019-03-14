@@ -13,7 +13,10 @@ namespace SampleApp.Application.Interfaces
         FooDto Get(FooId id);
         List<FooDto> GetList();
 
-        FooId CreateFoo(string name, List<Bar> bars);
+        FooId CreateFoo(string name, List<Bar> bars,
+            Address address = null,
+            PersonName personName = null,
+            PhoneNumber phoneNumber = null);
         void Remove(FooId id);
 
         void SetName(FooId id, string newName);

@@ -51,11 +51,18 @@
     <Compile Include="Foo.cs" />
     <Compile Include="FooId.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ValObjHolder.cs" />
+    <Compile Include="ValObjHolderId.cs" />
+    <Compile Include="ValueParent.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Baseline\Iti.Core\Iti.Core.csproj">
       <Project>{4035A0B1-F751-48BB-B096-0CE88F428176}</Project>
       <Name>Iti.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Baseline\Iti.Utilities\Iti.Utilities.csproj">
+      <Project>{C1F67BFC-F215-45C6-9CEE-9C20F15E87D0}</Project>
+      <Name>Iti.Utilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Baseline\Iti.ValueObjects\Iti.ValueObjects.csproj">
       <Project>{4B0910BC-97DC-48E8-AC13-EDDF285951EA}</Project>

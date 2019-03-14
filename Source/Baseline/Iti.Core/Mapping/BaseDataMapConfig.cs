@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using AutoMapper;
 using Iti.Core.DataContext;
-using Iti.Core.DTOs;
 using Iti.Core.Entites;
 using Iti.Core.ValueObjects;
 
@@ -12,7 +11,7 @@ namespace Iti.Core.Mapping
 {
     public class BaseDataMapConfig
     {
-        protected static T CreateInstance<T>(T existing)
+        protected static T CreateInstance<T>(T existing, bool fillNestedValueObjects)
             where T : class
         {
             if (existing != null)
@@ -26,37 +25,36 @@ namespace Iti.Core.Mapping
                 as T;
         }
 
-        protected static object CreateInstance(Type t, object existing)
+        protected static object CreateInstance(Type t, object existing, bool fillNestedValueObjects)
         {
             if (existing != null)
+            {
                 return existing;
+            }
 
-            return Activator.CreateInstance(t,
+            var result = Activator.CreateInstance(t,
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
                 null, new object[] { }, null);
-        }
 
-        protected void ConfigureDtoValueObjects(IMapperConfigurationExpression cfg)
-        {
-            cfg.ForAllMaps((tm, me) =>
+            if (fillNestedValueObjects)
             {
-                if (typeof(IDto).IsAssignableFrom(tm.DestinationType))
-                {
-                    me.AfterMap((x, dto) => DtoCleanup(dto as IDto));
-                }
-            });
+                FillDbEntityNullValueObjects(t, result);
+            }
+
+            return result;
         }
 
-        private void DtoCleanup(IDto dto)
+        private static void FillDbEntityNullValueObjects(Type t, object result)
         {
-            foreach (var prop in dto.GetType().GetProperties())
+            foreach (var prop in t.GetProperties())
             {
                 if (typeof(IValueObject).IsAssignableFrom(prop.PropertyType))
                 {
-                    if (prop.GetValue(dto) is IValueObject val)
+                    var val = prop.GetValue(result);
+                    if (val == null)
                     {
-                        if (!val.HasValue())
-                            prop.SetValue(dto, null);
+                        val = CreateInstance(prop.PropertyType, null, true);
+                        prop.SetValue(result, val);
                     }
                 }
             }
@@ -84,7 +82,7 @@ namespace Iti.Core.Mapping
                                 var eProp = e.GetType().GetProperty(dbProp.Name);
                                 var eVal = eProp.GetValue(e);
                                 var dbVal = dbProp.GetValue(db);
-                                var val = MapValueObjectRuntime(dbProp.PropertyType, eVal, dbVal);
+                                var val = MapValueObjectsEntityToDbEntity(dbProp.PropertyType, eVal, dbVal);
                                 dbProp.SetValue(db, val);
                             });
                         }
@@ -115,6 +113,7 @@ namespace Iti.Core.Mapping
                 }
 
                 // DbEntity -> Entity
+                /*
                 if (typeof(DbEntity).IsAssignableFrom(tm.SourceType)
                     && typeof(Entity).IsAssignableFrom(tm.DestinationType))
                 {
@@ -127,17 +126,17 @@ namespace Iti.Core.Mapping
                             {
                                 var dbProp = db.GetType().GetProperty(prop.Name);
                                 var dbVal = dbProp.GetValue(db);
-                                SetValueObjectRuntime(prop.PropertyType, e, prop.Name, dbVal as IValueObject);
+                                SetValueObjectDbEntityToEntity(e, prop.Name, dbVal as IValueObject);
                             });
                         }
                     }
                 }
+                */
             });
         }
 
-
-
-        private void SetValueObjectRuntime(Type t, object obj, string fieldName, IValueObject valObj)
+        /*
+        private void SetValueObjectDbEntityToEntity(object obj, string fieldName, IValueObject valObj)
         {
             valObj = valObj.NullIfNoValue();
 
@@ -149,20 +148,49 @@ namespace Iti.Core.Mapping
 
             var prop = obj.GetType().GetProperty(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             prop?.SetValue(obj, valObj);
-        }
 
-        private object MapValueObjectRuntime(Type t, object eValue, object dbValue)
+            if (prop != null)
+            {
+                foreach (var childProp in prop.PropertyType.GetProperties())
+                {
+                    if (typeof(IValueObject).IsAssignableFrom(childProp.PropertyType))
+                    {
+                        if (valObj == null)
+                        {
+
+                        }
+                        else
+                        {
+                            var dbVal = childProp.GetValue(valObj);
+
+                            if (dbVal != null)
+                            {
+                                SetValueObjectDbEntityToEntity(prop.GetValue(obj), childProp.Name,
+                                    dbVal as IValueObject);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        */
+
+        private object MapValueObjectsEntityToDbEntity(Type t, object eValue, object dbValue)
         {
             if (eValue == null)
             {
-                dbValue = CreateInstance(t, dbValue);
+                dbValue = CreateInstance(t, null, true);
                 return dbValue;
             }
 
             if (dbValue == null)
-                dbValue = CreateInstance(t, null);
+            {
+                dbValue = CreateInstance(t, null, true);
+            }
 
             Mapper.Map(eValue, dbValue);
+
+            FillDbEntityNullValueObjects(t, dbValue);
 
             return dbValue;
         }
@@ -203,23 +231,6 @@ namespace Iti.Core.Mapping
             prop?.SetValue(obj, value);
         }
 
-        protected static T MapValueObject<T>(T eValue, T dbValue)
-            where T : class
-        {
-            if (eValue == null)
-            {
-                dbValue = CreateInstance(dbValue);
-                return dbValue;
-            }
-
-            if (dbValue == null)
-                dbValue = CreateInstance((T)null);
-
-            Mapper.Map(eValue, dbValue);
-
-            return dbValue;
-        }
-
         protected static List<TDb> MapCollection<TEntity, TDb>(IReadOnlyCollection<TEntity> eList, List<TDb> dbList)
             where TEntity : Entity
             where TDb : DbEntity
@@ -256,21 +267,6 @@ namespace Iti.Core.Mapping
             return id?.Guid ?? Guid.Empty;
         }
 
-        /*
-        protected static void MapIdentity<TIdent>(IMapperConfigurationExpression cfg, Func<Guid, TIdent> constr)
-            where TIdent : Identity, new()
-        {
-            cfg.CreateMap<TIdent, Guid?>()
-                .ConvertUsing(p => p == null ? (Guid?)null : p.Guid);
-            cfg.CreateMap<Guid?, TIdent>()
-                .ConvertUsing(p => p == null ? null : constr(p.Value));
-            cfg.CreateMap<TIdent, Guid>()
-                .ConvertUsing(p => p.Guid);
-            cfg.CreateMap<Guid, TIdent>()
-                .ConvertUsing(p => constr(p));
-        }
-        */
-        
         protected static void MapIdentity<TIdent>(IMapperConfigurationExpression cfg, Func<Guid?, TIdent> constr)
             where TIdent : Identity, new()
         {
@@ -282,6 +278,51 @@ namespace Iti.Core.Mapping
                 .ConvertUsing(p => p.Guid);
             cfg.CreateMap<Guid, TIdent>()
                 .ConvertUsing(p => constr(p));
+        }
+
+        public static void RemoveEmptyValueObjects(object obj)
+        {
+            if (obj == null)
+                return;
+
+            foreach (var prop in obj.GetType().GetProperties())
+            {
+                if (typeof(IValueObject).IsAssignableFrom(prop.PropertyType))
+                {
+                    if (prop.GetValue(obj) is IValueObject val)
+                    {
+                        if (!val.HasValue())
+                            prop.SetValue(obj, null);
+                        else
+                            RemoveEmptyValueObjects(val);
+                    }
+                }
+            }
+        }
+
+        public static void FillNullValueObjects(object obj)
+        {
+            if (obj == null)
+                return;
+
+            foreach (var prop in obj.GetType().GetProperties())
+            {
+                if (typeof(IValueObject).IsAssignableFrom(prop.PropertyType))
+                {
+                    var val = prop.GetValue(obj);
+
+                    if (val == null)
+                    {
+                        val = Activator.CreateInstance(prop.PropertyType,
+                            BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                            null, new object[] { }, null);
+
+                        prop.SetValue(obj, val);
+                    }
+
+                    FillNullValueObjects(val);
+                }
+            }
         }
     }
 }

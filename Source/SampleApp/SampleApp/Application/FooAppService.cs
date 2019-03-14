@@ -7,6 +7,7 @@ using Iti.Core.Services;
 using Iti.Core.UnitOfWork;
 using Iti.Core.UserTracker;
 using Iti.Inversion;
+using Iti.Utilities;
 using Iti.ValueObjects;
 using SampleApp.Application.Dto;
 using SampleApp.Application.Interfaces;
@@ -113,7 +114,10 @@ namespace SampleApp.Application
         // OPERATIONS
         //
 
-        public FooId CreateFoo(string name, List<Bar> bars)
+        public FooId CreateFoo(string name, List<Bar> bars,
+            Address address = null,
+            PersonName personName = null,
+            PhoneNumber phoneNumber = null)
         {
             Authorize.Require(_perms.CanManageFoos);
 
@@ -123,6 +127,12 @@ namespace SampleApp.Application
                 {
                     var ff = IOC.Resolve<IFooFighter>();
                     var foo = ff.Create(name, bars, new List<int> { 1, 3, 5, 7, 9 });
+
+                    foo.Address = address;
+                    foo.PersonName = personName;
+                    foo.PhoneNumber = phoneNumber;
+
+                    foo.ConsoleDump();
 
                     _repo.Add(foo);
                     uow.Commit();

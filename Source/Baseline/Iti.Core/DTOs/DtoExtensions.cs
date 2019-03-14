@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Iti.Core.Mapping;
+using Iti.Core.ValueObjects;
 
 namespace Iti.Core.DTOs
 {
@@ -14,7 +17,8 @@ namespace Iti.Core.DTOs
                 .ProjectTo<TDto>()
                 .ToList();
 
-            data.ForEach(p => Mapper.Map(p, p));
+            // data.ForEach(p => Mapper.Map(p, p));
+            data.ForEach(BaseDataMapConfig.RemoveEmptyValueObjects);
 
             return data;
         }
@@ -24,7 +28,10 @@ namespace Iti.Core.DTOs
         {
             var inst = q.ProjectTo<TDto>().FirstOrDefault();
 
-            Mapper.Map(inst, inst);
+            Console.WriteLine($"ProjectToDto<{typeof(TDto)}>");
+
+            // Mapper.Map(inst, inst);
+            BaseDataMapConfig.RemoveEmptyValueObjects(inst);
 
             return inst;
         }
@@ -34,8 +41,13 @@ namespace Iti.Core.DTOs
         {
             if (dto == null)
                 return null;
-            Mapper.Map(dto, dto);
+
+            // Mapper.Map(dto, dto);
+            BaseDataMapConfig.RemoveEmptyValueObjects(dto);
+
             return dto;
         }
+
+        
     }
 }

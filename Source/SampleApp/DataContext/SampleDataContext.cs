@@ -1,4 +1,5 @@
 ﻿using System.Configuration;
+using Domain;
 using Iti.Core.Audit;
 using Iti.Core.DataContext;
 using Iti.Core.Sequences;
@@ -55,6 +56,7 @@ namespace DataContext
 
         public DbSet<DbFoo> Foos { get; set; }
         public DbSet<DbBar> Bars { get; set; }
+        public DbSet<DbValObjHolder> ValObjHolders { get; set; }
 
         public DbSet<LogEntry> LogEntries { get; set; }
         public DbSet<EmailRecord> EmailRecords { get; set; }

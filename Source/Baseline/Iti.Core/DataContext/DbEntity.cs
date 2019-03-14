@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using AutoMapper;
 using Iti.Core.Entites;
+using Iti.Core.Mapping;
 using Newtonsoft.Json;
 
 namespace Iti.Core.DataContext
@@ -20,8 +21,12 @@ namespace Iti.Core.DataContext
         {
             var dbe = Mapper.Map<TDb>(e);
 
+            // BaseDataMapConfig.FillNullValueObjects(dbe);
+
             if (dbe != null)
+            {
                 dbe.MappedEntity = e;
+            }
 
             return dbe;
         }
@@ -33,6 +38,8 @@ namespace Iti.Core.DataContext
                 return (TEntity)MappedEntity;
 
             var e = Mapper.Map<TEntity>(this);
+
+            BaseDataMapConfig.RemoveEmptyValueObjects(e);
 
             MappedEntity = e;
 
