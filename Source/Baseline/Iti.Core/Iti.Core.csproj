@@ -170,7 +170,6 @@
     <Compile Include="Sequences\ISequenceResolver.cs" />
     <Compile Include="Sequences\Sequence.cs" />
     <Compile Include="Services\ApplicationService.cs" />
-    <Compile Include="Services\ConsoleUserTracker.cs" />
     <Compile Include="Services\DomainService.cs" />
     <Compile Include="Services\IDomainService.cs" />
     <Compile Include="Services\JobProcessor.cs" />
@@ -180,13 +179,6 @@
     <Compile Include="UrlShortener\IUrlShortener.cs" />
     <Compile Include="UrlShortener\NoOpUrlShortener.cs" />
     <Compile Include="UrlShortener\TinyUrlShortener.cs" />
-    <Compile Include="UserTracker\EfUserTracker.cs" />
-    <Compile Include="UserTracker\IUserTracker.cs" />
-    <Compile Include="UserTracker\IUserTracking.cs" />
-    <Compile Include="UserTracker\IUserTrackingDataContext.cs" />
-    <Compile Include="UserTracker\NullUserTracker.cs" />
-    <Compile Include="UserTracker\UserTrack.cs" />
-    <Compile Include="UserTracker\UserTrackDto.cs" />
     <Compile Include="Validation\Require.cs" />
     <Compile Include="Validation\ValidationException.cs" />
     <Compile Include="ValueObjects\IValueObject.cs" />

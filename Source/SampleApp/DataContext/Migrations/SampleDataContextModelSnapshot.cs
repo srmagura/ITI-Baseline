@@ -15,7 +15,7 @@ namespace DataContext.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.0-rtm-35687")
+                .HasAnnotation("ProductVersion", "2.2.3-servicing-35854")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("Relational:Sequence:sequences.Default", "'Default', 'sequences', '1', '1', '', '', 'Int64', 'False'")
                 .HasAnnotation("Relational:Sequence:sequences.OrderNumber", "'OrderNumber', 'sequences', '10000', '5', '', '', 'Int64', 'False'")
@@ -120,30 +120,10 @@ namespace DataContext.Migrations
                     b.ToTable("AuditEntries");
                 });
 
-            modelBuilder.Entity("Iti.Core.UserTracker.UserTrack", b =>
+            modelBuilder.Entity("Iti.Email.DbEmailRecord", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTimeOffset>("LastAccessUtc");
-
-                    b.Property<string>("Service")
-                        .HasMaxLength(128);
-
-                    b.Property<string>("UserId")
-                        .HasMaxLength(128);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserTracks");
-                });
-
-            modelBuilder.Entity("Iti.Email.EmailRecord", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Body");
 
@@ -151,7 +131,7 @@ namespace DataContext.Migrations
 
                     b.Property<DateTimeOffset?>("NextRetryUtc");
 
-                    b.Property<long?>("NotificationId");
+                    b.Property<Guid?>("NotificationId");
 
                     b.Property<int>("RetryCount");
 
@@ -160,9 +140,10 @@ namespace DataContext.Migrations
                     b.Property<int>("Status");
 
                     b.Property<string>("Subject")
-                        .HasMaxLength(512);
+                        .HasMaxLength(1024);
 
-                    b.Property<string>("ToAddress");
+                    b.Property<string>("ToAddress")
+                        .HasMaxLength(256);
 
                     b.HasKey("Id");
 
@@ -204,11 +185,10 @@ namespace DataContext.Migrations
                     b.ToTable("LogEntries");
                 });
 
-            modelBuilder.Entity("Iti.Sms.SmsRecord", b =>
+            modelBuilder.Entity("Iti.Sms.DbSmsRecord", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Body");
 
@@ -216,7 +196,7 @@ namespace DataContext.Migrations
 
                     b.Property<DateTimeOffset?>("NextRetryUtc");
 
-                    b.Property<long?>("NotificationId");
+                    b.Property<Guid?>("NotificationId");
 
                     b.Property<int>("RetryCount");
 
@@ -224,18 +204,18 @@ namespace DataContext.Migrations
 
                     b.Property<int>("Status");
 
-                    b.Property<string>("ToAddress");
+                    b.Property<string>("ToAddress")
+                        .HasMaxLength(32);
 
                     b.HasKey("Id");
 
                     b.ToTable("SmsRecords");
                 });
 
-            modelBuilder.Entity("Iti.Voice.VoiceRecord", b =>
+            modelBuilder.Entity("Iti.Voice.DbVoiceRecord", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Body");
 
@@ -243,7 +223,7 @@ namespace DataContext.Migrations
 
                     b.Property<DateTimeOffset?>("NextRetryUtc");
 
-                    b.Property<long?>("NotificationId");
+                    b.Property<Guid?>("NotificationId");
 
                     b.Property<int>("RetryCount");
 
@@ -251,7 +231,8 @@ namespace DataContext.Migrations
 
                     b.Property<int>("Status");
 
-                    b.Property<string>("ToAddress");
+                    b.Property<string>("ToAddress")
+                        .HasMaxLength(64);
 
                     b.HasKey("Id");
 
@@ -268,38 +249,6 @@ namespace DataContext.Migrations
 
             modelBuilder.Entity("DataContext.DbFoo", b =>
                 {
-                    b.OwnsOne("Domain.ValueParent", "ValueParent", b1 =>
-                        {
-                            b1.Property<Guid>("DbFooId");
-
-                            b1.Property<string>("ParentValue");
-
-                            b1.HasKey("DbFooId");
-
-                            b1.ToTable("Foos");
-
-                            b1.HasOne("DataContext.DbFoo")
-                                .WithOne("ValueParent")
-                                .HasForeignKey("Domain.ValueParent", "DbFooId")
-                                .OnDelete(DeleteBehavior.Cascade);
-
-                            b1.OwnsOne("Domain.ValueChild", "Child", b2 =>
-                                {
-                                    b2.Property<Guid>("ValueParentDbFooId");
-
-                                    b2.Property<string>("ChildValue");
-
-                                    b2.HasKey("ValueParentDbFooId");
-
-                                    b2.ToTable("Foos");
-
-                                    b2.HasOne("Domain.ValueParent")
-                                        .WithOne("Child")
-                                        .HasForeignKey("Domain.ValueChild", "ValueParentDbFooId")
-                                        .OnDelete(DeleteBehavior.Cascade);
-                                });
-                        });
-
                     b.OwnsOne("Iti.ValueObjects.Address", "Address", b1 =>
                         {
                             b1.Property<Guid>("DbFooId");

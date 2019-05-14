@@ -1,6 +1,5 @@
 ﻿using System;
 using Iti.Auth;
-using Iti.Core.UserTracker;
 using Iti.Exceptions;
 using Iti.Inversion;
 using Iti.Logging;
@@ -15,11 +14,6 @@ namespace Iti.Core.Services
         protected ApplicationService(IAuthContext baseAuth)
         {
             Authorize = baseAuth;
-
-            if (this is IUserTracking ut)
-            {
-                TrackUser();
-            }
         }
 
         protected T Command<T>(Action authorize, Func<T> exec)
@@ -94,26 +88,6 @@ namespace Iti.Core.Services
                 Handle(exc);
                 throw;
             }
-        }
-
-        private void TrackUser()
-        {
-            if (Authorize == null)
-                return;
-
-            if (!Authorize.IsAuthenticated)
-                return;
-
-            if (Authorize.UserId.EqualsIgnoreCase("SYSTEM") || Authorize.UserName.EqualsIgnoreCase("SYSTEM"))
-                return;
-
-            var tracker = IOC.TryResolve<IUserTracker>();
-            if (tracker == null)
-                return;
-
-            var userId = Authorize.UserId;
-            var service = this.GetType().Name;
-            tracker.OnUserAppServiceAccess(userId, service);
         }
 
         protected void Handle(Exception exc)

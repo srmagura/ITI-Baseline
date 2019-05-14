@@ -1,4 +1,5 @@
 ﻿using System;
+using Iti.Identities;
 using Iti.Sms;
 
 namespace Iti.Sms
@@ -12,7 +13,7 @@ namespace Iti.Sms
             _repo = repo;
         }
 
-        public void Send(long? notificationId, string toSmsAddress, string body)
+        public void Send(NotificationId notificationId, string toSmsAddress, string body)
         {
             var rec = new SmsRecord(notificationId, toSmsAddress, body);
             _repo.Add(rec);

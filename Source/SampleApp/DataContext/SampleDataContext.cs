@@ -3,7 +3,6 @@ using Domain;
 using Iti.Core.Audit;
 using Iti.Core.DataContext;
 using Iti.Core.Sequences;
-using Iti.Core.UserTracker;
 using Iti.Email;
 using Iti.Inversion;
 using Iti.Logging;
@@ -14,7 +13,7 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace DataContext
 {
-    public class SampleDataContext : BaseDataContext, ILogDataContext, IAuditDataContext, IUserTrackingDataContext
+    public class SampleDataContext : BaseDataContext, ILogDataContext, IAuditDataContext
     {
         public const string DefaultDatabaseName = "ItiBaselineSample";
 
@@ -59,10 +58,10 @@ namespace DataContext
         public DbSet<DbValObjHolder> ValObjHolders { get; set; }
 
         public DbSet<LogEntry> LogEntries { get; set; }
-        public DbSet<EmailRecord> EmailRecords { get; set; }
-        public DbSet<SmsRecord> SmsRecords { get; set; }
-        public DbSet<VoiceRecord> VoiceRecords { get; set; }
         public DbSet<AuditRecord> AuditEntries { get; set; }
-        public DbSet<UserTrack> UserTracks { get; set; }
+
+        public DbSet<DbEmailRecord> EmailRecords { get; set; }
+        public DbSet<DbSmsRecord> SmsRecords { get; set; }
+        public DbSet<DbVoiceRecord> VoiceRecords { get; set; }
     }
 }

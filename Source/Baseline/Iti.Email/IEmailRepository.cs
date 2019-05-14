@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using Iti.Identities;
 
 namespace Iti.Email
 {
     public interface IEmailRepository
     {
         void Add(EmailRecord rec);
-        EmailRecord Get(long id);
-
-        void ForEachPendingOrRetry(Action<EmailRecord> callback);
-        void CleanupOldEmails(int olderThanDays);
+        EmailRecord Get(EmailRecordId id);
     }
 }

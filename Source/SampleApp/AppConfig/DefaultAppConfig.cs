@@ -6,7 +6,6 @@ using Iti.Core.DomainEvents;
 using Iti.Core.RequestTrace;
 using Iti.Core.Sequences;
 using Iti.Core.UnitOfWork;
-using Iti.Core.UserTracker;
 using Iti.Email;
 using Iti.Geolocation;
 using Iti.Inversion;
@@ -39,9 +38,6 @@ namespace AppConfig
 
             DataMapConfig.Initialize();
 
-            IOC.RegisterType<IUserTracker, EfUserTracker>();
-            IOC.RegisterType<IUserTrackingDataContext, SampleDataContext>();
-
             IOC.RegisterInstance(new GoogleGeoLocatorSettings() { ApiKey = "AIzaSyCHs9wcZRaJ8IUbLSqk5Aji5gmcrnu8jec" });
 
             IOC.RegisterType<IRequestTrace, ConsoleRequestTrace>();
@@ -71,10 +67,8 @@ namespace AppConfig
         private static void ConfigureJobProcessors()
         {
             Settings<EmailJobSettings>();
-            IOC.RegisterType<EmailJobProcessor>();
 
             Settings<SmsJobSettings>();
-            IOC.RegisterType<SmsJobProcessor>();
 
             Settings<LogCleanupSettings>();
             IOC.RegisterType<LogCleanupJobProcessor>();

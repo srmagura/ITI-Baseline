@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Iti.Email;
+using Iti.Identities;
 
 namespace CoreTests.Helpers
 {
@@ -23,29 +24,10 @@ namespace CoreTests.Helpers
             throw new TestNotImplementedException();
         }
 
-        public EmailRecord Get(long id)
+        public EmailRecord Get(EmailRecordId id)
         {
             throw new TestNotImplementedException();
         }
-
-        public void ForEachPendingOrRetry(Action<EmailRecord> callback)
-        {
-            var pending = Records
-                .Where(p => p.Status == EmailStatus.Pending)
-                .ToList();
-
-            foreach (var rec in pending)
-            {
-                callback(rec);
-            }
-        }
-
-        public void CleanupOldEmails(int olderThanDays)
-        {
-            WasCleanedUp = true;
-        }
-
-
     }
 
     public class TestNotImplementedException : NotImplementedException

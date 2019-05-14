@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataContext.Migrations
 {
     [DbContext(typeof(SampleDataContext))]
-    [Migration("20181029201155_Initial")]
+    [Migration("20190514135705_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+                .HasAnnotation("ProductVersion", "2.2.3-servicing-35854")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("Relational:Sequence:sequences.Default", "'Default', 'sequences', '1', '1', '', '', 'Int64', 'False'")
                 .HasAnnotation("Relational:Sequence:sequences.OrderNumber", "'OrderNumber', 'sequences', '10000', '5', '', '', 'Int64', 'False'")
@@ -72,6 +72,20 @@ namespace DataContext.Migrations
                     b.ToTable("Foos");
                 });
 
+            modelBuilder.Entity("DataContext.DbValObjHolder", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTimeOffset>("DateCreatedUtc");
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ValObjHolders");
+                });
+
             modelBuilder.Entity("Iti.Core.Audit.AuditRecord", b =>
                 {
                     b.Property<long>("Id")
@@ -108,36 +122,18 @@ namespace DataContext.Migrations
                     b.ToTable("AuditEntries");
                 });
 
-            modelBuilder.Entity("Iti.Core.UserTracker.UserTrack", b =>
+            modelBuilder.Entity("Iti.Email.DbEmailRecord", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTimeOffset>("LastAccessUtc");
-
-                    b.Property<string>("Service")
-                        .HasMaxLength(128);
-
-                    b.Property<string>("UserId")
-                        .HasMaxLength(128);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("UserTracks");
-                });
-
-            modelBuilder.Entity("Iti.Email.EmailRecord", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Body");
 
                     b.Property<DateTimeOffset>("DateCreatedUtc");
 
                     b.Property<DateTimeOffset?>("NextRetryUtc");
+
+                    b.Property<Guid?>("NotificationId");
 
                     b.Property<int>("RetryCount");
 
@@ -146,9 +142,10 @@ namespace DataContext.Migrations
                     b.Property<int>("Status");
 
                     b.Property<string>("Subject")
-                        .HasMaxLength(512);
+                        .HasMaxLength(1024);
 
-                    b.Property<string>("ToAddress");
+                    b.Property<string>("ToAddress")
+                        .HasMaxLength(256);
 
                     b.HasKey("Id");
 
@@ -190,11 +187,10 @@ namespace DataContext.Migrations
                     b.ToTable("LogEntries");
                 });
 
-            modelBuilder.Entity("Iti.Sms.SmsRecord", b =>
+            modelBuilder.Entity("Iti.Sms.DbSmsRecord", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Body");
 
@@ -202,24 +198,26 @@ namespace DataContext.Migrations
 
                     b.Property<DateTimeOffset?>("NextRetryUtc");
 
+                    b.Property<Guid?>("NotificationId");
+
                     b.Property<int>("RetryCount");
 
                     b.Property<DateTimeOffset?>("SentUtc");
 
                     b.Property<int>("Status");
 
-                    b.Property<string>("ToAddress");
+                    b.Property<string>("ToAddress")
+                        .HasMaxLength(32);
 
                     b.HasKey("Id");
 
                     b.ToTable("SmsRecords");
                 });
 
-            modelBuilder.Entity("Iti.Voice.VoiceRecord", b =>
+            modelBuilder.Entity("Iti.Voice.DbVoiceRecord", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Body");
 
@@ -227,13 +225,16 @@ namespace DataContext.Migrations
 
                     b.Property<DateTimeOffset?>("NextRetryUtc");
 
+                    b.Property<Guid?>("NotificationId");
+
                     b.Property<int>("RetryCount");
 
                     b.Property<DateTimeOffset?>("SentUtc");
 
                     b.Property<int>("Status");
 
-                    b.Property<string>("ToAddress");
+                    b.Property<string>("ToAddress")
+                        .HasMaxLength(64);
 
                     b.HasKey("Id");
 
@@ -269,6 +270,8 @@ namespace DataContext.Migrations
                             b1.Property<string>("Zip")
                                 .HasMaxLength(16);
 
+                            b1.HasKey("DbFooId");
+
                             b1.ToTable("Foos");
 
                             b1.HasOne("DataContext.DbFoo")
@@ -293,6 +296,8 @@ namespace DataContext.Migrations
                             b1.Property<string>("Prefix")
                                 .HasMaxLength(64);
 
+                            b1.HasKey("DbFooId");
+
                             b1.ToTable("Foos");
 
                             b1.HasOne("DataContext.DbFoo")
@@ -308,11 +313,120 @@ namespace DataContext.Migrations
                             b1.Property<string>("Value")
                                 .HasMaxLength(16);
 
+                            b1.HasKey("DbFooId");
+
                             b1.ToTable("Foos");
 
                             b1.HasOne("DataContext.DbFoo")
                                 .WithOne("PhoneNumber")
                                 .HasForeignKey("Iti.ValueObjects.PhoneNumber", "DbFooId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
+                });
+
+            modelBuilder.Entity("DataContext.DbValObjHolder", b =>
+                {
+                    b.OwnsOne("Domain.ValueParent", "ValueParent", b1 =>
+                        {
+                            b1.Property<Guid>("DbValObjHolderId");
+
+                            b1.Property<string>("ParentValue");
+
+                            b1.HasKey("DbValObjHolderId");
+
+                            b1.ToTable("ValObjHolders");
+
+                            b1.HasOne("DataContext.DbValObjHolder")
+                                .WithOne("ValueParent")
+                                .HasForeignKey("Domain.ValueParent", "DbValObjHolderId")
+                                .OnDelete(DeleteBehavior.Cascade);
+
+                            b1.OwnsOne("Domain.ValueChild", "Child", b2 =>
+                                {
+                                    b2.Property<Guid>("ValueParentDbValObjHolderId");
+
+                                    b2.Property<string>("ChildValue");
+
+                                    b2.HasKey("ValueParentDbValObjHolderId");
+
+                                    b2.ToTable("ValObjHolders");
+
+                                    b2.HasOne("Domain.ValueParent")
+                                        .WithOne("Child")
+                                        .HasForeignKey("Domain.ValueChild", "ValueParentDbValObjHolderId")
+                                        .OnDelete(DeleteBehavior.Cascade);
+                                });
+                        });
+
+                    b.OwnsOne("Iti.ValueObjects.Address", "Address", b1 =>
+                        {
+                            b1.Property<Guid>("DbValObjHolderId");
+
+                            b1.Property<string>("City")
+                                .HasMaxLength(64);
+
+                            b1.Property<string>("Line1")
+                                .HasMaxLength(64);
+
+                            b1.Property<string>("Line2")
+                                .HasMaxLength(64);
+
+                            b1.Property<string>("State")
+                                .HasMaxLength(16);
+
+                            b1.Property<string>("Zip")
+                                .HasMaxLength(16);
+
+                            b1.HasKey("DbValObjHolderId");
+
+                            b1.ToTable("ValObjHolders");
+
+                            b1.HasOne("DataContext.DbValObjHolder")
+                                .WithOne("Address")
+                                .HasForeignKey("Iti.ValueObjects.Address", "DbValObjHolderId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
+
+                    b.OwnsOne("Iti.ValueObjects.PersonName", "PersonName", b1 =>
+                        {
+                            b1.Property<Guid>("DbValObjHolderId");
+
+                            b1.Property<string>("First")
+                                .HasMaxLength(64);
+
+                            b1.Property<string>("Last")
+                                .HasMaxLength(64);
+
+                            b1.Property<string>("Middle")
+                                .HasMaxLength(64);
+
+                            b1.Property<string>("Prefix")
+                                .HasMaxLength(64);
+
+                            b1.HasKey("DbValObjHolderId");
+
+                            b1.ToTable("ValObjHolders");
+
+                            b1.HasOne("DataContext.DbValObjHolder")
+                                .WithOne("PersonName")
+                                .HasForeignKey("Iti.ValueObjects.PersonName", "DbValObjHolderId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
+
+                    b.OwnsOne("Iti.ValueObjects.PhoneNumber", "PhoneNumber", b1 =>
+                        {
+                            b1.Property<Guid>("DbValObjHolderId");
+
+                            b1.Property<string>("Value")
+                                .HasMaxLength(16);
+
+                            b1.HasKey("DbValObjHolderId");
+
+                            b1.ToTable("ValObjHolders");
+
+                            b1.HasOne("DataContext.DbValObjHolder")
+                                .WithOne("PhoneNumber")
+                                .HasForeignKey("Iti.ValueObjects.PhoneNumber", "DbValObjHolderId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
                 });

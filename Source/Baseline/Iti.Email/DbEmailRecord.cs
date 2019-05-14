@@ -1,16 +1,16 @@
 ﻿using System;
-using Iti.Core.Entites;
-using Iti.Identities;
+using System.ComponentModel.DataAnnotations;
+using Iti.Core.DataContext;
 using Iti.Utilities;
 
 namespace Iti.Email
 {
-    public class EmailRecord : AggregateRoot
+    public class DbEmailRecord : DbEntity
     {
         [Obsolete("Serialization use only")]
-        protected EmailRecord() { }
+        protected DbEmailRecord() { }
 
-        public EmailRecord(NotificationId notificationId, string toAddress, string subject, string body)
+        public DbEmailRecord(Guid? notificationId, string toAddress, string subject, string body)
         {
             NotificationId = notificationId;
             ToAddress = toAddress;
@@ -20,16 +20,18 @@ namespace Iti.Email
 
         //
 
-        public EmailRecordId Id { get; set; } = new EmailRecordId();
+        public Guid Id { get; set; }
 
-        public NotificationId NotificationId { get; protected set; }
+        public Guid? NotificationId { get; protected set; }
 
         public EmailStatus Status { get; set; } = EmailStatus.Pending;
 
         public DateTimeOffset? SentUtc { get; set; }
 
+        [MaxLength(256)]
         public string ToAddress { get; protected set; }
 
+        [MaxLength(1024)]
         public string Subject { get; protected set; }
 
         public string Body { get; protected set; }

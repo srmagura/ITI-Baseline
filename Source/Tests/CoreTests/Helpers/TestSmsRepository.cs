@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Iti.Identities;
 using Iti.Sms;
 
 namespace CoreTests.Helpers
@@ -23,26 +24,9 @@ namespace CoreTests.Helpers
             throw new TestNotImplementedException();
         }
 
-        public SmsRecord Get(long id)
+        public SmsRecord Get(SmsRecordId id)
         {
             throw new TestNotImplementedException();
-        }
-
-        public void ForEachPendingOrRetry(Action<SmsRecord> callback)
-        {
-            var pending = Records
-                .Where(p => p.Status == SmsStatus.Pending)
-                .ToList();
-
-            foreach (var rec in pending)
-            {
-                callback(rec);
-            }
-        }
-
-        public void CleanupOldSms(int olderThanDays)
-        {
-            WasCleanedUp = true;
         }
     }
 }

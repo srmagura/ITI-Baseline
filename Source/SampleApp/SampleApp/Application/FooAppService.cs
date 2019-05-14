@@ -5,7 +5,6 @@ using Domain.DomainServices;
 using Iti.Auth;
 using Iti.Core.Services;
 using Iti.Core.UnitOfWork;
-using Iti.Core.UserTracker;
 using Iti.Inversion;
 using Iti.Utilities;
 using Iti.ValueObjects;
@@ -15,7 +14,7 @@ using SampleApp.Auth;
 
 namespace SampleApp.Application
 {
-    public class FooAppService : ApplicationService, IFooAppService, IUserTracking
+    public class FooAppService : ApplicationService, IFooAppService
     {
         private readonly IAppAuthContext _auth;
         private readonly IAppPermissions _perms;

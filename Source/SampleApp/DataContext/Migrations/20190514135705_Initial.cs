@@ -46,13 +46,13 @@ namespace DataContext.Migrations
                 name: "EmailRecords",
                 columns: table => new
                 {
+                    Id = table.Column<Guid>(nullable: false),
                     DateCreatedUtc = table.Column<DateTimeOffset>(nullable: false),
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    NotificationId = table.Column<Guid>(nullable: true),
                     Status = table.Column<int>(nullable: false),
                     SentUtc = table.Column<DateTimeOffset>(nullable: true),
-                    ToAddress = table.Column<string>(nullable: true),
-                    Subject = table.Column<string>(maxLength: 512, nullable: true),
+                    ToAddress = table.Column<string>(maxLength: 256, nullable: true),
+                    Subject = table.Column<string>(maxLength: 1024, nullable: true),
                     Body = table.Column<string>(nullable: true),
                     RetryCount = table.Column<int>(nullable: false),
                     NextRetryUtc = table.Column<DateTimeOffset>(nullable: true)
@@ -115,12 +115,12 @@ namespace DataContext.Migrations
                 name: "SmsRecords",
                 columns: table => new
                 {
+                    Id = table.Column<Guid>(nullable: false),
                     DateCreatedUtc = table.Column<DateTimeOffset>(nullable: false),
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    NotificationId = table.Column<Guid>(nullable: true),
                     Status = table.Column<int>(nullable: false),
                     SentUtc = table.Column<DateTimeOffset>(nullable: true),
-                    ToAddress = table.Column<string>(nullable: true),
+                    ToAddress = table.Column<string>(maxLength: 32, nullable: true),
                     Body = table.Column<string>(nullable: true),
                     RetryCount = table.Column<int>(nullable: false),
                     NextRetryUtc = table.Column<DateTimeOffset>(nullable: true)
@@ -131,30 +131,40 @@ namespace DataContext.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserTracks",
+                name: "ValObjHolders",
                 columns: table => new
                 {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    LastAccessUtc = table.Column<DateTimeOffset>(nullable: false),
-                    UserId = table.Column<string>(maxLength: 128, nullable: true),
-                    Service = table.Column<string>(maxLength: 128, nullable: true)
+                    Id = table.Column<Guid>(nullable: false),
+                    DateCreatedUtc = table.Column<DateTimeOffset>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Address_Line1 = table.Column<string>(maxLength: 64, nullable: true),
+                    Address_Line2 = table.Column<string>(maxLength: 64, nullable: true),
+                    Address_City = table.Column<string>(maxLength: 64, nullable: true),
+                    Address_State = table.Column<string>(maxLength: 16, nullable: true),
+                    Address_Zip = table.Column<string>(maxLength: 16, nullable: true),
+                    PersonName_Prefix = table.Column<string>(maxLength: 64, nullable: true),
+                    PersonName_First = table.Column<string>(maxLength: 64, nullable: true),
+                    PersonName_Middle = table.Column<string>(maxLength: 64, nullable: true),
+                    PersonName_Last = table.Column<string>(maxLength: 64, nullable: true),
+                    PhoneNumber_Value = table.Column<string>(maxLength: 16, nullable: true),
+                    ValueParent_ParentValue = table.Column<string>(nullable: true),
+                    ValueParent_Child_ChildValue = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserTracks", x => x.Id);
+                    table.PrimaryKey("PK_ValObjHolders", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "VoiceRecords",
                 columns: table => new
                 {
+                    Id = table.Column<Guid>(nullable: false),
                     DateCreatedUtc = table.Column<DateTimeOffset>(nullable: false),
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    NotificationId = table.Column<Guid>(nullable: true),
                     Status = table.Column<int>(nullable: false),
                     SentUtc = table.Column<DateTimeOffset>(nullable: true),
-                    ToAddress = table.Column<string>(nullable: true),
+                    ToAddress = table.Column<string>(maxLength: 64, nullable: true),
                     Body = table.Column<string>(nullable: true),
                     RetryCount = table.Column<int>(nullable: false),
                     NextRetryUtc = table.Column<DateTimeOffset>(nullable: true)
@@ -209,7 +219,7 @@ namespace DataContext.Migrations
                 name: "SmsRecords");
 
             migrationBuilder.DropTable(
-                name: "UserTracks");
+                name: "ValObjHolders");
 
             migrationBuilder.DropTable(
                 name: "VoiceRecords");

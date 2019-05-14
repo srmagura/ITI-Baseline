@@ -41,6 +41,7 @@
       <HintPath>..\..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.IdentityModel.Tokens.Jwt, Version=5.1.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.IdentityModel.Tokens.Jwt.5.1.2\lib\net451\System.IdentityModel.Tokens.Jwt.dll</HintPath>
@@ -58,15 +59,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleSmsSender.cs" />
+    <Compile Include="DbSmsRecord.cs" />
     <Compile Include="ISmsRepository.cs" />
     <Compile Include="ISmsSender.cs" />
     <Compile Include="ITwilioSmsSettings.cs" />
     <Compile Include="NullSmsSender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueuedSmsSender.cs" />
-    <Compile Include="SmsJobProcessor.cs" />
     <Compile Include="SmsJobSettings.cs" />
     <Compile Include="SmsRecord.cs" />
+    <Compile Include="SmsRecordDto.cs" />
     <Compile Include="SmsStatus.cs" />
     <Compile Include="TwilioSmsSender.cs" />
   </ItemGroup>
@@ -74,6 +76,10 @@
     <ProjectReference Include="..\Iti.Core\Iti.Core.csproj">
       <Project>{4035A0B1-F751-48BB-B096-0CE88F428176}</Project>
       <Name>Iti.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Iti.Identities\Iti.Identities.csproj">
+      <Project>{5E13AE67-7C69-4697-B54E-DAA5707ECB39}</Project>
+      <Name>Iti.Identities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Iti.Logging\Iti.Logging.csproj">
       <Project>{13D91588-2449-434B-9FA8-EE5508F180B0}</Project>

@@ -1,4 +1,5 @@
 ﻿using System;
+using Iti.Identities;
 
 namespace Iti.Email
 {
@@ -11,7 +12,7 @@ namespace Iti.Email
             _repo = repo;
         }
 
-        public void Send(long? notificationId, string toEmailAddress, string subject, string body)
+        public void Send(NotificationId notificationId, string toEmailAddress, string subject, string body)
         {
             var rec = new EmailRecord(notificationId, toEmailAddress, subject, body);
             _repo.Add(rec);

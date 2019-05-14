@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Mail;
+using Iti.Identities;
 
 namespace Iti.Email
 {
@@ -12,7 +13,7 @@ namespace Iti.Email
             _settings = settings;
         }
 
-        public void Send(long? notificationId, string toAddress, string subject, string body)
+        public void Send(NotificationId notificationId, string toAddress, string subject, string body)
         {
             var smtp = new SmtpClient(_settings.SmtpServer, _settings.SmtpPort)
             {

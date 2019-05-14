@@ -1,4 +1,5 @@
 ﻿using System;
+using Iti.Identities;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
@@ -14,7 +15,7 @@ namespace Iti.Voice
             _settings = settings;
         }
 
-        public void Send(long? notificationId, string toPhoneNumber, string callbackUrl)
+        public void Send(NotificationId notificationId, string toPhoneNumber, string callbackUrl)
         {
             TwilioClient.Init(_settings.Sid, _settings.AuthToken);
 

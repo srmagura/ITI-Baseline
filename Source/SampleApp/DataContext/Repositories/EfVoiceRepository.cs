@@ -1,9 +1,8 @@
-﻿using System;
-using System.Linq;
-using Iti.Core.DateTime;
+﻿using System.Linq;
+using Iti.Core.DataContext;
 using Iti.Core.Repositories;
+using Iti.Identities;
 using Iti.Voice;
-using Microsoft.EntityFrameworkCore;
 
 namespace DataContext.Repositories
 {
@@ -11,41 +10,14 @@ namespace DataContext.Repositories
     {
         public void Add(VoiceRecord rec)
         {
-            Context.VoiceRecords.Add(rec);
+            Context.VoiceRecords.Add(DbEntity.ToDb<DbVoiceRecord>(rec));
         }
 
-        public VoiceRecord Get(long id)
+        public VoiceRecord Get(VoiceRecordId id)
         {
-            return Context.VoiceRecords.FirstOrDefault(p => p.Id == id);
-        }
-
-        public void ForEachPendingOrRetry(Action<VoiceRecord> callback)
-        {
-            using (var db = new SampleDataContext())
-            {
-                var now = DateTimeService.UtcNow;
-
-                var pending = db.VoiceRecords
-                    .Where(p => p.Status == VoiceStatus.Pending
-                                && (p.NextRetryUtc == null || p.NextRetryUtc <= now))
-                    .ToList();
-
-                foreach (var item in pending)
-                {
-                    callback(item);
-                }
-            }
-        }
-
-        public void CleanupOldVoice(int olderThanDays)
-        {
-            using (var db = new SampleDataContext())
-            {
-                var dt = DateTimeService.UtcNow.AddDays(-1 * olderThanDays);
-
-                db.Database.ExecuteSqlCommand("DELETE FROM VoiceRecords WHERE DateCreatedUtc < {0}", dt);
-                db.SaveChanges();   // not technically necessary... *shrug*
-            }
+            return Context.VoiceRecords
+                .FirstOrDefault(p => p.Id == id.Guid)
+                ?.ToEntity<VoiceRecord>();
         }
     }
 }

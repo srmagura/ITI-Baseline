@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using Iti.Identities;
 
 namespace Iti.Sms
 {
     public interface ISmsRepository
     {
         void Add(SmsRecord rec);
-        SmsRecord Get(long id);
-
-        void ForEachPendingOrRetry(Action<SmsRecord> callback);
-        void CleanupOldSms(int olderThanDays);
+        SmsRecord Get(SmsRecordId id);
     }
 }

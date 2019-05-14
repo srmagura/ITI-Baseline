@@ -1,5 +1,6 @@
 ﻿using System;
 using Iti.Core.Entites;
+using Iti.Identities;
 
 namespace Iti.Voice
 {
@@ -8,7 +9,7 @@ namespace Iti.Voice
         [Obsolete("Serialization use only")]
         protected VoiceRecord() { }
 
-        public VoiceRecord(long? notificationId, string toAddress, string body)
+        public VoiceRecord(NotificationId notificationId, string toAddress, string body)
         {
             NotificationId = notificationId;
             ToAddress = toAddress;
@@ -17,9 +18,9 @@ namespace Iti.Voice
 
         //
 
-        public long Id { get; set; }
+        public VoiceRecordId Id { get; set; } = new VoiceRecordId();
 
-        public long? NotificationId { get; set; }
+        public NotificationId NotificationId { get; set; }
 
         public VoiceStatus Status { get; set; } = VoiceStatus.Pending;
 

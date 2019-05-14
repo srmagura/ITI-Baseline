@@ -1,4 +1,5 @@
-﻿using Twilio;
+﻿using Iti.Identities;
+using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 
 namespace Iti.Sms
@@ -12,7 +13,7 @@ namespace Iti.Sms
             _settings = settings;
         }
 
-        public void Send(long? notificationId, string toAddress, string body)
+        public void Send(NotificationId notificationId, string toAddress, string body)
         {
             TwilioClient.Init(_settings.Sid, _settings.AuthToken);
             var message = MessageResource.Create(

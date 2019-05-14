@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Xml.Schema;
-using Iti.Core.Entites;
-using Iti.Identities;
+using System.ComponentModel.DataAnnotations;
+using Iti.Core.DataContext;
 
 namespace Iti.Sms
 {
-    public class SmsRecord : AggregateRoot
+    public class DbSmsRecord : DbEntity
     {
         [Obsolete("Serialization use only")]
-        protected SmsRecord() { }
+        protected DbSmsRecord() { }
 
-        public SmsRecord(NotificationId notificationId, string toAddress, string body)
+        public DbSmsRecord(Guid? notificationId, string toAddress, string body)
         {
             NotificationId = notificationId;
             ToAddress = toAddress;
@@ -19,14 +18,15 @@ namespace Iti.Sms
 
         //
 
-        public SmsRecordId Id { get; set; } = new SmsRecordId();
+        public Guid Id { get; set; }
 
-        public NotificationId NotificationId { get; protected set; }
+        public Guid? NotificationId { get; protected set; }
 
         public SmsStatus Status { get; set; } = SmsStatus.Pending;
 
         public DateTimeOffset? SentUtc { get; set; }
 
+        [MaxLength(32)]
         public string ToAddress { get; protected set; }
 
         public string Body { get; protected set; }

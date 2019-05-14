@@ -136,25 +136,9 @@
     <Compile Include="DbBar.cs" />
     <Compile Include="DbFoo.cs" />
     <Compile Include="DbValObjHolder.cs" />
-    <Compile Include="Migrations\20181029201155_Initial.cs" />
-    <Compile Include="Migrations\20181029201155_Initial.designer.cs">
-      <DependentUpon>20181029201155_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\20181213165914_NotificationIds.cs" />
-    <Compile Include="Migrations\20181213165914_NotificationIds.designer.cs">
-      <DependentUpon>20181213165914_NotificationIds.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\20190314122358_FooValPar.cs" />
-    <Compile Include="Migrations\20190314122358_FooValPar.designer.cs">
-      <DependentUpon>20190314122358_FooValPar.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\20190314122429_FooValPar2.cs" />
-    <Compile Include="Migrations\20190314122429_FooValPar2.designer.cs">
-      <DependentUpon>20190314122429_FooValPar2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\20190314132528_ValObjHolder.cs" />
-    <Compile Include="Migrations\20190314132528_ValObjHolder.designer.cs">
-      <DependentUpon>20190314132528_ValObjHolder.cs</DependentUpon>
+    <Compile Include="Migrations\20190514135705_Initial.cs" />
+    <Compile Include="Migrations\20190514135705_Initial.designer.cs">
+      <DependentUpon>20190514135705_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\SampleDataContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -173,6 +157,10 @@
     <ProjectReference Include="..\..\Baseline\Iti.Email\Iti.Email.csproj">
       <Project>{27265E5D-9BE1-456F-96BB-770E690D29A5}</Project>
       <Name>Iti.Email</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Baseline\Iti.Identities\Iti.Identities.csproj">
+      <Project>{5E13AE67-7C69-4697-B54E-DAA5707ECB39}</Project>
+      <Name>Iti.Identities</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Baseline\Iti.Inversion\Iti.Inversion.csproj">
       <Project>{AEA5A010-E8FE-42F3-9C4D-07EF380AFB65}</Project>
@@ -207,6 +195,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

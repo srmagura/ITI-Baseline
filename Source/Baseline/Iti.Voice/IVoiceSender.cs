@@ -1,7 +1,9 @@
-﻿namespace Iti.Voice
+﻿using Iti.Identities;
+
+namespace Iti.Voice
 {
     public interface IVoiceSender
     {
-        void Send(long? notificationId, string toPhoneNumber, string content);
+        void Send(NotificationId notificationId, string toPhoneNumber, string content);
     }
 }

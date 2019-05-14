@@ -169,6 +169,10 @@
       <Project>{F2848FAA-38A2-46ED-8E09-09428FEDAC50}</Project>
       <Name>Iti.Geolocation</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Baseline\Iti.Identities\Iti.Identities.csproj">
+      <Project>{5E13AE67-7C69-4697-B54E-DAA5707ECB39}</Project>
+      <Name>Iti.Identities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Baseline\Iti.Inversion\Iti.Inversion.csproj">
       <Project>{AEA5A010-E8FE-42F3-9C4D-07EF380AFB65}</Project>
       <Name>Iti.Inversion</Name>
