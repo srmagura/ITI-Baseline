@@ -20,8 +20,6 @@ namespace Iti.Email
 
         //
 
-        public Guid Id { get; set; }
-
         public Guid? NotificationId { get; protected set; }
 
         public EmailStatus Status { get; set; } = EmailStatus.Pending;

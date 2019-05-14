@@ -18,8 +18,6 @@ namespace Iti.Sms
 
         //
 
-        public Guid Id { get; set; }
-
         public Guid? NotificationId { get; protected set; }
 
         public SmsStatus Status { get; set; } = SmsStatus.Pending;

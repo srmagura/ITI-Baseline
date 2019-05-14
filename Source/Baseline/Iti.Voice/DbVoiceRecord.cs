@@ -18,8 +18,6 @@ namespace Iti.Voice
 
         //
 
-        public Guid Id { get; set; }
-
         public Guid? NotificationId { get; set; }
 
         public VoiceStatus Status { get; set; } = VoiceStatus.Pending;

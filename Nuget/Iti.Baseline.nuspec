@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Iti.Baseline</id>
-    <version>1.6.0</version>
+    <version>1.6.1</version>
     <authors>Interface Technologies, Inc.</authors>
     <owners>Interface Technologies, Inc.</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -36,6 +36,7 @@
   	<file src="..\Source\Baseline\Iti.Sms\bin\Release\Iti.Sms.dll" target="lib\net471\Iti.Sms.dll" />
   	<file src="..\Source\Baseline\Iti.Voice\bin\Release\Iti.Voice.dll" target="lib\net471\Iti.Voice.dll" />
   	<file src="..\Source\Baseline\Iti.Utilities\bin\Release\Iti.Utilities.dll" target="lib\net471\Iti.Utilities.dll" />
+  	<file src="..\Source\Baseline\Iti.Identities\bin\Release\Iti.Identities.dll" target="lib\net471\Iti.Identities.dll" />
   	<file src="..\Source\Baseline\Iti.ValueObjects\bin\Release\Iti.ValueObjects.dll" target="lib\net471\Iti.ValueObjects.dll" />
   	<file src="..\Source\Baseline\Iti.Geolocation\bin\Release\Iti.Geolocation.dll" target="lib\net471\Iti.Geolocation.dll" />
   </files>
