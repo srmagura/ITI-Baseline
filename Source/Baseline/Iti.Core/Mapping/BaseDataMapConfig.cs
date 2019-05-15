@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using AutoMapper;
 using Iti.Core.DataContext;
+using Iti.Core.DTOs;
 using Iti.Core.Entites;
 using Iti.Core.ValueObjects;
 
@@ -287,14 +289,29 @@ namespace Iti.Core.Mapping
 
             foreach (var prop in obj.GetType().GetProperties())
             {
-                if (typeof(IValueObject).IsAssignableFrom(prop.PropertyType))
+                var val = prop.GetValue(obj);
+                if (val == null)
+                    continue;
+
+                if (val is IValueObject valobj)
                 {
-                    if (prop.GetValue(obj) is IValueObject val)
+                    if (!valobj.HasValue())
+                        prop.SetValue(obj, null);
+                    else
+                        RemoveEmptyValueObjects(valobj);
+                }
+                else if (val is IDto dto)
+                {
+                    RemoveEmptyValueObjects(dto);
+                }
+                else if (prop.PropertyType != typeof(string) && typeof(IEnumerable).IsAssignableFrom(prop.PropertyType))
+                {
+                    if (val is IEnumerable list)
                     {
-                        if (!val.HasValue())
-                            prop.SetValue(obj, null);
-                        else
-                            RemoveEmptyValueObjects(val);
+                        foreach (var child in list)
+                        {
+                            RemoveEmptyValueObjects(child);
+                        }
                     }
                 }
             }
