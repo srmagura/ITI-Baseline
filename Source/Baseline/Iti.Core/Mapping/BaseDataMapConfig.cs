@@ -287,9 +287,21 @@ namespace Iti.Core.Mapping
             if (obj == null)
                 return;
 
+            if (obj.GetType().IsPrimitive)
+                return;
+            if (obj is string)
+                return;
+
             foreach (var prop in obj.GetType().GetProperties())
             {
                 var val = prop.GetValue(obj);
+
+                if (prop.PropertyType.IsPrimitive)
+                    continue;
+
+                if (prop.PropertyType == typeof(string))
+                    continue;
+
                 if (val == null)
                     continue;
 
