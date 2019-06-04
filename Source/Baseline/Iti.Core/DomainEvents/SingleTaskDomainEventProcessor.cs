@@ -14,7 +14,6 @@ namespace Iti.Core.DomainEvents
                 {
                     HandleEvent(handlers, ev);
                 }
-
             }
             catch (Exception exc)
             {
