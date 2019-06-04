@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using EntityFrameworkCore.DbContextScope;
+using Iti.Auth;
+using Iti.Inversion;
 using Iti.Logging;
 using Iti.Utilities;
 
@@ -53,7 +55,14 @@ namespace Iti.Core.UnitOfWork
             if (!events.HasItems())
                 return;
 
-            var task = Task.Run(() => DomainEvents.DomainEvents.HandleEvents(events));
+            var auth = IOC.TryResolve<IAuthContext>();
+            var authContextData = auth?.AuthContextData;
+
+            var task = Task.Run(() =>
+            {
+                auth?.SetAuthContextData(authContextData);
+                DomainEvents.DomainEvents.HandleEvents(events);
+            });
             if (waitForDomainEvents || UnitOfWork.WaitForDomainEvents)
                 task.Wait();
         }
