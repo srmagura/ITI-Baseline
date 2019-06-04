@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using EntityFrameworkCore.DbContextScope;
+using Iti.Logging;
 using Iti.Utilities;
 
 namespace Iti.Core.UnitOfWork
@@ -18,7 +20,14 @@ namespace Iti.Core.UnitOfWork
         {
             var result = _dbContextScope.SaveChanges();
 
-            ProcessDomainEvents(waitForDomainEvents);
+            try
+            {
+                ProcessDomainEvents(waitForDomainEvents);
+            }
+            catch (Exception exc)
+            {
+                Log.Error("Error processing domain events!", exc);
+            }
 
             return result;
         }
