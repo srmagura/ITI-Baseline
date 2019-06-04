@@ -1,4 +1,5 @@
-﻿using SampleApp.Auth;
+﻿using System;
+using SampleApp.Auth;
 
 namespace CoreTests.Helpers
 {
@@ -6,6 +7,14 @@ namespace CoreTests.Helpers
     {
         public string UserId => "1234";
         public string UserName => "TestUser";
+
+        public object AuthContextData => new Object();
+
+        public void SetAuthContextData(object data)
+        {
+            // do nothing
+        }
+
         public bool IsAuthenticated => true;
         public bool HasFakeRole1 => true;
         public bool HasFakeRole2 => true;
