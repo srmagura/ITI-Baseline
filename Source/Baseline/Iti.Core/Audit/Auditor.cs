@@ -95,12 +95,15 @@ namespace Iti.Core.Audit
                                 changeType = "Deleted";
                         }
 
-                        var audit = new AuditRecord(auth?.UserId, auth?.UserName,
-                            aggregateName, aggregateId,
-                            auditEntity.AuditEntityName, auditEntity.AuditEntityId,
-                            changeType, changes);
+                        if (ShouldAudit(changes))
+                        {
+                            var audit = new AuditRecord(auth?.UserId, auth?.UserName,
+                                aggregateName, aggregateId,
+                                auditEntity.AuditEntityName, auditEntity.AuditEntityId,
+                                changeType, changes);
 
-                        list.Add(audit);
+                            list.Add(audit);
+                        }
                     }
                 }
                 catch (Exception exc)
@@ -110,6 +113,11 @@ namespace Iti.Core.Audit
             }
 
             return list;
+        }
+
+        private static bool ShouldAudit(string changes)
+        {
+            return changes.HasValue() && changes != "[]";
         }
 
         private static bool HasReferenceChanges(EntityEntry entry)

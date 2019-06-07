@@ -153,12 +153,16 @@ namespace CoreTests
             bars.Add(new Bar(Guid.NewGuid().ToString()));
             bars.Add(new Bar(Guid.NewGuid().ToString()));
 
+            // CREATE FOO AND BARS
+
             var fooName = Guid.NewGuid().ToString();
             var fooId = svc.CreateFoo(fooName, bars,
                 new Address("4034 Winecott Drive", "", "Apex", "NC", "27502"),
                 new PersonName("Test","Test","Test"),
                 new PhoneNumber("9198675309")
                 );
+
+            Console.WriteLine($"FOO ID: [{fooId}]");
 
             var foo = svc.Get(fooId);
             Dump("Foo out", foo);
@@ -169,14 +173,14 @@ namespace CoreTests
             foreach (var bar in bars)
                 Assert.IsTrue(foo.Bars.Any(p => p.Name == bar.Name));
 
+            // CHANGE FOO NAME
+
             fooName = "Some New Name for this Foo!";
             svc.SetName(fooId, fooName);
 
-            Console.WriteLine();
-            Console.WriteLine("************************************************************************");
+            // CHANGE FOO ADDRESS
+
             svc.SetAddress(fooId, new Address("x", "x", "x", "x", "x"));
-            Console.WriteLine("************************************************************************");
-            Console.WriteLine();
 
             foo = svc.Get(fooId);
             Assert.AreEqual(fooName, foo.Name);
@@ -186,12 +190,16 @@ namespace CoreTests
             Assert.AreEqual("x", foo.Address.State);
             Assert.AreEqual("x", foo.Address.Zip);
 
+            // REMOVE BAR
+
             svc.RemoveBar(fooId, bars[0].Name);
             foo = svc.Get(fooId);
             Dump("Get", foo);
             Assert.IsNotNull(foo);
             Assert.AreEqual(fooName, foo.Name);
             Assert.AreEqual(2, foo.Bars.Count);
+
+            // ADD BAR
 
             svc.AddBar(fooId, "New Bar!");
             foo = svc.Get(fooId);
@@ -201,6 +209,8 @@ namespace CoreTests
             Assert.AreEqual(1, foo.Bars.Count(p => p.Name == "New Bar!"));
             Dump("Final", foo);
 
+            // CHANGE ALL BAR NAMES
+
             svc.SetAllBarNames(fooId, "Same Name");
             foo = svc.Get(fooId);
             Assert.IsNotNull(foo);
@@ -209,6 +219,8 @@ namespace CoreTests
             Assert.AreEqual(0, foo.Bars.Count(p => p.Name == "New Bar!"));
             Assert.AreEqual(3, foo.Bars.Count(p => p.Name == "Same Name"));
             Dump("Final", foo);
+
+            // REMOVE FOO
 
             svc.Remove(fooId);
 
