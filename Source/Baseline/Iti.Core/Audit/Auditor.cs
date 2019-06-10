@@ -22,6 +22,25 @@ namespace Iti.Core.Audit
     {
         private static readonly Dictionary<string, List<string>> _maskedFields = new Dictionary<string, List<string>>();
 
+        private static readonly Dictionary<string, List<string>> _ignoredFields = new Dictionary<string, List<string>>();
+
+        public static void IgnoreField(string entityName, string fieldName)
+        {
+            if (!entityName.HasValue() || !fieldName.HasValue())
+                return;
+
+            entityName = entityName.ToLower();
+            fieldName = fieldName.ToLower();
+
+            if (!_ignoredFields.ContainsKey(entityName))
+            {
+                _ignoredFields[entityName] = new List<string>();
+            }
+
+            if (!_ignoredFields[entityName].Contains(fieldName))
+                _ignoredFields[entityName].Add(fieldName);
+        }
+
         public static void MaskField(string entityName, string fieldName)
         {
             if (!entityName.HasValue() || !fieldName.HasValue())
@@ -232,6 +251,19 @@ namespace Iti.Core.Audit
             }
 
             var en = entityName.ToLower();
+
+            if (_ignoredFields.ContainsKey(en))
+            {
+                var ignoredFields = _ignoredFields[en];
+                var fn = fieldName.ToLower();
+                while (fn.StartsWith("."))
+                    fn = fn.Substring(1);
+                if (ignoredFields.Any(p => p == fn))
+                {
+                    return null;
+                }
+            }
+
             if (_maskedFields.ContainsKey(en))
             {
                 var maskedFields = _maskedFields[en];
