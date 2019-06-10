@@ -85,9 +85,11 @@ namespace Domain
 
         public void SetAllBarNames(string name)
         {
+            var i = 1;
             foreach (var bar in _bars)
             {
-                bar.SetName(name);
+                bar.SetName($"{name} {i}");
+                i++;
             }
             DomainEvents.Raise(new FooBarsChangedEvent(Id));
         }

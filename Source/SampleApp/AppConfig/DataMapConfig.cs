@@ -141,7 +141,9 @@ namespace AppConfig
                 .ReverseMap()
                 .AfterMap((db, e) =>
                 {
-                    SetPrivateField(e, "_bars", Mapper.Map<List<Bar>>(db.Bars));
+                    // SetPrivateField(e, "_bars", Mapper.Map<List<Bar>>(db.Bars));
+                    SetPrivateField(e, "_bars", db.Bars.Select(p => p.ToEntity<Bar>()).ToList());
+
                     SetPrivateField(e, "_someInts", ToList(db.SomeInts, int.Parse));
                     SetPrivateField(e, "_someGuids", ToList(db.SomeGuids, Guid.Parse));
                 })

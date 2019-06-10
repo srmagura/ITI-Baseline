@@ -8,6 +8,7 @@ using DataContext;
 using Domain;
 using Domain.Events;
 using Iti.Auth;
+using Iti.Core.Audit;
 using Iti.Core.DomainEvents;
 using Iti.Inversion;
 using Iti.Logging;
@@ -33,6 +34,8 @@ namespace CoreTests
             IOC.RegisterType<IAppAuthContext, TestAuthContext>();
 
             IOC.RegisterType<ILogWriter, ConsoleLogWriter>();
+
+            IOC.RegisterType<IAuditDataContext, SampleDataContext>();
 
             DomainEvents.Register<FooCreatedEvent, TestFooEventHandlers>();
             DomainEvents.Register<FooAddressChangedEvent, TestFooEventHandlers>();
@@ -130,6 +133,7 @@ namespace CoreTests
 
         private static void DumpAudit(FooId fooId)
         {
+            /*
             using (var db = new SampleDataContext())
             {
                 var id = fooId.Guid.ToString();
@@ -141,6 +145,7 @@ namespace CoreTests
                 ;
                 audit.ConsoleDump("AUDIT");
             }
+            */
         }
 
         [TestMethod]
@@ -158,9 +163,11 @@ namespace CoreTests
             var fooName = Guid.NewGuid().ToString();
             var fooId = svc.CreateFoo(fooName, bars,
                 new Address("4034 Winecott Drive", "", "Apex", "NC", "27502"),
-                new PersonName("Test","Test","Test"),
+                new PersonName("Test", "Test", "Test"),
                 new PhoneNumber("9198675309")
                 );
+
+            AuditEvents.Write("Foo", fooId.Guid.ToString(), "Added a Foo");
 
             Console.WriteLine($"FOO ID: [{fooId}]");
 
@@ -175,12 +182,20 @@ namespace CoreTests
 
             // CHANGE FOO NAME
 
+            AuditEvents.Write("Foo", fooId.Guid.ToString(), "Change Foo Name (PRE)");
+
             fooName = "Some New Name for this Foo!";
             svc.SetName(fooId, fooName);
 
+            AuditEvents.Write("Foo", fooId.Guid.ToString(), "Change Foo Name (POST)");
+
             // CHANGE FOO ADDRESS
 
+            AuditEvents.Write("Foo", fooId.Guid.ToString(), "Update Address (PRE)");
+
             svc.SetAddress(fooId, new Address("x", "x", "x", "x", "x"));
+
+            AuditEvents.Write("Foo", fooId.Guid.ToString(), "Update Address (POST)");
 
             foo = svc.Get(fooId);
             Assert.AreEqual(fooName, foo.Name);
@@ -192,16 +207,26 @@ namespace CoreTests
 
             // REMOVE BAR
 
-            svc.RemoveBar(fooId, bars[0].Name);
+            foo = svc.Get(fooId);
+            var barName = foo.Bars[0].Name;
+
+            AuditEvents.Write("Foo", fooId.Guid.ToString(), "Remove First Bar (PRE)");
+            svc.RemoveBar(fooId, barName);
+            AuditEvents.Write("Foo", fooId.Guid.ToString(), "Remove First Bar (POST)");
+
             foo = svc.Get(fooId);
             Dump("Get", foo);
             Assert.IsNotNull(foo);
             Assert.AreEqual(fooName, foo.Name);
             Assert.AreEqual(2, foo.Bars.Count);
+            Assert.AreEqual(0, foo.Bars.Count(p => p.Name == barName));
 
             // ADD BAR
 
+            AuditEvents.Write("Foo", fooId.Guid.ToString(), "Add Bar (PRE)");
             svc.AddBar(fooId, "New Bar!");
+            AuditEvents.Write("Foo", fooId.Guid.ToString(), "Add Bar (POST)");
+
             foo = svc.Get(fooId);
             Assert.IsNotNull(foo);
             Assert.AreEqual(fooName, foo.Name);
@@ -209,20 +234,43 @@ namespace CoreTests
             Assert.AreEqual(1, foo.Bars.Count(p => p.Name == "New Bar!"));
             Dump("Final", foo);
 
-            // CHANGE ALL BAR NAMES
+            // CHANGE ALL BAR NAMES SAME
 
+            AuditEvents.Write("Foo", fooId.Guid.ToString(), "Change Bar Names SAME (PRE)");
             svc.SetAllBarNames(fooId, "Same Name");
+            AuditEvents.Write("Foo", fooId.Guid.ToString(), "Change Bar Names SAME (POST)");
+
             foo = svc.Get(fooId);
             Assert.IsNotNull(foo);
             Assert.AreEqual(fooName, foo.Name);
             Assert.AreEqual(3, foo.Bars.Count);
             Assert.AreEqual(0, foo.Bars.Count(p => p.Name == "New Bar!"));
-            Assert.AreEqual(3, foo.Bars.Count(p => p.Name == "Same Name"));
+            Assert.AreEqual(3, foo.Bars.Count(p => p.Name.StartsWith("Same Name")));
             Dump("Final", foo);
+
+            // REMOVE BAR
+
+            foo = svc.Get(fooId);
+            barName = foo.Bars[0].Name;
+
+            foo.Bars.ConsoleDump();
+
+            AuditEvents.Write("Foo", fooId.Guid.ToString(), "Remove SECOND Bar (PRE)");
+            svc.RemoveBar(fooId, barName);
+            AuditEvents.Write("Foo", fooId.Guid.ToString(), "Remove SECOND Bar (POST)");
+
+            foo = svc.Get(fooId);
+            Dump("Get", foo);
+            Assert.IsNotNull(foo);
+            Assert.AreEqual(fooName, foo.Name);
+            Assert.AreEqual(2, foo.Bars.Count);
+            Assert.AreEqual(0, foo.Bars.Count(p => p.Name == barName));
 
             // REMOVE FOO
 
+            AuditEvents.Write("Foo", fooId.Guid.ToString(), "Remove Foo (PRE)");
             svc.Remove(fooId);
+            AuditEvents.Write("Foo", fooId.Guid.ToString(), "Remove Foo (POST)");
 
             /* AUDIT TEST ... SHOULD MOVE */
             DumpAudit(fooId);
