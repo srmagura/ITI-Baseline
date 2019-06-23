@@ -31,9 +31,19 @@ namespace Iti.Email
             subject = subject.Replace("\r", "");
             subject = subject.Replace("\n", " ");
 
-            body = body + "\n\n";
-            body = body.Replace("\r", "");
-            body = body.Replace("\n", "<br/>");
+            if (body.Contains("<html"))
+            {
+                // the email content already has HTML tags... don't muck with it!
+            }
+            else
+            {
+                // there is no html header, so assume we need to convert newlines into breaks
+
+                body = body + "\n\n";
+
+                body = body.Replace("\r", "");
+                body = body.Replace("\n", "<br/>");
+            }
 
             var message = new MailMessage(addrFrom, addrTo)
             {
