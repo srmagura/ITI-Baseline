@@ -55,7 +55,7 @@ namespace AppConfig
         {
             MapIdentity(cfg, guid => new ValObjHolderId(guid));
 
-            cfg.CreateMap<ValObjHolder, DbValObjHolder>();
+            cfg.CreateMap<ValObjHolder, DbValObjHolder>().ReverseMap();
 
             cfg.CreateMap<DbValObjHolder, ValObjHolderDto>();
         }
@@ -121,6 +121,8 @@ namespace AppConfig
                 {
                 })
                 ;
+
+            cfg.CreateMap<DbBar, BarDto>();
         }
 
         private void FooConfig(IMapperConfigurationExpression cfg)
