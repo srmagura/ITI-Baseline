@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using AutoMapper;
+using Iti.Core.DateTime;
 using Iti.Core.Entites;
 using Iti.Core.Mapping;
 using Newtonsoft.Json;
@@ -10,7 +11,7 @@ namespace Iti.Core.DataContext
     public abstract class DbEntity
     {
         public Guid Id { get; set; }
-        public DateTimeOffset DateCreatedUtc { get; set; }
+        public DateTimeOffset DateCreatedUtc { get; set; } = DateTimeOffset.UtcNow;
 
         [JsonIgnore]
         [NotMapped]
