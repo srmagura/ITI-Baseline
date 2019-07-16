@@ -10,8 +10,8 @@ namespace SampleApp.Application.Dto
         public FooId Id { get; set; }
         public string Name { get; set; }
         public decimal SomeMoney { get; set; }
-        public Address Address { get; set; }
-        public PersonName PersonName { get; set; }
+        public SimpleAddress SimpleAddress { get; set; }
+        public SimplePersonName SimplePersonName { get; set; }
         public PhoneNumber PhoneNumber { get; set; }
         public long SomeNumber { get; set; }
 

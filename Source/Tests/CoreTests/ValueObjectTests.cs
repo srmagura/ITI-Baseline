@@ -39,16 +39,16 @@ namespace CoreTests
             var voh = new ValObjHolder()
             {
                 Name = Guid.NewGuid().ToString(),
-                Address = new Address("4034 Winecott Drive", "", "Apex", "NC", "27502"),
+                SimpleAddress = new SimpleAddress("4034 Winecott Drive", "", "Apex", "NC", "27502"),
                 PhoneNumber = new PhoneNumber("9198675309"),
-                PersonName = new PersonName("Test", "Test", "Test"),
+                SimplePersonName = new SimplePersonName("Test", "Test", "Test"),
                 ValueParent = new ValueParent("Parent", new ValueChild("Child")),
             };
 
             voh.ConsoleDump();
-            Assert.IsNotNull(voh.Address);
+            Assert.IsNotNull(voh.SimpleAddress);
             Assert.IsNotNull(voh.PhoneNumber);
-            Assert.IsNotNull(voh.PersonName);
+            Assert.IsNotNull(voh.SimplePersonName);
             Assert.IsNotNull(voh.ValueParent);
             Assert.IsNotNull(voh.ValueParent?.Child);
 
@@ -59,9 +59,9 @@ namespace CoreTests
                 var dbvoh = DbEntity.ToDb<DbValObjHolder>(voh);
 
                 dbvoh.ConsoleDump();
-                Assert.IsNotNull(dbvoh.Address);
+                Assert.IsNotNull(dbvoh.SimpleAddress);
                 Assert.IsNotNull(dbvoh.PhoneNumber);
-                Assert.IsNotNull(dbvoh.PersonName);
+                Assert.IsNotNull(dbvoh.SimplePersonName);
                 Assert.IsNotNull(dbvoh.ValueParent);
                 Assert.IsNotNull(dbvoh.ValueParent?.Child);
 
@@ -79,9 +79,9 @@ namespace CoreTests
                     .ProjectToDto<ValObjHolderDto>();
 
                 dto.ConsoleDump();
-                Assert.IsNotNull(dto.Address);
+                Assert.IsNotNull(dto.SimpleAddress);
                 Assert.IsNotNull(dto.PhoneNumber);
-                Assert.IsNotNull(dto.PersonName);
+                Assert.IsNotNull(dto.SimplePersonName);
                 Assert.IsNotNull(dto.ValueParent);
                 Assert.IsNotNull(dto.ValueParent?.Child);
             }
@@ -95,9 +95,9 @@ namespace CoreTests
                     ?.ToEntity<ValObjHolder>();
 
                 item.ConsoleDump();
-                Assert.IsNotNull(item.Address);
+                Assert.IsNotNull(item.SimpleAddress);
                 Assert.IsNotNull(item.PhoneNumber);
-                Assert.IsNotNull(item.PersonName);
+                Assert.IsNotNull(item.SimplePersonName);
                 Assert.IsNotNull(item.ValueParent);
                 Assert.IsNotNull(item.ValueParent?.Child);
             }
@@ -110,8 +110,8 @@ namespace CoreTests
                     .FirstOrDefault(p => p.Id == voh.Id.Guid)
                     ?.ToEntity<ValObjHolder>();
 
-                item.Address = new Address("New","New","New","New","New");
-                item.PersonName = new PersonName("New","New","New");
+                item.SimpleAddress = new SimpleAddress("New","New","New","New","New");
+                item.SimplePersonName = new SimplePersonName("New","New","New");
                 item.PhoneNumber = new PhoneNumber("9999999999");
                 item.ValueParent = new ValueParent("New", new ValueChild("New"));
 
@@ -127,15 +127,15 @@ namespace CoreTests
                     ?.ToEntity<ValObjHolder>();
 
                 item.ConsoleDump();
-                Assert.IsNotNull(item.Address);
+                Assert.IsNotNull(item.SimpleAddress);
                 Assert.IsNotNull(item.PhoneNumber);
-                Assert.IsNotNull(item.PersonName);
+                Assert.IsNotNull(item.SimplePersonName);
                 Assert.IsNotNull(item.ValueParent);
                 Assert.IsNotNull(item.ValueParent?.Child);
 
-                Assert.AreEqual("New", item.Address.Line1);
+                Assert.AreEqual("New", item.SimpleAddress.Line1);
                 Assert.AreEqual("9999999999", item.PhoneNumber.Value);
-                Assert.AreEqual("New", item.PersonName.First);
+                Assert.AreEqual("New", item.SimplePersonName.First);
                 Assert.AreEqual("New", item.ValueParent.ParentValue);
                 Assert.AreEqual("New", item.ValueParent.Child.ChildValue);
             }
@@ -148,8 +148,8 @@ namespace CoreTests
                     .FirstOrDefault(p => p.Id == voh.Id.Guid)
                     ?.ToEntity<ValObjHolder>();
 
-                item.Address = null;
-                item.PersonName = null;
+                item.SimpleAddress = null;
+                item.SimplePersonName = null;
                 item.PhoneNumber = null;
                 item.ValueParent = null;
 
@@ -165,9 +165,9 @@ namespace CoreTests
                     .ProjectToDto<ValObjHolderDto>();
 
                 dto.ConsoleDump();
-                Assert.IsNull(dto.Address);
+                Assert.IsNull(dto.SimpleAddress);
                 Assert.IsNull(dto.PhoneNumber);
-                Assert.IsNull(dto.PersonName);
+                Assert.IsNull(dto.SimplePersonName);
                 Assert.IsNull(dto.ValueParent);
                 Assert.IsNull(dto.ValueParent?.Child);
             }
@@ -179,16 +179,16 @@ namespace CoreTests
             var voh = new ValObjHolder()
             {
                 Name = Guid.NewGuid().ToString(),
-                Address = null,
+                SimpleAddress = null,
                 PhoneNumber = null,
-                PersonName = null,
+                SimplePersonName = null,
                 ValueParent = null,
             };
 
             voh.ConsoleDump();
-            Assert.IsNull(voh.Address);
+            Assert.IsNull(voh.SimpleAddress);
             Assert.IsNull(voh.PhoneNumber);
-            Assert.IsNull(voh.PersonName);
+            Assert.IsNull(voh.SimplePersonName);
             Assert.IsNull(voh.ValueParent);
             Assert.IsNull(voh.ValueParent?.Child);
 
@@ -199,9 +199,9 @@ namespace CoreTests
                 var dbvoh = DbEntity.ToDb<DbValObjHolder>(voh);
 
                 dbvoh.ConsoleDump();
-                Assert.IsNotNull(dbvoh.Address);
+                Assert.IsNotNull(dbvoh.SimpleAddress);
                 Assert.IsNotNull(dbvoh.PhoneNumber);
-                Assert.IsNotNull(dbvoh.PersonName);
+                Assert.IsNotNull(dbvoh.SimplePersonName);
                 Assert.IsNotNull(dbvoh.ValueParent);
                 Assert.IsNotNull(dbvoh.ValueParent?.Child);
 
@@ -219,9 +219,9 @@ namespace CoreTests
                     .ProjectToDto<ValObjHolderDto>();
 
                 dto.ConsoleDump();
-                Assert.IsNull(dto.Address);
+                Assert.IsNull(dto.SimpleAddress);
                 Assert.IsNull(dto.PhoneNumber);
-                Assert.IsNull(dto.PersonName);
+                Assert.IsNull(dto.SimplePersonName);
                 Assert.IsNull(dto.ValueParent);
                 Assert.IsNull(dto.ValueParent?.Child);
             }
@@ -235,9 +235,9 @@ namespace CoreTests
                     ?.ToEntity<ValObjHolder>();
 
                 item.ConsoleDump();
-                Assert.IsNull(item.Address);
+                Assert.IsNull(item.SimpleAddress);
                 Assert.IsNull(item.PhoneNumber);
-                Assert.IsNull(item.PersonName);
+                Assert.IsNull(item.SimplePersonName);
                 Assert.IsNull(item.ValueParent);
                 Assert.IsNull(item.ValueParent?.Child);
             }
@@ -249,16 +249,16 @@ namespace CoreTests
             var voh = new ValObjHolder()
             {
                 Name = Guid.NewGuid().ToString(),
-                Address = new Address("4034 Winecott Drive", "", "Apex", "NC", "27502"),
+                SimpleAddress = new SimpleAddress("4034 Winecott Drive", "", "Apex", "NC", "27502"),
                 PhoneNumber = new PhoneNumber("9198675309"),
-                PersonName = new PersonName("Test", "Test", "Test"),
+                SimplePersonName = new SimplePersonName("Test", "Test", "Test"),
                 ValueParent = new ValueParent("Parent", null),
             };
 
             voh.ConsoleDump();
-            Assert.IsNotNull(voh.Address);
+            Assert.IsNotNull(voh.SimpleAddress);
             Assert.IsNotNull(voh.PhoneNumber);
-            Assert.IsNotNull(voh.PersonName);
+            Assert.IsNotNull(voh.SimplePersonName);
             Assert.IsNotNull(voh.ValueParent);
             Assert.IsNull(voh.ValueParent.Child);
 
@@ -269,9 +269,9 @@ namespace CoreTests
                 var dbvoh = DbEntity.ToDb<DbValObjHolder>(voh);
 
                 dbvoh.ConsoleDump();
-                Assert.IsNotNull(dbvoh.Address);
+                Assert.IsNotNull(dbvoh.SimpleAddress);
                 Assert.IsNotNull(dbvoh.PhoneNumber);
-                Assert.IsNotNull(dbvoh.PersonName);
+                Assert.IsNotNull(dbvoh.SimplePersonName);
                 Assert.IsNotNull(dbvoh.ValueParent);
                 Assert.IsNotNull(dbvoh.ValueParent?.Child);
 
@@ -289,9 +289,9 @@ namespace CoreTests
                     .ProjectToDto<ValObjHolderDto>();
 
                 dto.ConsoleDump();
-                Assert.IsNotNull(dto.Address);
+                Assert.IsNotNull(dto.SimpleAddress);
                 Assert.IsNotNull(dto.PhoneNumber);
-                Assert.IsNotNull(dto.PersonName);
+                Assert.IsNotNull(dto.SimplePersonName);
                 Assert.IsNotNull(dto.ValueParent);
                 Assert.IsNull(dto.ValueParent.Child);
             }
@@ -305,9 +305,9 @@ namespace CoreTests
                     ?.ToEntity<ValObjHolder>();
 
                 item.ConsoleDump();
-                Assert.IsNotNull(item.Address);
+                Assert.IsNotNull(item.SimpleAddress);
                 Assert.IsNotNull(item.PhoneNumber);
-                Assert.IsNotNull(item.PersonName);
+                Assert.IsNotNull(item.SimplePersonName);
                 Assert.IsNotNull(item.ValueParent);
                 Assert.IsNull(item.ValueParent.Child);
             }

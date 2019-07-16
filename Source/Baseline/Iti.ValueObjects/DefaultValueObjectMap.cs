@@ -9,9 +9,11 @@ namespace Iti.ValueObjects
         public static void Configure(IMapperConfigurationExpression cfg)
         {
             cfg.CreateMap<EncodedPassword, EncodedPassword>();
-            cfg.CreateMap<Address, Address>();
             cfg.CreateMap<EmailAddress, EmailAddress>();
-            cfg.CreateMap<PersonName, PersonName>();
+
+            cfg.CreateMap<SimpleAddress, SimpleAddress>();
+            cfg.CreateMap<SimplePersonName, SimplePersonName>();
+
             cfg.CreateMap<PhoneNumber, PhoneNumber>();
         }
     }

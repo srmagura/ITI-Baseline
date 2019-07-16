@@ -116,12 +116,12 @@ namespace CoreTests
             Assert.AreEqual(5, someIntList.Count);
             foreach (var i in new List<int> { 1, 3, 5, 7, 9 })
                 Assert.AreEqual(1, someIntList.Count(p => p == i));
-            Assert.IsNull(foo.Address);
+            Assert.IsNull(foo.SimpleAddress);
 
-            svc.SetAddress(fooId, new Address("1", "2", "3", "4", "5"));
+            svc.SetAddress(fooId, new SimpleAddress("1", "2", "3", "4", "5"));
             foo = svc.Get(fooId);
-            Assert.IsNotNull(foo.Address);
-            Assert.AreEqual("1", foo.Address.Line1);
+            Assert.IsNotNull(foo.SimpleAddress);
+            Assert.AreEqual("1", foo.SimpleAddress.Line1);
 
             //Assert.AreEqual(1, TestFooEventHandlers.FooCreated);
             //Assert.AreEqual(1, TestFooEventHandlers.FooAddressChanged);
@@ -162,8 +162,8 @@ namespace CoreTests
 
             var fooName = Guid.NewGuid().ToString();
             var fooId = svc.CreateFoo(fooName, bars,
-                new Address("4034 Winecott Drive", "", "Apex", "NC", "27502"),
-                new PersonName("Test", "Test", "Test"),
+                new SimpleAddress("4034 Winecott Drive", "", "Apex", "NC", "27502"),
+                new SimplePersonName("Test", "Test", "Test"),
                 new PhoneNumber("9198675309")
                 );
 
@@ -193,17 +193,17 @@ namespace CoreTests
 
             AuditEvents.Write("Foo", fooId.Guid.ToString(), "Update Address (PRE)");
 
-            svc.SetAddress(fooId, new Address("x", "x", "x", "x", "x"));
+            svc.SetAddress(fooId, new SimpleAddress("x", "x", "x", "x", "x"));
 
             AuditEvents.Write("Foo", fooId.Guid.ToString(), "Update Address (POST)");
 
             foo = svc.Get(fooId);
             Assert.AreEqual(fooName, foo.Name);
-            Assert.AreEqual("x", foo.Address.Line1);
-            Assert.AreEqual("x", foo.Address.Line2);
-            Assert.AreEqual("x", foo.Address.City);
-            Assert.AreEqual("x", foo.Address.State);
-            Assert.AreEqual("x", foo.Address.Zip);
+            Assert.AreEqual("x", foo.SimpleAddress.Line1);
+            Assert.AreEqual("x", foo.SimpleAddress.Line2);
+            Assert.AreEqual("x", foo.SimpleAddress.City);
+            Assert.AreEqual("x", foo.SimpleAddress.State);
+            Assert.AreEqual("x", foo.SimpleAddress.Zip);
 
             // REMOVE BAR
 
@@ -297,8 +297,8 @@ namespace CoreTests
         [TestMethod]
         public void AddressMapTest()
         {
-            var addr1 = new Address("x", "x", "x", "x", "x");
-            var addr2 = new Address("y", "y", "y", "y", "y");
+            var addr1 = new SimpleAddress("x", "x", "x", "x", "x");
+            var addr2 = new SimpleAddress("y", "y", "y", "y", "y");
 
             Mapper.Map(addr1, addr2);
             Assert.AreEqual(addr1.City, addr2.City);

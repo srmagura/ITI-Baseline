@@ -2,6 +2,7 @@
 using Iti.Core.Validation;
 using Iti.Core.ValueObjects;
 using Iti.Utilities;
+using Newtonsoft.Json;
 
 namespace Iti.ValueObjects
 {
@@ -9,6 +10,7 @@ namespace Iti.ValueObjects
     {
         protected PhoneNumber() { }
 
+        [JsonConstructor]
         public PhoneNumber(string value)
         {
             value = value?.DigitsOnly();

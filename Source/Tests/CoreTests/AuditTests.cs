@@ -43,18 +43,18 @@ namespace CoreTests
 
             var fooId = SequentialGuid.Next();
 
-            var nullAddr = Activator.CreateInstance(typeof(Address),
+            var nullAddr = Activator.CreateInstance(typeof(SimpleAddress),
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
-                null, new object[] { }, null) as Address;
+                null, new object[] { }, null) as SimpleAddress;
             var nullPhone = Activator.CreateInstance(typeof(PhoneNumber),
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
                 null, new object[] { }, null) as PhoneNumber;
-            var nullName = Activator.CreateInstance(typeof(PersonName),
+            var nullName = Activator.CreateInstance(typeof(SimplePersonName),
                 BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
-                null, new object[] { }, null) as PersonName;
+                null, new object[] { }, null) as SimplePersonName;
 
-            var addr1 = new Address("1", "1", "1", "1", "1");
-            var addr2 = new Address("2", "2", "2", "2", "2");
+            var addr1 = new SimpleAddress("1", "1", "1", "1", "1");
+            var addr2 = new SimpleAddress("2", "2", "2", "2", "2");
 
             Section("CREATE");
 
@@ -65,8 +65,8 @@ namespace CoreTests
                     Id = fooId,
                     Name = "Created",
                     NotInEntity = "Foo!",
-                    Address = nullAddr,
-                    PersonName = nullName,
+                    SimpleAddress = nullAddr,
+                    SimplePersonName = nullName,
                     PhoneNumber = nullPhone,
                 };
 
@@ -100,12 +100,12 @@ namespace CoreTests
                 var foo = db.Foos.FirstOrDefault(p => p.Id == fooId);
                 Assert.IsNotNull(foo);
 
-                Assert.IsNull(foo.Address.City);
+                Assert.IsNull(foo.SimpleAddress.City);
 
                 // foo.Name = "Set Address 1";
 
                 // foo.Address = addr1;
-                Mapper.Map(addr1, foo.Address);
+                Mapper.Map(addr1, foo.SimpleAddress);
 
                 db.SaveChanges();
 
@@ -121,12 +121,12 @@ namespace CoreTests
                 var foo = db.Foos.FirstOrDefault(p => p.Id == fooId);
                 Assert.IsNotNull(foo);
 
-                Assert.AreEqual("1", foo.Address.City);
+                Assert.AreEqual("1", foo.SimpleAddress.City);
 
                 // foo.Name = "Set Address 2";
 
                 // foo.Address = addr2;
-                Mapper.Map(addr2, foo.Address);
+                Mapper.Map(addr2, foo.SimpleAddress);
 
                 db.SaveChanges();
 
@@ -142,7 +142,7 @@ namespace CoreTests
                 var foo = db.Foos.FirstOrDefault(p => p.Id == fooId);
                 Assert.IsNotNull(foo);
 
-                Assert.AreEqual("2", foo.Address.City);
+                Assert.AreEqual("2", foo.SimpleAddress.City);
             }
 
             Section("Add Bar");

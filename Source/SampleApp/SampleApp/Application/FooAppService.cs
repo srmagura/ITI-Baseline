@@ -114,8 +114,8 @@ namespace SampleApp.Application
         //
 
         public FooId CreateFoo(string name, List<Bar> bars,
-            Address address = null,
-            PersonName personName = null,
+            SimpleAddress simpleAddress = null,
+            SimplePersonName simplePersonName = null,
             PhoneNumber phoneNumber = null)
         {
             Authorize.Require(_perms.CanManageFoos);
@@ -127,8 +127,8 @@ namespace SampleApp.Application
                     var ff = IOC.Resolve<IFooFighter>();
                     var foo = ff.Create(name, bars, new List<int> { 1, 3, 5, 7, 9 });
 
-                    foo.Address = address;
-                    foo.PersonName = personName;
+                    foo.SimpleAddress = simpleAddress;
+                    foo.SimplePersonName = simplePersonName;
                     foo.PhoneNumber = phoneNumber;
 
                     foo.ConsoleDump();
@@ -254,7 +254,7 @@ namespace SampleApp.Application
             }
         }
 
-        public void SetAddress(FooId id, Address address)
+        public void SetAddress(FooId id, SimpleAddress simpleAddress)
         {
             Authorize.Require(_perms.CanManageFoos);
 
@@ -264,7 +264,7 @@ namespace SampleApp.Application
                 {
                     var foo = _repo.Get(id);
 
-                    foo.SetAddress(address);
+                    foo.SetAddress(simpleAddress);
 
                     uow.Commit();
                 }

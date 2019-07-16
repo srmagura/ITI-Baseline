@@ -9,8 +9,8 @@ namespace Domain
 
         public string Name { get; set; }
 
-        public Address Address { get; set; }
-        public PersonName PersonName { get; set; }
+        public SimpleAddress SimpleAddress { get; set; }
+        public SimplePersonName SimplePersonName { get; set; }
         public PhoneNumber PhoneNumber { get; set; }
 
         public ValueParent ValueParent { get; set; }

@@ -29,7 +29,7 @@ namespace Iti.Geolocation
             _trace = trace;
         }
 
-        public GeoLocation Geocode(Address address)
+        public GeoLocation Geocode(SimpleAddress simpleAddress)
         {
             var requestUrl = "";
             var responseJson = "";
@@ -39,7 +39,7 @@ namespace Iti.Geolocation
             {
                 requestUrl = "https://maps.googleapis.com/maps/api/geocode/json";
 
-                requestUrl += $"?address={FormatAddressForUrl(address)}&sensor=false&key={_settings.ApiKey}";
+                requestUrl += $"?address={FormatAddressForUrl(simpleAddress)}&sensor=false&key={_settings.ApiKey}";
 
                 var webClient = new WebClient();
                 responseJson = webClient.DownloadString(requestUrl);
@@ -48,13 +48,13 @@ namespace Iti.Geolocation
 
                 if (googleResult.Status != "OK")
                 {
-                    LogError(address, googleResult.Status);
+                    LogError(simpleAddress, googleResult.Status);
                     _trace?.WriteTrace(begin, requestUrl, "", responseJson);
                     return InvalidGoogleResult(googleResult.Status);
                 }
 
                 _trace?.WriteTrace(begin, requestUrl, "", responseJson);
-                return HandleGoodResult(googleResult, address);
+                return HandleGoodResult(googleResult, simpleAddress);
             }
             catch (Exception exc)
             {
@@ -109,7 +109,7 @@ namespace Iti.Geolocation
             }
         }
 
-        public double GetDrivingDistance(Address from, Address to)
+        public double GetDrivingDistance(SimpleAddress from, SimpleAddress to)
         {
             // USES: GOOGLE DIRECTIONS API
 
@@ -152,12 +152,12 @@ namespace Iti.Geolocation
             return DateTimeService.Lookup(winId);
         }
 
-        private void LogError(Address address, string message)
+        private void LogError(SimpleAddress simpleAddress, string message)
         {
-            Log.Error($"Geo Location error for [{address}]: {message}");
+            Log.Error($"Geo Location error for [{simpleAddress}]: {message}");
         }
 
-        private void LogError(Address from, Address to, string message)
+        private void LogError(SimpleAddress from, SimpleAddress to, string message)
         {
             Log.Error($"Geo Location error for [{from}] to [{to}]: {message}");
         }
@@ -167,7 +167,7 @@ namespace Iti.Geolocation
             Log.Error($"TimeZone lookup error for [{lat},{lng}]: {message}");
         }
 
-        public string FormatAddressForUrl(Address info)
+        public string FormatAddressForUrl(SimpleAddress info)
         {
             var zip = info.Zip?.Trim() ?? "";
             if (zip.Length > 5)
@@ -182,26 +182,26 @@ namespace Iti.Geolocation
             return urlS;
         }
 
-        private GeoLocation HandleGoodResult(GoogleGeoCodeResult result, Address address)
+        private GeoLocation HandleGoodResult(GoogleGeoCodeResult result, SimpleAddress simpleAddress)
         {
             var googleResult = result.Results.FirstOrDefault();
             if (googleResult == null)
             {
-                LogError(address, "No result returned");
+                LogError(simpleAddress, "No result returned");
                 return InvalidGoogleResult("ERROR:NO_RESULT");
             }
 
             var geometry = googleResult.Geometry;
             if (geometry == null)
             {
-                LogError(address, "No geometry returned");
+                LogError(simpleAddress, "No geometry returned");
                 return InvalidGoogleResult("ERROR:NO_GEOMETRY");
             }
 
             var location = geometry.Location;
             if (location == null)
             {
-                LogError(address, "No location returned");
+                LogError(simpleAddress, "No location returned");
                 return InvalidGoogleResult("ERROR:NO_LOCATION");
             }
 

@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Iti.Core.ValueObjects;
 using Iti.Utilities;
+using Newtonsoft.Json;
 
 namespace Iti.ValueObjects
 {
@@ -8,6 +9,7 @@ namespace Iti.ValueObjects
     {
         protected GeoLocation() { }
 
+        [JsonConstructor]
         public GeoLocation(string source, decimal longitude, decimal latitude, bool isValid, bool isConfident, string status, string locationType, string formattedAddress)
         {
             Source = source.MaxLength(16);

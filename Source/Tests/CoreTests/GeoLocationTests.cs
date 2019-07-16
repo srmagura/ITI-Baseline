@@ -41,7 +41,7 @@ namespace CoreTests
         {
             var geo = new GoogleGeoLocator(new GoogleGeoLocatorSettings(), null);
 
-            var s = geo.FormatAddressForUrl(new Address("3401 E Lee Ave #b", "", "Yadkinville", "NC", "27055-99999"));
+            var s = geo.FormatAddressForUrl(new SimpleAddress("3401 E Lee Ave #b", "", "Yadkinville", "NC", "27055-99999"));
             Console.WriteLine(s);
         }
 
@@ -50,7 +50,7 @@ namespace CoreTests
         {
             var geo = IOC.Resolve<IGeolocator>();
 
-            var address = new Address("4034 Winecott Drive", null, "Apex", "NC", "27502");
+            var address = new SimpleAddress("4034 Winecott Drive", null, "Apex", "NC", "27502");
             address.ConsoleDump();
 
             var result = geo.Geocode(address);
@@ -68,7 +68,7 @@ namespace CoreTests
         {
             var geo = IOC.Resolve<IGeolocator>();
 
-            var address = new Address("9999 Winecott Drive", null, "Apex", "NC", "27502");
+            var address = new SimpleAddress("9999 Winecott Drive", null, "Apex", "NC", "27502");
             address.ConsoleDump();
 
             var result = geo.Geocode(address);
@@ -84,7 +84,7 @@ namespace CoreTests
         {
             var geo = IOC.Resolve<IGeolocator>();
 
-            var address = new Address("9999 Fooble Drive", null, "Apex", "XX", "27599");
+            var address = new SimpleAddress("9999 Fooble Drive", null, "Apex", "XX", "27599");
             address.ConsoleDump();
 
             var result = geo.Geocode(address);
@@ -102,11 +102,11 @@ namespace CoreTests
         {
             var geo = IOC.Resolve<IGeolocator>();
 
-            var address = new Address("4034 Winecott Drive", "", "Apex", "NC", "27502");
+            var address = new SimpleAddress("4034 Winecott Drive", "", "Apex", "NC", "27502");
             var result = geo.Geocode(address);
             result.ConsoleDump();
 
-            address = new Address("x", "x", "x", "WY", "x");
+            address = new SimpleAddress("x", "x", "x", "WY", "x");
             result = geo.Geocode(address);
             result.ConsoleDump();
 
@@ -120,7 +120,7 @@ namespace CoreTests
         {
             var geo = IOC.Resolve<IGeolocator>();
 
-            var address = new Address("4034 Winecott Drive", "", "Apex", "NC", "27502");
+            var address = new SimpleAddress("4034 Winecott Drive", "", "Apex", "NC", "27502");
             var loc = geo.Geocode(address);
 
             var tz = geo.TimezoneFor(loc);
@@ -129,7 +129,7 @@ namespace CoreTests
 
             //
 
-            address = new Address("41325 Tollhouse Rd", "", "Shaver Lake", "CA", "93664");
+            address = new SimpleAddress("41325 Tollhouse Rd", "", "Shaver Lake", "CA", "93664");
             loc = geo.Geocode(address);
 
             tz = geo.TimezoneFor(loc);
@@ -142,8 +142,8 @@ namespace CoreTests
         {
             var geo = IOC.Resolve<IGeolocator>();
 
-            var from = new Address("4034 Winecott Drive", "", "Apex", "NC", "27502");
-            var to = new Address("2435 Lynn Road", "Suite 206", "Raleigh", "NC", "27612");
+            var from = new SimpleAddress("4034 Winecott Drive", "", "Apex", "NC", "27502");
+            var to = new SimpleAddress("2435 Lynn Road", "Suite 206", "Raleigh", "NC", "27612");
 
             var dist = geo.GetDrivingDistance(from, to);
             Console.WriteLine($"DISTANCE: {dist}");

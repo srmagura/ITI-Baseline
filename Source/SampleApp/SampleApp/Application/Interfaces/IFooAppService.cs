@@ -14,8 +14,8 @@ namespace SampleApp.Application.Interfaces
         List<FooDto> GetList();
 
         FooId CreateFoo(string name, List<Bar> bars,
-            Address address = null,
-            PersonName personName = null,
+            SimpleAddress simpleAddress = null,
+            SimplePersonName simplePersonName = null,
             PhoneNumber phoneNumber = null);
         void Remove(FooId id);
 
@@ -23,6 +23,6 @@ namespace SampleApp.Application.Interfaces
         void RemoveBar(FooId id, string name);
         void AddBar(FooId id, string name);
         void SetAllBarNames(FooId id, string name);
-        void SetAddress(FooId id, Address address);
+        void SetAddress(FooId id, SimpleAddress simpleAddress);
     }
 }

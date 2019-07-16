@@ -2,12 +2,15 @@
 using Iti.Core.Validation;
 using Iti.Core.ValueObjects;
 using Iti.Utilities;
+using Newtonsoft.Json;
 
 namespace Iti.ValueObjects
 {
     public class EmailAddress : ValueObject<EmailAddress>
     {
         protected EmailAddress() { }
+
+        [JsonConstructor]
         public EmailAddress(string value)
         {
             Value = value?.Trim();

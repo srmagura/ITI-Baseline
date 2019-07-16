@@ -35,8 +35,8 @@ namespace Domain
 
         public string Name { get; protected set; }
 
-        public Address Address { get; set; }  // NOTE: ValueObject (nullable)
-        public PersonName PersonName { get; set; }
+        public SimpleAddress SimpleAddress { get; set; }  // NOTE: ValueObject (nullable)
+        public SimplePersonName SimplePersonName { get; set; }
         public PhoneNumber PhoneNumber { get; set; }
 
         public decimal SomeMoney { get; protected set; }
@@ -60,9 +60,9 @@ namespace Domain
         // OPERATIONS
         //
 
-        public void SetAddress(Address addr)
+        public void SetAddress(SimpleAddress addr)
         {
-            Address = addr;
+            SimpleAddress = addr;
             DomainEvents.Raise(new FooAddressChangedEvent(Id));
         }
 

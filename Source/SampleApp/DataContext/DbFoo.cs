@@ -17,9 +17,9 @@ namespace DataContext
         [MaxLength(64)]
         public string NotInEntity { get; set; }
 
-        public PersonName PersonName { get; set; }
+        public SimplePersonName SimplePersonName { get; set; }
         public PhoneNumber PhoneNumber { get; set; }
-        public Address Address { get; set; }
+        public SimpleAddress SimpleAddress { get; set; }
 
         public List<DbBar> Bars { get; set; }
 

@@ -5,10 +5,10 @@ namespace Iti.Geolocation
 {
     public interface IGeolocator
     {
-        GeoLocation Geocode(Address address);
+        GeoLocation Geocode(SimpleAddress simpleAddress);
         TimeZoneInfo TimezoneFor(GeoLocation location);
         TimeZoneInfo TimezoneFor(decimal latitude, decimal longitude);
 
-        double GetDrivingDistance(Address from, Address to);
+        double GetDrivingDistance(SimpleAddress from, SimpleAddress to);
     }
 }
