@@ -9,8 +9,6 @@ namespace Iti.ValueObjects
     {
         protected SimplePersonName() { }
 
-        // TODO:JT:XXX: move out of Baseline
-
         [JsonConstructor]
         public SimplePersonName(string first, string middle, string last, string prefix = null)
         {

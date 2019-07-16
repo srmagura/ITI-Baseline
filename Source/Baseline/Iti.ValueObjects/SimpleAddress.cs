@@ -10,8 +10,6 @@ namespace Iti.ValueObjects
     {
         protected SimpleAddress() { }
 
-        // TODO:JT:XXX: move out of Baseline
-
         [JsonConstructor]
         public SimpleAddress(string line1, string line2, string city, string state, string zip)
         {
