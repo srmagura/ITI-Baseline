@@ -6,24 +6,24 @@
     <ProjectGuid>{74ce9cf9-acc8-491d-9b0b-a48e92bcc398}</ProjectGuid>
     <ProjectHome>.</ProjectHome>
     <ProjectView>ShowAllFiles</ProjectView>
-    <StartupFile>Address.ts</StartupFile>
+    <StartupFile>
+    </StartupFile>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
     <TypeScriptSourceMap>true</TypeScriptSourceMap>
     <TypeScriptModuleKind>CommonJS</TypeScriptModuleKind>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
     <EnableTypeScript>true</EnableTypeScript>
-    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
+    <TypeScriptToolsVersion>3.4</TypeScriptToolsVersion>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">14.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
     <LastActiveSolutionConfig>Debug|Any CPU</LastActiveSolutionConfig>
-	<TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
     <Content Include="package.json" />
-    <TypeScriptCompile Include="Address.ts" />
     <TypeScriptCompile Include="AuditRecordDto.ts" />
     <TypeScriptCompile Include="EmailAddress.ts" />
     <TypeScriptCompile Include="EmailRecordDto.ts" />
@@ -37,7 +37,6 @@
     <TypeScriptCompile Include="index.ts" />
     <TypeScriptCompile Include="NotificationId.ts" />
     <TypeScriptCompile Include="NotificationStatus.ts" />
-    <TypeScriptCompile Include="PersonName.ts" />
     <TypeScriptCompile Include="PhoneNumber.ts" />
     <TypeScriptCompile Include="SmsRecordDto.ts" />
     <TypeScriptCompile Include="SmsRecordId.ts" />

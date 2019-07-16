@@ -1,7 +1,5 @@
 export * from './EmailAddress'
-export * from './Address'
 export * from './GeoLocation'
-export * from './PersonName'
 export * from './PhoneNumber'
 export * from './Identity'
 export * from './EmailStatus'
