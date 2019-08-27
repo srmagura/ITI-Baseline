@@ -13,11 +13,6 @@ namespace Iti.ValueObjects
         [JsonConstructor]
         public SimpleAddress(string line1, string line2, string city, string state, string zip)
         {
-            Require.NotEmpty(line1, "Invalid Address: Line1");
-            Require.NotEmpty(city, "Invalid Address: City");
-            Require.NotEmpty(state, "Invalid Address: State");
-            Require.NotEmpty(zip, "Invalid Address: Zip");
-
             Line1 = line1?.Trim().MaxLength(FieldLengths.SimpleAddress.Line1);
             Line2 = line2?.Trim().MaxLength(FieldLengths.SimpleAddress.Line2);
             City = city?.Trim().MaxLength(FieldLengths.SimpleAddress.City);
@@ -47,7 +42,24 @@ namespace Iti.ValueObjects
 
         public override string ToString()
         {
-            return $"{Line1}, {(Line2.HasValue() ? $"{Line2}," : "")} {City}, {State} {Zip}";
+            var s = "";
+
+            AddPart(ref s, Line1);
+            AddPart(ref s, Line2);
+            AddPart(ref s, City);
+            AddPart(ref s, $"{State} {Zip}");
+
+            return s.Replace("  ", " ").Trim();
+        }
+
+        private void AddPart(ref string s, string value)
+        {
+            if (!value.HasValue())
+                return;
+
+            if (s.HasValue())
+                s += ", ";
+            s += value;
         }
     }
 }
