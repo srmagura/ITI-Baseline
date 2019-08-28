@@ -7,7 +7,7 @@ namespace Iti.Geolocation
     {
         GeoLocation Geocode(SimpleAddress simpleAddress);
         TimeZoneInfo TimezoneFor(GeoLocation location);
-        TimeZoneInfo TimezoneFor(double latitude, double longitude);
+        TimeZoneInfo TimezoneFor(GeoCoord coord);
 
         double GetDrivingDistance(SimpleAddress from, SimpleAddress to);
     }

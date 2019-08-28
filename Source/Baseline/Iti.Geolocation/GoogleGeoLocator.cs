@@ -72,7 +72,15 @@ namespace Iti.Geolocation
             return TimezoneFor(location.Latitude.Value, location.Longitude.Value);
         }
 
-        public TimeZoneInfo TimezoneFor(double latitude, double longitude)
+        public TimeZoneInfo TimezoneFor(GeoCoord coord)
+        {
+            if (coord == null || coord.Latitude == null || coord.Longitude == null)
+                return null;
+
+            return TimezoneFor(coord.Latitude.Value, coord.Longitude.Value);
+        }
+
+        private TimeZoneInfo TimezoneFor(double latitude, double longitude)
         {
             var requestUrl = "";
             var responseJson = "";
@@ -208,7 +216,7 @@ namespace Iti.Geolocation
             var isConfident = geometry.LocationType.EqualsIgnoreCase("ROOFTOP");
 
             var geoCoord = new GeoCoord(location.Lat, location.Lng);
-            return new GeoLocation(Source, geoCoord, true, isConfident, 
+            return new GeoLocation(Source, geoCoord, true, isConfident,
                 result.Status, geometry.LocationType, googleResult.FormattedAddress);
         }
     }
