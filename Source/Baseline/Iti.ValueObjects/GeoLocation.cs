@@ -10,11 +10,18 @@ namespace Iti.ValueObjects
         protected GeoLocation() { }
 
         [JsonConstructor]
-        public GeoLocation(string source, decimal longitude, decimal latitude, bool isValid, bool isConfident, string status, string locationType, string formattedAddress)
+        protected GeoLocation(string source, double longitude, double latitude, bool isValid, bool isConfident, string status, string locationType, string formattedAddress)
+            : this(source, new GeoCoord(latitude, longitude), isValid, isConfident, status, locationType, formattedAddress)
+        {
+        }
+
+        public GeoLocation(string source, GeoCoord geoCoord, bool isValid, bool isConfident, string status, string locationType, string formattedAddress)
         {
             Source = source.MaxLength(16);
-            Longitude = longitude;
-            Latitude = latitude;
+
+            Latitude = geoCoord?.Latitude;
+            Longitude = geoCoord?.Longitude;
+
             IsValid = isValid;
             IsConfident = isConfident;
             Status = status.MaxLength(64);
@@ -25,8 +32,8 @@ namespace Iti.ValueObjects
         [MaxLength(16)]
         public string Source { get; protected set; }
 
-        public decimal? Longitude { get; protected set; }
-        public decimal? Latitude { get; protected set; }
+        public double? Longitude { get; protected set; }
+        public double? Latitude { get; protected set; }
 
         public bool IsValid { get; protected set; }
         public bool IsConfident { get; protected set; }

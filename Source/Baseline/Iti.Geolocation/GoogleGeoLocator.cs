@@ -21,7 +21,7 @@ namespace Iti.Geolocation
         private readonly GoogleGeoLocatorSettings _settings;
         private readonly IRequestTrace _trace;
 
-        private GeoLocation InvalidGoogleResult(string status) => new GeoLocation(Source, 0, 0, false, false, status, "ERROR", "");
+        private GeoLocation InvalidGoogleResult(string status) => new GeoLocation(Source, null, false, false, status, "ERROR", "");
 
         public GoogleGeoLocator(GoogleGeoLocatorSettings settings, IRequestTrace trace)
         {
@@ -72,7 +72,7 @@ namespace Iti.Geolocation
             return TimezoneFor(location.Latitude.Value, location.Longitude.Value);
         }
 
-        public TimeZoneInfo TimezoneFor(decimal latitude, decimal longitude)
+        public TimeZoneInfo TimezoneFor(double latitude, double longitude)
         {
             var requestUrl = "";
             var responseJson = "";
@@ -162,7 +162,7 @@ namespace Iti.Geolocation
             Log.Error($"Geo Location error for [{from}] to [{to}]: {message}");
         }
 
-        private void LogError(decimal lat, decimal lng, string message)
+        private void LogError(double? lat, double? lng, string message)
         {
             Log.Error($"TimeZone lookup error for [{lat},{lng}]: {message}");
         }
@@ -207,7 +207,9 @@ namespace Iti.Geolocation
 
             var isConfident = geometry.LocationType.EqualsIgnoreCase("ROOFTOP");
 
-            return new GeoLocation(Source, (decimal)location.Lng, (decimal)location.Lat, true, isConfident, result.Status, geometry.LocationType, googleResult.FormattedAddress);
+            var geoCoord = new GeoCoord(location.Lat, location.Lng);
+            return new GeoLocation(Source, geoCoord, true, isConfident, 
+                result.Status, geometry.LocationType, googleResult.FormattedAddress);
         }
     }
 }

@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GeoCoord.cs" />
     <Compile Include="SimpleAddress.cs" />
     <Compile Include="DefaultValueObjectMap.cs" />
     <Compile Include="EmailAddress.cs" />

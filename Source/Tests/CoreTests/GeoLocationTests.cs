@@ -59,8 +59,8 @@ namespace CoreTests
             Assert.IsNotNull(result);
             Assert.IsTrue(result.IsValid);
             Assert.IsTrue(result.IsConfident);
-            Assert.AreEqual(35.735m, result.Latitude.RoundTo(3));
-            Assert.AreEqual(-78.908m, result.Longitude.RoundTo(3));
+            Assert.AreEqual(35.735, Math.Round(result?.Latitude ?? 0,3));
+            Assert.AreEqual(-78.908, Math.Round(result?.Longitude ?? 0,3));
         }
 
         [TestMethod]
@@ -93,8 +93,8 @@ namespace CoreTests
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsValid);
             Assert.IsFalse(result.IsConfident);
-            Assert.AreEqual(0, result.Latitude.RoundTo(3));
-            Assert.AreEqual(0, result.Longitude.RoundTo(3));
+            Assert.AreEqual(null, result.Latitude.RoundTo(3));
+            Assert.AreEqual(null, result.Longitude.RoundTo(3));
         }
 
         [TestMethod]
