@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DomainException.cs" />
+    <Compile Include="DuplicateKeyException.cs" />
     <Compile Include="EntityNotFoundException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

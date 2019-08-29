@@ -112,6 +112,7 @@
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.3.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Diagnostics.DiagnosticSource.4.5.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
@@ -137,6 +138,7 @@
     <Compile Include="AuditTests.cs" />
     <Compile Include="DbEntityTests.cs" />
     <Compile Include="DtoTests.cs" />
+    <Compile Include="ExceptionTests.cs" />
     <Compile Include="ExtensionTests.cs" />
     <Compile Include="FooTests.cs" />
     <Compile Include="GeoLocationTests.cs" />
@@ -168,6 +170,10 @@
     <ProjectReference Include="..\..\Baseline\Iti.Email\Iti.Email.csproj">
       <Project>{27265E5D-9BE1-456F-96BB-770E690D29A5}</Project>
       <Name>Iti.Email</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Baseline\Iti.Exceptions\Iti.Exceptions.csproj">
+      <Project>{FAB96EE7-B34F-47FC-AF96-9CC31AC7F8BC}</Project>
+      <Name>Iti.Exceptions</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Baseline\Iti.Geolocation\Iti.Geolocation.csproj">
       <Project>{F2848FAA-38A2-46ED-8E09-09428FEDAC50}</Project>
