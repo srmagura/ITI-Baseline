@@ -21,5 +21,10 @@ namespace Iti.ValueObjects
         {
             return Longitude != null && Latitude != null;
         }
+
+        public override string ToString()
+        {
+            return $"({Latitude},{Longitude})";
+        }
     }
 }
