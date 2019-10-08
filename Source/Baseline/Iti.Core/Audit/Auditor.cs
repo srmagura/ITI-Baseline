@@ -235,12 +235,34 @@ namespace Iti.Core.Audit
             }
         }
 
+        private static bool CompareValues(object a, object b)
+        {
+            try
+            {
+                if (a == null && b == null)
+                    return true;
+
+                if (a == null || b == null)
+                    return false;
+
+                if (a is decimal d1 && b is decimal d2)
+                {
+                    return d1 == d2;
+                }
+            }
+            catch
+            {
+                // ignore and default to string comparison
+            }
+
+            return a.ToString() == b.ToString();
+        }
+
         private static AuditProperty AddField(string entityName, EntityState state, string fieldName, object fromValue, object toValue)
         {
-            if (fromValue == null && toValue == null)
-                return null;
-
-            if (fromValue?.ToString() == toValue?.ToString())
+            var areEqual = CompareValues(fromValue, toValue);
+            
+            if (areEqual)
                 return null;
 
             if (state == EntityState.Added)
