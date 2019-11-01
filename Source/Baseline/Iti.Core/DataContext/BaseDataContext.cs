@@ -11,6 +11,9 @@ namespace Iti.Core.DataContext
 {
     public class BaseDataContext : DbContext, IDomainEventContext
     {
+        public BaseDataContext() { }
+        public BaseDataContext(DbContextOptions options) : base(options) { }
+
         public override int SaveChanges()
         {
             ChangeTracker.DetectChanges();
