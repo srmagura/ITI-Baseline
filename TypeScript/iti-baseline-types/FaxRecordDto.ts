@@ -7,9 +7,9 @@ export interface FaxRecordDto  {
     id: FaxRecordId
     notificationId: NotificationId
     status: FaxStatus
-    sentUtc?: Date | null
+    sentUtc: Date | null | undefined
     toAddress: string
     //attachment: Int8Array
     retryCount: number
-    nextRetryUtc?: Date | null
+    nextRetryUtc: Date | null | undefined
 }
