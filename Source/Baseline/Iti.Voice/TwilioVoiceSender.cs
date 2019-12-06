@@ -15,12 +15,23 @@ namespace Iti.Voice
             _settings = settings;
         }
 
+        public static PhoneNumber FormatTwilioPhone(string phone)
+        {
+            if (phone.StartsWith("+1"))
+                return new PhoneNumber(phone);
+
+            if(phone.StartsWith("1"))
+                return new PhoneNumber($"+{phone}");
+
+            return new PhoneNumber($"+1{phone}");
+        }
+
         public void Send(NotificationId notificationId, string toPhoneNumber, string callbackUrl)
         {
             TwilioClient.Init(_settings.Sid, _settings.AuthToken);
 
-            var toPhone = new PhoneNumber($"+1{toPhoneNumber}");
-            var fromPhone = new PhoneNumber($"+1{_settings.FromPhone}");
+            var toPhone = FormatTwilioPhone(toPhoneNumber); //  new PhoneNumber($"+1{toPhoneNumber}");
+            var fromPhone = FormatTwilioPhone(_settings.FromPhone); // new PhoneNumber($"+1{_settings.FromPhone}");
 
             if (_settings.UseMachineDetection)
             {
