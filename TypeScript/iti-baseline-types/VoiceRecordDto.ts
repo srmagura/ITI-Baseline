@@ -9,9 +9,9 @@ export interface VoiceRecordDto  {
     id: VoiceRecordId
     notificationId: NotificationId
     status: VoiceStatus
-    sentUtc?: Date | null
+    sentUtc: Date | null| undefined
     toAddress: string
     body: string
     retryCount: number
-    nextRetryUtc?: Date | null
+    nextRetryUtc: Date | null | undefined
 }

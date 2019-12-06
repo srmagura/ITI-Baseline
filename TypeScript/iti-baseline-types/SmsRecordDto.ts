@@ -7,9 +7,9 @@ export interface SmsRecordDto  {
     id: SmsRecordId
     notificationId: NotificationId
     status: SmsStatus
-    sentUtc?: Date | null
+    sentUtc: Date | null| undefined
     toAddress: string
     body: string
     retryCount: number
-    nextRetryUtc?: Date | null
+    nextRetryUtc: Date | null| undefined
 }

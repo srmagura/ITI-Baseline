@@ -7,10 +7,10 @@ export interface EmailRecordDto  {
     id: EmailRecordId
     notificationId: NotificationId
     status: EmailStatus
-    sentUtc?: Date | null
+    sentUtc: Date | null | undefined
     toAddress: string
     subject: string
     body: string
     retryCount: number
-    nextRetryUtc?: Date | null
+    nextRetryUtc: Date | null | undefined
 }
