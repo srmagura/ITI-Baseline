@@ -5,14 +5,14 @@ namespace Iti.Exceptions
     public class DuplicateKeyException : DomainException
     {
         public DuplicateKeyException(string table, string value)
-            : base($"Duplicate Key: {table} value '{value}'", false)
+            : base($"Duplicate Key: {table} value '{value}'", AppServiceLogAs.None)
         {
             Table = table;
             Value = value;
         }
 
         public DuplicateKeyException(string table, string value, Exception innerException)
-            : base($"Duplicate Key: {table} value '{value}'", innerException, false)
+            : base($"Duplicate Key: {table} value '{value}'", innerException, AppServiceLogAs.None)
         {
             Table = table;
             Value = value;

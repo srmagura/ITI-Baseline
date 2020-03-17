@@ -101,12 +101,33 @@ namespace Iti.Core.Services
 
             if (exc is DomainException dexc)
             {
-                if (!dexc.AppServiceShouldLog)
+                if (dexc.AppServiceShouldLog == DomainException.AppServiceLogAs.None)
                     return;
+
+                LogDomainException(dexc);
             }
 
             // by default, we log it... if we ever need more (like admin alerts) we'll address then
             Log.Error("Unhandled application exception", exc);
+        }
+
+        private void LogDomainException(DomainException dexc)
+        {
+            switch (dexc.AppServiceShouldLog)
+            {
+                case DomainException.AppServiceLogAs.None:
+                    break;
+                case DomainException.AppServiceLogAs.Info:
+                    Log.Info("Unhandled Domain Exception", dexc);
+                    break;
+                case DomainException.AppServiceLogAs.Warning:
+                    Log.Warning("Unhandled Domain Exception", dexc);
+                    break;
+                default:
+                case DomainException.AppServiceLogAs.Error:
+                    Log.Error("Unhandled Domain Exception", dexc);
+                    break;
+            }
         }
 
         private void HandleDbUpdateException(Exception exc, int depth = 0)

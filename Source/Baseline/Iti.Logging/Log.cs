@@ -10,17 +10,17 @@ namespace Iti.Logging
     {
         public static bool DebugEnabled = false;
 
-        public static void Info(string message)
+        public static void Info(string message, Exception exc = null)
         {
-            Write("Info", message);
+            Write("Info", message, exc);
         }
 
-        public static void Debug(string message)
+        public static void Debug(string message, Exception exc = null)
         {
             if (!DebugEnabled)
                 return;
 
-            Write("Debug", message);
+            Write("Debug", message, exc);
         }
 
         public static void Warning(string message, Exception exc = null)

@@ -4,18 +4,26 @@ namespace Iti.Exceptions
 {
     public class DomainException : Exception
     {
-        public DomainException(string message, bool appServiceShouldLog)
+        public enum AppServiceLogAs
+        {
+            None = 0,
+            Info = 1,
+            Warning = 2,
+            Error = 3,
+        }
+
+        public DomainException(string message, AppServiceLogAs appServiceShouldLog)
             : base(message)
         {
             AppServiceShouldLog = appServiceShouldLog;
         }
 
-        public DomainException(string message, Exception innerException, bool appServiceShouldLog)
+        public DomainException(string message, Exception innerException, AppServiceLogAs appServiceShouldLog)
             : base(message, innerException)
         {
             AppServiceShouldLog = appServiceShouldLog;
         }
 
-        public bool AppServiceShouldLog { get; }
+        public AppServiceLogAs AppServiceShouldLog { get; }
     }
 }

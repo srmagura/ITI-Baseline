@@ -6,12 +6,12 @@ namespace Iti.Auth
     public class NotAuthorizedException : DomainException
     {
         public NotAuthorizedException() 
-            : base("Permission Denied", false)
+            : base("Permission Denied", DomainException.AppServiceLogAs.None)
         {
         }
 
         public NotAuthorizedException(Exception innerException) 
-            : base("Permission Denied", innerException, false)
+            : base("Permission Denied", innerException, DomainException.AppServiceLogAs.None)
         {
         }
     }

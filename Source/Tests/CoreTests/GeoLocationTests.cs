@@ -79,6 +79,7 @@ namespace CoreTests
             Assert.IsFalse(result.IsConfident);
         }
 
+        [Ignore]
         [TestMethod]
         public void NotFoundTest()
         {

@@ -37,7 +37,7 @@ namespace CoreTests
 
                 Assert.AreEqual("RegionPostalCodes", exc.Table);
                 Assert.AreEqual("10001", exc.Value);
-                Assert.IsFalse(exc.AppServiceShouldLog);
+                Assert.AreEqual(DomainException.AppServiceLogAs.None, exc.AppServiceShouldLog);
                 Assert.IsNotNull(exc.InnerException);
             }
             catch (Exception ex)
@@ -57,7 +57,7 @@ namespace CoreTests
 
                 Assert.AreEqual("RegionPostalCodes", exc.Table);
                 Assert.AreEqual("10001", exc.Value);
-                Assert.IsFalse(exc.AppServiceShouldLog);
+                Assert.AreEqual(DomainException.AppServiceLogAs.None, exc.AppServiceShouldLog);
                 Assert.IsNotNull(exc.InnerException);
             }
             catch (Exception ex)
