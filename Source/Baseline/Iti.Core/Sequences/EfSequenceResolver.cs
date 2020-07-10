@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Data;
+using Iti.Core.UnitOfWorkBase;
+using Iti.Core.UnitOfWorkBase.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iti.Core.Sequences
@@ -7,9 +9,16 @@ namespace Iti.Core.Sequences
     public class EfSequenceResolver<TDbContext> : ISequenceResolver
         where TDbContext : DbContext
     {
+        private readonly IUnitOfWork _uow;
+
+        public EfSequenceResolver(IUnitOfWork uow)
+        {
+            _uow = uow;
+        }
+
         public long GetNextValue(string name)
         {
-            var db = UnitOfWork.UnitOfWork.Current<TDbContext>();
+            var db = _uow.Current<TDbContext>();
 
             var sql = $"SELECT NEXT VALUE FOR [{Sequence.SequenceSchema}].[{name}]";
 

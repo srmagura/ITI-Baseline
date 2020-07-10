@@ -34,6 +34,9 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=4.9.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Autofac.4.9.2\lib\net45\Autofac.dll</HintPath>
+    </Reference>
     <Reference Include="AutoMapper, Version=8.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\..\packages\AutoMapper.8.1.1\lib\net461\AutoMapper.dll</HintPath>
     </Reference>
@@ -69,12 +72,6 @@
     </Reference>
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Logging, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Extensions.Logging.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Logging.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Extensions.Logging.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Options, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Extensions.Options.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
@@ -129,7 +126,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Audit\AuditAppService.cs" />
-    <Compile Include="Audit\AuditEvents.cs" />
     <Compile Include="Audit\Auditor.cs" />
     <Compile Include="Audit\AuditProperty.cs" />
     <Compile Include="Audit\AuditRecord.cs" />
@@ -146,14 +142,10 @@
     <Compile Include="DateTime\FieldLengths.cs" />
     <Compile Include="DateTime\IDateTimeService.cs" />
     <Compile Include="DateTime\WindowsDateTimeService.cs" />
-    <Compile Include="DomainEvents\BaseDomainEvent.cs" />
-    <Compile Include="DomainEvents\BaseDomainEventProcessor.cs" />
-    <Compile Include="DomainEvents\DomainEvents.cs" />
-    <Compile Include="DomainEvents\IDomainEvent.cs" />
-    <Compile Include="DomainEvents\IDomainEventContext.cs" />
-    <Compile Include="DomainEvents\IDomainEventHandler.cs" />
-    <Compile Include="DomainEvents\IDomainEventProcessor.cs" />
-    <Compile Include="DomainEvents\SingleTaskDomainEventProcessor.cs" />
+    <Compile Include="DomainEventsBase\BaseDomainEvent.cs" />
+    <Compile Include="DomainEventsBase\DomainEvents.cs" />
+    <Compile Include="DomainEventsBase\IDomainEvent.cs" />
+    <Compile Include="DomainEventsBase\IDomainEventHandler.cs" />
     <Compile Include="DTOs\DtoExtensions.cs" />
     <Compile Include="DTOs\IDto.cs" />
     <Compile Include="Entites\AggregateRoot.cs" />
@@ -176,9 +168,11 @@
     <Compile Include="Services\DomainService.cs" />
     <Compile Include="Services\IDomainService.cs" />
     <Compile Include="Services\JobProcessor.cs" />
-    <Compile Include="UnitOfWork\DbContextScopeUnitOfWork.cs" />
-    <Compile Include="UnitOfWork\IUnitOfWork.cs" />
-    <Compile Include="UnitOfWork\UnitOfWork.cs" />
+    <Compile Include="UnitOfWorkBase\Interfaces\IUnitOfWork.cs" />
+    <Compile Include="UnitOfWorkBase\Interfaces\IUnitOfWorkParticipant.cs" />
+    <Compile Include="UnitOfWorkBase\Interfaces\IUnitOfWorkScope.cs" />
+    <Compile Include="UnitOfWorkBase\UnitOfWork.cs" />
+    <Compile Include="UnitOfWorkBase\UnitOfWorkScope.cs" />
     <Compile Include="UrlShortener\IUrlShortener.cs" />
     <Compile Include="UrlShortener\NoOpUrlShortener.cs" />
     <Compile Include="UrlShortener\TinyUrlShortener.cs" />
@@ -214,5 +208,6 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

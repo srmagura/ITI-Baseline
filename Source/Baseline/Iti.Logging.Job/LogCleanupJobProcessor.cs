@@ -8,10 +8,13 @@ namespace Iti.Logging.Job
 {
     public class LogCleanupJobProcessor : JobProcessor
     {
+        private readonly ILogDataContext _context;
         private readonly LogCleanupSettings _settings;
 
-        public LogCleanupJobProcessor(LogCleanupSettings settings)
+        public LogCleanupJobProcessor(ILogger logger, ILogDataContext context, LogCleanupSettings settings)
+            : base(logger)
         {
+            _context = context;
             _settings = settings;
         }
 
@@ -19,15 +22,12 @@ namespace Iti.Logging.Job
         {
             try
             {
-                using (var db = IOC.TryResolve<ILogDataContext>())
-                {
-                    if (db == null)
-                        return;
+                if (_context == null)
+                    return;
 
-                    var dt = DateTimeService.UtcNow.AddDays(-1 * _settings.LogLifetimeDays);
+                var dt = DateTimeService.UtcNow.AddDays(-1 * _settings.LogLifetimeDays);
 
-                    db.Database.ExecuteSqlCommand("DELETE FROM LogEntries WHERE WhenUtc < {0}", dt);
-                }
+                _context.Database.ExecuteSqlCommand("DELETE FROM LogEntries WHERE WhenUtc < {0}", dt);
             }
             catch (Exception exc)
             {

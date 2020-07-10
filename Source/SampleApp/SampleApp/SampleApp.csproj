@@ -72,6 +72,10 @@
       <Project>{AEA5A010-E8FE-42F3-9C4D-07EF380AFB65}</Project>
       <Name>Iti.Inversion</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Baseline\Iti.Logging\Iti.Logging.csproj">
+      <Project>{13D91588-2449-434B-9FA8-EE5508F180B0}</Project>
+      <Name>Iti.Logging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Baseline\Iti.Utilities\Iti.Utilities.csproj">
       <Project>{C1F67BFC-F215-45C6-9CEE-9C20F15E87D0}</Project>
       <Name>Iti.Utilities</Name>

@@ -1,7 +1,7 @@
 ﻿using System;
 using AppConfig;
 using CoreTests.Helpers;
-using Iti.Core.DomainEvents;
+using Iti.Core.DomainEventsBase;
 using Iti.Email;
 using Iti.Inversion;
 using Iti.Sms;

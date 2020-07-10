@@ -1,8 +1,9 @@
 ﻿using System;
 using AppConfig;
+using Autofac;
 using CoreTests.Helpers;
 using Iti.Auth;
-using Iti.Core.DomainEvents;
+using Iti.Core.DomainEventsBase;
 using Iti.Core.RequestTrace;
 using Iti.Geolocation;
 using Iti.Inversion;
@@ -39,7 +40,7 @@ namespace CoreTests
         [TestMethod]
         public void UrlEscape()
         {
-            var geo = new GoogleGeoLocator(new GoogleGeoLocatorSettings(), null);
+            var geo = new GoogleGeoLocator(new GoogleGeoLocatorSettings(), new Logger(new ConsoleLogWriter(), new TestAuthContext()), null);
 
             var s = geo.FormatAddressForUrl(new SimpleAddress("3401 E Lee Ave #b", "", "Yadkinville", "NC", "27055-99999"));
             Console.WriteLine(s);
@@ -48,7 +49,7 @@ namespace CoreTests
         [TestMethod]
         public void BasicTest()
         {
-            var geo = IOC.Resolve<IGeolocator>();
+            var geo = IOC.Container.Resolve<IGeolocator>();
 
             var address = new SimpleAddress("4034 Winecott Drive", null, "Apex", "NC", "27502");
             address.ConsoleDump();
@@ -66,7 +67,7 @@ namespace CoreTests
         [TestMethod]
         public void PartialFindTest()
         {
-            var geo = IOC.Resolve<IGeolocator>();
+            var geo = IOC.Container.Resolve<IGeolocator>();
 
             var address = new SimpleAddress("9999 Winecott Drive", null, "Apex", "NC", "27502");
             address.ConsoleDump();
@@ -83,7 +84,7 @@ namespace CoreTests
         [TestMethod]
         public void NotFoundTest()
         {
-            var geo = IOC.Resolve<IGeolocator>();
+            var geo = IOC.Container.Resolve<IGeolocator>();
 
             var address = new SimpleAddress("9999 Fooble Drive", null, "Apex", "XX", "27599");
             address.ConsoleDump();
@@ -101,7 +102,7 @@ namespace CoreTests
         [TestMethod]
         public void WeirdAddressTest()
         {
-            var geo = IOC.Resolve<IGeolocator>();
+            var geo = IOC.Container.Resolve<IGeolocator>();
 
             var address = new SimpleAddress("4034 Winecott Drive", "", "Apex", "NC", "27502");
             var result = geo.Geocode(address);
@@ -119,7 +120,7 @@ namespace CoreTests
         [TestMethod]
         public void TimeZoneTest()
         {
-            var geo = IOC.Resolve<IGeolocator>();
+            var geo = IOC.Container.Resolve<IGeolocator>();
 
             var address = new SimpleAddress("4034 Winecott Drive", "", "Apex", "NC", "27502");
             var loc = geo.Geocode(address);
@@ -141,7 +142,7 @@ namespace CoreTests
         [TestMethod]
         public void DistanceTest()
         {
-            var geo = IOC.Resolve<IGeolocator>();
+            var geo = IOC.Container.Resolve<IGeolocator>();
 
             var from = new SimpleAddress("4034 Winecott Drive", "", "Apex", "NC", "27502");
             var to = new SimpleAddress("2435 Lynn Road", "Suite 206", "Raleigh", "NC", "27612");

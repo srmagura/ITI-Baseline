@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Domain.Events;
-using Iti.Core.DomainEvents;
+using Iti.Core.DomainEventsBase;
 using Iti.Core.Entites;
 using Iti.ValueObjects;
 
@@ -20,7 +20,7 @@ namespace Domain
 
             SomeNumber = someNumber; // Sequence.Next("OrderNumber");   ... no: don't "reach outside"
 
-            DomainEvents.Raise(new FooCreatedEvent(Id));
+            Raise(new FooCreatedEvent(Id));
         }
 
         //
@@ -63,19 +63,19 @@ namespace Domain
         public void SetAddress(SimpleAddress addr)
         {
             SimpleAddress = addr;
-            DomainEvents.Raise(new FooAddressChangedEvent(Id));
+            Raise(new FooAddressChangedEvent(Id));
         }
 
         public void RemoveBar(string name)
         {
             _bars.RemoveAll(p => p.Name == name);
-            DomainEvents.Raise(new FooBarsChangedEvent(Id));
+            Raise(new FooBarsChangedEvent(Id));
         }
 
         public void AddBar(string name)
         {
             _bars.Add(new Bar(name));
-            DomainEvents.Raise(new FooBarsChangedEvent(Id));
+            Raise(new FooBarsChangedEvent(Id));
         }
 
         public void SetName(string newName)
@@ -91,7 +91,7 @@ namespace Domain
                 bar.SetName($"{name} {i}");
                 i++;
             }
-            DomainEvents.Raise(new FooBarsChangedEvent(Id));
+            Raise(new FooBarsChangedEvent(Id));
         }
     }
 }

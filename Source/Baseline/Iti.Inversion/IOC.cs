@@ -17,11 +17,23 @@ namespace Iti.Inversion
         public static void Initialize()
         {
             ContainerBuilder = new ContainerBuilder();
+
             ContainerBuilder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
 
             _container = null;
         }
 
+        /*
+        public static T StaticInstance<T>(Func<T> func = null)
+        {
+            Container.TryResolve<T>(out var inst);
+            if (inst == null && func != null)
+                inst = func.Invoke();
+            return inst;
+        }
+        */
+
+        /*
         public static T Resolve<T>()
         {
             return Container.Resolve<T>();
@@ -43,6 +55,7 @@ namespace Iti.Inversion
         {
             return Container.TryResolve<T>(out var result) ? result : null;
         }
+        */
 
         public static bool IsRegistered<T>()
         {

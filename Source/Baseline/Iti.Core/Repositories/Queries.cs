@@ -1,31 +1,19 @@
 ﻿using System;
+using Iti.Core.UnitOfWorkBase.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iti.Core.Repositories
 {
     public abstract class Queries<TDbContext>
-        : IDisposable
         where TDbContext : DbContext, new()
     {
-        private TDbContext _db = null;
+        private readonly IUnitOfWork _uow;
 
-        protected TDbContext Context
+        protected Queries(IUnitOfWork uow)
         {
-            get
-            {
-                if (_db == null)
-                {
-                    _db = new TDbContext();
-                    _db.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
-                }
-
-                return _db;
-            }
+            _uow = uow;
         }
 
-        public void Dispose()
-        {
-            _db?.Dispose();
-        }
+        protected TDbContext Context => _uow.Current<TDbContext>();
     }
 }

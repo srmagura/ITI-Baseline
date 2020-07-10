@@ -2,6 +2,7 @@
 using Domain;
 using Iti.Core.DataContext;
 using Iti.Core.Repositories;
+using Iti.Core.UnitOfWorkBase.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using SampleApp.Application.Interfaces;
 
@@ -9,6 +10,10 @@ namespace DataContext.Repositories
 {
     public class EfFooRepository : Repository<SampleDataContext>, IFooRepository
     {
+        public EfFooRepository(IUnitOfWork uow) : base(uow)
+        {
+        }
+
         private IQueryable<DbFoo> Aggregate => Context.Foos.Include(p => p.Bars).AsQueryable();
 
         public void Add(Foo foo)

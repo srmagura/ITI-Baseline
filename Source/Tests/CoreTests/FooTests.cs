@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AppConfig;
+using Autofac;
 using AutoMapper;
 using CoreTests.Helpers;
 using DataContext;
@@ -9,7 +10,7 @@ using Domain;
 using Domain.Events;
 using Iti.Auth;
 using Iti.Core.Audit;
-using Iti.Core.DomainEvents;
+using Iti.Core.DomainEventsBase;
 using Iti.Inversion;
 using Iti.Logging;
 using Iti.Utilities;
@@ -45,7 +46,7 @@ namespace CoreTests
         [TestMethod]
         public void FooNotFoundIsNull()
         {
-            var svc = GetFooService();
+            var svc = GetFooService(null);
 
             var id = new FooId();
             var foo = svc.Get(id);
@@ -57,7 +58,7 @@ namespace CoreTests
         {
             CreateFoo();    // make sure at least one!
 
-            var svc = GetFooService();
+            var svc = GetFooService(null);
 
             var list = svc.GetList();
             var fooId = list[0].Id;
@@ -81,7 +82,7 @@ namespace CoreTests
         {
             CreateFoo();    // make sure at least one!
 
-            var svc = GetFooService();
+            var svc = GetFooService(null);
 
             var list = svc.GetList();
             Dump("Foo list", list);
@@ -94,7 +95,7 @@ namespace CoreTests
         {
             TestFooEventHandlers.Clear();
 
-            var svc = GetFooService();
+            var svc = GetFooService(null);
 
             var bars = new List<Bar>();
             bars.Add(new Bar(Guid.NewGuid().ToString()));
@@ -151,7 +152,7 @@ namespace CoreTests
         [TestMethod]
         public void AppService()
         {
-            var svc = GetFooService();
+            var svc = GetFooService(null);
 
             var bars = new List<Bar>();
             bars.Add(new Bar(Guid.NewGuid().ToString()));
@@ -165,9 +166,7 @@ namespace CoreTests
                 new SimpleAddress("4034 Winecott Drive", "", "Apex", "NC", "27502"),
                 new SimplePersonName("Test", "Test", "Test"),
                 new PhoneNumber("9198675309")
-                );
-
-            AuditEvents.Write("Foo", fooId.Guid.ToString(), "Added a Foo");
+            );
 
             Console.WriteLine($"FOO ID: [{fooId}]");
 
@@ -182,20 +181,12 @@ namespace CoreTests
 
             // CHANGE FOO NAME
 
-            AuditEvents.Write("Foo", fooId.Guid.ToString(), "Change Foo Name (PRE)");
-
             fooName = "Some New Name for this Foo!";
             svc.SetName(fooId, fooName);
 
-            AuditEvents.Write("Foo", fooId.Guid.ToString(), "Change Foo Name (POST)");
-
             // CHANGE FOO ADDRESS
 
-            AuditEvents.Write("Foo", fooId.Guid.ToString(), "Update Address (PRE)");
-
             svc.SetAddress(fooId, new SimpleAddress("x", "x", "x", "x", "x"));
-
-            AuditEvents.Write("Foo", fooId.Guid.ToString(), "Update Address (POST)");
 
             foo = svc.Get(fooId);
             Assert.AreEqual(fooName, foo.Name);
@@ -210,9 +201,7 @@ namespace CoreTests
             foo = svc.Get(fooId);
             var barName = foo.Bars[0].Name;
 
-            AuditEvents.Write("Foo", fooId.Guid.ToString(), "Remove First Bar (PRE)");
             svc.RemoveBar(fooId, barName);
-            AuditEvents.Write("Foo", fooId.Guid.ToString(), "Remove First Bar (POST)");
 
             foo = svc.Get(fooId);
             Dump("Get", foo);
@@ -223,9 +212,7 @@ namespace CoreTests
 
             // ADD BAR
 
-            AuditEvents.Write("Foo", fooId.Guid.ToString(), "Add Bar (PRE)");
             svc.AddBar(fooId, "New Bar!");
-            AuditEvents.Write("Foo", fooId.Guid.ToString(), "Add Bar (POST)");
 
             foo = svc.Get(fooId);
             Assert.IsNotNull(foo);
@@ -236,9 +223,7 @@ namespace CoreTests
 
             // CHANGE ALL BAR NAMES SAME
 
-            AuditEvents.Write("Foo", fooId.Guid.ToString(), "Change Bar Names SAME (PRE)");
             svc.SetAllBarNames(fooId, "Same Name");
-            AuditEvents.Write("Foo", fooId.Guid.ToString(), "Change Bar Names SAME (POST)");
 
             foo = svc.Get(fooId);
             Assert.IsNotNull(foo);
@@ -255,9 +240,7 @@ namespace CoreTests
 
             foo.Bars.ConsoleDump();
 
-            AuditEvents.Write("Foo", fooId.Guid.ToString(), "Remove SECOND Bar (PRE)");
             svc.RemoveBar(fooId, barName);
-            AuditEvents.Write("Foo", fooId.Guid.ToString(), "Remove SECOND Bar (POST)");
 
             foo = svc.Get(fooId);
             Dump("Get", foo);
@@ -268,9 +251,7 @@ namespace CoreTests
 
             // REMOVE FOO
 
-            AuditEvents.Write("Foo", fooId.Guid.ToString(), "Remove Foo (PRE)");
             svc.Remove(fooId);
-            AuditEvents.Write("Foo", fooId.Guid.ToString(), "Remove Foo (POST)");
 
             /* AUDIT TEST ... SHOULD MOVE */
             DumpAudit(fooId);
@@ -308,10 +289,12 @@ namespace CoreTests
         //
         //
 
-        private static IFooAppService GetFooService()
+        private static IFooAppService GetFooService(ILifetimeScope scope)
         {
-            // return new FooAppService(new TestAuthContext(), new AppPermissions(new TestAuthContext()), new EfFooRepository());
-            return IOC.Resolve<IFooAppService>();
+            if (scope == null)
+                return IOC.Container.Resolve<IFooAppService>();
+
+            return scope.Resolve<IFooAppService>();
         }
 
         private static List<T> ToList<T>(string s, Func<string, T> convert)

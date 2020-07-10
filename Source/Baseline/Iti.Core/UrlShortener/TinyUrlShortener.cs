@@ -6,6 +6,13 @@ namespace Iti.Core.UrlShortener
 {
     public class TinyUrlShortener : IUrlShortener
     {
+        private readonly ILogger _logger;
+
+        public TinyUrlShortener(ILogger logger)
+        {
+            _logger = logger;
+        }
+
         private const string BaseUrl = @"http://tinyurl.com/api-create.php?url=";
 
         public string Shorten(string urlToShorten)
@@ -21,7 +28,7 @@ namespace Iti.Core.UrlShortener
             }
             catch (Exception exc)
             {
-                Log.Error($"Could not shorten url '{urlToShorten}' using TinyUrl", exc);
+                _logger.Error($"Could not shorten url '{urlToShorten}' using TinyUrl", exc);
                 return urlToShorten;
             }
         }

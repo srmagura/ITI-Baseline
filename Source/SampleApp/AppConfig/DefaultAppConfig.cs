@@ -1,11 +1,14 @@
-﻿using DataContext;
+﻿using Autofac;
+using DataContext;
 using DataContext.Repositories;
 using Domain.DomainServices;
+using Iti.Core.Audit;
 using Iti.Core.Configuration;
-using Iti.Core.DomainEvents;
+using Iti.Core.DomainEventsBase;
 using Iti.Core.RequestTrace;
 using Iti.Core.Sequences;
-using Iti.Core.UnitOfWork;
+using Iti.Core.UnitOfWorkBase;
+using Iti.Core.UnitOfWorkBase.Interfaces;
 using Iti.Email;
 using Iti.Geolocation;
 using Iti.Inversion;
@@ -37,6 +40,12 @@ namespace AppConfig
             IOC.Initialize();
 
             DataMapConfig.Initialize();
+
+            IOC.ContainerBuilder.RegisterType<UnitOfWork>().InstancePerLifetimeScope();
+            IOC.ContainerBuilder.RegisterType<UnitOfWork>().AsSelf().InstancePerLifetimeScope();
+            IOC.ContainerBuilder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
+            IOC.ContainerBuilder.RegisterType<DomainEvents>().InstancePerLifetimeScope();
+            IOC.RegisterType<SampleDataContext>();
 
             IOC.RegisterInstance(new GoogleGeoLocatorSettings() { ApiKey = "AIzaSyCHs9wcZRaJ8IUbLSqk5Aji5gmcrnu8jec" });
 
@@ -92,17 +101,14 @@ namespace AppConfig
 
         private static void ConfigureDomainEvents()
         {
-            DomainEvents.ContextLocator = UnitOfWork.Current<SampleDataContext>;
-            IOC.RegisterType<IDomainEventProcessor, SingleTaskDomainEventProcessor>();
         }
 
         private static void ConfigureLogging()
         {
-#if DEBUG
-            Log.DebugEnabled = true;
-#endif
+            IOC.RegisterType<ILogger, Logger>();
+
             IOC.RegisterType<ILogDataContext, SampleDataContext>();
-            IOC.RegisterType<ILogWriter, EfLogWriter>();
+            IOC.RegisterType<ILogWriter, DbLogWriter>();
         }
 
         private static void ConfigureEmail()

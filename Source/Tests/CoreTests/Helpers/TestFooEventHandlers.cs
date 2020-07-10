@@ -1,6 +1,6 @@
 ﻿using System;
 using Domain.Events;
-using Iti.Core.DomainEvents;
+using Iti.Core.DomainEventsBase;
 
 namespace CoreTests.Helpers
 {

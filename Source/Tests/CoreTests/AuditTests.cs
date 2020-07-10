@@ -3,13 +3,16 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Remoting.Messaging;
 using AppConfig;
+using Autofac;
 using AutoMapper;
 using CoreTests.Helpers;
 using DataContext;
 using Iti.Auth;
 using Iti.Core.Audit;
-using Iti.Core.DomainEvents;
+using Iti.Core.DomainEventsBase;
 using Iti.Core.Entites;
+using Iti.Core.UnitOfWorkBase;
+using Iti.Core.UnitOfWorkBase.Interfaces;
 using Iti.Inversion;
 using Iti.Logging;
 using Iti.ValueObjects;
@@ -58,8 +61,12 @@ namespace CoreTests
 
             Section("CREATE");
 
-            using (var db = new SampleDataContext())
+            var UnitOfWork = IOC.Container.Resolve<IUnitOfWork>();
+
+            using (var uow = UnitOfWork.Begin())
             {
+                var db = UnitOfWork.Current<SampleDataContext>();
+
                 var foo = new DbFoo()
                 {
                     Id = fooId,
@@ -71,7 +78,9 @@ namespace CoreTests
                 };
 
                 db.Foos.Add(foo);
-                db.SaveChanges();
+
+                // db.SaveChanges();
+                uow.Commit();
 
                 var nextAuditId = DumpAudit(fooId, auditId);
                 Assert.AreNotEqual(auditId, nextAuditId);
@@ -79,14 +88,19 @@ namespace CoreTests
             }
 
             Section("MODIFY");
-            using (var db = new SampleDataContext())
+            UnitOfWork = IOC.Container.Resolve<UnitOfWork>();
+
+            using (var uow = UnitOfWork.Begin())
             {
+                var db = UnitOfWork.Current<SampleDataContext>();
+            
                 var foo = db.Foos.FirstOrDefault(p => p.Id == fooId);
                 Assert.IsNotNull(foo);
 
                 foo.SomeNumber = 1234;
 
-                db.SaveChanges();
+                // db.SaveChanges();
+                uow.Commit();
 
                 var nextAuditId = DumpAudit(fooId, auditId);
                 Assert.AreNotEqual(auditId, nextAuditId);
@@ -95,8 +109,11 @@ namespace CoreTests
 
             Section("SET ADDRESS 1");
 
-            using (var db = new SampleDataContext())
+            UnitOfWork = IOC.Container.Resolve<UnitOfWork>();
+
+            using (var uow = UnitOfWork.Begin())
             {
+                var db = UnitOfWork.Current<SampleDataContext>();
                 var foo = db.Foos.FirstOrDefault(p => p.Id == fooId);
                 Assert.IsNotNull(foo);
 
@@ -107,7 +124,8 @@ namespace CoreTests
                 // foo.Address = addr1;
                 Mapper.Map(addr1, foo.SimpleAddress);
 
-                db.SaveChanges();
+                // db.SaveChanges();
+                uow.Commit();
 
                 var nextAuditId = DumpAudit(fooId, auditId);
                 Assert.AreNotEqual(auditId, nextAuditId);
@@ -116,8 +134,11 @@ namespace CoreTests
 
             Section("SET ADDRESS 2");
 
-            using (var db = new SampleDataContext())
+            UnitOfWork = IOC.Container.Resolve<UnitOfWork>();
+
+            using (var uow = UnitOfWork.Begin())
             {
+                var db = UnitOfWork.Current<SampleDataContext>();
                 var foo = db.Foos.FirstOrDefault(p => p.Id == fooId);
                 Assert.IsNotNull(foo);
 
@@ -128,7 +149,8 @@ namespace CoreTests
                 // foo.Address = addr2;
                 Mapper.Map(addr2, foo.SimpleAddress);
 
-                db.SaveChanges();
+                // db.SaveChanges();
+                uow.Commit();
 
                 var nextAuditId = DumpAudit(fooId, auditId);
                 Assert.AreNotEqual(auditId, nextAuditId);
@@ -137,8 +159,11 @@ namespace CoreTests
 
             Section("Read Back");
 
-            using (var db = new SampleDataContext())
+            UnitOfWork = IOC.Container.Resolve<UnitOfWork>();
+
+            using (var uow = UnitOfWork.Begin())
             {
+                var db = UnitOfWork.Current<SampleDataContext>();
                 var foo = db.Foos.FirstOrDefault(p => p.Id == fooId);
                 Assert.IsNotNull(foo);
 
@@ -147,8 +172,12 @@ namespace CoreTests
 
             Section("Add Bar");
 
-            using (var db = new SampleDataContext())
+            UnitOfWork = IOC.Container.Resolve<UnitOfWork>();
+
+            using (var uow = UnitOfWork.Begin())
             {
+                var db = UnitOfWork.Current<SampleDataContext>();
+
                 var foo = db.Foos
                     .Include(p => p.Bars)
                     .FirstOrDefault(p => p.Id == fooId);
@@ -168,7 +197,8 @@ namespace CoreTests
                     NotInEntity = "DoNotRemoveMe",
                 });
 
-                db.SaveChanges();
+                // db.SaveChanges();
+                uow.Commit();
 
                 AssertBarCount(fooId, 2);
 
@@ -179,8 +209,12 @@ namespace CoreTests
 
             Section("Remove Bar");
 
-            using (var db = new SampleDataContext())
+            UnitOfWork = IOC.Container.Resolve<UnitOfWork>();
+
+            using (var uow = UnitOfWork.Begin())
             {
+                var db = UnitOfWork.Current<SampleDataContext>();
+
                 var foo = db.Foos
                     .Include(p => p.Bars)
                     .FirstOrDefault(p => p.Id == fooId);
@@ -188,7 +222,8 @@ namespace CoreTests
 
                 foo.Bars.RemoveAll(p => p.NotInEntity == "RemoveMe!");
 
-                db.SaveChanges();
+                // db.SaveChanges();
+                uow.Commit();
 
                 AssertBarCount(fooId, 1);
 
@@ -199,13 +234,19 @@ namespace CoreTests
 
             Section("Remove");
 
-            using (var db = new SampleDataContext())
+            UnitOfWork = IOC.Container.Resolve<UnitOfWork>();
+
+            using (var uow = UnitOfWork.Begin())
             {
+                var db = UnitOfWork.Current<SampleDataContext>();
+
                 var foo = db.Foos.FirstOrDefault(p => p.Id == fooId);
                 Assert.IsNotNull(foo);
 
                 db.Foos.Remove(foo);
-                db.SaveChanges();
+
+                // db.SaveChanges();
+                uow.Commit();
 
                 var nextAuditId = DumpAudit(fooId, auditId);
                 Assert.AreNotEqual(auditId, nextAuditId);
@@ -215,8 +256,12 @@ namespace CoreTests
 
         private void AssertBarCount(Guid fooId, int expectedCount)
         {
-            using (var db = new SampleDataContext())
+            var UnitOfWork = IOC.Container.Resolve<UnitOfWork>();
+
+            using (var uow = UnitOfWork.Begin())
             {
+                var db = UnitOfWork.Current<SampleDataContext>();
+
                 var barCount = db.Bars.Count(p => p.FooId == fooId);
                 Assert.AreEqual(expectedCount, barCount);
             }
@@ -231,8 +276,12 @@ namespace CoreTests
 
         private long DumpAudit(Guid fooId, long lastId)
         {
-            using (var db = new SampleDataContext())
+            var UnitOfWork = IOC.Container.Resolve<UnitOfWork>();
+
+            using (var uow = UnitOfWork.Begin())
             {
+                var db = UnitOfWork.Current<SampleDataContext>();
+
                 var auditList = db.AuditEntries
                     .Where(p => p.Aggregate == "Foo" && p.AggregateId == fooId.ToString())
                     .Where(p => p.Id > lastId)

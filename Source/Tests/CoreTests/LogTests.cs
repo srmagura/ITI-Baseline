@@ -2,8 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AppConfig;
+using CoreTests.Helpers;
 using DataContext;
-using Iti.Core.DomainEvents;
+using Iti.Core.DomainEventsBase;
 using Iti.Inversion;
 using Iti.Logging;
 using Iti.Utilities;
@@ -19,15 +20,13 @@ namespace CoreTests
         {
             DefaultAppConfig.Initialize();
 
-            Log.RefreshHandlers();
-
             DomainEvents.ClearRegistrations();
         }
 
         [TestMethod]
         public void BasicLogTests()
         {
-            Log.DebugEnabled = true;
+            var Log = new Logger(new DbLogWriter(new DbLoggerSettings() { ConnectionString = SampleDataContext.GetConnectionString() }), new TestAuthContext());
 
             var marker = Guid.NewGuid().ToString();
 
@@ -35,7 +34,6 @@ namespace CoreTests
             {
                 Log.Info(marker);
                 Log.Info("Test 1 - Info");
-                Log.Debug("Test 1 - Debug");
                 Log.Warning("Test 1 - Warning");
                 Log.Error("Test 1 - Error");
                 Log.Error("Test 2 - Error w/ Exception", new Exception("This is an exception!"));
@@ -44,7 +42,7 @@ namespace CoreTests
 
             task.Wait();
 
-            var expectedCount = 7;
+            var expectedCount = 6;
 
             using (var db = new SampleDataContext())
             {

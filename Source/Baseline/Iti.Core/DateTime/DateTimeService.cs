@@ -1,4 +1,5 @@
 ﻿using System;
+using Autofac;
 using Iti.Inversion;
 
 namespace Iti.Core.DateTime
@@ -6,8 +7,29 @@ namespace Iti.Core.DateTime
     public static class DateTimeService
     {
         private static IDateTimeService _handler;
+        private static readonly object LockObject = new object();
 
-        private static IDateTimeService Handler => _handler ?? (_handler = IOC.TryResolve<IDateTimeService>() ?? new WindowsDateTimeService());
+        private static IDateTimeService Handler
+        {
+            get
+            {
+                if (_handler == null)
+                {
+                    lock (LockObject)
+                    {
+                        if (_handler == null)
+                        {
+                            IOC.Container.TryResolve(out _handler);
+
+                            if (_handler == null)
+                                _handler = new WindowsDateTimeService();
+                        }
+                    }
+                }
+
+                return _handler;
+            }
+        }
 
         //
 

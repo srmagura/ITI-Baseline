@@ -19,13 +19,15 @@ namespace Iti.Geolocation
         public const string Source = "Google";
 
         private readonly GoogleGeoLocatorSettings _settings;
+        private readonly ILogger _logger;
         private readonly IRequestTrace _trace;
 
         private GeoLocation InvalidGoogleResult(string status) => new GeoLocation(Source, null, false, false, status, "ERROR", "");
 
-        public GoogleGeoLocator(GoogleGeoLocatorSettings settings, IRequestTrace trace)
+        public GoogleGeoLocator(GoogleGeoLocatorSettings settings, ILogger logger, IRequestTrace trace)
         {
             _settings = settings;
+            _logger = logger;
             _trace = trace;
         }
 
@@ -58,7 +60,7 @@ namespace Iti.Geolocation
             }
             catch (Exception exc)
             {
-                Log.Error("Error google geo encoding", exc);
+                _logger.Error("Error google geo encoding", exc);
                 _trace?.WriteTrace(begin, requestUrl, "", responseJson, exc);
                 return InvalidGoogleResult("ERROR");
             }
@@ -111,7 +113,7 @@ namespace Iti.Geolocation
             }
             catch (Exception exc)
             {
-                Log.Error("Error google geo encoding", exc);
+                _logger.Error("Error google geo encoding", exc);
                 _trace?.WriteTrace(begin, requestUrl, "", responseJson, exc);
                 return null;
             }
@@ -148,7 +150,7 @@ namespace Iti.Geolocation
             }
             catch (Exception exc)
             {
-                Log.Error("Error google distance", exc);
+                _logger.Error("Error google distance", exc);
                 _trace?.WriteTrace(begin, requestUrl, "", responseJson, exc);
                 return 0;
             }
@@ -162,17 +164,17 @@ namespace Iti.Geolocation
 
         private void LogError(SimpleAddress simpleAddress, string message)
         {
-            Log.Error($"Geo Location error for [{simpleAddress}]: {message}");
+            _logger.Error($"Geo Location error for [{simpleAddress}]: {message}");
         }
 
         private void LogError(SimpleAddress from, SimpleAddress to, string message)
         {
-            Log.Error($"Geo Location error for [{from}] to [{to}]: {message}");
+            _logger.Error($"Geo Location error for [{from}] to [{to}]: {message}");
         }
 
         private void LogError(double? lat, double? lng, string message)
         {
-            Log.Error($"TimeZone lookup error for [{lat},{lng}]: {message}");
+            _logger.Error($"TimeZone lookup error for [{lat},{lng}]: {message}");
         }
 
         public string FormatAddressForUrl(SimpleAddress info)

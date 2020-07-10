@@ -18,11 +18,13 @@ namespace Iti.Core.Audit
     //       thoroughly tested to make sure all changes are captured correctly.
     //
 
-    public static class Auditor
+    public class Auditor
     {
-        private static readonly Dictionary<string, List<string>> _maskedFields = new Dictionary<string, List<string>>();
+        private readonly ILogger _logger;
+        private readonly IAuthContext _auth;
+        private static readonly Dictionary<string, List<string>> MaskedFields = new Dictionary<string, List<string>>();
 
-        private static readonly Dictionary<string, List<string>> _ignoredFields = new Dictionary<string, List<string>>();
+        private static readonly Dictionary<string, List<string>> IgnoredFields = new Dictionary<string, List<string>>();
 
         public static void IgnoreField(string entityName, string fieldName)
         {
@@ -32,13 +34,13 @@ namespace Iti.Core.Audit
             entityName = entityName.ToLower();
             fieldName = fieldName.ToLower();
 
-            if (!_ignoredFields.ContainsKey(entityName))
+            if (!IgnoredFields.ContainsKey(entityName))
             {
-                _ignoredFields[entityName] = new List<string>();
+                IgnoredFields[entityName] = new List<string>();
             }
 
-            if (!_ignoredFields[entityName].Contains(fieldName))
-                _ignoredFields[entityName].Add(fieldName);
+            if (!IgnoredFields[entityName].Contains(fieldName))
+                IgnoredFields[entityName].Add(fieldName);
         }
 
         public static void MaskField(string entityName, string fieldName)
@@ -49,23 +51,32 @@ namespace Iti.Core.Audit
             entityName = entityName.ToLower();
             fieldName = fieldName.ToLower();
 
-            if (!_maskedFields.ContainsKey(entityName))
+            if (!MaskedFields.ContainsKey(entityName))
             {
-                _maskedFields[entityName] = new List<string>();
+                MaskedFields[entityName] = new List<string>();
             }
 
-            if (!_maskedFields[entityName].Contains(fieldName))
-                _maskedFields[entityName].Add(fieldName);
+            if (!MaskedFields[entityName].Contains(fieldName))
+                MaskedFields[entityName].Add(fieldName);
         }
 
-        internal static void Process(IAuditDataContext db, ChangeTracker changeTracker)
+        //
+        //
+
+        public Auditor(ILogger logger, IAuthContext auth)
+        {
+            _logger = logger;
+            _auth = auth;
+        }
+
+        internal void Process(IAuditDataContext db, ChangeTracker changeTracker)
         {
             if (db == null)
                 return;
 
             try
             {
-                var changes = BuildAuditRecords(changeTracker);
+                var changes = BuildAuditRecords(changeTracker, _logger, _auth);
 
                 if (changes.HasItems())
                 {
@@ -74,15 +85,13 @@ namespace Iti.Core.Audit
             }
             catch (Exception exc)
             {
-                Log.Error("Could not process audit", exc);
+                _logger?.Error("Could not process audit", exc);
                 // eat exception!
             }
         }
 
-        private static List<AuditRecord> BuildAuditRecords(ChangeTracker changeTracker)
+        private List<AuditRecord> BuildAuditRecords(ChangeTracker changeTracker, ILogger logger, IAuthContext auth)
         {
-            var auth = IOC.TryResolve<IAuthContext>();
-
             var list = new List<AuditRecord>();
 
             foreach (var entry in changeTracker.Entries())
@@ -127,24 +136,24 @@ namespace Iti.Core.Audit
                 }
                 catch (Exception exc)
                 {
-                    Log.Error("Audit Error", exc);
+                    logger?.Error("Audit Error", exc);
                 }
             }
 
             return list;
         }
 
-        private static bool ShouldAudit(string changes)
+        private bool ShouldAudit(string changes)
         {
             return changes.HasValue() && changes != "[]";
         }
 
-        private static bool HasReferenceChanges(EntityEntry entry)
+        private bool HasReferenceChanges(EntityEntry entry)
         {
             return entry?.References.Any(HasChanges) ?? false;
         }
 
-        private static bool HasChanges(ReferenceEntry entry)
+        private bool HasChanges(ReferenceEntry entry)
         {
             if (entry?.TargetEntry == null)
                 return false;
@@ -154,7 +163,7 @@ namespace Iti.Core.Audit
                    || entry.TargetEntry.State == EntityState.Deleted;
         }
 
-        private static string GetChangeDetails(string entityName, EntityEntry entry)
+        private string GetChangeDetails(string entityName, EntityEntry entry)
         {
             var state = entry.State;
 
@@ -191,7 +200,7 @@ namespace Iti.Core.Audit
             return auditResult;
         }
 
-        private static void AddValueObject(string entityName, ReferenceEntry rf, List<AuditProperty> auditProperties)
+        private void AddValueObject(string entityName, ReferenceEntry rf, List<AuditProperty> auditProperties)
         {
             var state = rf.TargetEntry.State;
 
@@ -204,7 +213,7 @@ namespace Iti.Core.Audit
             AddNestedFields(entityName, auditProperties, state, rf.Metadata.Name, fromValues, toValues);
         }
 
-        private static void AddNestedFields(string entityName, List<AuditProperty> auditProperties, EntityState state, string prefix,
+        private void AddNestedFields(string entityName, List<AuditProperty> auditProperties, EntityState state, string prefix,
             PropertyValues fromValues, PropertyValues toValues)
         {
             foreach (var prop in fromValues.Properties)
@@ -235,7 +244,7 @@ namespace Iti.Core.Audit
             }
         }
 
-        private static bool CompareValues(object a, object b)
+        private bool CompareValues(object a, object b)
         {
             try
             {
@@ -258,7 +267,7 @@ namespace Iti.Core.Audit
             return a.ToString() == b.ToString();
         }
 
-        private static AuditProperty AddField(string entityName, EntityState state, string fieldName, object fromValue, object toValue)
+        private AuditProperty AddField(string entityName, EntityState state, string fieldName, object fromValue, object toValue)
         {
             var areEqual = CompareValues(fromValue, toValue);
             
@@ -274,9 +283,9 @@ namespace Iti.Core.Audit
 
             var en = entityName.ToLower();
 
-            if (_ignoredFields.ContainsKey(en))
+            if (IgnoredFields.ContainsKey(en))
             {
-                var ignoredFields = _ignoredFields[en];
+                var ignoredFields = IgnoredFields[en];
                 var fn = fieldName.ToLower();
                 while (fn.StartsWith("."))
                     fn = fn.Substring(1);
@@ -286,9 +295,9 @@ namespace Iti.Core.Audit
                 }
             }
 
-            if (_maskedFields.ContainsKey(en))
+            if (MaskedFields.ContainsKey(en))
             {
-                var maskedFields = _maskedFields[en];
+                var maskedFields = MaskedFields[en];
                 var fn = fieldName.ToLower();
                 while (fn.StartsWith("."))
                     fn = fn.Substring(1);

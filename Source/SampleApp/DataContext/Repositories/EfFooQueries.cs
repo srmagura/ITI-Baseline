@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Domain;
 using Iti.Core.DTOs;
 using Iti.Core.Repositories;
-using Microsoft.EntityFrameworkCore;
+using Iti.Core.UnitOfWorkBase.Interfaces;
 using SampleApp.Application.Dto;
 using SampleApp.Application.Interfaces;
 
@@ -13,6 +11,12 @@ namespace DataContext.Repositories
 {
     public class EfFooQueries : Queries<SampleDataContext>, IFooQueries
     {
+        public EfFooQueries(IUnitOfWork uow) : base(uow)
+        {
+        }
+
+        //
+
         public FooReferenceDto ReferenceFor(FooId id)
         {
             return Context.Foos
@@ -37,7 +41,6 @@ namespace DataContext.Repositories
         public FooDto Get(FooId id)
         {
             return Context.Foos
-                // .Include(p => p.Bars)
                 .Where(p => p.Id == id.Guid)
                 .ProjectToDto<FooDto>();
         }
@@ -51,5 +54,6 @@ namespace DataContext.Repositories
                 .ProjectToDtoList<FooDto>();
                 ;
         }
+
     }
 }

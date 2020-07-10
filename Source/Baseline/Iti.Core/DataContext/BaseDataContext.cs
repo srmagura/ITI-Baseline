@@ -4,22 +4,52 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Iti.Core.Audit;
-using Iti.Core.DomainEvents;
+using Iti.Core.DomainEventsBase;
+using Iti.Core.UnitOfWorkBase.Interfaces;
+using Iti.Utilities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iti.Core.DataContext
 {
-    public class BaseDataContext : DbContext, IDomainEventContext
+    public abstract class BaseDataContext : DbContext, IUnitOfWorkParticipant
     {
-        public BaseDataContext() { }
-        public BaseDataContext(DbContextOptions options) : base(options) { }
+        protected BaseDataContext() { }
 
+        protected BaseDataContext(DbContextOptions options) : base(options) { }
+
+        public void OnUnitOfWorkCommit(Auditor auditor, DomainEvents domainEvents)
+        {
+            SaveChanges(auditor, domainEvents);
+        }
+
+        public void SaveChanges(Auditor auditor, DomainEvents domainEvents)
+        {
+            UpdateEntityMaps();
+            HandleAudit(auditor);
+            HandleDomainEvents(domainEvents);
+
+            base.SaveChanges();
+        }
+
+        private void HandleDomainEvents(DomainEvents domainEvents)
+        {
+            foreach (var entry in ChangeTracker.Entries())
+            {
+                var dbe = entry.Entity as DbEntity;
+                if (dbe?.MappedEntity == null)
+                    continue;
+
+                if (dbe.MappedEntity?.DomainEvents?.HasItems() ?? false)
+                {
+                    domainEvents.RaiseAll(dbe.MappedEntity?.DomainEvents);
+                }
+            }
+        }
+
+        [Obsolete("Do not call SaveChanges directly!", true)]
         public override int SaveChanges()
         {
-            ChangeTracker.DetectChanges();
-
             UpdateEntityMaps();
-            HandleAudit();
 
             return base.SaveChanges();
         }
@@ -29,7 +59,7 @@ namespace Iti.Core.DataContext
             throw new Exception("DO NOT USE ASYNC SAVE (domain events will fail)");
         }
 
-        private void UpdateEntityMaps()
+        internal void UpdateEntityMaps()
         {
             foreach (var entry in ChangeTracker.Entries())
             {
@@ -42,10 +72,12 @@ namespace Iti.Core.DataContext
             }
         }
 
-        private void HandleAudit()
+        internal void HandleAudit(Auditor audit)
         {
             if (this is IAuditDataContext dc)
-                Auditor.Process(dc, ChangeTracker);
+            {
+                audit?.Process(dc, ChangeTracker);
+            }
         }
 
         //

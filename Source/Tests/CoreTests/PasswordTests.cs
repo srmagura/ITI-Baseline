@@ -1,8 +1,9 @@
 ﻿using System;
 using AppConfig;
+using Autofac;
 using CoreTests.Helpers;
 using Iti.Auth;
-using Iti.Core.DomainEvents;
+using Iti.Core.DomainEventsBase;
 using Iti.Core.RequestTrace;
 using Iti.Geolocation;
 using Iti.Inversion;
@@ -35,7 +36,7 @@ namespace CoreTests
         [TestMethod]
         public void EncoderTest()
         {
-            var encoder = IOC.Resolve<IPasswordEncoder<EncodedPassword>>();
+            var encoder = IOC.Container.Resolve<IPasswordEncoder<EncodedPassword>>();
             var enc = encoder.Encode("LetMeIn98");
             Assert.IsNotNull(enc);
             Assert.IsTrue(encoder.Validate("LetMeIn98", enc));

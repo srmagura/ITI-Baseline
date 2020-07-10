@@ -6,7 +6,7 @@ using DataContext;
 using Domain;
 using Iti.Auth;
 using Iti.Core.DataContext;
-using Iti.Core.DomainEvents;
+using Iti.Core.DomainEventsBase;
 using Iti.Core.DTOs;
 using Iti.Inversion;
 using Iti.Logging;

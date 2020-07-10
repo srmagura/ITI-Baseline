@@ -4,7 +4,7 @@ using System.Reflection;
 using AppConfig;
 using CoreTests.Helpers;
 using Iti.Auth;
-using Iti.Core.DomainEvents;
+using Iti.Core.DomainEventsBase;
 using Iti.Core.DTOs;
 using Iti.Core.Mapping;
 using Iti.Inversion;

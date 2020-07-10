@@ -5,6 +5,13 @@ namespace Iti.Core.Services
 {
     public abstract class JobProcessor
     {
+        private readonly ILogger _logger;
+
+        protected JobProcessor(ILogger logger)
+        {
+            _logger = logger;
+        }
+
         public abstract void Run();
 
         protected void Output(string msg, Exception exc = null)
@@ -26,7 +33,7 @@ namespace Iti.Core.Services
                 var nm = GetType().Name;
 
                 Output($"ERROR: {nm}", exc);
-                Log.Error($"{nm}", exc);
+                _logger.Error($"{nm}", exc);
             }
             catch (Exception)
             {

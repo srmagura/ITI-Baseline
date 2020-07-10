@@ -1,4 +1,6 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
+using Autofac;
 using Domain;
 using Iti.Core.Audit;
 using Iti.Core.DataContext;
@@ -16,6 +18,8 @@ namespace DataContext
     public class SampleDataContext : BaseDataContext, ILogDataContext, IAuditDataContext
     {
         public const string DefaultDatabaseName = "ItiBaselineSample";
+
+        public SampleDataContext() : base() { }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -38,14 +42,23 @@ namespace DataContext
             base.OnModelCreating(modelBuilder);
         }
 
-        private static string GetConnectionString()
+        private static ConnectionStrings _connStrings = null;
+        private static readonly object LockObject = new object();
+        public static string GetConnectionString()
         {
-            IOC.TryResolve<ConnectionStrings>(out var connStrings);
-            var connString = connStrings != null
-                ? connStrings.DefaultDataContext
-                : ConfigurationManager.ConnectionStrings["DefaultDataContext"]?.ConnectionString;
+            if (_connStrings == null)
+            {
+                lock (LockObject)
+                {
+                    if (_connStrings == null)
+                    {
+                        IOC.Container.TryResolve(out _connStrings);
+                    }
+                }
+            }
 
-            return connString
+            return _connStrings?.DefaultDataContext
+                   ?? ConfigurationManager.ConnectionStrings["DefaultDataContext"]?.ConnectionString
                    ?? $"Server=localhost;Database={DefaultDatabaseName};Trusted_Connection=True;";
         }
 

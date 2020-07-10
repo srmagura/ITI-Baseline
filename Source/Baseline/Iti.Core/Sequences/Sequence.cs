@@ -7,12 +7,6 @@ namespace Iti.Core.Sequences
     {
         public const string SequenceSchema = "sequences";
 
-        public static long Next(string name = "Default")
-        {
-            var res = IOC.Resolve<ISequenceResolver>();
-            return res.GetNextValue(name);
-        }
-
         public static void Initialize(ModelBuilder modelBuilder)
         {
             Define(modelBuilder, "Default");

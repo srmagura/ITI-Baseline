@@ -4,8 +4,10 @@ using Domain;
 using Domain.DomainServices;
 using Iti.Auth;
 using Iti.Core.Services;
-using Iti.Core.UnitOfWork;
+using Iti.Core.UnitOfWorkBase;
+using Iti.Core.UnitOfWorkBase.Interfaces;
 using Iti.Inversion;
+using Iti.Logging;
 using Iti.Utilities;
 using Iti.ValueObjects;
 using SampleApp.Application.Dto;
@@ -20,14 +22,16 @@ namespace SampleApp.Application
         private readonly IAppPermissions _perms;
         private readonly IFooRepository _repo;
         private readonly IFooQueries _queries;
+        private readonly IFooFighter _fooFighter;
 
-        public FooAppService(IAppAuthContext auth, IAppPermissions perms, IFooRepository repo, IFooQueries queries)
-            : base(auth)
+        public FooAppService(IUnitOfWork uow, ILogger logger, IAppAuthContext auth, IAppPermissions perms, IFooRepository repo, IFooQueries queries, IFooFighter fooFighter)
+            : base(uow, logger, auth)
         {
             _auth = auth;
             _perms = perms;
             _repo = repo;
             _queries = queries;
+            _fooFighter = fooFighter;
         }
 
         //
@@ -124,8 +128,7 @@ namespace SampleApp.Application
             {
                 using (var uow = UnitOfWork.Begin())
                 {
-                    var ff = IOC.Resolve<IFooFighter>();
-                    var foo = ff.Create(name, bars, new List<int> { 1, 3, 5, 7, 9 });
+                    var foo = _fooFighter.Create(name, bars, new List<int> { 1, 3, 5, 7, 9 });
 
                     foo.SimpleAddress = simpleAddress;
                     foo.SimplePersonName = simplePersonName;

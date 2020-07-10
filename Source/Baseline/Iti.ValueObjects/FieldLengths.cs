@@ -2,7 +2,7 @@
 {
     public static class FieldLengths
     {
-        public static class EmailAddress
+        public class EmailAddress
         {
             public const int Value = 256;
         }

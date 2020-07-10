@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using AppConfig;
+using Autofac;
 using CoreTests.Helpers;
 using DataContext;
 using Domain;
 using Iti.Auth;
 using Iti.Core.DataContext;
-using Iti.Core.DomainEvents;
-using Iti.Core.UnitOfWork;
+using Iti.Core.DomainEventsBase;
+using Iti.Core.UnitOfWorkBase;
 using Iti.Inversion;
 using Iti.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -36,6 +37,8 @@ namespace CoreTests
         {
             FooId fooId;
             string newName;
+
+            var UnitOfWork = IOC.Container.Resolve<UnitOfWork>();
 
             using (var uow = UnitOfWork.Begin())
             {

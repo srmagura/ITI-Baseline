@@ -1,6 +1,13 @@
 ﻿using System;
+using Autofac;
+using CoreTests.Helpers;
+using Iti.Auth;
 using Iti.Core.Services;
+using Iti.Core.UnitOfWorkBase;
+using Iti.Core.UnitOfWorkBase.Interfaces;
 using Iti.Exceptions;
+using Iti.Inversion;
+using Iti.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -23,7 +30,7 @@ namespace CoreTests
         [TestMethod]
         public void AppServiceHandlesDbUpdateException()
         {
-            var svc = new TestAppSvc();
+            var svc = IOC.Container.Resolve<TestAppSvc>();
 
             try
             {
@@ -68,8 +75,8 @@ namespace CoreTests
 
         private class TestAppSvc : ApplicationService
         {
-            public TestAppSvc()
-                : base(null)
+            public TestAppSvc(UnitOfWork uow, ILogger logger, IAuthContext auth)
+                : base(uow, logger, auth)
             {
             }
 

@@ -1,19 +1,22 @@
 ﻿using System;
 using Iti.Auth;
+using Iti.Core.UnitOfWorkBase.Interfaces;
 using Iti.Exceptions;
-using Iti.Inversion;
 using Iti.Logging;
-using Iti.Utilities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iti.Core.Services
 {
     public abstract class ApplicationService
     {
+        protected readonly IUnitOfWork UnitOfWork;
+        protected readonly ILogger Log;
         protected readonly IAuthContext Authorize;
 
-        protected ApplicationService(IAuthContext baseAuth)
+        protected ApplicationService(IUnitOfWork uow, ILogger logger, IAuthContext baseAuth)
         {
+            UnitOfWork = uow;
+            Log = logger;
             Authorize = baseAuth;
         }
 
@@ -21,7 +24,7 @@ namespace Iti.Core.Services
         {
             try
             {
-                using (var uow = UnitOfWork.UnitOfWork.Begin())
+                using (var uow = UnitOfWork.Begin())
                 {
                     authorize();
 
@@ -48,7 +51,7 @@ namespace Iti.Core.Services
         {
             try
             {
-                using (var uow = UnitOfWork.UnitOfWork.Begin())
+                using (var uow = UnitOfWork.Begin())
                 {
                     authorize();
 
@@ -72,7 +75,7 @@ namespace Iti.Core.Services
         {
             try
             {
-                using (UnitOfWork.UnitOfWork.Begin())
+                using (UnitOfWork.Begin())
                 {
                     authorize();
 
@@ -108,7 +111,7 @@ namespace Iti.Core.Services
             }
 
             // by default, we log it... if we ever need more (like admin alerts) we'll address then
-            Log.Error("Unhandled application exception", exc);
+            Log?.Error("Unhandled application exception", exc);
         }
 
         private void LogDomainException(DomainException dexc)
@@ -118,14 +121,14 @@ namespace Iti.Core.Services
                 case DomainException.AppServiceLogAs.None:
                     break;
                 case DomainException.AppServiceLogAs.Info:
-                    Log.Info("Unhandled Domain Exception", dexc);
+                    Log?.Info("Unhandled Domain Exception", dexc);
                     break;
                 case DomainException.AppServiceLogAs.Warning:
-                    Log.Warning("Unhandled Domain Exception", dexc);
+                    Log?.Warning("Unhandled Domain Exception", dexc);
                     break;
                 default:
                 case DomainException.AppServiceLogAs.Error:
-                    Log.Error("Unhandled Domain Exception", dexc);
+                    Log?.Error("Unhandled Domain Exception", dexc);
                     break;
             }
         }

@@ -1,9 +1,11 @@
 ﻿using System.Linq;
 using AppConfig;
+using Autofac;
 using CoreTests.Helpers;
 using DataContext;
+using Iti.Auth;
 using Iti.Core.DateTime;
-using Iti.Core.DomainEvents;
+using Iti.Core.DomainEventsBase;
 using Iti.Email;
 using Iti.Inversion;
 using Iti.Logging;
@@ -26,6 +28,8 @@ namespace CoreTests
             IOC.RegisterType<IEmailRepository, TestEmailRepository>();
             IOC.RegisterType<ISmsRepository, TestSmsRepository>();
 
+            IOC.RegisterType<IAuthContext, TestAuthContext>();
+
             DomainEvents.ClearRegistrations();
         }
 
@@ -47,7 +51,7 @@ namespace CoreTests
                 Assert.IsNotNull(back);
             }
 
-            var proc = IOC.Resolve<LogCleanupJobProcessor>();
+            var proc = IOC.Container.Resolve<LogCleanupJobProcessor>();
             proc.Run();
 
             using (var db = new SampleDataContext())

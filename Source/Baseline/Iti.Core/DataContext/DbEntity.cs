@@ -15,6 +15,7 @@ namespace Iti.Core.DataContext
 
         [JsonIgnore]
         [NotMapped]
+        [IgnoreMap]
         public Entity MappedEntity { get; set; }
 
         public static TDb ToDb<TDb>(Entity e)
