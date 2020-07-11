@@ -188,7 +188,7 @@ namespace Iti.Core.Audit
 
             foreach (var rf in entry.References)
             {
-                if (rf?.TargetEntry?.Entity is IValueObject vobj)
+                if (rf?.TargetEntry?.Entity is IValueObject)
                 {
                     AddValueObject(entityName, rf, auditProperties);
                 }
