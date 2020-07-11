@@ -3,6 +3,7 @@
   <Import Project="..\..\packages\Microsoft.EntityFrameworkCore.Design.2.2.4\build\net461\Microsoft.EntityFrameworkCore.Design.props" Condition="Exists('..\..\packages\Microsoft.EntityFrameworkCore.Design.2.2.4\build\net461\Microsoft.EntityFrameworkCore.Design.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+  <IsPackable>false</IsPackable>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{D9E1F7BD-4A94-4C32-B02E-D808B09D92DF}</ProjectGuid>
