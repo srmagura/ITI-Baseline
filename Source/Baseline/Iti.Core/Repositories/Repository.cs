@@ -1,5 +1,4 @@
-﻿using Iti.Core.UnitOfWorkBase;
-using Iti.Core.UnitOfWorkBase.Interfaces;
+﻿using Iti.Core.UnitOfWorkBase.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iti.Core.Repositories

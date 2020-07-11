@@ -1,5 +1,4 @@
 ﻿using System;
-using Autofac;
 using Iti.Inversion;
 
 namespace Iti.Core.DateTime

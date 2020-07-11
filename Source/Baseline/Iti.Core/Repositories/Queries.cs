@@ -1,5 +1,4 @@
-﻿using System;
-using Iti.Core.UnitOfWorkBase.Interfaces;
+﻿using Iti.Core.UnitOfWorkBase.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iti.Core.Repositories

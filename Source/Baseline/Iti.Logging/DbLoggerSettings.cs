@@ -1,9 +1,4 @@
-﻿using System.Diagnostics;
-using System.Threading;
-using Iti.Auth;
-using Iti.Inversion;
-
-namespace Iti.Logging
+﻿namespace Iti.Logging
 {
     public class DbLoggerSettings
     {

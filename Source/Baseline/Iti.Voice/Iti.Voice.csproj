@@ -53,11 +53,7 @@
       <HintPath>..\..\packages\System.IdentityModel.Tokens.Jwt.5.4.0\lib\net461\System.IdentityModel.Tokens.Jwt.dll</HintPath>
     </Reference>
     <Reference Include="System.Net" />
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Twilio, Version=5.30.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Twilio.5.30.0\lib\net451\Twilio.dll</HintPath>

@@ -4,9 +4,7 @@ using System.Linq;
 using AutoMapper;
 using Iti.Auth;
 using Iti.Core.Services;
-using Iti.Core.UnitOfWorkBase;
 using Iti.Core.UnitOfWorkBase.Interfaces;
-using Iti.Inversion;
 using Iti.Logging;
 
 namespace Iti.Core.Audit

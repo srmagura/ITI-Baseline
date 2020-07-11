@@ -1,7 +1,6 @@
 ﻿using System;
 using Iti.Core.DateTime;
 using Iti.Core.Services;
-using Iti.Inversion;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iti.Logging.Job

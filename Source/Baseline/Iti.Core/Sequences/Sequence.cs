@@ -1,5 +1,4 @@
-﻿using Iti.Inversion;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Iti.Core.Sequences
 {

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Iti.Auth;
 using Iti.Core.ValueObjects;
-using Iti.Inversion;
 using Iti.Logging;
 using Iti.Utilities;
 using Microsoft.EntityFrameworkCore;

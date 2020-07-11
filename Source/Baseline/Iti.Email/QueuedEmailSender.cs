@@ -1,5 +1,4 @@
-﻿using System;
-using Iti.Identities;
+﻿using Iti.Identities;
 
 namespace Iti.Email
 {

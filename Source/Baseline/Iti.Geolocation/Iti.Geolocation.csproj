@@ -41,10 +41,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="TimeZoneConverter, Version=3.2.0.0, Culture=neutral, PublicKeyToken=e20ab7d0d9479841, processorArchitecture=MSIL">
       <HintPath>..\..\packages\TimeZoneConverter.3.2.0\lib\net471\TimeZoneConverter.dll</HintPath>
@@ -54,11 +51,15 @@
     <Compile Include="GeoLocationHelper.cs" />
     <Compile Include="GoogleGeoLocator.cs" />
     <Compile Include="GoogleGeoLocatorSettings.cs" />
-    <Compile Include="GoogleResults\DirectionsResult.cs" />
+    <Compile Include="GoogleResults\GoogleDirectionsResult.cs" />
+    <Compile Include="GoogleResults\Distance.cs" />
+    <Compile Include="GoogleResults\Duration.cs" />
     <Compile Include="GoogleResults\Geometry.cs" />
     <Compile Include="GoogleResults\GoogleGeoCodeResult.cs" />
+    <Compile Include="GoogleResults\Leg.cs" />
     <Compile Include="GoogleResults\Location.cs" />
     <Compile Include="GoogleResults\Result.cs" />
+    <Compile Include="GoogleResults\Route.cs" />
     <Compile Include="GoogleResults\TimeZoneLookupResult.cs" />
     <Compile Include="IGeolocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

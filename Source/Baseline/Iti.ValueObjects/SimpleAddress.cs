@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Iti.Core.Validation;
 using Iti.Core.ValueObjects;
 using Iti.Utilities;
 using Newtonsoft.Json;

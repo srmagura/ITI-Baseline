@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using AutoMapper;
-using Iti.Core.DateTime;
 using Iti.Core.Entites;
 using Iti.Core.Mapping;
 using Newtonsoft.Json;

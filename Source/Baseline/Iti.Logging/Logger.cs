@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Threading;
 using Iti.Auth;
-using Iti.Inversion;
 
 namespace Iti.Logging
 {
@@ -20,6 +19,13 @@ namespace Iti.Logging
         public void Info(string message, Exception exc = null)
         {
             Write("Info", message, exc);
+        }
+
+        public void Debug(string message, Exception exc = null)
+        {
+#if DEBUG
+            Write("Debug", message, exc);
+#endif
         }
 
         public void Warning(string message, Exception exc = null)

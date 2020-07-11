@@ -1,6 +1,4 @@
-﻿using System;
-using Iti.Identities;
-using Iti.Sms;
+﻿using Iti.Identities;
 
 namespace Iti.Sms
 {

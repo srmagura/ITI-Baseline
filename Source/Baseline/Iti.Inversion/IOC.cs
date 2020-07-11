@@ -1,6 +1,5 @@
 ﻿using System;
 using Autofac;
-using Autofac.Core.Lifetime;
 using Autofac.Features.ResolveAnything;
 
 namespace Iti.Inversion
@@ -67,6 +66,9 @@ namespace Iti.Inversion
         {
             return Container.TryResolve<T>(out var result) ? result : func?.Invoke();
         }
+
+        //
+        //
 
         public static bool IsRegistered<T>()
         {
