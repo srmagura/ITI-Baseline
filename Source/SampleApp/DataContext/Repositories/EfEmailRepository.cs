@@ -5,6 +5,7 @@ using Iti.Core.DataContext;
 using Iti.Core.DateTime;
 using Iti.Core.Repositories;
 using Iti.Core.UnitOfWorkBase;
+using Iti.Core.UnitOfWorkBase.Interfaces;
 using Iti.Email;
 using Iti.Identities;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +14,7 @@ namespace DataContext.Repositories
 {
     public class EfEmailRepository : Repository<SampleDataContext>, IEmailRepository
     {
-        public EfEmailRepository(UnitOfWork uow) : base(uow)
+        public EfEmailRepository(IUnitOfWork uow) : base(uow)
         {
         }
 

@@ -8,13 +8,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iti.Core.UnitOfWorkBase
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWorkImpl : IUnitOfWork
     {
         private readonly ILifetimeScope _scope;
         private readonly DomainEvents _domainEvents;
         private readonly Auditor _auditor;
 
-        public UnitOfWork(ILifetimeScope scope, DomainEvents domainEvents, Auditor auditor)
+        public UnitOfWorkImpl(ILifetimeScope scope, DomainEvents domainEvents, Auditor auditor)
         {
             // Console.WriteLine($"DEBUG: CREATE: UnitOfWork: {this.GetHashCode()} -- scope: {scope.GetHashCode()}");
 

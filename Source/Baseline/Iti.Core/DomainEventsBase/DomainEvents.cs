@@ -25,6 +25,11 @@ namespace Iti.Core.DomainEventsBase
 
         private static bool _waitForDomainEvents;
 
+        public static void WaitForDomainEvents(bool shouldWait)
+        {
+            _waitForDomainEvents = shouldWait;
+        }
+
         private static Dictionary<Type, List<Type>> _handlerTypes = new Dictionary<Type, List<Type>>();
 
         public static void ClearRegistrations()
@@ -97,24 +102,29 @@ namespace Iti.Core.DomainEventsBase
 
                     foreach (var handlerType in handlerTypes)
                     {
-                        var childScope = scope.BeginLifetimeScope();
-                        var handler = childScope.Resolve(handlerType);
-
-                        var handleMethod = handler.GetType().GetMethod("Handle", new[] { domainEvent.GetType() });
-                        if (handleMethod != null)
+                        var task = Task.Factory.StartNew(() =>
                         {
-                            tasks.Add(Task.Run(() =>
+                            try
                             {
-                                try
+                                using (var childScope = scope.BeginLifetimeScope())
                                 {
+                                    var handler = childScope.Resolve(handlerType);
+                                    
+                                    var handleMethod = handler.GetType()
+                                        .GetMethod("Handle", new[] { domainEvent.GetType() });
+                                    if(handleMethod == null)
+                                        _logger?.Error($"Domain Event: could not resolve handler method for {handlerType.Name}");
+
                                     handleMethod.Invoke(handler, new object[] { domainEvent });
                                 }
-                                catch (Exception exc)
-                                {
-                                    _logger?.Error($"Domain Event threw exception: {domainEventType.Name} -> {handlerType.Name}", exc);
-                                }
-                            }));
-                        }
+                            }
+                            catch (Exception exc)
+                            {
+                                _logger?.Error(
+                                    $"Domain Event threw exception: {domainEventType.Name} -> {handlerType.Name}", exc);
+                            }
+                        });
+                        tasks.Add(task);
                     }
                 }
 

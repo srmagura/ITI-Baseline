@@ -30,7 +30,7 @@ namespace CoreTests
         [TestMethod]
         public void AppServiceHandlesDbUpdateException()
         {
-            var svc = IOC.Container.Resolve<TestAppSvc>();
+            var svc = IOC.ResolveForTest<TestAppSvc>();
 
             try
             {
@@ -75,7 +75,7 @@ namespace CoreTests
 
         private class TestAppSvc : ApplicationService
         {
-            public TestAppSvc(UnitOfWork uow, ILogger logger, IAuthContext auth)
+            public TestAppSvc(IUnitOfWork uow, ILogger logger, IAuthContext auth)
                 : base(uow, logger, auth)
             {
             }

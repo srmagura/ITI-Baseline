@@ -95,6 +95,8 @@ namespace CoreTests
         {
             TestFooEventHandlers.Clear();
 
+            Console.WriteLine($"{TestFooEventHandlers.FooCreated} / {TestFooEventHandlers.FooAddressChanged} / {TestFooEventHandlers.FooBarsChanged}");
+
             var svc = GetFooService(null);
 
             var bars = new List<Bar>();
@@ -124,9 +126,11 @@ namespace CoreTests
             Assert.IsNotNull(foo.SimpleAddress);
             Assert.AreEqual("1", foo.SimpleAddress.Line1);
 
-            //Assert.AreEqual(1, TestFooEventHandlers.FooCreated);
-            //Assert.AreEqual(1, TestFooEventHandlers.FooAddressChanged);
-            //Assert.AreEqual(0, TestFooEventHandlers.FooBarsChanged);
+            Assert.AreEqual(1, TestFooEventHandlers.FooCreated);
+            Assert.AreEqual(1, TestFooEventHandlers.FooAddressChanged);
+            Assert.AreEqual(0, TestFooEventHandlers.FooBarsChanged);
+
+            Console.WriteLine($"{TestFooEventHandlers.FooCreated} / {TestFooEventHandlers.FooAddressChanged} / {TestFooEventHandlers.FooBarsChanged}");
 
             /* AUDIT TEST ... SHOULD MOVE */
             DumpAudit(fooId);
@@ -292,7 +296,7 @@ namespace CoreTests
         private static IFooAppService GetFooService(ILifetimeScope scope)
         {
             if (scope == null)
-                return IOC.Container.Resolve<IFooAppService>();
+                return IOC.ResolveForTest<IFooAppService>();
 
             return scope.Resolve<IFooAppService>();
         }

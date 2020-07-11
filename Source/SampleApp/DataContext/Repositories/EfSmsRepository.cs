@@ -2,6 +2,7 @@
 using Iti.Core.DataContext;
 using Iti.Core.Repositories;
 using Iti.Core.UnitOfWorkBase;
+using Iti.Core.UnitOfWorkBase.Interfaces;
 using Iti.Identities;
 using Iti.Sms;
 
@@ -9,7 +10,7 @@ namespace DataContext.Repositories
 {
     public class EfSmsRepository : Repository<SampleDataContext>, ISmsRepository
     {
-        public EfSmsRepository(UnitOfWork uow) : base(uow)
+        public EfSmsRepository(IUnitOfWork uow) : base(uow)
         {
         }
 

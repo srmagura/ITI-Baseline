@@ -10,6 +10,7 @@ using Iti.Auth;
 using Iti.Core.DataContext;
 using Iti.Core.DomainEventsBase;
 using Iti.Core.UnitOfWorkBase;
+using Iti.Core.UnitOfWorkBase.Interfaces;
 using Iti.Inversion;
 using Iti.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -38,7 +39,7 @@ namespace CoreTests
             FooId fooId;
             string newName;
 
-            var UnitOfWork = IOC.Container.Resolve<UnitOfWork>();
+            var UnitOfWork = IOC.ResolveForTest<IUnitOfWork>();
 
             using (var uow = UnitOfWork.Begin())
             {

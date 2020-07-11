@@ -19,10 +19,7 @@ namespace Iti.Core.DateTime
                     {
                         if (_handler == null)
                         {
-                            IOC.Container.TryResolve(out _handler);
-
-                            if (_handler == null)
-                                _handler = new WindowsDateTimeService();
+                            _handler = IOC.TryResolveStatic<IDateTimeService>(() => new WindowsDateTimeService());
                         }
                     }
                 }

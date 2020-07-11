@@ -57,6 +57,17 @@ namespace Iti.Inversion
         }
         */
 
+        public static T ResolveForTest<T>()
+        {
+            return Container.Resolve<T>();
+        }
+
+        public static T TryResolveStatic<T>(Func<T> func)
+            where T : class
+        {
+            return Container.TryResolve<T>(out var result) ? result : func?.Invoke();
+        }
+
         public static bool IsRegistered<T>()
         {
             return Container?.IsRegistered<T>() ?? false;
@@ -88,13 +99,26 @@ namespace Iti.Inversion
         }
 
         public static void RegisterInstance<TInt, T>(T instance)
-            where T : TInt 
+            where T : TInt
             where TInt : class
         {
             if (_container != null)
                 throw new Exception("Container has already been built. You shouldn't register any more types.");
 
             ContainerBuilder.RegisterInstance<TInt>(instance);
+        }
+
+        public static void RegisterLifetimeScope<TInt, TImpl>()
+            where TImpl : TInt
+            where TInt : class
+        {
+            ContainerBuilder.RegisterType<TImpl>().As<TInt>().InstancePerLifetimeScope();
+        }
+
+        public static void RegisterLifetimeScope<TImpl>()
+            where TImpl : class
+        {
+            ContainerBuilder.RegisterType<TImpl>().InstancePerLifetimeScope();
         }
     }
 }

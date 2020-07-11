@@ -51,7 +51,7 @@ namespace CoreTests
                 Assert.IsNotNull(back);
             }
 
-            var proc = IOC.Container.Resolve<LogCleanupJobProcessor>();
+            var proc = IOC.ResolveForTest<LogCleanupJobProcessor>();
             proc.Run();
 
             using (var db = new SampleDataContext())

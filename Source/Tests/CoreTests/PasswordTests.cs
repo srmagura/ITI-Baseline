@@ -36,7 +36,7 @@ namespace CoreTests
         [TestMethod]
         public void EncoderTest()
         {
-            var encoder = IOC.Container.Resolve<IPasswordEncoder<EncodedPassword>>();
+            var encoder = IOC.ResolveForTest<IPasswordEncoder<EncodedPassword>>();
             var enc = encoder.Encode("LetMeIn98");
             Assert.IsNotNull(enc);
             Assert.IsTrue(encoder.Validate("LetMeIn98", enc));

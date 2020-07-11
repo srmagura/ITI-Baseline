@@ -2,6 +2,7 @@
 using Iti.Core.DataContext;
 using Iti.Core.Repositories;
 using Iti.Core.UnitOfWorkBase;
+using Iti.Core.UnitOfWorkBase.Interfaces;
 using Iti.Identities;
 using Iti.Voice;
 
@@ -9,7 +10,7 @@ namespace DataContext.Repositories
 {
     public class EfVoiceRepository : Repository<SampleDataContext>, IVoiceRepository
     {
-        public EfVoiceRepository(UnitOfWork uow) : base(uow)
+        public EfVoiceRepository(IUnitOfWork uow) : base(uow)
         {
         }
 

@@ -61,7 +61,7 @@ namespace CoreTests
 
             Section("CREATE");
 
-            var UnitOfWork = IOC.Container.Resolve<IUnitOfWork>();
+            var UnitOfWork = IOC.ResolveForTest<IUnitOfWork>();
 
             using (var uow = UnitOfWork.Begin())
             {
@@ -88,7 +88,7 @@ namespace CoreTests
             }
 
             Section("MODIFY");
-            UnitOfWork = IOC.Container.Resolve<UnitOfWork>();
+            UnitOfWork = IOC.ResolveForTest<IUnitOfWork>();
 
             using (var uow = UnitOfWork.Begin())
             {
@@ -109,7 +109,7 @@ namespace CoreTests
 
             Section("SET ADDRESS 1");
 
-            UnitOfWork = IOC.Container.Resolve<UnitOfWork>();
+            UnitOfWork = IOC.ResolveForTest<IUnitOfWork>();
 
             using (var uow = UnitOfWork.Begin())
             {
@@ -134,7 +134,7 @@ namespace CoreTests
 
             Section("SET ADDRESS 2");
 
-            UnitOfWork = IOC.Container.Resolve<UnitOfWork>();
+            UnitOfWork = IOC.ResolveForTest<IUnitOfWork>();
 
             using (var uow = UnitOfWork.Begin())
             {
@@ -159,7 +159,7 @@ namespace CoreTests
 
             Section("Read Back");
 
-            UnitOfWork = IOC.Container.Resolve<UnitOfWork>();
+            UnitOfWork = IOC.ResolveForTest<IUnitOfWork>();
 
             using (var uow = UnitOfWork.Begin())
             {
@@ -172,7 +172,7 @@ namespace CoreTests
 
             Section("Add Bar");
 
-            UnitOfWork = IOC.Container.Resolve<UnitOfWork>();
+            UnitOfWork = IOC.ResolveForTest<IUnitOfWork>();
 
             using (var uow = UnitOfWork.Begin())
             {
@@ -209,7 +209,7 @@ namespace CoreTests
 
             Section("Remove Bar");
 
-            UnitOfWork = IOC.Container.Resolve<UnitOfWork>();
+            UnitOfWork = IOC.ResolveForTest<IUnitOfWork>();
 
             using (var uow = UnitOfWork.Begin())
             {
@@ -234,7 +234,7 @@ namespace CoreTests
 
             Section("Remove");
 
-            UnitOfWork = IOC.Container.Resolve<UnitOfWork>();
+            UnitOfWork = IOC.ResolveForTest<IUnitOfWork>();
 
             using (var uow = UnitOfWork.Begin())
             {
@@ -256,7 +256,7 @@ namespace CoreTests
 
         private void AssertBarCount(Guid fooId, int expectedCount)
         {
-            var UnitOfWork = IOC.Container.Resolve<UnitOfWork>();
+            var UnitOfWork = IOC.ResolveForTest<IUnitOfWork>();
 
             using (var uow = UnitOfWork.Begin())
             {
@@ -276,7 +276,7 @@ namespace CoreTests
 
         private long DumpAudit(Guid fooId, long lastId)
         {
-            var UnitOfWork = IOC.Container.Resolve<UnitOfWork>();
+            var UnitOfWork = IOC.ResolveForTest<IUnitOfWork>();
 
             using (var uow = UnitOfWork.Begin())
             {

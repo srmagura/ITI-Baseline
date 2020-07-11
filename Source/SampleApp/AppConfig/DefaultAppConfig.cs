@@ -41,15 +41,14 @@ namespace AppConfig
 
             DataMapConfig.Initialize();
 
-            IOC.ContainerBuilder.RegisterType<UnitOfWork>().InstancePerLifetimeScope();
-            IOC.ContainerBuilder.RegisterType<UnitOfWork>().AsSelf().InstancePerLifetimeScope();
-            IOC.ContainerBuilder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerLifetimeScope();
-            IOC.ContainerBuilder.RegisterType<DomainEvents>().InstancePerLifetimeScope();
+            IOC.RegisterLifetimeScope<IUnitOfWork, UnitOfWorkImpl>();
+            IOC.RegisterLifetimeScope<DomainEvents>();
+            
             IOC.RegisterType<SampleDataContext>();
 
             IOC.RegisterInstance(new GoogleGeoLocatorSettings() { ApiKey = "AIzaSyCHs9wcZRaJ8IUbLSqk5Aji5gmcrnu8jec" });
 
-            IOC.RegisterType<IRequestTrace, ConsoleRequestTrace>();
+            IOC.RegisterType<IRequestTrace, NullRequestTrace>();
 
             ConfigureLogging();
             ConfigureEmail();

@@ -49,7 +49,7 @@ namespace CoreTests
         [TestMethod]
         public void BasicTest()
         {
-            var geo = IOC.Container.Resolve<IGeolocator>();
+            var geo = IOC.ResolveForTest<IGeolocator>();
 
             var address = new SimpleAddress("4034 Winecott Drive", null, "Apex", "NC", "27502");
             address.ConsoleDump();
@@ -67,7 +67,7 @@ namespace CoreTests
         [TestMethod]
         public void PartialFindTest()
         {
-            var geo = IOC.Container.Resolve<IGeolocator>();
+            var geo = IOC.ResolveForTest<IGeolocator>();
 
             var address = new SimpleAddress("9999 Winecott Drive", null, "Apex", "NC", "27502");
             address.ConsoleDump();
@@ -84,7 +84,7 @@ namespace CoreTests
         [TestMethod]
         public void NotFoundTest()
         {
-            var geo = IOC.Container.Resolve<IGeolocator>();
+            var geo = IOC.ResolveForTest<IGeolocator>();
 
             var address = new SimpleAddress("9999 Fooble Drive", null, "Apex", "XX", "27599");
             address.ConsoleDump();
@@ -102,7 +102,7 @@ namespace CoreTests
         [TestMethod]
         public void WeirdAddressTest()
         {
-            var geo = IOC.Container.Resolve<IGeolocator>();
+            var geo = IOC.ResolveForTest<IGeolocator>();
 
             var address = new SimpleAddress("4034 Winecott Drive", "", "Apex", "NC", "27502");
             var result = geo.Geocode(address);
@@ -120,7 +120,7 @@ namespace CoreTests
         [TestMethod]
         public void TimeZoneTest()
         {
-            var geo = IOC.Container.Resolve<IGeolocator>();
+            var geo = IOC.ResolveForTest<IGeolocator>();
 
             var address = new SimpleAddress("4034 Winecott Drive", "", "Apex", "NC", "27502");
             var loc = geo.Geocode(address);
@@ -142,7 +142,7 @@ namespace CoreTests
         [TestMethod]
         public void DistanceTest()
         {
-            var geo = IOC.Container.Resolve<IGeolocator>();
+            var geo = IOC.ResolveForTest<IGeolocator>();
 
             var from = new SimpleAddress("4034 Winecott Drive", "", "Apex", "NC", "27502");
             var to = new SimpleAddress("2435 Lynn Road", "Suite 206", "Raleigh", "NC", "27612");

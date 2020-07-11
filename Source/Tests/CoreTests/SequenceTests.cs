@@ -6,6 +6,7 @@ using Iti.Auth;
 using Iti.Core.DomainEventsBase;
 using Iti.Core.Sequences;
 using Iti.Core.UnitOfWorkBase;
+using Iti.Core.UnitOfWorkBase.Interfaces;
 using Iti.Inversion;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -27,9 +28,9 @@ namespace CoreTests
         [TestMethod]
         public void BasicSequences()
         {
-            using (var uow = IOC.Container.Resolve<UnitOfWork>().Begin())
+            using (var uow = IOC.ResolveForTest<IUnitOfWork>().Begin())
             {
-                var seq = IOC.Container.Resolve<ISequenceResolver>();
+                var seq = IOC.ResolveForTest<ISequenceResolver>();
 
                 var x = seq.GetNextValue("Default");
                 var y = seq.GetNextValue("Default");
