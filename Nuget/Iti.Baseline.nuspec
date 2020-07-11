@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Iti.Baseline</id>
-    <version>1.8.1</version>
+    <version>1.8.3</version>
     <authors>Interface Technologies, Inc.</authors>
     <owners>Interface Technologies, Inc.</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -11,7 +11,8 @@
     <copyright>Copyright 2018</copyright>
     <tags></tags>
     <dependencies>
-	 <group targetFramework=".NETFramework4.7.1" >
+
+	 <group targetFramework="net471">
 	 	<dependency id="Microsoft.EntityFrameworkCore" version="2.2.4" />
 		<dependency id="Microsoft.EntityFrameworkCore.Design" version="2.2.4" />
 		<dependency id="Microsoft.EntityFrameworkCore.Relational" version="2.2.4" />
@@ -22,6 +23,7 @@
 		<dependency id="Twilio" version="5.30.0" />
 		<dependency id="TimeZoneConverter" version="3.2.0" />
 		</group>
+
     </dependencies>
   </metadata>
   <files>
