@@ -4,9 +4,9 @@ using System.Linq;
 using AutoMapper;
 using DataContext;
 using Domain;
-using Iti.Core.Mapping;
-using Iti.Core.ValueObjects;
-using Iti.ValueObjects;
+using Iti.Baseline.Core.Mapping;
+using Iti.Baseline.Core.ValueObjects;
+using Iti.Baseline.ValueObjects;
 using SampleApp.Application.Dto;
 
 namespace AppConfig

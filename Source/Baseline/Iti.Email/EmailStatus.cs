@@ -1,4 +1,4 @@
-﻿namespace Iti.Email
+﻿namespace Iti.Baseline.Email
 {
     public enum EmailStatus
     {

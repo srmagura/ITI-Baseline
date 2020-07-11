@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Iti.Geolocation.GoogleResults
+namespace Iti.Baseline.Geolocation.GoogleResults
 {
     internal class Leg
     {

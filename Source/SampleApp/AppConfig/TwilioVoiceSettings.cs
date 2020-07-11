@@ -1,4 +1,4 @@
-﻿using Iti.Voice;
+﻿using Iti.Baseline.Voice;
 
 namespace AppConfig
 {

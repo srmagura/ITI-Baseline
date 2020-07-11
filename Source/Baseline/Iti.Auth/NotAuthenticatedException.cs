@@ -1,7 +1,7 @@
 ﻿using System;
-using Iti.Exceptions;
+using Iti.Baseline.Exceptions;
 
-namespace Iti.Auth
+namespace Iti.Baseline.Auth
 {
     public class NotAuthenticatedException : DomainException
     {

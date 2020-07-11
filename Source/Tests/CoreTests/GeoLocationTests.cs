@@ -2,14 +2,14 @@
 using AppConfig;
 using Autofac;
 using CoreTests.Helpers;
-using Iti.Auth;
-using Iti.Core.DomainEventsBase;
-using Iti.Core.RequestTrace;
-using Iti.Geolocation;
-using Iti.Inversion;
-using Iti.Logging;
-using Iti.Utilities;
-using Iti.ValueObjects;
+using Iti.Baseline.Auth;
+using Iti.Baseline.Core.DomainEventsBase;
+using Iti.Baseline.Core.RequestTrace;
+using Iti.Baseline.Geolocation;
+using Iti.Baseline.Inversion;
+using Iti.Baseline.Logging;
+using Iti.Baseline.Utilities;
+using Iti.Baseline.ValueObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SampleApp.Auth;
 

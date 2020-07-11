@@ -1,8 +1,8 @@
 ﻿using System;
 using Domain.Events;
-using Iti.Core.DomainEventsBase;
-using Iti.Core.UnitOfWorkBase.Interfaces;
-using Iti.Logging;
+using Iti.Baseline.Core.DomainEventsBase;
+using Iti.Baseline.Core.UnitOfWorkBase.Interfaces;
+using Iti.Baseline.Logging;
 
 namespace CoreTests.Helpers
 {

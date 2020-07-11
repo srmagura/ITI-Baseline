@@ -1,4 +1,4 @@
-﻿namespace Iti.Core.Validation
+﻿namespace Iti.Baseline.Core.Validation
 {
     public static class Require
     {

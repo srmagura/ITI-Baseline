@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iti.Core.UnitOfWorkBase.Interfaces
+namespace Iti.Baseline.Core.UnitOfWorkBase.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using Iti.Auth;
-using Iti.Core.Services;
-using Iti.Core.UnitOfWorkBase.Interfaces;
-using Iti.Logging;
+using Iti.Baseline.Auth;
+using Iti.Baseline.Core.Services;
+using Iti.Baseline.Core.UnitOfWorkBase.Interfaces;
+using Iti.Baseline.Logging;
 
-namespace Iti.Core.Audit
+namespace Iti.Baseline.Core.Audit
 {
     public class AuditAppService : ApplicationService, IAuditAppService
     {

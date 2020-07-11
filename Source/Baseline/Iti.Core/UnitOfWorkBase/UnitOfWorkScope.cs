@@ -1,6 +1,6 @@
-﻿using Iti.Core.UnitOfWorkBase.Interfaces;
+﻿using Iti.Baseline.Core.UnitOfWorkBase.Interfaces;
 
-namespace Iti.Core.UnitOfWorkBase
+namespace Iti.Baseline.Core.UnitOfWorkBase
 {
     public class UnitOfWorkScope : IUnitOfWorkScope
     {

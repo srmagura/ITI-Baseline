@@ -1,8 +1,8 @@
 ﻿using System;
-using Iti.Core.DTOs;
-using Iti.Identities;
+using Iti.Baseline.Core.DTOs;
+using Iti.Baseline.Identities;
 
-namespace Iti.Sms
+namespace Iti.Baseline.Sms
 {
     public class SmsRecordDto : IDto
     {

@@ -1,7 +1,7 @@
-﻿using Iti.Core.Audit;
-using Iti.Core.DomainEventsBase;
+﻿using Iti.Baseline.Core.Audit;
+using Iti.Baseline.Core.DomainEventsBase;
 
-namespace Iti.Core.UnitOfWorkBase.Interfaces
+namespace Iti.Baseline.Core.UnitOfWorkBase.Interfaces
 {
     public interface IUnitOfWorkParticipant
     {

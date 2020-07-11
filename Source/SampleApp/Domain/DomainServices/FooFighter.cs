@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Iti.Core.Sequences;
-using Iti.Core.Services;
+using Iti.Baseline.Core.Sequences;
+using Iti.Baseline.Core.Services;
 
 namespace Domain.DomainServices
 {

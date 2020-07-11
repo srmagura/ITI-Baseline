@@ -1,7 +1,7 @@
 ﻿using System;
-using Iti.Core.Entites;
+using Iti.Baseline.Core.Entites;
 
-namespace Iti.Identities
+namespace Iti.Baseline.Identities
 {
     public class NotificationId : Identity
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Domain;
-using Iti.Core.DTOs;
-using Iti.ValueObjects;
+using Iti.Baseline.Core.DTOs;
+using Iti.Baseline.ValueObjects;
 
 namespace SampleApp.Application.Dto
 {

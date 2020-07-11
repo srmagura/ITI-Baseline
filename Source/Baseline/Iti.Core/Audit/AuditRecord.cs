@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Iti.Core.DateTime;
-using Iti.Utilities;
+using Iti.Baseline.Core.DateTime;
+using Iti.Baseline.Utilities;
 
-namespace Iti.Core.Audit
+namespace Iti.Baseline.Core.Audit
 {
     public class AuditRecord
     {

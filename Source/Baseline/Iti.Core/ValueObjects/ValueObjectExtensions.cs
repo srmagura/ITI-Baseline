@@ -1,4 +1,4 @@
-﻿namespace Iti.Core.ValueObjects
+﻿namespace Iti.Baseline.Core.ValueObjects
 {
     public static class ValueObjectExtensions
     {

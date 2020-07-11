@@ -1,4 +1,4 @@
-﻿using Iti.Auth;
+﻿using Iti.Baseline.Auth;
 
 namespace SampleApp.Auth
 {

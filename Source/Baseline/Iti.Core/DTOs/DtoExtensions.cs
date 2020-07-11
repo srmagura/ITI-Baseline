@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AutoMapper.QueryableExtensions;
-using Iti.Core.Mapping;
+using Iti.Baseline.Core.Mapping;
 
-namespace Iti.Core.DTOs
+namespace Iti.Baseline.Core.DTOs
 {
     public static class DtoExtensions
     {

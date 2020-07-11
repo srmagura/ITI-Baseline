@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Domain;
-using Iti.Core.Audit;
-using Iti.Core.DataContext;
-using Iti.ValueObjects;
+using Iti.Baseline.Core.Audit;
+using Iti.Baseline.Core.DataContext;
+using Iti.Baseline.ValueObjects;
 
 namespace DataContext
 {

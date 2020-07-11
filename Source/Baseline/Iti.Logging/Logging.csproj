@@ -7,8 +7,8 @@
     <ProjectGuid>{13D91588-2449-434B-9FA8-EE5508F180B0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Iti.Logging</RootNamespace>
-    <AssemblyName>Iti.Logging</AssemblyName>
+    <RootNamespace>Iti.Baseline.Logging</RootNamespace>
+    <AssemblyName>Iti.Baseline.Logging</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -124,17 +124,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Iti.Auth\Iti.Auth.csproj">
+    <ProjectReference Include="..\Iti.Auth\Auth.csproj">
       <Project>{57FEFE74-6578-4B99-A416-AAE694F37ADC}</Project>
-      <Name>Iti.Auth</Name>
+      <Name>Auth</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Iti.Inversion\Iti.Inversion.csproj">
+    <ProjectReference Include="..\Iti.Inversion\Inversion.csproj">
       <Project>{AEA5A010-E8FE-42F3-9C4D-07EF380AFB65}</Project>
-      <Name>Iti.Inversion</Name>
+      <Name>Inversion</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Iti.Utilities\Iti.Utilities.csproj">
+    <ProjectReference Include="..\Iti.Utilities\Utilities.csproj">
       <Project>{C1F67BFC-F215-45C6-9CEE-9C20F15E87D0}</Project>
-      <Name>Iti.Utilities</Name>
+      <Name>Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

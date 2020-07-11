@@ -1,4 +1,4 @@
-﻿namespace Iti.Core.DTOs
+﻿namespace Iti.Baseline.Core.DTOs
 {
     public interface IDto
     {

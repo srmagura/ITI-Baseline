@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using AutoMapper;
-using Iti.Core.DateTime;
-using Iti.Core.DomainEventsBase;
+using Iti.Baseline.Core.DateTime;
+using Iti.Baseline.Core.DomainEventsBase;
 
-namespace Iti.Core.Entites
+namespace Iti.Baseline.Core.Entites
 {
     public abstract class Entity
     {

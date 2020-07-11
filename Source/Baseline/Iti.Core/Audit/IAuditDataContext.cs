@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace Iti.Core.Audit
+namespace Iti.Baseline.Core.Audit
 {
     public interface IAuditDataContext : IDisposable
     {

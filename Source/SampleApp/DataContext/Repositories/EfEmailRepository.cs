@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Iti.Core.DataContext;
-using Iti.Core.DateTime;
-using Iti.Core.Repositories;
-using Iti.Core.UnitOfWorkBase;
-using Iti.Core.UnitOfWorkBase.Interfaces;
-using Iti.Email;
-using Iti.Identities;
+using Iti.Baseline.Core.DataContext;
+using Iti.Baseline.Core.Repositories;
+using Iti.Baseline.Core.UnitOfWorkBase.Interfaces;
+using Iti.Baseline.Email;
+using Iti.Baseline.Identities;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataContext.Repositories

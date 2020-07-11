@@ -1,4 +1,4 @@
-﻿namespace Iti.Logging.Job
+﻿namespace Iti.Baseline.Logging.Job
 {
     public class LogCleanupSettings
     {

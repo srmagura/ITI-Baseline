@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using Autofac;
-using Iti.Core.Audit;
-using Iti.Core.DomainEventsBase;
-using Iti.Core.UnitOfWorkBase.Interfaces;
+using Iti.Baseline.Core.Audit;
+using Iti.Baseline.Core.DomainEventsBase;
+using Iti.Baseline.Core.UnitOfWorkBase.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iti.Core.UnitOfWorkBase
+namespace Iti.Baseline.Core.UnitOfWorkBase
 {
     public class UnitOfWorkImpl : IUnitOfWork
     {

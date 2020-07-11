@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Iti.Core.Audit
+namespace Iti.Baseline.Core.Audit
 {
     [Serializable]
     internal class AuditProperty

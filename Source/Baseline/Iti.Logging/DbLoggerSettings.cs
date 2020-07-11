@@ -1,4 +1,4 @@
-﻿namespace Iti.Logging
+﻿namespace Iti.Baseline.Logging
 {
     public class DbLoggerSettings
     {

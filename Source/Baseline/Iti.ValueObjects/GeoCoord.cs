@@ -1,6 +1,6 @@
-﻿using Iti.Core.ValueObjects;
+﻿using Iti.Baseline.Core.ValueObjects;
 
-namespace Iti.ValueObjects
+namespace Iti.Baseline.ValueObjects
 {
     public class GeoCoord : ValueObject<GeoCoord>
     {

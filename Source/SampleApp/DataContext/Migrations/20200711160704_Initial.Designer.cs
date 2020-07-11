@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataContext.Migrations
 {
     [DbContext(typeof(SampleDataContext))]
-    [Migration("20190514135705_Initial")]
+    [Migration("20200711160704_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.3-servicing-35854")
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("Relational:Sequence:sequences.Default", "'Default', 'sequences', '1', '1', '', '', 'Int64', 'False'")
                 .HasAnnotation("Relational:Sequence:sequences.OrderNumber", "'OrderNumber', 'sequences', '10000', '5', '', '', 'Int64', 'False'")
@@ -251,7 +251,24 @@ namespace DataContext.Migrations
 
             modelBuilder.Entity("DataContext.DbFoo", b =>
                 {
-                    b.OwnsOne("Iti.ValueObjects.Address", "Address", b1 =>
+                    b.OwnsOne("Iti.ValueObjects.PhoneNumber", "PhoneNumber", b1 =>
+                        {
+                            b1.Property<Guid>("DbFooId");
+
+                            b1.Property<string>("Value")
+                                .HasMaxLength(16);
+
+                            b1.HasKey("DbFooId");
+
+                            b1.ToTable("Foos");
+
+                            b1.HasOne("DataContext.DbFoo")
+                                .WithOne("PhoneNumber")
+                                .HasForeignKey("Iti.ValueObjects.PhoneNumber", "DbFooId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
+
+                    b.OwnsOne("Iti.ValueObjects.SimpleAddress", "SimpleAddress", b1 =>
                         {
                             b1.Property<Guid>("DbFooId");
 
@@ -275,12 +292,12 @@ namespace DataContext.Migrations
                             b1.ToTable("Foos");
 
                             b1.HasOne("DataContext.DbFoo")
-                                .WithOne("Address")
-                                .HasForeignKey("Iti.ValueObjects.Address", "DbFooId")
+                                .WithOne("SimpleAddress")
+                                .HasForeignKey("Iti.ValueObjects.SimpleAddress", "DbFooId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
 
-                    b.OwnsOne("Iti.ValueObjects.PersonName", "PersonName", b1 =>
+                    b.OwnsOne("Iti.ValueObjects.SimplePersonName", "SimplePersonName", b1 =>
                         {
                             b1.Property<Guid>("DbFooId");
 
@@ -301,25 +318,8 @@ namespace DataContext.Migrations
                             b1.ToTable("Foos");
 
                             b1.HasOne("DataContext.DbFoo")
-                                .WithOne("PersonName")
-                                .HasForeignKey("Iti.ValueObjects.PersonName", "DbFooId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
-
-                    b.OwnsOne("Iti.ValueObjects.PhoneNumber", "PhoneNumber", b1 =>
-                        {
-                            b1.Property<Guid>("DbFooId");
-
-                            b1.Property<string>("Value")
-                                .HasMaxLength(16);
-
-                            b1.HasKey("DbFooId");
-
-                            b1.ToTable("Foos");
-
-                            b1.HasOne("DataContext.DbFoo")
-                                .WithOne("PhoneNumber")
-                                .HasForeignKey("Iti.ValueObjects.PhoneNumber", "DbFooId")
+                                .WithOne("SimplePersonName")
+                                .HasForeignKey("Iti.ValueObjects.SimplePersonName", "DbFooId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
                 });
@@ -358,7 +358,24 @@ namespace DataContext.Migrations
                                 });
                         });
 
-                    b.OwnsOne("Iti.ValueObjects.Address", "Address", b1 =>
+                    b.OwnsOne("Iti.ValueObjects.PhoneNumber", "PhoneNumber", b1 =>
+                        {
+                            b1.Property<Guid>("DbValObjHolderId");
+
+                            b1.Property<string>("Value")
+                                .HasMaxLength(16);
+
+                            b1.HasKey("DbValObjHolderId");
+
+                            b1.ToTable("ValObjHolders");
+
+                            b1.HasOne("DataContext.DbValObjHolder")
+                                .WithOne("PhoneNumber")
+                                .HasForeignKey("Iti.ValueObjects.PhoneNumber", "DbValObjHolderId")
+                                .OnDelete(DeleteBehavior.Cascade);
+                        });
+
+                    b.OwnsOne("Iti.ValueObjects.SimpleAddress", "SimpleAddress", b1 =>
                         {
                             b1.Property<Guid>("DbValObjHolderId");
 
@@ -382,12 +399,12 @@ namespace DataContext.Migrations
                             b1.ToTable("ValObjHolders");
 
                             b1.HasOne("DataContext.DbValObjHolder")
-                                .WithOne("Address")
-                                .HasForeignKey("Iti.ValueObjects.Address", "DbValObjHolderId")
+                                .WithOne("SimpleAddress")
+                                .HasForeignKey("Iti.ValueObjects.SimpleAddress", "DbValObjHolderId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
 
-                    b.OwnsOne("Iti.ValueObjects.PersonName", "PersonName", b1 =>
+                    b.OwnsOne("Iti.ValueObjects.SimplePersonName", "SimplePersonName", b1 =>
                         {
                             b1.Property<Guid>("DbValObjHolderId");
 
@@ -408,25 +425,8 @@ namespace DataContext.Migrations
                             b1.ToTable("ValObjHolders");
 
                             b1.HasOne("DataContext.DbValObjHolder")
-                                .WithOne("PersonName")
-                                .HasForeignKey("Iti.ValueObjects.PersonName", "DbValObjHolderId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
-
-                    b.OwnsOne("Iti.ValueObjects.PhoneNumber", "PhoneNumber", b1 =>
-                        {
-                            b1.Property<Guid>("DbValObjHolderId");
-
-                            b1.Property<string>("Value")
-                                .HasMaxLength(16);
-
-                            b1.HasKey("DbValObjHolderId");
-
-                            b1.ToTable("ValObjHolders");
-
-                            b1.HasOne("DataContext.DbValObjHolder")
-                                .WithOne("PhoneNumber")
-                                .HasForeignKey("Iti.ValueObjects.PhoneNumber", "DbValObjHolderId")
+                                .WithOne("SimplePersonName")
+                                .HasForeignKey("Iti.ValueObjects.SimplePersonName", "DbValObjHolderId")
                                 .OnDelete(DeleteBehavior.Cascade);
                         });
                 });

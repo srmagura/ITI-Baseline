@@ -1,11 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using AutoMapper;
-using Iti.Core.Entites;
-using Iti.Core.Mapping;
+using Iti.Baseline.Core.Entites;
+using Iti.Baseline.Core.Mapping;
 using Newtonsoft.Json;
 
-namespace Iti.Core.DataContext
+namespace Iti.Baseline.Core.DataContext
 {
     public abstract class DbEntity
     {

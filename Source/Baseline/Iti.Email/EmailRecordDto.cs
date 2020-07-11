@@ -1,8 +1,8 @@
 ﻿using System;
-using Iti.Core.DTOs;
-using Iti.Identities;
+using Iti.Baseline.Core.DTOs;
+using Iti.Baseline.Identities;
 
-namespace Iti.Email
+namespace Iti.Baseline.Email
 {
     public class EmailRecordDto : IDto
     {

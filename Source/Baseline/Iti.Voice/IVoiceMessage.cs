@@ -1,4 +1,4 @@
-﻿namespace Iti.Voice
+﻿namespace Iti.Baseline.Voice
 {
     public interface IVoiceMessage
     {

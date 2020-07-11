@@ -1,7 +1,7 @@
 ﻿using System;
-using Iti.Core.DateTime;
+using Iti.Baseline.Core.DateTime;
 
-namespace Iti.Core.RequestTrace
+namespace Iti.Baseline.Core.RequestTrace
 {
     public class ConsoleRequestTrace : IRequestTrace
     {

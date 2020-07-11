@@ -1,8 +1,8 @@
 ﻿using System.Net;
 using System.Net.Mail;
-using Iti.Identities;
+using Iti.Baseline.Identities;
 
-namespace Iti.Email
+namespace Iti.Baseline.Email
 {
     public class SmtpEmailSender : IEmailSender
     {

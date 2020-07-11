@@ -1,10 +1,10 @@
 ﻿using System;
-using Iti.Identities;
+using Iti.Baseline.Identities;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
 
-namespace Iti.Voice
+namespace Iti.Baseline.Voice
 {
     public class TwilioVoiceSender : IVoiceSender
     {

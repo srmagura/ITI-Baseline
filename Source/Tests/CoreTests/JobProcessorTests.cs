@@ -3,14 +3,14 @@ using AppConfig;
 using Autofac;
 using CoreTests.Helpers;
 using DataContext;
-using Iti.Auth;
-using Iti.Core.DateTime;
-using Iti.Core.DomainEventsBase;
-using Iti.Email;
-using Iti.Inversion;
-using Iti.Logging;
-using Iti.Logging.Job;
-using Iti.Sms;
+using Iti.Baseline.Auth;
+using Iti.Baseline.Core.DateTime;
+using Iti.Baseline.Core.DomainEventsBase;
+using Iti.Baseline.Email;
+using Iti.Baseline.Inversion;
+using Iti.Baseline.Logging;
+using Iti.Baseline.Logging.Job;
+using Iti.Baseline.Sms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CoreTests

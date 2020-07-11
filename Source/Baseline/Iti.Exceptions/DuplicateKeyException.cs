@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Iti.Exceptions
+namespace Iti.Baseline.Exceptions
 {
     public class DuplicateKeyException : DomainException
     {

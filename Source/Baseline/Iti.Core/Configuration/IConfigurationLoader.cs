@@ -1,4 +1,4 @@
-﻿namespace Iti.Core.Configuration
+﻿namespace Iti.Baseline.Core.Configuration
 {
     public interface IConfigurationLoader
     {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Iti.Core.Sequences
+namespace Iti.Baseline.Core.Sequences
 {
     public static class Sequence
     {

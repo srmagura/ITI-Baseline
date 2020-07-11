@@ -1,7 +1,7 @@
 ﻿using System;
-using Iti.Exceptions;
+using Iti.Baseline.Exceptions;
 
-namespace Iti.Core.Validation
+namespace Iti.Baseline.Core.Validation
 {
     public class ValidationException : DomainException
     {

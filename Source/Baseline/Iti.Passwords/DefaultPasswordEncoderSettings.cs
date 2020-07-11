@@ -1,4 +1,4 @@
-﻿namespace Iti.Passwords
+﻿namespace Iti.Baseline.Passwords
 {
     public class DefaultPasswordEncoderSettings
     {

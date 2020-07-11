@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Iti.Utilities
+namespace Iti.Baseline.Utilities
 {
     public static class DecimalExtensions
     {

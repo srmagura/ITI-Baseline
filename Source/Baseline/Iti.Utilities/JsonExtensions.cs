@@ -5,7 +5,7 @@ using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Iti.Utilities
+namespace Iti.Baseline.Utilities
 {
     public static class JsonExtensions
     {

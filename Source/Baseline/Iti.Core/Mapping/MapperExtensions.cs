@@ -2,7 +2,7 @@
 using System.Linq;
 using AutoMapper;
 
-namespace Iti.Core.Mapping
+namespace Iti.Baseline.Core.Mapping
 {
     public static class MapperExtensions
     {

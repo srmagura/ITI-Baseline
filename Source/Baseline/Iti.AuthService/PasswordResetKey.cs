@@ -1,10 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Iti.Core.DateTime;
-using Iti.Utilities;
-using Iti.ValueObjects;
+using Iti.Baseline.Core.DateTime;
+using Iti.Baseline.Utilities;
+using Iti.Baseline.ValueObjects;
 
-namespace Iti.AuthService
+namespace Iti.Baseline.AuthService
 {
     public class PasswordResetKey
     {

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace Iti.Logging
+namespace Iti.Baseline.Logging
 {
     public interface ILogDataContext : IDisposable
     {

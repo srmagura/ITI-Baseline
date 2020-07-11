@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Iti.Logging
+namespace Iti.Baseline.Logging
 {
     public interface ILogger
     {

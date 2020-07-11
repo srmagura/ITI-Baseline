@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
-using Iti.Auth;
+using Iti.Baseline.Auth;
 
-namespace Iti.Logging
+namespace Iti.Baseline.Logging
 {
     public class Logger : ILogger
     {

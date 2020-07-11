@@ -1,4 +1,4 @@
-﻿namespace Iti.Core.UrlShortener
+﻿namespace Iti.Baseline.Core.UrlShortener
 {
     public class NoOpUrlShortener : IUrlShortener
     {

@@ -1,4 +1,4 @@
-﻿using Iti.Core.DomainEventsBase;
+﻿using Iti.Baseline.Core.DomainEventsBase;
 
 namespace Domain.Events
 {

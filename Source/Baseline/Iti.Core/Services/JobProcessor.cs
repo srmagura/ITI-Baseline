@@ -1,7 +1,7 @@
 ﻿using System;
-using Iti.Logging;
+using Iti.Baseline.Logging;
 
-namespace Iti.Core.Services
+namespace Iti.Baseline.Core.Services
 {
     public abstract class JobProcessor
     {

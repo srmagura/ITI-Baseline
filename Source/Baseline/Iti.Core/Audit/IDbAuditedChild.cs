@@ -1,4 +1,4 @@
-﻿namespace Iti.Core.Audit
+﻿namespace Iti.Baseline.Core.Audit
 {
     public interface IDbAuditedChild : IDbAudited
     {

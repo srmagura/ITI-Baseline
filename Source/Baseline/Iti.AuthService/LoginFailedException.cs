@@ -1,7 +1,7 @@
 ﻿using System;
-using Iti.Exceptions;
+using Iti.Baseline.Exceptions;
 
-namespace Iti.AuthService
+namespace Iti.Baseline.AuthService
 {
     public class LoginFailedException : DomainException
     {

@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Domain;
-using Iti.Core.DTOs;
-using Iti.Core.Repositories;
-using Iti.Core.UnitOfWorkBase.Interfaces;
+using Iti.Baseline.Core.DTOs;
+using Iti.Baseline.Core.Repositories;
+using Iti.Baseline.Core.UnitOfWorkBase.Interfaces;
 using SampleApp.Application.Dto;
 using SampleApp.Application.Interfaces;
 

@@ -1,13 +1,12 @@
 ﻿using System;
 using Autofac;
 using CoreTests.Helpers;
-using Iti.Auth;
-using Iti.Core.Services;
-using Iti.Core.UnitOfWorkBase;
-using Iti.Core.UnitOfWorkBase.Interfaces;
-using Iti.Exceptions;
-using Iti.Inversion;
-using Iti.Logging;
+using Iti.Baseline.Auth;
+using Iti.Baseline.Core.Services;
+using Iti.Baseline.Core.UnitOfWorkBase.Interfaces;
+using Iti.Baseline.Exceptions;
+using Iti.Baseline.Inversion;
+using Iti.Baseline.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

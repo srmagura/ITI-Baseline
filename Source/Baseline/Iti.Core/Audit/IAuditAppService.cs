@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Iti.Core.Audit
+namespace Iti.Baseline.Core.Audit
 {
     public interface IAuditAppService
     {

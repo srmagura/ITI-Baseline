@@ -1,6 +1,6 @@
-﻿using Iti.Identities;
+﻿using Iti.Baseline.Identities;
 
-namespace Iti.Sms
+namespace Iti.Baseline.Sms
 {
     public interface ISmsSender
     {

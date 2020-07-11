@@ -1,7 +1,7 @@
 ﻿using System;
-using Iti.Inversion;
+using Iti.Baseline.Inversion;
 
-namespace Iti.Core.DateTime
+namespace Iti.Baseline.Core.DateTime
 {
     public static class DateTimeService
     {

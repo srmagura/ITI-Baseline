@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4035A0B1-F751-48BB-B096-0CE88F428176}</ProjectGuid>
+    <ProjectGuid>{09532E56-FA10-4647-8CCD-2909135E7E45}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Iti.Core</RootNamespace>
-    <AssemblyName>Iti.Core</AssemblyName>
+    <RootNamespace>Iti.Baseline.Logging.Job</RootNamespace>
+    <AssemblyName>Iti.Baseline.Logging.Job</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -34,12 +34,6 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac, Version=4.9.2.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Autofac.4.9.2\lib\net45\Autofac.dll</HintPath>
-    </Reference>
-    <Reference Include="AutoMapper, Version=8.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\AutoMapper.8.1.1\lib\net461\AutoMapper.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.EntityFrameworkCore, Version=2.2.4.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.EntityFrameworkCore.2.2.4\lib\netstandard2.0\Microsoft.EntityFrameworkCore.dll</HintPath>
     </Reference>
@@ -70,14 +64,17 @@
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Extensions.Logging, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Extensions.Logging.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Extensions.Logging.Abstractions.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Extensions.Options, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Extensions.Options.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Options.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Primitives, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Extensions.Primitives.2.2.0\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Remotion.Linq, Version=2.2.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Remotion.Linq.2.2.0\lib\net45\Remotion.Linq.dll</HintPath>
@@ -92,8 +89,10 @@
     <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.ComponentModel.Annotations.4.5.0\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
     </Reference>
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.SqlClient, Version=4.5.0.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Data.SqlClient.4.6.1\lib\net461\System.Data.SqlClient.dll</HintPath>
+    </Reference>
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.3.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Diagnostics.DiagnosticSource.4.5.1\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
     </Reference>
@@ -103,103 +102,35 @@
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Memory.4.5.3\lib\netstandard2.0\System.Memory.dll</HintPath>
     </Reference>
-    <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Audit\AuditAppService.cs" />
-    <Compile Include="Audit\Auditor.cs" />
-    <Compile Include="Audit\AuditProperty.cs" />
-    <Compile Include="Audit\AuditRecord.cs" />
-    <Compile Include="Audit\AuditRecordDto.cs" />
-    <Compile Include="Audit\IAuditAppPermissions.cs" />
-    <Compile Include="Audit\IAuditAppService.cs" />
-    <Compile Include="Audit\IAuditDataContext.cs" />
-    <Compile Include="Audit\IDbAudited.cs" />
-    <Compile Include="Audit\IDbAuditedChild.cs" />
-    <Compile Include="Configuration\IConfigurationLoader.cs" />
-    <Compile Include="DataContext\BaseDataContext.cs" />
-    <Compile Include="DataContext\DbEntity.cs" />
-    <Compile Include="DateTime\DateTimeService.cs" />
-    <Compile Include="DateTime\FieldLengths.cs" />
-    <Compile Include="DateTime\IDateTimeService.cs" />
-    <Compile Include="DateTime\WindowsDateTimeService.cs" />
-    <Compile Include="DomainEventsBase\BaseDomainEvent.cs" />
-    <Compile Include="DomainEventsBase\DomainEvents.cs" />
-    <Compile Include="DomainEventsBase\IDomainEvent.cs" />
-    <Compile Include="DomainEventsBase\IDomainEventHandler.cs" />
-    <Compile Include="DTOs\DtoExtensions.cs" />
-    <Compile Include="DTOs\IDto.cs" />
-    <Compile Include="Entites\AggregateRoot.cs" />
-    <Compile Include="Entites\Entity.cs" />
-    <Compile Include="Entites\Identity.cs" />
-    <Compile Include="Entites\Member.cs" />
-    <Compile Include="Entites\SequentialGuid.cs" />
-    <Compile Include="Mapping\BaseDataMapConfig.cs" />
-    <Compile Include="Mapping\MapperExtensions.cs" />
+    <Compile Include="LogCleanupJobProcessor.cs" />
+    <Compile Include="LogCleanupSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\Queries.cs" />
-    <Compile Include="Repositories\Repository.cs" />
-    <Compile Include="RequestTrace\ConsoleRequestTrace.cs" />
-    <Compile Include="RequestTrace\IRequestTrace.cs" />
-    <Compile Include="RequestTrace\NullRequestTrace.cs" />
-    <Compile Include="Sequences\EfSequenceResolver.cs" />
-    <Compile Include="Sequences\ISequenceResolver.cs" />
-    <Compile Include="Sequences\Sequence.cs" />
-    <Compile Include="Services\ApplicationService.cs" />
-    <Compile Include="Services\DomainService.cs" />
-    <Compile Include="Services\IDomainService.cs" />
-    <Compile Include="Services\JobProcessor.cs" />
-    <Compile Include="UnitOfWorkBase\Interfaces\IUnitOfWork.cs" />
-    <Compile Include="UnitOfWorkBase\Interfaces\IUnitOfWorkParticipant.cs" />
-    <Compile Include="UnitOfWorkBase\Interfaces\IUnitOfWorkScope.cs" />
-    <Compile Include="UnitOfWorkBase\UnitOfWorkImpl.cs" />
-    <Compile Include="UnitOfWorkBase\UnitOfWorkScope.cs" />
-    <Compile Include="UrlShortener\IUrlShortener.cs" />
-    <Compile Include="UrlShortener\NoOpUrlShortener.cs" />
-    <Compile Include="UrlShortener\TinyUrlShortener.cs" />
-    <Compile Include="Validation\Require.cs" />
-    <Compile Include="Validation\ValidationException.cs" />
-    <Compile Include="ValueObjects\IValueObject.cs" />
-    <Compile Include="ValueObjects\ValueObject.cs" />
-    <Compile Include="ValueObjects\ValueObjectExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Iti.Auth\Iti.Auth.csproj">
-      <Project>{57FEFE74-6578-4B99-A416-AAE694F37ADC}</Project>
-      <Name>Iti.Auth</Name>
+    <ProjectReference Include="..\Iti.Core\Core.csproj">
+      <Project>{4035A0B1-F751-48BB-B096-0CE88F428176}</Project>
+      <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Iti.Exceptions\Iti.Exceptions.csproj">
-      <Project>{FAB96EE7-B34F-47FC-AF96-9CC31AC7F8BC}</Project>
-      <Name>Iti.Exceptions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Iti.Inversion\Iti.Inversion.csproj">
+    <ProjectReference Include="..\Iti.Inversion\Inversion.csproj">
       <Project>{AEA5A010-E8FE-42F3-9C4D-07EF380AFB65}</Project>
-      <Name>Iti.Inversion</Name>
+      <Name>Inversion</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Iti.Logging\Iti.Logging.csproj">
+    <ProjectReference Include="..\Iti.Logging\Logging.csproj">
       <Project>{13D91588-2449-434B-9FA8-EE5508F180B0}</Project>
-      <Name>Iti.Logging</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Iti.Utilities\Iti.Utilities.csproj">
-      <Project>{C1F67BFC-F215-45C6-9CEE-9C20F15E87D0}</Project>
-      <Name>Iti.Utilities</Name>
+      <Name>Logging</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Iti.Core.UnitOfWorkBase.Interfaces
+namespace Iti.Baseline.Core.UnitOfWorkBase.Interfaces
 {
     public interface IUnitOfWorkScope : IDisposable
     {

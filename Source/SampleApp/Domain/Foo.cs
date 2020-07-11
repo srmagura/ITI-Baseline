@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Domain.Events;
-using Iti.Core.DomainEventsBase;
-using Iti.Core.Entites;
-using Iti.ValueObjects;
+using Iti.Baseline.Core.Entites;
+using Iti.Baseline.ValueObjects;
 
 namespace Domain
 {

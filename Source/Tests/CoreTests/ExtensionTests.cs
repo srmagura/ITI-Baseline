@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Iti.Core.DateTime;
-using Iti.Utilities;
+using Iti.Baseline.Core.DateTime;
+using Iti.Baseline.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CoreTests

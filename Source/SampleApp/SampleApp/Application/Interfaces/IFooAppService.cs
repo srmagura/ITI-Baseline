@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Domain;
-using Iti.ValueObjects;
+using Iti.Baseline.ValueObjects;
 using SampleApp.Application.Dto;
 
 namespace SampleApp.Application.Interfaces

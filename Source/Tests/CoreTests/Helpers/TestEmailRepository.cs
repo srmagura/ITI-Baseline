@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Iti.Email;
-using Iti.Identities;
+using Iti.Baseline.Email;
+using Iti.Baseline.Identities;
 
 namespace CoreTests.Helpers
 {

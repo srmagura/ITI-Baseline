@@ -1,4 +1,4 @@
-﻿using Iti.Core.DTOs;
+﻿using Iti.Baseline.Core.DTOs;
 
 namespace SampleApp.Application.Dto
 {

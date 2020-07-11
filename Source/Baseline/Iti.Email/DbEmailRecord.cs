@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Iti.Core.DataContext;
-using Iti.Utilities;
+using Iti.Baseline.Core.DataContext;
+using Iti.Baseline.Utilities;
 
-namespace Iti.Email
+namespace Iti.Baseline.Email
 {
     public class DbEmailRecord : DbEntity
     {

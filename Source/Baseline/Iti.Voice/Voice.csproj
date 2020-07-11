@@ -7,8 +7,8 @@
     <ProjectGuid>{C2C7719C-D169-4894-A8D8-6D60E698CA2D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Iti.Voice</RootNamespace>
-    <AssemblyName>Iti.Voice</AssemblyName>
+    <RootNamespace>Iti.Baseline.Voice</RootNamespace>
+    <AssemblyName>Iti.Baseline.Voice</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -77,17 +77,17 @@
     <Compile Include="VoiceStatus.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Iti.Core\Iti.Core.csproj">
+    <ProjectReference Include="..\Iti.Core\Core.csproj">
       <Project>{4035A0B1-F751-48BB-B096-0CE88F428176}</Project>
-      <Name>Iti.Core</Name>
+      <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Iti.Identities\Iti.Identities.csproj">
+    <ProjectReference Include="..\Iti.Identities\Identities.csproj">
       <Project>{5E13AE67-7C69-4697-B54E-DAA5707ECB39}</Project>
-      <Name>Iti.Identities</Name>
+      <Name>Identities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Iti.Logging\Iti.Logging.csproj">
+    <ProjectReference Include="..\Iti.Logging\Logging.csproj">
       <Project>{13D91588-2449-434B-9FA8-EE5508F180B0}</Project>
-      <Name>Iti.Logging</Name>
+      <Name>Logging</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

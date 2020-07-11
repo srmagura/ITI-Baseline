@@ -3,7 +3,7 @@
   <Import Project="..\..\packages\Microsoft.EntityFrameworkCore.Design.2.2.4\build\net461\Microsoft.EntityFrameworkCore.Design.props" Condition="Exists('..\..\packages\Microsoft.EntityFrameworkCore.Design.2.2.4\build\net461\Microsoft.EntityFrameworkCore.Design.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-  <IsPackable>false</IsPackable>
+    <IsPackable>false</IsPackable>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{D9E1F7BD-4A94-4C32-B02E-D808B09D92DF}</ProjectGuid>
@@ -143,13 +143,9 @@
     <Compile Include="DbBar.cs" />
     <Compile Include="DbFoo.cs" />
     <Compile Include="DbValObjHolder.cs" />
-    <Compile Include="Migrations\20190514135705_Initial.cs" />
-    <Compile Include="Migrations\20190514135705_Initial.designer.cs">
-      <DependentUpon>20190514135705_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\20190716150044_ValObjNameChanges.cs" />
-    <Compile Include="Migrations\20190716150044_ValObjNameChanges.designer.cs">
-      <DependentUpon>20190716150044_ValObjNameChanges.cs</DependentUpon>
+    <Compile Include="Migrations\20200711160704_Initial.cs" />
+    <Compile Include="Migrations\20200711160704_Initial.designer.cs">
+      <DependentUpon>20200711160704_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\SampleDataContextModelSnapshot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -161,37 +157,37 @@
     <Compile Include="SampleDataContext.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Baseline\Iti.Core\Iti.Core.csproj">
+    <ProjectReference Include="..\..\Baseline\Iti.Core\Core.csproj">
       <Project>{4035A0B1-F751-48BB-B096-0CE88F428176}</Project>
-      <Name>Iti.Core</Name>
+      <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Baseline\Iti.Email\Iti.Email.csproj">
+    <ProjectReference Include="..\..\Baseline\Iti.Email\Email.csproj">
       <Project>{27265E5D-9BE1-456F-96BB-770E690D29A5}</Project>
-      <Name>Iti.Email</Name>
+      <Name>Email</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Baseline\Iti.Identities\Iti.Identities.csproj">
+    <ProjectReference Include="..\..\Baseline\Iti.Identities\Identities.csproj">
       <Project>{5E13AE67-7C69-4697-B54E-DAA5707ECB39}</Project>
-      <Name>Iti.Identities</Name>
+      <Name>Identities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Baseline\Iti.Inversion\Iti.Inversion.csproj">
+    <ProjectReference Include="..\..\Baseline\Iti.Inversion\Inversion.csproj">
       <Project>{AEA5A010-E8FE-42F3-9C4D-07EF380AFB65}</Project>
-      <Name>Iti.Inversion</Name>
+      <Name>Inversion</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Baseline\Iti.Logging\Iti.Logging.csproj">
+    <ProjectReference Include="..\..\Baseline\Iti.Logging\Logging.csproj">
       <Project>{13D91588-2449-434B-9FA8-EE5508F180B0}</Project>
-      <Name>Iti.Logging</Name>
+      <Name>Logging</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Baseline\Iti.Sms\Iti.Sms.csproj">
+    <ProjectReference Include="..\..\Baseline\Iti.Sms\Sms.csproj">
       <Project>{449E24E9-0417-48D4-8671-88455579FE58}</Project>
-      <Name>Iti.Sms</Name>
+      <Name>Sms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Baseline\Iti.ValueObjects\Iti.ValueObjects.csproj">
+    <ProjectReference Include="..\..\Baseline\Iti.ValueObjects\ValueObjects.csproj">
       <Project>{4B0910BC-97DC-48E8-AC13-EDDF285951EA}</Project>
-      <Name>Iti.ValueObjects</Name>
+      <Name>ValueObjects</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Baseline\Iti.Voice\Iti.Voice.csproj">
+    <ProjectReference Include="..\..\Baseline\Iti.Voice\Voice.csproj">
       <Project>{C2C7719C-D169-4894-A8D8-6D60E698CA2D}</Project>
-      <Name>Iti.Voice</Name>
+      <Name>Voice</Name>
     </ProjectReference>
     <ProjectReference Include="..\Domain\Domain.csproj">
       <Project>{AD2B3E74-E89B-4B0A-AABC-9BA5A115FB37}</Project>

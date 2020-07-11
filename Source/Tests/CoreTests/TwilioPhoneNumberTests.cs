@@ -1,6 +1,6 @@
 ﻿using AppConfig;
-using Iti.Sms;
-using Iti.Voice;
+using Iti.Baseline.Sms;
+using Iti.Baseline.Voice;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CoreTests

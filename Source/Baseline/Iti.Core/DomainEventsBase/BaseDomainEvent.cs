@@ -1,7 +1,7 @@
 ﻿using System;
-using Iti.Core.DateTime;
+using Iti.Baseline.Core.DateTime;
 
-namespace Iti.Core.DomainEventsBase
+namespace Iti.Baseline.Core.DomainEventsBase
 {
     public abstract class BaseDomainEvent : IDomainEvent
     {

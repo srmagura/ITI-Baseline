@@ -1,8 +1,8 @@
 ﻿using System.Data;
-using Iti.Core.UnitOfWorkBase.Interfaces;
+using Iti.Baseline.Core.UnitOfWorkBase.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iti.Core.Sequences
+namespace Iti.Baseline.Core.Sequences
 {
     public class EfSequenceResolver<TDbContext> : ISequenceResolver
         where TDbContext : DbContext

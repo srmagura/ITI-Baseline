@@ -1,6 +1,6 @@
-﻿using Iti.Identities;
+﻿using Iti.Baseline.Identities;
 
-namespace Iti.Email
+namespace Iti.Baseline.Email
 {
     public interface IEmailRepository
     {

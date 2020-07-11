@@ -2,7 +2,7 @@
 using Autofac;
 using Autofac.Features.ResolveAnything;
 
-namespace Iti.Inversion
+namespace Iti.Baseline.Inversion
 {
     // ReSharper disable once InconsistentNaming
     public static class IOC

@@ -1,6 +1,6 @@
 ﻿using Twilio.TwiML;
 
-namespace Iti.Voice
+namespace Iti.Baseline.Voice
 {
     public class VoiceMessage : IVoiceMessage
     {

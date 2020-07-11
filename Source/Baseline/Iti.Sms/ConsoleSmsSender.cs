@@ -1,7 +1,7 @@
 ﻿using System;
-using Iti.Identities;
+using Iti.Baseline.Identities;
 
-namespace Iti.Sms
+namespace Iti.Baseline.Sms
 {
     public class ConsoleSmsSender : ISmsSender
     {

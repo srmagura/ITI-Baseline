@@ -1,4 +1,4 @@
-﻿namespace Iti.Core.DomainEventsBase
+﻿namespace Iti.Baseline.Core.DomainEventsBase
 {
     public interface IDomainEvent
     {

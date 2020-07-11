@@ -1,37 +1,37 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2048
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iti.Auth", "Baseline\Iti.Auth\Iti.Auth.csproj", "{57FEFE74-6578-4B99-A416-AAE694F37ADC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth", "Baseline\Iti.Auth\Auth.csproj", "{57FEFE74-6578-4B99-A416-AAE694F37ADC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iti.AuthService", "Baseline\Iti.AuthService\Iti.AuthService.csproj", "{C255C301-87D5-4405-9702-9002E869A935}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService", "Baseline\Iti.AuthService\AuthService.csproj", "{C255C301-87D5-4405-9702-9002E869A935}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iti.Email", "Baseline\Iti.Email\Iti.Email.csproj", "{27265E5D-9BE1-456F-96BB-770E690D29A5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Email", "Baseline\Iti.Email\Email.csproj", "{27265E5D-9BE1-456F-96BB-770E690D29A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iti.Exceptions", "Baseline\Iti.Exceptions\Iti.Exceptions.csproj", "{FAB96EE7-B34F-47FC-AF96-9CC31AC7F8BC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exceptions", "Baseline\Iti.Exceptions\Exceptions.csproj", "{FAB96EE7-B34F-47FC-AF96-9CC31AC7F8BC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Baseline", "Baseline", "{D122B058-6E18-4DD4-AEFD-23BBB17BD77E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iti.Geolocation", "Baseline\Iti.Geolocation\Iti.Geolocation.csproj", "{F2848FAA-38A2-46ED-8E09-09428FEDAC50}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geolocation", "Baseline\Iti.Geolocation\Geolocation.csproj", "{F2848FAA-38A2-46ED-8E09-09428FEDAC50}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iti.Inversion", "Baseline\Iti.Inversion\Iti.Inversion.csproj", "{AEA5A010-E8FE-42F3-9C4D-07EF380AFB65}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inversion", "Baseline\Iti.Inversion\Inversion.csproj", "{AEA5A010-E8FE-42F3-9C4D-07EF380AFB65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iti.Logging", "Baseline\Iti.Logging\Iti.Logging.csproj", "{13D91588-2449-434B-9FA8-EE5508F180B0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logging", "Baseline\Iti.Logging\Logging.csproj", "{13D91588-2449-434B-9FA8-EE5508F180B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iti.Logging.Job", "Baseline\Iti.Logging.Job\Iti.Logging.Job.csproj", "{09532E56-FA10-4647-8CCD-2909135E7E45}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logging.Job", "Baseline\Iti.Logging.Job\Logging.Job.csproj", "{09532E56-FA10-4647-8CCD-2909135E7E45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iti.Passwords", "Baseline\Iti.Passwords\Iti.Passwords.csproj", "{34AA24F5-8836-4253-8B78-415BD293A820}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Passwords", "Baseline\Iti.Passwords\Passwords.csproj", "{34AA24F5-8836-4253-8B78-415BD293A820}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iti.Sms", "Baseline\Iti.Sms\Iti.Sms.csproj", "{449E24E9-0417-48D4-8671-88455579FE58}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sms", "Baseline\Iti.Sms\Sms.csproj", "{449E24E9-0417-48D4-8671-88455579FE58}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iti.Utilities", "Baseline\Iti.Utilities\Iti.Utilities.csproj", "{C1F67BFC-F215-45C6-9CEE-9C20F15E87D0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities", "Baseline\Iti.Utilities\Utilities.csproj", "{C1F67BFC-F215-45C6-9CEE-9C20F15E87D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iti.ValueObjects", "Baseline\Iti.ValueObjects\Iti.ValueObjects.csproj", "{4B0910BC-97DC-48E8-AC13-EDDF285951EA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValueObjects", "Baseline\Iti.ValueObjects\ValueObjects.csproj", "{4B0910BC-97DC-48E8-AC13-EDDF285951EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iti.Voice", "Baseline\Iti.Voice\Iti.Voice.csproj", "{C2C7719C-D169-4894-A8D8-6D60E698CA2D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Voice", "Baseline\Iti.Voice\Voice.csproj", "{C2C7719C-D169-4894-A8D8-6D60E698CA2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iti.Core", "Baseline\Iti.Core\Iti.Core.csproj", "{4035A0B1-F751-48BB-B096-0CE88F428176}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Baseline\Iti.Core\Core.csproj", "{4035A0B1-F751-48BB-B096-0CE88F428176}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{479AB34A-6B7E-4B99-9D03-7261E7FA54BC}"
 EndProject
@@ -47,7 +47,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "SampleApp\Domain\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApp", "SampleApp\SampleApp\SampleApp.csproj", "{87796BC1-1466-44D7-8F5E-04EEC8832860}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iti.Identities", "Baseline\Iti.Identities\Iti.Identities.csproj", "{5E13AE67-7C69-4697-B54E-DAA5707ECB39}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identities", "Baseline\Iti.Identities\Identities.csproj", "{5E13AE67-7C69-4697-B54E-DAA5707ECB39}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ITI", "ITI", "{6DD42321-41AA-4C24-9DE3-894E6129F02C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -144,6 +146,7 @@ Global
 		{C255C301-87D5-4405-9702-9002E869A935} = {D122B058-6E18-4DD4-AEFD-23BBB17BD77E}
 		{27265E5D-9BE1-456F-96BB-770E690D29A5} = {D122B058-6E18-4DD4-AEFD-23BBB17BD77E}
 		{FAB96EE7-B34F-47FC-AF96-9CC31AC7F8BC} = {D122B058-6E18-4DD4-AEFD-23BBB17BD77E}
+		{D122B058-6E18-4DD4-AEFD-23BBB17BD77E} = {6DD42321-41AA-4C24-9DE3-894E6129F02C}
 		{F2848FAA-38A2-46ED-8E09-09428FEDAC50} = {D122B058-6E18-4DD4-AEFD-23BBB17BD77E}
 		{AEA5A010-E8FE-42F3-9C4D-07EF380AFB65} = {D122B058-6E18-4DD4-AEFD-23BBB17BD77E}
 		{13D91588-2449-434B-9FA8-EE5508F180B0} = {D122B058-6E18-4DD4-AEFD-23BBB17BD77E}

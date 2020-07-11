@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Iti.Core.DTOs;
-using Iti.Utilities;
+using Iti.Baseline.Core.DTOs;
+using Iti.Baseline.Utilities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iti.Core.ValueObjects
+namespace Iti.Baseline.Core.ValueObjects
 {
     [Owned]
     public abstract class ValueObject<T> : IEquatable<T>, IDto, IValueObject

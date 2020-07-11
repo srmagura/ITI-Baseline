@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Iti.Identities;
-using Iti.Sms;
+using Iti.Baseline.Identities;
+using Iti.Baseline.Sms;
 
 namespace CoreTests.Helpers
 {

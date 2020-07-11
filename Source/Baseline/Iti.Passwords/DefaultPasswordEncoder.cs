@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Cryptography;
-using Iti.Exceptions;
-using Iti.Utilities;
+using Iti.Baseline.Exceptions;
+using Iti.Baseline.Utilities;
 
-namespace Iti.Passwords
+namespace Iti.Baseline.Passwords
 {
     public class DefaultPasswordEncoder : IPasswordEncoder<EncodedPassword>
     {

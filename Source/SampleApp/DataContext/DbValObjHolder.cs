@@ -1,6 +1,6 @@
 ﻿using Domain;
-using Iti.Core.DataContext;
-using Iti.ValueObjects;
+using Iti.Baseline.Core.DataContext;
+using Iti.Baseline.ValueObjects;
 
 namespace DataContext
 {

@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Iti.Core.Validation;
-using Iti.Core.ValueObjects;
-using Iti.Utilities;
+using Iti.Baseline.Core.Validation;
+using Iti.Baseline.Core.ValueObjects;
+using Iti.Baseline.Utilities;
 
-namespace Iti.Passwords
+namespace Iti.Baseline.Passwords
 {
     public class EncodedPassword : ValueObject<EncodedPassword>, IEncodedPassword
     {

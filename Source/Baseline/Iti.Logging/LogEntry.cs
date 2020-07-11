@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Iti.Utilities;
+using Iti.Baseline.Utilities;
 
-namespace Iti.Logging
+namespace Iti.Baseline.Logging
 {
     public class LogEntry
     {

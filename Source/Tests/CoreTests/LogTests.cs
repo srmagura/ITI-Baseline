@@ -4,10 +4,9 @@ using System.Threading.Tasks;
 using AppConfig;
 using CoreTests.Helpers;
 using DataContext;
-using Iti.Core.DomainEventsBase;
-using Iti.Inversion;
-using Iti.Logging;
-using Iti.Utilities;
+using Iti.Baseline.Core.DomainEventsBase;
+using Iti.Baseline.Logging;
+using Iti.Baseline.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CoreTests

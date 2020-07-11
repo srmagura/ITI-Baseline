@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Iti.Utilities
+namespace Iti.Baseline.Utilities
 {
     public static class StringExtensions
     {

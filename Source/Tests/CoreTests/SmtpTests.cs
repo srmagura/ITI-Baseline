@@ -1,10 +1,10 @@
 ﻿using System;
 using AppConfig;
 using CoreTests.Helpers;
-using Iti.Core.DomainEventsBase;
-using Iti.Email;
-using Iti.Inversion;
-using Iti.Sms;
+using Iti.Baseline.Core.DomainEventsBase;
+using Iti.Baseline.Email;
+using Iti.Baseline.Inversion;
+using Iti.Baseline.Sms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CoreTests

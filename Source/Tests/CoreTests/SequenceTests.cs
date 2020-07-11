@@ -2,12 +2,11 @@
 using AppConfig;
 using Autofac;
 using CoreTests.Helpers;
-using Iti.Auth;
-using Iti.Core.DomainEventsBase;
-using Iti.Core.Sequences;
-using Iti.Core.UnitOfWorkBase;
-using Iti.Core.UnitOfWorkBase.Interfaces;
-using Iti.Inversion;
+using Iti.Baseline.Auth;
+using Iti.Baseline.Core.DomainEventsBase;
+using Iti.Baseline.Core.Sequences;
+using Iti.Baseline.Core.UnitOfWorkBase.Interfaces;
+using Iti.Baseline.Inversion;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

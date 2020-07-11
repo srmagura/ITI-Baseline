@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Iti.Passwords;
+using Iti.Baseline.Passwords;
 
-namespace Iti.ValueObjects
+namespace Iti.Baseline.ValueObjects
 {
     public static class DefaultValueObjectMap
     {

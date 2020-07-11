@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Iti.Core.Audit;
-using Iti.Core.DataContext;
+using Iti.Baseline.Core.Audit;
+using Iti.Baseline.Core.DataContext;
 
 namespace DataContext
 {

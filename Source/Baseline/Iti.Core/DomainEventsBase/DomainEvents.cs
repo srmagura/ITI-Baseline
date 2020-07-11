@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
-using Iti.Logging;
+using Iti.Baseline.Logging;
 
-namespace Iti.Core.DomainEventsBase
+namespace Iti.Baseline.Core.DomainEventsBase
 {
     public class DomainEvents
     {

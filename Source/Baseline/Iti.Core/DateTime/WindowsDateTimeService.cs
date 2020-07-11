@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Iti.Core.DateTime
+namespace Iti.Baseline.Core.DateTime
 {
     public class WindowsDateTimeService : IDateTimeService
     {

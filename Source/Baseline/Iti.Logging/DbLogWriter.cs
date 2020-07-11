@@ -2,7 +2,7 @@
 using System.Data.SqlClient;
 using Dapper;
 
-namespace Iti.Logging
+namespace Iti.Baseline.Logging
 {
     public class DbLogWriter : ILogWriter
     {

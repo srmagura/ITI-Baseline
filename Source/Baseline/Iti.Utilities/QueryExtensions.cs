@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Iti.Utilities
+namespace Iti.Baseline.Utilities
 {
     public static class QueryExtensions
     {

@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 using Domain;
-using Iti.Core.DataContext;
-using Iti.Core.Repositories;
-using Iti.Core.UnitOfWorkBase.Interfaces;
+using Iti.Baseline.Core.DataContext;
+using Iti.Baseline.Core.Repositories;
+using Iti.Baseline.Core.UnitOfWorkBase.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using SampleApp.Application.Interfaces;
 

@@ -1,4 +1,4 @@
-﻿namespace Iti.Geolocation
+﻿namespace Iti.Baseline.Geolocation
 {
     public class GoogleGeoLocatorSettings
     {

@@ -1,8 +1,8 @@
 ﻿using System;
-using Iti.Core.DTOs;
-using Iti.Identities;
+using Iti.Baseline.Core.DTOs;
+using Iti.Baseline.Identities;
 
-namespace Iti.Voice
+namespace Iti.Baseline.Voice
 {
     public class VoiceRecordDto : IDto
     {

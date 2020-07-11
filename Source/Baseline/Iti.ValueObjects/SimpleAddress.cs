@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Iti.Core.ValueObjects;
-using Iti.Utilities;
+using Iti.Baseline.Core.ValueObjects;
+using Iti.Baseline.Utilities;
 using Newtonsoft.Json;
 
-namespace Iti.ValueObjects
+namespace Iti.Baseline.ValueObjects
 {
     public class SimpleAddress : ValueObject<SimpleAddress>
     {

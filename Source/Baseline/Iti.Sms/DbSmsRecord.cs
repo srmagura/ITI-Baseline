@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using Iti.Core.DataContext;
+using Iti.Baseline.Core.DataContext;
 
-namespace Iti.Sms
+namespace Iti.Baseline.Sms
 {
     public class DbSmsRecord : DbEntity
     {

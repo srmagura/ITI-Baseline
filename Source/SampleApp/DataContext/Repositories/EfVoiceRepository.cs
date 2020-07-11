@@ -1,10 +1,9 @@
 ﻿using System.Linq;
-using Iti.Core.DataContext;
-using Iti.Core.Repositories;
-using Iti.Core.UnitOfWorkBase;
-using Iti.Core.UnitOfWorkBase.Interfaces;
-using Iti.Identities;
-using Iti.Voice;
+using Iti.Baseline.Core.DataContext;
+using Iti.Baseline.Core.Repositories;
+using Iti.Baseline.Core.UnitOfWorkBase.Interfaces;
+using Iti.Baseline.Identities;
+using Iti.Baseline.Voice;
 
 namespace DataContext.Repositories
 {

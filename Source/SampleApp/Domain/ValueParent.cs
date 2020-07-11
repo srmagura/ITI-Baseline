@@ -1,5 +1,5 @@
-﻿using Iti.Core.ValueObjects;
-using Iti.Utilities;
+﻿using Iti.Baseline.Core.ValueObjects;
+using Iti.Baseline.Utilities;
 
 namespace Domain
 {

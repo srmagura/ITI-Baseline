@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Iti.Utilities
+namespace Iti.Baseline.Utilities
 {
     public static class ListExtensions
     {

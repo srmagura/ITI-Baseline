@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web;
-using Iti.Core.DateTime;
-using Iti.Core.RequestTrace;
-using Iti.Geolocation.GoogleResults;
-using Iti.Logging;
-using Iti.Utilities;
-using Iti.ValueObjects;
+using Iti.Baseline.Core.DateTime;
+using Iti.Baseline.Core.RequestTrace;
+using Iti.Baseline.Geolocation.GoogleResults;
+using Iti.Baseline.Logging;
+using Iti.Baseline.Utilities;
+using Iti.Baseline.ValueObjects;
 using Newtonsoft.Json;
 using TimeZoneConverter;
 
-namespace Iti.Geolocation
+namespace Iti.Baseline.Geolocation
 {
     public class GoogleGeoLocator : IGeolocator
     {

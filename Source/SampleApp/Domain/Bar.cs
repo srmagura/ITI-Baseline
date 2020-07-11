@@ -1,5 +1,5 @@
 ﻿using System;
-using Iti.Core.Entites;
+using Iti.Baseline.Core.Entites;
 
 namespace Domain
 {

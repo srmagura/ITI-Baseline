@@ -1,11 +1,11 @@
 ﻿using System;
-using Iti.Auth;
-using Iti.Core.UnitOfWorkBase.Interfaces;
-using Iti.Exceptions;
-using Iti.Logging;
+using Iti.Baseline.Auth;
+using Iti.Baseline.Core.UnitOfWorkBase.Interfaces;
+using Iti.Baseline.Exceptions;
+using Iti.Baseline.Logging;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iti.Core.Services
+namespace Iti.Baseline.Core.Services
 {
     public abstract class ApplicationService
     {

@@ -1,7 +1,7 @@
-﻿using Iti.Core.UnitOfWorkBase.Interfaces;
+﻿using Iti.Baseline.Core.UnitOfWorkBase.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iti.Core.Repositories
+namespace Iti.Baseline.Core.Repositories
 {
     public abstract class Repository<TDbContext> 
         where TDbContext : DbContext, IUnitOfWorkParticipant

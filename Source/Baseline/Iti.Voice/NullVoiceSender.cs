@@ -1,6 +1,6 @@
-﻿using Iti.Identities;
+﻿using Iti.Baseline.Identities;
 
-namespace Iti.Voice
+namespace Iti.Baseline.Voice
 {
     public class NullVoiceSender : IVoiceSender
     {

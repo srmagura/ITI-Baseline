@@ -1,9 +1,9 @@
-﻿using Iti.Identities;
+﻿using Iti.Baseline.Identities;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
 
-namespace Iti.Sms
+namespace Iti.Baseline.Sms
 {
     public class TwilioSmsSender : ISmsSender
     {
@@ -30,7 +30,7 @@ namespace Iti.Sms
             TwilioClient.Init(_settings.Sid, _settings.AuthToken);
             var message = MessageResource.Create(
                 to: FormatTwilioPhone(toAddress), // new PhoneNumber($"+1{toAddress}"),
-                from: FormatTwilioPhone(_settings.FromPhone), // new PhoneNumber($"+1{_settings.FromPhone}"),
+                @from: FormatTwilioPhone(_settings.FromPhone), // new PhoneNumber($"+1{_settings.FromPhone}"),
                 body: body);
         }
     }

@@ -1,4 +1,4 @@
-﻿namespace Iti.Auth
+﻿namespace Iti.Baseline.Auth
 {
     public static class AuthContextExtensions
     {

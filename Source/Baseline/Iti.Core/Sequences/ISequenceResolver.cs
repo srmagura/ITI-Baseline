@@ -1,4 +1,4 @@
-﻿namespace Iti.Core.Sequences
+﻿namespace Iti.Baseline.Core.Sequences
 {
     public interface ISequenceResolver
     {

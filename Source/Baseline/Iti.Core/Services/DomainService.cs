@@ -1,4 +1,4 @@
-﻿namespace Iti.Core.Services
+﻿namespace Iti.Baseline.Core.Services
 {
     public abstract class DomainService { }
 }

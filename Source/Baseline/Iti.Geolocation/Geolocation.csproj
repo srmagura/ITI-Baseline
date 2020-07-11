@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C255C301-87D5-4405-9702-9002E869A935}</ProjectGuid>
+    <ProjectGuid>{F2848FAA-38A2-46ED-8E09-09428FEDAC50}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Iti.AuthService</RootNamespace>
-    <AssemblyName>Iti.AuthService</AssemblyName>
+    <RootNamespace>Iti.Baseline.Geolocation</RootNamespace>
+    <AssemblyName>Iti.Baseline.Geolocation</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -34,39 +34,57 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="TimeZoneConverter, Version=3.2.0.0, Culture=neutral, PublicKeyToken=e20ab7d0d9479841, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\TimeZoneConverter.3.2.0\lib\net471\TimeZoneConverter.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IncorrectPasswordException.cs" />
-    <Compile Include="InvalidPasswordException.cs" />
-    <Compile Include="InvalidResetKeyException.cs" />
-    <Compile Include="LoginFailedException.cs" />
-    <Compile Include="PasswordResetKey.cs" />
-    <Compile Include="PasswordResetKeyId.cs" />
+    <Compile Include="GeoLocationHelper.cs" />
+    <Compile Include="GoogleGeoLocator.cs" />
+    <Compile Include="GoogleGeoLocatorSettings.cs" />
+    <Compile Include="GoogleResults\GoogleDirectionsResult.cs" />
+    <Compile Include="GoogleResults\Distance.cs" />
+    <Compile Include="GoogleResults\Duration.cs" />
+    <Compile Include="GoogleResults\Geometry.cs" />
+    <Compile Include="GoogleResults\GoogleGeoCodeResult.cs" />
+    <Compile Include="GoogleResults\Leg.cs" />
+    <Compile Include="GoogleResults\Location.cs" />
+    <Compile Include="GoogleResults\Result.cs" />
+    <Compile Include="GoogleResults\Route.cs" />
+    <Compile Include="GoogleResults\TimeZoneLookupResult.cs" />
+    <Compile Include="IGeolocator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Iti.Core\Iti.Core.csproj">
+    <ProjectReference Include="..\Iti.Core\Core.csproj">
       <Project>{4035A0B1-F751-48BB-B096-0CE88F428176}</Project>
-      <Name>Iti.Core</Name>
+      <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Iti.Exceptions\Iti.Exceptions.csproj">
-      <Project>{FAB96EE7-B34F-47FC-AF96-9CC31AC7F8BC}</Project>
-      <Name>Iti.Exceptions</Name>
+    <ProjectReference Include="..\Iti.Logging\Logging.csproj">
+      <Project>{13D91588-2449-434B-9FA8-EE5508F180B0}</Project>
+      <Name>Logging</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Iti.Utilities\Iti.Utilities.csproj">
+    <ProjectReference Include="..\Iti.Utilities\Utilities.csproj">
       <Project>{C1F67BFC-F215-45C6-9CEE-9C20F15E87D0}</Project>
-      <Name>Iti.Utilities</Name>
+      <Name>Utilities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Iti.ValueObjects\Iti.ValueObjects.csproj">
+    <ProjectReference Include="..\Iti.ValueObjects\ValueObjects.csproj">
       <Project>{4B0910BC-97DC-48E8-AC13-EDDF285951EA}</Project>
-      <Name>Iti.ValueObjects</Name>
+      <Name>ValueObjects</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

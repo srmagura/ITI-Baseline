@@ -2,14 +2,14 @@
 using System.Configuration;
 using Autofac;
 using Domain;
-using Iti.Core.Audit;
-using Iti.Core.DataContext;
-using Iti.Core.Sequences;
-using Iti.Email;
-using Iti.Inversion;
-using Iti.Logging;
-using Iti.Sms;
-using Iti.Voice;
+using Iti.Baseline.Core.Audit;
+using Iti.Baseline.Core.DataContext;
+using Iti.Baseline.Core.Sequences;
+using Iti.Baseline.Email;
+using Iti.Baseline.Inversion;
+using Iti.Baseline.Logging;
+using Iti.Baseline.Sms;
+using Iti.Baseline.Voice;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Net;
-using Iti.Logging;
+using Iti.Baseline.Logging;
 
-namespace Iti.Core.UrlShortener
+namespace Iti.Baseline.Core.UrlShortener
 {
     public class TinyUrlShortener : IUrlShortener
     {

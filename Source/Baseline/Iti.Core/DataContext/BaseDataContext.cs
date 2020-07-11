@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Iti.Core.Audit;
-using Iti.Core.DomainEventsBase;
-using Iti.Core.UnitOfWorkBase.Interfaces;
-using Iti.Utilities;
+using Iti.Baseline.Core.Audit;
+using Iti.Baseline.Core.DomainEventsBase;
+using Iti.Baseline.Core.UnitOfWorkBase.Interfaces;
+using Iti.Baseline.Utilities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iti.Core.DataContext
+namespace Iti.Baseline.Core.DataContext
 {
     public abstract class BaseDataContext : DbContext, IUnitOfWorkParticipant
     {

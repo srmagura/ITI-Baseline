@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using AutoMapper;
-using Iti.Core.DataContext;
-using Iti.Core.DTOs;
-using Iti.Core.Entites;
-using Iti.Core.ValueObjects;
+using Iti.Baseline.Core.DataContext;
+using Iti.Baseline.Core.DTOs;
+using Iti.Baseline.Core.Entites;
+using Iti.Baseline.Core.ValueObjects;
 
-namespace Iti.Core.Mapping
+namespace Iti.Baseline.Core.Mapping
 {
     public class BaseDataMapConfig
     {

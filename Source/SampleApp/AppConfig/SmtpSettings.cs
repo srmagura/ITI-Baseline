@@ -1,4 +1,4 @@
-﻿using Iti.Email;
+﻿using Iti.Baseline.Email;
 
 namespace AppConfig
 {

@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Iti.Auth;
-using Iti.Core.ValueObjects;
-using Iti.Logging;
-using Iti.Utilities;
+using Iti.Baseline.Auth;
+using Iti.Baseline.Core.ValueObjects;
+using Iti.Baseline.Logging;
+using Iti.Baseline.Utilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Newtonsoft.Json;
 
-namespace Iti.Core.Audit
+namespace Iti.Baseline.Core.Audit
 {
     //
     // NOTE: This is not yet completely tested.

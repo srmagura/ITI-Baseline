@@ -1,7 +1,7 @@
 ﻿using System;
-using Iti.Core.DTOs;
+using Iti.Baseline.Core.DTOs;
 
-namespace Iti.Core.Audit
+namespace Iti.Baseline.Core.Audit
 {
     public class AuditRecordDto : IDto
     {

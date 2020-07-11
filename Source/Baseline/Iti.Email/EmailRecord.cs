@@ -1,9 +1,9 @@
 ﻿using System;
-using Iti.Core.Entites;
-using Iti.Identities;
-using Iti.Utilities;
+using Iti.Baseline.Core.Entites;
+using Iti.Baseline.Identities;
+using Iti.Baseline.Utilities;
 
-namespace Iti.Email
+namespace Iti.Baseline.Email
 {
     public class EmailRecord : AggregateRoot
     {

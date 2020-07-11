@@ -2,7 +2,7 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-  <IsPackable>false</IsPackable>
+    <IsPackable>false</IsPackable>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{AD2B3E74-E89B-4B0A-AABC-9BA5A115FB37}</ProjectGuid>
@@ -60,17 +60,17 @@
     <Compile Include="ValueParent.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Baseline\Iti.Core\Iti.Core.csproj">
+    <ProjectReference Include="..\..\Baseline\Iti.Core\Core.csproj">
       <Project>{4035A0B1-F751-48BB-B096-0CE88F428176}</Project>
-      <Name>Iti.Core</Name>
+      <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Baseline\Iti.Utilities\Iti.Utilities.csproj">
+    <ProjectReference Include="..\..\Baseline\Iti.Utilities\Utilities.csproj">
       <Project>{C1F67BFC-F215-45C6-9CEE-9C20F15E87D0}</Project>
-      <Name>Iti.Utilities</Name>
+      <Name>Utilities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Baseline\Iti.ValueObjects\Iti.ValueObjects.csproj">
+    <ProjectReference Include="..\..\Baseline\Iti.ValueObjects\ValueObjects.csproj">
       <Project>{4B0910BC-97DC-48E8-AC13-EDDF285951EA}</Project>
-      <Name>Iti.ValueObjects</Name>
+      <Name>ValueObjects</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

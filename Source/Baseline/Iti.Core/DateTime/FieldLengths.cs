@@ -1,4 +1,4 @@
-﻿namespace Iti.Core.DateTime
+﻿namespace Iti.Baseline.Core.DateTime
 {
     public static class FieldLengths
     {

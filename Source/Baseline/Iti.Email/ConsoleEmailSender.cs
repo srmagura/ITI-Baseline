@@ -1,7 +1,7 @@
 ﻿using System;
-using Iti.Identities;
+using Iti.Baseline.Identities;
 
-namespace Iti.Email
+namespace Iti.Baseline.Email
 {
     public class ConsoleEmailSender : IEmailSender
     {

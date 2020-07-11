@@ -1,7 +1,7 @@
 ﻿using System;
-using Iti.ValueObjects;
+using Iti.Baseline.ValueObjects;
 
-namespace Iti.Geolocation
+namespace Iti.Baseline.Geolocation
 {
     public static class GeoLocationHelper
     {

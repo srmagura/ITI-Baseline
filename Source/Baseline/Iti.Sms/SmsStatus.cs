@@ -1,4 +1,4 @@
-﻿namespace Iti.Sms
+﻿namespace Iti.Baseline.Sms
 {
     public enum SmsStatus
     {

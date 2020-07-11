@@ -1,9 +1,9 @@
 ﻿using System;
-using Iti.Core.DateTime;
-using Iti.Core.Services;
+using Iti.Baseline.Core.DateTime;
+using Iti.Baseline.Core.Services;
 using Microsoft.EntityFrameworkCore;
 
-namespace Iti.Logging.Job
+namespace Iti.Baseline.Logging.Job
 {
     public class LogCleanupJobProcessor : JobProcessor
     {

@@ -1,4 +1,4 @@
-﻿using Iti.Sms;
+﻿using Iti.Baseline.Sms;
 
 namespace AppConfig
 {
