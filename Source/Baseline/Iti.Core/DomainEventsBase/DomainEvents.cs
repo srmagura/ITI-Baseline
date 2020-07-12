@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
+using Iti.Baseline.Inversion;
 using Iti.Baseline.Logging;
 
 namespace Iti.Baseline.Core.DomainEventsBase
@@ -102,26 +103,32 @@ namespace Iti.Baseline.Core.DomainEventsBase
 
                     foreach (var handlerType in handlerTypes)
                     {
-                        var task = Task.Factory.StartNew(() =>
+                        var task = Task.Run(() =>
                         {
-                            try
+                            using (var childScope = IOC.BeginLifetimeScope())
                             {
-                                using (var childScope = scope.BeginLifetimeScope())
+                                childScope.TryResolve<ILogger>(out var logger);
+
+                                try
                                 {
                                     var handler = childScope.Resolve(handlerType);
-                                    
-                                    var handleMethod = handler.GetType()
-                                        .GetMethod("Handle", new[] { domainEvent.GetType() });
-                                    if(handleMethod == null)
-                                        _logger?.Error($"Domain Event: could not resolve handler method for {handlerType.Name}");
 
-                                    handleMethod.Invoke(handler, new object[] { domainEvent });
+                                    var handleMethod = handler.GetType()
+                                        .GetMethod("Handle", new[] {domainEvent.GetType()});
+                                    if (handleMethod == null)
+                                    {
+                                        logger?.Error($"Domain Event: could not resolve handler method for {handlerType.Name}");
+                                        return;
+                                    }
+
+                                    handleMethod.Invoke(handler, new object[] {domainEvent});
                                 }
-                            }
-                            catch (Exception exc)
-                            {
-                                _logger?.Error(
-                                    $"Domain Event threw exception: {domainEventType.Name} -> {handlerType.Name}", exc);
+                                catch (Exception exc)
+                                {
+                                    logger?.Error(
+                                        $"Domain Event threw exception: {domainEventType.Name} -> {handlerType.Name}",
+                                        exc);
+                                }
                             }
                         });
                         tasks.Add(task);
