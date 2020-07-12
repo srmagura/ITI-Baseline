@@ -5,7 +5,6 @@ using Iti.Baseline.Core.Audit;
 using Iti.Baseline.Core.DataContext;
 using Iti.Baseline.Core.DomainEventsBase;
 using Iti.Baseline.Core.UnitOfWorkBase.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace Iti.Baseline.Core.UnitOfWorkBase
 {

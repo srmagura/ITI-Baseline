@@ -6,9 +6,9 @@ namespace Iti.Baseline.Logging
 {
     public class DbLogWriter : ILogWriter
     {
-        private readonly DbLoggerSettings _settings;
+        private readonly IDbLoggerSettings _settings;
 
-        public DbLogWriter(DbLoggerSettings settings)
+        public DbLogWriter(IDbLoggerSettings settings)
         {
             _settings = settings;
         }
@@ -17,9 +17,9 @@ namespace Iti.Baseline.Logging
         {
             try
             {
-                using (var conn = new SqlConnection(_settings.ConnectionString))
+                using (var conn = new SqlConnection(_settings.LogConnectionString))
                 {
-                    var sql = $@"INSERT INTO {_settings.TableName} 
+                    var sql = $@"INSERT INTO {_settings.LogTableName} 
                                     (WhenUtc,Level,UserId,UserName,Hostname,Process,Thread,Message,Exception) 
                                     VALUES (@WhenUtc,@Level,@UserId,@UserName,@Hostname,@Process,@Thread,@Message,@Exception)";
 

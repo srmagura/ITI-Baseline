@@ -114,7 +114,7 @@
   <ItemGroup>
     <Compile Include="ConsoleLogWriter.cs" />
     <Compile Include="DbLogWriter.cs" />
-    <Compile Include="DbLoggerSettings.cs" />
+    <Compile Include="IDbLoggerSettings.cs" />
     <Compile Include="ILogDataContext.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="ILogWriter.cs" />

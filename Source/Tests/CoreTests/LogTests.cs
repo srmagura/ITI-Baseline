@@ -25,7 +25,7 @@ namespace CoreTests
         [TestMethod]
         public void BasicLogTests()
         {
-            var logger = new Logger(new DbLogWriter(new DbLoggerSettings() { ConnectionString = SampleDataContext.GetConnectionString() }), new TestAuthContext());
+            var logger = new Logger(new DbLogWriter(new DbLoggerSettings()), new TestAuthContext());
 
             var marker = Guid.NewGuid().ToString();
 

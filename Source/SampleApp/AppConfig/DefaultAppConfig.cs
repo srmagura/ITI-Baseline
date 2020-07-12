@@ -107,6 +107,8 @@ namespace AppConfig
 
             IOC.RegisterType<ILogDataContext, SampleDataContext>();
             IOC.RegisterType<ILogWriter, DbLogWriter>();
+
+            IOC.RegisterType<IDbLoggerSettings, DbLoggerSettings>();
         }
 
         private static void ConfigureEmail()

@@ -1,4 +1,5 @@
-﻿using Iti.Baseline.Core.UnitOfWorkBase.Interfaces;
+﻿using Iti.Baseline.Core.DataContext;
+using Iti.Baseline.Core.UnitOfWorkBase.Interfaces;
 
 namespace Iti.Baseline.Core.UnitOfWorkBase
 {
@@ -14,6 +15,11 @@ namespace Iti.Baseline.Core.UnitOfWorkBase
         public void Dispose()
         {
             ParentUnitOfWork.OnScopeDispose();
+        }
+
+        public TParticipant Current<TParticipant>() where TParticipant : BaseDataContext
+        {
+            return ParentUnitOfWork.Current<TParticipant>();
         }
 
         public void Commit()
