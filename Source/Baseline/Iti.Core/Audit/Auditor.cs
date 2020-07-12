@@ -11,14 +11,16 @@ using Newtonsoft.Json;
 
 namespace Iti.Baseline.Core.Audit
 {
-    //
-    // NOTE: This is not yet completely tested.
-    //       Specifically, nested objects (value objects, collections, etc.) need to be more
-    //       thoroughly tested to make sure all changes are captured correctly.
-    //
-
     public class Auditor
     {
+        public Auditor(ILogger logger, IAuthContext auth)
+        {
+            _logger = logger;
+            _auth = auth;
+        }
+
+        //
+
         private readonly ILogger _logger;
         private readonly IAuthContext _auth;
         private static readonly Dictionary<string, List<string>> MaskedFields = new Dictionary<string, List<string>>();
@@ -61,12 +63,6 @@ namespace Iti.Baseline.Core.Audit
 
         //
         //
-
-        public Auditor(ILogger logger, IAuthContext auth)
-        {
-            _logger = logger;
-            _auth = auth;
-        }
 
         internal void Process(IAuditDataContext db, ChangeTracker changeTracker)
         {

@@ -67,6 +67,16 @@ namespace Iti.Baseline.Inversion
             return Container.TryResolve<T>(out var result) ? result : func?.Invoke();
         }
 
+        public static T ResolveStatic<T>()
+        {
+            return Container.Resolve<T>();
+        }
+
+        public static ILifetimeScope BeginLifetimeScope()
+        {
+            return Container.BeginLifetimeScope();
+        }
+
         //
         //
 
