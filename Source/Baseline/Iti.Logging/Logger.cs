@@ -49,8 +49,8 @@ namespace Iti.Baseline.Logging
             string userName = null;
             if (_auth != null)
             {
-                userId = _auth?.UserId;
-                userName = _auth?.UserName;
+                userId = _auth.UserId;
+                userName = _auth.UserName;
             }
 
             var hostname = Environment.MachineName;

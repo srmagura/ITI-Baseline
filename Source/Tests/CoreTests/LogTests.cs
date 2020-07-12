@@ -25,18 +25,18 @@ namespace CoreTests
         [TestMethod]
         public void BasicLogTests()
         {
-            var Log = new Logger(new DbLogWriter(new DbLoggerSettings() { ConnectionString = SampleDataContext.GetConnectionString() }), new TestAuthContext());
+            var logger = new Logger(new DbLogWriter(new DbLoggerSettings() { ConnectionString = SampleDataContext.GetConnectionString() }), new TestAuthContext());
 
             var marker = Guid.NewGuid().ToString();
 
             var task = Task.Run(() =>
             {
-                Log.Info(marker);
-                Log.Info("Test 1 - Info");
-                Log.Warning("Test 1 - Warning");
-                Log.Error("Test 1 - Error");
-                Log.Error("Test 2 - Error w/ Exception", new Exception("This is an exception!"));
-                Log.Info(marker);
+                logger.Info(marker);
+                logger.Info("Test 1 - Info");
+                logger.Warning("Test 1 - Warning");
+                logger.Error("Test 1 - Error");
+                logger.Error("Test 2 - Error w/ Exception", new Exception("This is an exception!"));
+                logger.Info(marker);
             });
 
             task.Wait();

@@ -1,11 +1,12 @@
 ﻿using System.Data;
+using Iti.Baseline.Core.DataContext;
 using Iti.Baseline.Core.UnitOfWorkBase.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iti.Baseline.Core.Sequences
 {
     public class EfSequenceResolver<TDbContext> : ISequenceResolver
-        where TDbContext : DbContext
+        where TDbContext : BaseDataContext
     {
         private readonly IUnitOfWork _uow;
 

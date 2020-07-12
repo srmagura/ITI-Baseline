@@ -1,4 +1,5 @@
 ﻿using System;
+using Iti.Baseline.Core.DataContext;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iti.Baseline.Core.UnitOfWorkBase.Interfaces
@@ -8,7 +9,7 @@ namespace Iti.Baseline.Core.UnitOfWorkBase.Interfaces
         IUnitOfWorkScope Begin();
 
         TParticipant Current<TParticipant>()
-            where TParticipant : DbContext;
+            where TParticipant : BaseDataContext;
 
         void OnScopeCommit();
         void OnScopeDispose();

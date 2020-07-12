@@ -1,10 +1,11 @@
-﻿using Iti.Baseline.Core.UnitOfWorkBase.Interfaces;
+﻿using Iti.Baseline.Core.DataContext;
+using Iti.Baseline.Core.UnitOfWorkBase.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Iti.Baseline.Core.Repositories
 {
     public abstract class Queries<TDbContext>
-        where TDbContext : DbContext, new()
+        where TDbContext : BaseDataContext
     {
         private readonly IUnitOfWork _uow;
 

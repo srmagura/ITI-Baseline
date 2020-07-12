@@ -11,28 +11,40 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iti.Baseline.Core.DataContext
 {
-    public abstract class BaseDataContext : DbContext, IUnitOfWorkParticipant
+    public abstract class BaseDataContext : DbContext
     {
+        private Auditor _auditor;
+        private DomainEvents _domainEvents;
+
         protected BaseDataContext() { }
 
         protected BaseDataContext(DbContextOptions options) : base(options) { }
 
-        public void OnUnitOfWorkCommit(Auditor auditor, DomainEvents domainEvents)
+        protected BaseDataContext(Auditor auditor, DomainEvents domainEvents)
         {
-            SaveChanges(auditor, domainEvents);
+            Initialize(auditor, domainEvents);
         }
 
-        public void SaveChanges(Auditor auditor, DomainEvents domainEvents)
+        public void Initialize(Auditor auditor, DomainEvents domainEvents)
+        {
+            _auditor = auditor;
+            _domainEvents = domainEvents;
+        }
+
+        public override int SaveChanges()
         {
             UpdateEntityMaps();
-            HandleAudit(auditor);
-            HandleDomainEvents(domainEvents);
+            HandleAudit(_auditor);
+            HandleDomainEvents(_domainEvents);
 
-            base.SaveChanges();
+            return base.SaveChanges();
         }
 
         private void HandleDomainEvents(DomainEvents domainEvents)
         {
+            if (_domainEvents == null)
+                return;
+
             foreach (var entry in ChangeTracker.Entries())
             {
                 var dbe = entry.Entity as DbEntity;
@@ -44,14 +56,6 @@ namespace Iti.Baseline.Core.DataContext
                     domainEvents.RaiseAll(dbe.MappedEntity?.DomainEvents);
                 }
             }
-        }
-
-        [Obsolete("Do not call SaveChanges directly!", true)]
-        public override int SaveChanges()
-        {
-            UpdateEntityMaps();
-
-            return base.SaveChanges();
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
@@ -74,6 +78,9 @@ namespace Iti.Baseline.Core.DataContext
 
         internal void HandleAudit(Auditor audit)
         {
+            if (audit == null)
+                return;
+
             if (this is IAuditDataContext dc)
             {
                 audit?.Process(dc, ChangeTracker);

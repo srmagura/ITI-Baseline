@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Autofac;
 using Iti.Baseline.Core.Audit;
+using Iti.Baseline.Core.DataContext;
 using Iti.Baseline.Core.DomainEventsBase;
 using Iti.Baseline.Core.UnitOfWorkBase.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -30,11 +31,11 @@ namespace Iti.Baseline.Core.UnitOfWorkBase
             return new UnitOfWorkScope(this);
         }
 
-        private readonly Dictionary<Type, DbContext> _participants = new Dictionary<Type, DbContext>();
+        private readonly Dictionary<Type, BaseDataContext> _participants = new Dictionary<Type, BaseDataContext>();
         private readonly object _lock = new object();
 
         public TParticipant Current<TParticipant>()
-            where TParticipant : DbContext
+            where TParticipant : BaseDataContext
         {
             // Console.WriteLine($"DEBUG: CURRENT: UnitOfWork: {this.GetHashCode()} -- scope: {_scope.GetHashCode()}");
 
@@ -48,6 +49,12 @@ namespace Iti.Baseline.Core.UnitOfWorkBase
                 }
 
                 var inst = _scope.Resolve<TParticipant>();
+
+                var auditor = _scope.Resolve<Auditor>();
+                var domainEvents = _scope.Resolve<DomainEvents>();
+
+                inst.Initialize(auditor,domainEvents);
+
                 _participants.Add(type, inst);
                 return inst;
             }
@@ -59,8 +66,7 @@ namespace Iti.Baseline.Core.UnitOfWorkBase
 
             foreach (var db in _participants.Values)
             {
-                var participant = db as IUnitOfWorkParticipant;
-                participant?.OnUnitOfWorkCommit(_auditor, _domainEvents);
+                db?.SaveChanges();
             }
 
             _domainEvents.HandleAllRaisedEvents(_scope);

@@ -161,7 +161,6 @@
     <Compile Include="Services\IDomainService.cs" />
     <Compile Include="Services\JobProcessor.cs" />
     <Compile Include="UnitOfWorkBase\Interfaces\IUnitOfWork.cs" />
-    <Compile Include="UnitOfWorkBase\Interfaces\IUnitOfWorkParticipant.cs" />
     <Compile Include="UnitOfWorkBase\Interfaces\IUnitOfWorkScope.cs" />
     <Compile Include="UnitOfWorkBase\UnitOfWorkImpl.cs" />
     <Compile Include="UnitOfWorkBase\UnitOfWorkScope.cs" />
