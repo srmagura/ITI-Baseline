@@ -15,11 +15,13 @@ namespace Iti.Baseline.Core.Tasks
     {
         public static Task Run<T>(string name, IAuthScopeResolver authResolver, Action<T> action)
         {
+            var appAuthContext = authResolver.GetInhertiableAuthContext();
+
             var task = Task.Run(() =>
                 {
                     try
                     {
-                        using (var innerScope = authResolver.BeginLifetimeScope())
+                        using (var innerScope = authResolver.BeginLifetimeScope(appAuthContext))
                         {
                             var st = innerScope.Resolve<T>();
                             action(st);
@@ -37,11 +39,13 @@ namespace Iti.Baseline.Core.Tasks
 
         public static Task<TResult> Run<T, TResult>(string name, IAuthScopeResolver authResolver, Func<T, TResult> action, Func<TResult> defaultValue)
         {
+            var appAuthContext = authResolver.GetInhertiableAuthContext();
+
             var task = Task.Run(() =>
                 {
                     try
                     {
-                        using (var innerScope = authResolver.BeginLifetimeScope())
+                        using (var innerScope = authResolver.BeginLifetimeScope(appAuthContext))
                         {
                             var st = innerScope.Resolve<T>();
                             return action(st);
@@ -60,11 +64,13 @@ namespace Iti.Baseline.Core.Tasks
 
         public static Task Run<T>(string name, IAuthScopeResolver authResolver, Action<T> action, CancellationToken cancellationToken)
         {
+            var appAuthContext = authResolver.GetInhertiableAuthContext();
+
             var task = Task.Run(() =>
                 {
                     try
                     {
-                        using (var innerScope = authResolver.BeginLifetimeScope())
+                        using (var innerScope = authResolver.BeginLifetimeScope(appAuthContext))
                         {
                             var st = innerScope.Resolve<T>();
                             action(st);
@@ -83,11 +89,13 @@ namespace Iti.Baseline.Core.Tasks
 
         public static Task<TResult> Run<T, TResult>(string name, IAuthScopeResolver authResolver, Func<T, TResult> action, Func<TResult> defaultValue, CancellationToken cancellationToken)
         {
+            var appAuthContext = authResolver.GetInhertiableAuthContext();
+
             var task = Task.Run(() =>
                 {
                     try
                     {
-                        using (var innerScope = authResolver.BeginLifetimeScope())
+                        using (var innerScope = authResolver.BeginLifetimeScope(appAuthContext))
                         {
                             var st = innerScope.Resolve<T>();
                             return action(st);

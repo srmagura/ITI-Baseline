@@ -4,6 +4,7 @@ namespace Iti.Baseline.Inversion
 {
     public interface IAuthScopeResolver
     {
-        ILifetimeScope BeginLifetimeScope();
+        object GetInhertiableAuthContext();
+        ILifetimeScope BeginLifetimeScope(object parentAuthInstance);
     }
 }

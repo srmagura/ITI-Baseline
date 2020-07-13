@@ -7,18 +7,21 @@ namespace AppConfig
 {
     public class SampleAuthScopeResolver : IAuthScopeResolver
     {
-        private readonly ILifetimeScope _scope;
+        private readonly ILifetimeScope _currentScope;
 
-        public SampleAuthScopeResolver(ILifetimeScope scope)
+        public SampleAuthScopeResolver(ILifetimeScope currentScope)
         {
-            _scope = scope;
+            _currentScope = currentScope;
         }
 
-        public ILifetimeScope BeginLifetimeScope()
+        public object GetInhertiableAuthContext()
         {
-            _scope.TryResolve<IAppAuthContext>(out var parentAuth);
-            var childAuth = new InheritedAuthContext(parentAuth);
+            var auth = _currentScope.Resolve<IAppAuthContext>();
+            return new InheritedAuthContext(auth);
+        }
 
+        public ILifetimeScope BeginLifetimeScope(object childAuth)
+        {
             return IOC.Container.BeginLifetimeScope(c =>
             {
                 c.RegisterInstance(childAuth)
