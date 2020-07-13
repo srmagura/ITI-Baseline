@@ -1,5 +1,4 @@
-﻿using Autofac;
-using DataContext;
+﻿using DataContext;
 using DataContext.Repositories;
 using Domain.DomainServices;
 using Iti.Baseline.Core.Configuration;
@@ -42,12 +41,16 @@ namespace AppConfig
 
             IOC.RegisterLifetimeScope<IUnitOfWork, UnitOfWorkImpl>();
             IOC.RegisterLifetimeScope<DomainEvents>();
-            
+
             IOC.RegisterType<SampleDataContext>();
+
+            IOC.RegisterType<IAuthScopeResolver, SampleAuthScopeResolver>();
 
             IOC.RegisterInstance(new GoogleGeoLocatorSettings() { ApiKey = "AIzaSyCHs9wcZRaJ8IUbLSqk5Aji5gmcrnu8jec" });
 
             IOC.RegisterType<IRequestTrace, NullRequestTrace>();
+
+            IOC.RegisterType<IAuthScopeResolver, SampleAuthScopeResolver>();
 
             ConfigureLogging();
             ConfigureEmail();

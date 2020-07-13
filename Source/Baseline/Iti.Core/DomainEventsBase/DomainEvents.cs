@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
+using Iti.Baseline.Core.Tasks;
 using Iti.Baseline.Inversion;
 using Iti.Baseline.Logging;
 
@@ -10,11 +11,15 @@ namespace Iti.Baseline.Core.DomainEventsBase
 {
     public class DomainEvents
     {
+        private readonly ILifetimeScope _scope;
         private readonly ILogger _logger;
+        private readonly IAuthScopeResolver _authScopeResolver;
 
-        public DomainEvents(ILogger logger)
+        public DomainEvents(ILifetimeScope scope, ILogger logger, IAuthScopeResolver authScopeResolver)
         {
+            _scope = scope;
             _logger = logger;
+            _authScopeResolver = authScopeResolver;
         }
 
         public static void Initialize(
@@ -103,34 +108,12 @@ namespace Iti.Baseline.Core.DomainEventsBase
 
                     foreach (var handlerType in handlerTypes)
                     {
-                        var task = Task.Run(() =>
-                        {
-                            using (var childScope = IOC.BeginLifetimeScope())
-                            {
-                                childScope.TryResolve<ILogger>(out var logger);
+                        var task = TaskRunner.Run<DomainEventHandlerTask>(
+                            $"DomainEvent:{handlerType.Name}",
+                            _authScopeResolver,
+                            t => t.HandleEvents(handlerType, domainEvent)
+                        );
 
-                                try
-                                {
-                                    var handler = childScope.Resolve(handlerType);
-
-                                    var handleMethod = handler.GetType()
-                                        .GetMethod("Handle", new[] {domainEvent.GetType()});
-                                    if (handleMethod == null)
-                                    {
-                                        logger?.Error($"Domain Event: could not resolve handler method for {handlerType.Name}");
-                                        return;
-                                    }
-
-                                    handleMethod.Invoke(handler, new object[] {domainEvent});
-                                }
-                                catch (Exception exc)
-                                {
-                                    logger?.Error(
-                                        $"Domain Event threw exception: {domainEventType.Name} -> {handlerType.Name}",
-                                        exc);
-                                }
-                            }
-                        });
                         tasks.Add(task);
                     }
                 }
@@ -145,7 +128,32 @@ namespace Iti.Baseline.Core.DomainEventsBase
                 _logger?.Error($"Domain Event processing exception", exc);
             }
         }
+    }
 
+    public class DomainEventHandlerTask
+    {
+        private readonly ILifetimeScope _scope;
+        private readonly ILogger _logger;
 
+        public DomainEventHandlerTask(ILifetimeScope scope, ILogger logger)
+        {
+            _scope = scope;
+            _logger = logger;
+        }
+
+        public void HandleEvents(Type handlerType, IDomainEvent domainEvent)
+        {
+            var handler = _scope.Resolve(handlerType);
+
+            var handleMethod = handler.GetType()
+                .GetMethod("Handle", new[] { domainEvent.GetType() });
+            if (handleMethod == null)
+            {
+                _logger?.Error($"Domain Event: could not resolve handler method for {handlerType.Name}");
+                return;
+            }
+
+            handleMethod.Invoke(handler, new object[] { domainEvent });
+        }
     }
 }

@@ -126,12 +126,18 @@
     <Compile Include="DataMapConfig.cs" />
     <Compile Include="DbLoggerSettings.cs" />
     <Compile Include="DefaultAppConfig.cs" />
+    <Compile Include="InheritedAuthContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SampleAuthScopeResolver.cs" />
     <Compile Include="SmtpSettings.cs" />
     <Compile Include="TwilioSmsSettings.cs" />
     <Compile Include="TwilioVoiceSettings.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Baseline\Iti.Auth\Auth.csproj">
+      <Project>{57FEFE74-6578-4B99-A416-AAE694F37ADC}</Project>
+      <Name>Auth</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Baseline\Iti.Core\Core.csproj">
       <Project>{4035A0B1-F751-48BB-B096-0CE88F428176}</Project>
       <Name>Core</Name>

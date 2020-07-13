@@ -160,6 +160,7 @@
     <Compile Include="Services\DomainService.cs" />
     <Compile Include="Services\IDomainService.cs" />
     <Compile Include="Services\JobProcessor.cs" />
+    <Compile Include="Tasks\TaskRunner.cs" />
     <Compile Include="UnitOfWorkBase\Interfaces\IUnitOfWork.cs" />
     <Compile Include="UnitOfWorkBase\Interfaces\IUnitOfWorkScope.cs" />
     <Compile Include="UnitOfWorkBase\UnitOfWorkImpl.cs" />
