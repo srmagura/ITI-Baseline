@@ -16,20 +16,21 @@ namespace Iti.Baseline.Core.Tasks
         public static Task Run<T>(string name, IAuthScopeResolver authResolver, Action<T> action)
         {
             var task = Task.Run(() =>
-            {
-                try
                 {
-                    using (var innerScope = authResolver.BeginLifetimeScope())
+                    try
                     {
-                        var st = innerScope.Resolve<T>();
-                        action(st);
+                        using (var innerScope = authResolver.BeginLifetimeScope())
+                        {
+                            var st = innerScope.Resolve<T>();
+                            action(st);
+                        }
+                    }
+                    catch (Exception exc)
+                    {
+                        StaticLog.Log.Error($"TASK ERROR: {typeof(T).Name}:{name}: {exc.Message}", exc);
                     }
                 }
-                catch (Exception exc)
-                {
-                    StaticLog.Log.Error($"TASK ERROR: {typeof(T).Name}:{name}: {exc.Message}", exc);
-                }
-            });
+            );
 
             return task;
         }
@@ -37,21 +38,69 @@ namespace Iti.Baseline.Core.Tasks
         public static Task<TResult> Run<T, TResult>(string name, IAuthScopeResolver authResolver, Func<T, TResult> action, Func<TResult> defaultValue)
         {
             var task = Task.Run(() =>
-            {
-                try
                 {
-                    using (var innerScope = authResolver.BeginLifetimeScope())
+                    try
                     {
-                        var st = innerScope.Resolve<T>();
-                        return action(st);
+                        using (var innerScope = authResolver.BeginLifetimeScope())
+                        {
+                            var st = innerScope.Resolve<T>();
+                            return action(st);
+                        }
+                    }
+                    catch (Exception exc)
+                    {
+                        StaticLog.Log.Error($"TASK ERROR: {typeof(T).Name}:{name}: {exc.Message}", exc);
+                        return defaultValue();
                     }
                 }
-                catch (Exception exc)
+            );
+
+            return task;
+        }
+
+        public static Task Run<T>(string name, IAuthScopeResolver authResolver, Action<T> action, CancellationToken cancellationToken)
+        {
+            var task = Task.Run(() =>
                 {
-                    StaticLog.Log.Error($"TASK ERROR: {typeof(T).Name}:{name}: {exc.Message}", exc);
-                    return defaultValue();
-                }
-            });
+                    try
+                    {
+                        using (var innerScope = authResolver.BeginLifetimeScope())
+                        {
+                            var st = innerScope.Resolve<T>();
+                            action(st);
+                        }
+                    }
+                    catch (Exception exc)
+                    {
+                        StaticLog.Log.Error($"TASK ERROR: {typeof(T).Name}:{name}: {exc.Message}", exc);
+                    }
+                },
+                cancellationToken
+            );
+
+            return task;
+        }
+
+        public static Task<TResult> Run<T, TResult>(string name, IAuthScopeResolver authResolver, Func<T, TResult> action, Func<TResult> defaultValue, CancellationToken cancellationToken)
+        {
+            var task = Task.Run(() =>
+                {
+                    try
+                    {
+                        using (var innerScope = authResolver.BeginLifetimeScope())
+                        {
+                            var st = innerScope.Resolve<T>();
+                            return action(st);
+                        }
+                    }
+                    catch (Exception exc)
+                    {
+                        StaticLog.Log.Error($"TASK ERROR: {typeof(T).Name}:{name}: {exc.Message}", exc);
+                        return defaultValue();
+                    }
+                },
+                cancellationToken
+            );
 
             return task;
         }
