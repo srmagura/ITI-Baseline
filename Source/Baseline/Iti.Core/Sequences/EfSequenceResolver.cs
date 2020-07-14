@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Iti.Baseline.Core.Sequences
 {
     public class EfSequenceResolver<TDbContext> : ISequenceResolver
-        where TDbContext : BaseDataContext
+        where TDbContext : BaseDataContext, new()
     {
         private readonly IUnitOfWork _uow;
 

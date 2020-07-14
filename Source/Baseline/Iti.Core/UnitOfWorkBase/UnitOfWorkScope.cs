@@ -17,7 +17,7 @@ namespace Iti.Baseline.Core.UnitOfWorkBase
             ParentUnitOfWork.OnScopeDispose();
         }
 
-        public TParticipant Current<TParticipant>() where TParticipant : BaseDataContext
+        public TParticipant Current<TParticipant>() where TParticipant : BaseDataContext, new()
         {
             return ParentUnitOfWork.Current<TParticipant>();
         }

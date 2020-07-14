@@ -9,7 +9,7 @@ namespace Iti.Baseline.Core.UnitOfWorkBase.Interfaces
         IUnitOfWorkScope Begin();
 
         TParticipant Current<TParticipant>()
-            where TParticipant : BaseDataContext;
+            where TParticipant : BaseDataContext, new();
 
         void OnScopeCommit();
         void OnScopeDispose();

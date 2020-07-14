@@ -34,7 +34,7 @@ namespace Iti.Baseline.Core.UnitOfWorkBase
         private readonly object _lock = new object();
 
         public TParticipant Current<TParticipant>()
-            where TParticipant : BaseDataContext
+            where TParticipant : BaseDataContext, new()
         {
             // Console.WriteLine($"DEBUG: CURRENT: UnitOfWork: {this.GetHashCode()} -- scope: {_scope.GetHashCode()}");
 
@@ -47,7 +47,8 @@ namespace Iti.Baseline.Core.UnitOfWorkBase
                     return (TParticipant)_participants[type];
                 }
 
-                var inst = _scope.Resolve<TParticipant>();
+                // var inst = _scope.Resolve<TParticipant>();
+                var inst = new TParticipant();
 
                 var auditor = _scope.Resolve<Auditor>();
                 var domainEvents = _scope.Resolve<DomainEvents>();
@@ -70,18 +71,43 @@ namespace Iti.Baseline.Core.UnitOfWorkBase
 
             _domainEvents.HandleAllRaisedEvents(_scope);
 
-            _participants.Clear();
+            ClearParticipants();
         }
 
         void IUnitOfWork.OnScopeDispose()
         {
             // Console.WriteLine($"DEBUG: DISPOSE: UnitOfWork: {this.GetHashCode()} -- scope: {_scope.GetHashCode()}");
 
-            _participants.Clear();
+            ClearParticipants();
         }
 
         public void Dispose()
         {
+            ClearParticipants();
+        }
+
+        private void ClearParticipants()
+        {
+            try
+            {
+                foreach (var p in _participants.Values)
+                {
+                    try
+                    {
+                        p?.Dispose();
+                    }
+                    catch (Exception)
+                    {
+                        // eat it
+                    }
+                }
+
+                _participants.Clear();
+            }
+            catch (Exception)
+            {
+                // eat it
+            }
         }
     }
 }

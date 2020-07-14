@@ -6,7 +6,7 @@ namespace Iti.Baseline.Core.UnitOfWorkBase.Interfaces
     public interface IUnitOfWorkScope : IDisposable
     {
         TParticipant Current<TParticipant>()
-            where TParticipant : BaseDataContext;
+            where TParticipant : BaseDataContext, new();
 
         void Commit();
     }
