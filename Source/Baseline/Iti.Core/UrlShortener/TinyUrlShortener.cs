@@ -21,8 +21,11 @@ namespace Iti.Baseline.Core.UrlShortener
             {
                 var tinyUrl = $"{BaseUrl}{urlToShorten}";
 
-                var cli = new WebClient();
-                var result = cli.DownloadString(tinyUrl);
+                string result;
+                using (var cli = new WebClient())
+                {
+                    result = cli.DownloadString(tinyUrl);
+                }
 
                 return result;
             }

@@ -43,20 +43,22 @@ namespace Iti.Baseline.Geolocation
 
                 requestUrl += $"?address={FormatAddressForUrl(simpleAddress)}&sensor=false&key={_settings.ApiKey}";
 
-                var webClient = new WebClient();
-                responseJson = webClient.DownloadString(requestUrl);
-
-                var googleResult = JsonConvert.DeserializeObject<GoogleGeoCodeResult>(responseJson);
-
-                if (googleResult.Status != "OK")
+                using (var webClient = new WebClient())
                 {
-                    LogError(simpleAddress, googleResult.Status);
-                    _trace?.WriteTrace(begin, requestUrl, "", responseJson);
-                    return InvalidGoogleResult(googleResult.Status);
-                }
+                    responseJson = webClient.DownloadString(requestUrl);
 
-                _trace?.WriteTrace(begin, requestUrl, "", responseJson);
-                return HandleGoodResult(googleResult, simpleAddress);
+                    var googleResult = JsonConvert.DeserializeObject<GoogleGeoCodeResult>(responseJson);
+
+                    if (googleResult.Status != "OK")
+                    {
+                        LogError(simpleAddress, googleResult.Status);
+                        _trace?.WriteTrace(begin, requestUrl, "", responseJson);
+                        return InvalidGoogleResult(googleResult.Status);
+                    }
+
+                    _trace?.WriteTrace(begin, requestUrl, "", responseJson);
+                    return HandleGoodResult(googleResult, simpleAddress);
+                }
             }
             catch (Exception exc)
             {
@@ -96,20 +98,22 @@ namespace Iti.Baseline.Geolocation
 
                 requestUrl += $"?location={latitude},{longitude}&timestamp={seconds}&key={_settings.ApiKey}";
 
-                var webClient = new WebClient();
-                responseJson = webClient.DownloadString(requestUrl);
-
-                var googleResult = JsonConvert.DeserializeObject<TimeZoneLookupResult>(responseJson);
-
-                if (googleResult.Status != "OK")
+                using (var webClient = new WebClient())
                 {
-                    LogError(latitude, longitude, googleResult.Status);
-                    _trace?.WriteTrace(begin, requestUrl, "", responseJson);
-                    return null;
-                }
+                    responseJson = webClient.DownloadString(requestUrl);
 
-                _trace?.WriteTrace(begin, requestUrl, "", responseJson);
-                return ConvertTimeZone(googleResult);
+                    var googleResult = JsonConvert.DeserializeObject<TimeZoneLookupResult>(responseJson);
+
+                    if (googleResult.Status != "OK")
+                    {
+                        LogError(latitude, longitude, googleResult.Status);
+                        _trace?.WriteTrace(begin, requestUrl, "", responseJson);
+                        return null;
+                    }
+
+                    _trace?.WriteTrace(begin, requestUrl, "", responseJson);
+                    return ConvertTimeZone(googleResult);
+                }
             }
             catch (Exception exc)
             {
@@ -133,20 +137,22 @@ namespace Iti.Baseline.Geolocation
 
                 requestUrl += $"?origin={FormatAddressForUrl(from)}&destination={FormatAddressForUrl(to)}&key={_settings.ApiKey}";
 
-                var webClient = new WebClient();
-                responseJson = webClient.DownloadString(requestUrl);
-
-                var googleResult = JsonConvert.DeserializeObject<GoogleDirectionsResult>(responseJson);
-
-                if (googleResult.Status != "OK")
+                using (var webClient = new WebClient())
                 {
-                    LogError(from, to, googleResult.Status);
-                    _trace?.WriteTrace(begin, requestUrl, "", responseJson);
-                    return 0;
-                }
+                    responseJson = webClient.DownloadString(requestUrl);
 
-                _trace?.WriteTrace(begin, requestUrl, "", responseJson);
-                return googleResult.DistanceInMiles;
+                    var googleResult = JsonConvert.DeserializeObject<GoogleDirectionsResult>(responseJson);
+
+                    if (googleResult.Status != "OK")
+                    {
+                        LogError(from, to, googleResult.Status);
+                        _trace?.WriteTrace(begin, requestUrl, "", responseJson);
+                        return 0;
+                    }
+
+                    _trace?.WriteTrace(begin, requestUrl, "", responseJson);
+                    return googleResult.DistanceInMiles;
+                }
             }
             catch (Exception exc)
             {
