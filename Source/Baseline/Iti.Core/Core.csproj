@@ -140,11 +140,11 @@
     <Compile Include="DomainEventsBase\IDomainEventHandler.cs" />
     <Compile Include="DTOs\DtoExtensions.cs" />
     <Compile Include="DTOs\IDto.cs" />
-    <Compile Include="Entites\AggregateRoot.cs" />
-    <Compile Include="Entites\Entity.cs" />
-    <Compile Include="Entites\Identity.cs" />
-    <Compile Include="Entites\Member.cs" />
-    <Compile Include="Entites\SequentialGuid.cs" />
+    <Compile Include="Entities\AggregateRoot.cs" />
+    <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Entities\Identity.cs" />
+    <Compile Include="Entities\Member.cs" />
+    <Compile Include="Entities\SequentialGuid.cs" />
     <Compile Include="Mapping\BaseDataMapConfig.cs" />
     <Compile Include="Mapping\MapperExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -6,7 +6,7 @@ using System.Reflection;
 using AutoMapper;
 using Iti.Baseline.Core.DataContext;
 using Iti.Baseline.Core.DTOs;
-using Iti.Baseline.Core.Entites;
+using Iti.Baseline.Core.Entities;
 using Iti.Baseline.Core.ValueObjects;
 
 namespace Iti.Baseline.Core.Mapping

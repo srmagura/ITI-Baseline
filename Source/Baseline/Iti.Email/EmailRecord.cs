@@ -1,5 +1,5 @@
 ﻿using System;
-using Iti.Baseline.Core.Entites;
+using Iti.Baseline.Core.Entities;
 using Iti.Baseline.Identities;
 using Iti.Baseline.Utilities;
 

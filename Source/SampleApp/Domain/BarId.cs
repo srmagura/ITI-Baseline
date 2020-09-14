@@ -1,6 +1,6 @@
 ﻿
 using System;
-using Iti.Baseline.Core.Entites;
+using Iti.Baseline.Core.Entities;
 
 namespace Domain
 {

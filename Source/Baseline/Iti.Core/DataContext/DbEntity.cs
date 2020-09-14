@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using AutoMapper;
-using Iti.Baseline.Core.Entites;
+using Iti.Baseline.Core.Entities;
 using Iti.Baseline.Core.Mapping;
 using Newtonsoft.Json;
 

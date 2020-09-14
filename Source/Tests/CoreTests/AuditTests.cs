@@ -10,7 +10,7 @@ using DataContext;
 using Iti.Baseline.Auth;
 using Iti.Baseline.Core.Audit;
 using Iti.Baseline.Core.DomainEventsBase;
-using Iti.Baseline.Core.Entites;
+using Iti.Baseline.Core.Entities;
 using Iti.Baseline.Core.UnitOfWorkBase.Interfaces;
 using Iti.Baseline.Inversion;
 using Iti.Baseline.Logging;

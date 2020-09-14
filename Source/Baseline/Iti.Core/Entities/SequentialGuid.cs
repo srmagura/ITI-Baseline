@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Iti.Baseline.Core.Entites
+namespace Iti.Baseline.Core.Entities
 {
     public static class SequentialGuid
     {
