@@ -7,7 +7,7 @@ using ITI.DDD.Logging;
 
 namespace ITI.DDD.Services.DomainEventsBase
 {
-    internal class TaskRunner
+    internal class TaskRunner : ITaskRunner
     {
         private readonly ILogger _logger;
         private readonly IAuthScopeResolver _authScopeResolver;

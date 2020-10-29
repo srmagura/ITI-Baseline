@@ -12,9 +12,9 @@ namespace ITI.DDD.Services.DomainEventsBase
     public class DomainEvents
     {
         private readonly ILogger _logger;
-        private readonly TaskRunner _taskRunner;
+        private readonly ITaskRunner _taskRunner;
 
-        public DomainEvents(ILogger logger, TaskRunner taskRunner)
+        public DomainEvents(ILogger logger, ITaskRunner taskRunner)
         {
             _logger = logger;
             _taskRunner = taskRunner;
@@ -66,7 +66,7 @@ namespace ITI.DDD.Services.DomainEventsBase
             }
         }
 
-        private List<IDomainEvent> _domainEvents = null;
+        private List<IDomainEvent>? _domainEvents = null;
 
         public void Raise(IDomainEvent domainEvent)
         {
@@ -84,7 +84,7 @@ namespace ITI.DDD.Services.DomainEventsBase
             _domainEvents.AddRange(mappedEntityDomainEvents);
         }
 
-        public void HandleAllRaisedEvents(ILifetimeScope scope)
+        public void HandleAllRaisedEvents()
         {
             try
             {

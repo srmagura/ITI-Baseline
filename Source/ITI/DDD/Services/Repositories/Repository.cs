@@ -1,10 +1,9 @@
-﻿using Iti.Baseline.Core.DataContext;
-using Iti.Baseline.Core.UnitOfWorkBase.Interfaces;
+﻿using ITI.DDD.Services.UnitOfWorkBase;
 
 namespace ITI.DDD.Services.Repositories
 {
     public abstract class Repository<TDbContext> 
-        where TDbContext : BaseDataContext, new()
+        where TDbContext : IDataContext, new()
     {
         private readonly IUnitOfWork _uow;
 

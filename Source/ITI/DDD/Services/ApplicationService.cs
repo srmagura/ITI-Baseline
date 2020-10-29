@@ -2,7 +2,8 @@
 using ITI.DDD.Core.Exceptions;
 using ITI.DDD.Logging;
 using ITI.DDD.Services.Exceptions;
-using ITI.DDD.Services.UnitOfWorkBase.Interfaces;
+using ITI.DDD.Services.UnitOfWorkBase;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace ITI.DDD.Services
@@ -20,7 +21,7 @@ namespace ITI.DDD.Services
             Authorize = baseAuth;
         }
 
-        protected T Command<T>(Action authorize, Func<T> exec)
+        protected T? Command<T>(Action authorize, Func<T> exec) where T : class
         {
             try
             {
@@ -38,7 +39,34 @@ namespace ITI.DDD.Services
             catch (EntityNotFoundException enfExc)
             {
                 Handle(enfExc);
-                return default(T);
+                return default;
+            }
+            catch (Exception exc)
+            {
+                Handle(exc);
+                throw;
+            }
+        }
+
+        protected T? CommandScalar<T>(Action authorize, Func<T> exec) where T : struct
+        {
+            try
+            {
+                using (var uow = UnitOfWork.Begin())
+                {
+                    authorize();
+
+                    var result = exec();
+
+                    uow.Commit();
+
+                    return result;
+                }
+            }
+            catch (EntityNotFoundException enfExc)
+            {
+                Handle(enfExc);
+                return default;
             }
             catch (Exception exc)
             {
@@ -71,7 +99,7 @@ namespace ITI.DDD.Services
             }
         }
 
-        protected T Query<T>(Action authorize, Func<T> exec)
+        protected T? Query<T>(Action authorize, Func<T> exec) where T: class
         {
             try
             {
@@ -85,7 +113,30 @@ namespace ITI.DDD.Services
             catch (EntityNotFoundException enfExc)
             {
                 Handle(enfExc);
-                return default(T);
+                return default;
+            }
+            catch (Exception exc)
+            {
+                Handle(exc);
+                throw;
+            }
+        }
+
+        protected T? QueryScalar<T>(Action authorize, Func<T> exec) where T : struct
+        {
+            try
+            {
+                using (UnitOfWork.Begin())
+                {
+                    authorize();
+
+                    return exec();
+                }
+            }
+            catch (EntityNotFoundException enfExc)
+            {
+                Handle(enfExc);
+                return default;
             }
             catch (Exception exc)
             {

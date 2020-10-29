@@ -1,12 +1,11 @@
 ﻿using System;
-using Iti.Baseline.Core.DataContext;
 
-namespace ITI.DDD.Services.UnitOfWorkBase.Interfaces
+namespace ITI.DDD.Services.UnitOfWorkBase
 {
     public interface IUnitOfWorkScope : IDisposable
     {
         TParticipant Current<TParticipant>()
-            where TParticipant : BaseDataContext, new();
+            where TParticipant : IDataContext, new();
 
         void Commit();
     }

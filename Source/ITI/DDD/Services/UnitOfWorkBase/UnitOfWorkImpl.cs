@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Autofac;
-using Iti.Baseline.Core.Audit;
-using Iti.Baseline.Core.DataContext;
-using Iti.Baseline.Core.DomainEventsBase;
-using Iti.Baseline.Core.UnitOfWorkBase.Interfaces;
+using ITI.DDD.Services.DomainEventsBase;
 
 namespace ITI.DDD.Services.UnitOfWorkBase
 {
@@ -12,15 +9,13 @@ namespace ITI.DDD.Services.UnitOfWorkBase
     {
         private readonly ILifetimeScope _scope;
         private readonly DomainEvents _domainEvents;
-        private readonly Auditor _auditor;
 
-        public UnitOfWorkImpl(ILifetimeScope scope, DomainEvents domainEvents, Auditor auditor)
+        public UnitOfWorkImpl(ILifetimeScope scope, DomainEvents domainEvents)
         {
             // Console.WriteLine($"DEBUG: CREATE: UnitOfWork: {this.GetHashCode()} -- scope: {scope.GetHashCode()}");
 
             _scope = scope;
             _domainEvents = domainEvents;
-            _auditor = auditor;
         }
 
         public IUnitOfWorkScope Begin()
@@ -30,11 +25,11 @@ namespace ITI.DDD.Services.UnitOfWorkBase
             return new UnitOfWorkScope(this);
         }
 
-        private readonly Dictionary<Type, BaseDataContext> _participants = new Dictionary<Type, BaseDataContext>();
+        private readonly Dictionary<Type, IDataContext> _participants = new Dictionary<Type, IDataContext>();
         private readonly object _lock = new object();
 
         public TParticipant Current<TParticipant>()
-            where TParticipant : BaseDataContext, new()
+            where TParticipant : IDataContext, new()
         {
             // Console.WriteLine($"DEBUG: CURRENT: UnitOfWork: {this.GetHashCode()} -- scope: {_scope.GetHashCode()}");
 
@@ -47,13 +42,12 @@ namespace ITI.DDD.Services.UnitOfWorkBase
                     return (TParticipant)_participants[type];
                 }
 
-                // var inst = _scope.Resolve<TParticipant>();
                 var inst = new TParticipant();
 
-                var auditor = _scope.Resolve<Auditor>();
+                var auditor = _scope.Resolve<IAuditor>();
                 var domainEvents = _scope.Resolve<DomainEvents>();
 
-                inst.Initialize(auditor,domainEvents);
+                inst.Initialize(auditor, domainEvents);
 
                 _participants.Add(type, inst);
                 return inst;
@@ -69,7 +63,7 @@ namespace ITI.DDD.Services.UnitOfWorkBase
                 db?.SaveChanges();
             }
 
-            _domainEvents.HandleAllRaisedEvents(_scope);
+            _domainEvents.HandleAllRaisedEvents();
 
             ClearParticipants();
         }

@@ -1,8 +1,9 @@
-﻿
+﻿using ITI.DDD.Services.UnitOfWorkBase;
+
 namespace ITI.DDD.Services.Repositories
 {
     public abstract class Queries<TDbContext>
-        where TDbContext : BaseDataContext, new()
+        where TDbContext : IDataContext, new()
     {
         private readonly IUnitOfWork _uow;
 

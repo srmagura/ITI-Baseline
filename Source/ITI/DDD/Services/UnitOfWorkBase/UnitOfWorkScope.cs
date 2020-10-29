@@ -1,7 +1,4 @@
-﻿using Iti.Baseline.Core.DataContext;
-using Iti.Baseline.Core.UnitOfWorkBase.Interfaces;
-
-namespace ITI.DDD.Services.UnitOfWorkBase
+﻿namespace ITI.DDD.Services.UnitOfWorkBase
 {
     public class UnitOfWorkScope : IUnitOfWorkScope
     {
@@ -17,7 +14,7 @@ namespace ITI.DDD.Services.UnitOfWorkBase
             ParentUnitOfWork.OnScopeDispose();
         }
 
-        public TParticipant Current<TParticipant>() where TParticipant : BaseDataContext, new()
+        public TParticipant Current<TParticipant>() where TParticipant : IDataContext, new()
         {
             return ParentUnitOfWork.Current<TParticipant>();
         }
