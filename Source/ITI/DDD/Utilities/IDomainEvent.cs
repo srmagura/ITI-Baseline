@@ -1,4 +1,4 @@
-﻿namespace ITI.DDD.Core.DomainEvents
+﻿namespace ITI.DDD.Core
 {
     public interface IDomainEvent
     {

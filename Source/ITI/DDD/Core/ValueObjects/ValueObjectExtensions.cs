@@ -1,4 +1,4 @@
-﻿namespace ITI.DDD.Core.ValueObjects
+﻿namespace ITI.DDD.Domain.ValueObjects
 {
     public static class ValueObjectExtensions
     {

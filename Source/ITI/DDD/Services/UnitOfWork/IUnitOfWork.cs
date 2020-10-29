@@ -1,6 +1,7 @@
-﻿using System;
+﻿using ITI.DDD.Core;
+using System;
 
-namespace ITI.DDD.Services.UnitOfWorkBase
+namespace ITI.DDD.Application.UnitOfWorkBase
 {
     public interface IUnitOfWork : IDisposable
     {
@@ -11,5 +12,7 @@ namespace ITI.DDD.Services.UnitOfWorkBase
 
         void OnScopeCommit();
         void OnScopeDispose();
+
+        void RaiseDomainEvent(IDomainEvent domainEvent);
     }
 }

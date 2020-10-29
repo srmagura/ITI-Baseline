@@ -4,27 +4,20 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
-using ITI.DDD.Core.DomainEvents;
+using ITI.DDD.Core;
 using ITI.DDD.Logging;
 
-namespace ITI.DDD.Services.DomainEventsBase
+namespace ITI.DDD.Domain.DomainEvents
 {
     public class DomainEvents
     {
+        private readonly DomainEventTaskRunner _taskRunner;
         private readonly ILogger _logger;
-        private readonly ITaskRunner _taskRunner;
 
-        public DomainEvents(ILogger logger, ITaskRunner taskRunner)
+        public DomainEvents(DomainEventTaskRunner taskRunner, ILogger logger)
         {
-            _logger = logger;
             _taskRunner = taskRunner;
-        }
-
-        public static void Initialize(
-            bool waitForDomainEvents = false
-        )
-        {
-            _waitForDomainEvents = waitForDomainEvents;
+            _logger = logger;
         }
 
         private static bool _waitForDomainEvents;
@@ -66,22 +59,11 @@ namespace ITI.DDD.Services.DomainEventsBase
             }
         }
 
-        private List<IDomainEvent>? _domainEvents = null;
+        private List<IDomainEvent> _domainEvents = new List<IDomainEvent>();
 
         public void Raise(IDomainEvent domainEvent)
         {
-            if (_domainEvents == null)
-                _domainEvents = new List<IDomainEvent>();
-
             _domainEvents.Add(domainEvent);
-        }
-
-        public void RaiseAll(List<IDomainEvent> mappedEntityDomainEvents)
-        {
-            if (_domainEvents == null)
-                _domainEvents = new List<IDomainEvent>();
-
-            _domainEvents.AddRange(mappedEntityDomainEvents);
         }
 
         public void HandleAllRaisedEvents()
@@ -115,10 +97,12 @@ namespace ITI.DDD.Services.DomainEventsBase
                     }
                 }
 
+                // TODO:SAM what if DomainEvent handler throws?
+
                 _domainEvents.Clear();
 
-                if (_waitForDomainEvents)
-                    Task.WhenAll(tasks).Wait();
+                //if (_waitForDomainEvents)
+                //    Task.WhenAll(tasks).Wait();
             }
             catch (Exception exc)
             {

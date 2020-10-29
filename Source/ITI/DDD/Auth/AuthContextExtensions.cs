@@ -4,7 +4,7 @@
     {
         public static void AnyUser(this IAuthContext auth)
         {
-            if( auth == null || !auth.IsAuthenticated )
+            if(auth == null || !auth.IsAuthenticated )
                 throw new NotAuthenticatedException();
         }
 

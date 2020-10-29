@@ -1,12 +1,12 @@
-﻿using ITI.DDD.Auth;
-using ITI.DDD.Core.Exceptions;
+﻿using ITI.DDD.Application.Exceptions;
+using ITI.DDD.Application.UnitOfWorkBase;
+using ITI.DDD.Auth;
+using ITI.DDD.Core;
 using ITI.DDD.Logging;
-using ITI.DDD.Services.Exceptions;
-using ITI.DDD.Services.UnitOfWorkBase;
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace ITI.DDD.Services
+namespace ITI.DDD.Application
 {
     public abstract class ApplicationService
     {

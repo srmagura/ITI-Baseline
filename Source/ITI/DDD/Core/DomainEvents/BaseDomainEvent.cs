@@ -1,6 +1,7 @@
-﻿using System;
+﻿using ITI.DDD.Core;
+using System;
 
-namespace ITI.DDD.Core.DomainEvents
+namespace ITI.DDD.Domain.DomainEvents
 {
     public abstract class BaseDomainEvent : IDomainEvent
     {

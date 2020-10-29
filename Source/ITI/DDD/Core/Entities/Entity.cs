@@ -1,8 +1,10 @@
-﻿using ITI.DDD.Core.DomainEvents;
+﻿using Autofac;
+using ITI.DDD.Core;
+using ITI.DDD.Domain.DomainEvents;
 using System;
 using System.Collections.Generic;
 
-namespace ITI.DDD.Core.Entities
+namespace ITI.DDD.Domain.Entities
 {
     public abstract class Entity
     {
@@ -13,17 +15,9 @@ namespace ITI.DDD.Core.Entities
 
         public DateTimeOffset DateCreatedUtc { get; protected set; }
 
-        //
-
-        //[IgnoreMap]
-        internal List<IDomainEvent> DomainEvents = null;
-
         protected void Raise(IDomainEvent domainEvent)
         {
-            if (DomainEvents == null)
-                DomainEvents = new List<IDomainEvent>();
-
-            DomainEvents.Add(domainEvent);
+            IOC.ResolveStaticUseSparingly<IDomainEventRaiser>().Raise(domainEvent);
         }
     }
 }

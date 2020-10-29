@@ -3,12 +3,12 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <Nullable>enable</Nullable>
-    <AssemblyName>ITI.DDD.Utilities</AssemblyName>
-    <RootNamespace>ITI.DDD.Utilities</RootNamespace>
+    <AssemblyName>ITI.DDD.Core</AssemblyName>
+    <RootNamespace>ITI.DDD.Core</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Autofac" Version="6.0.0" />
   </ItemGroup>
 
 </Project>

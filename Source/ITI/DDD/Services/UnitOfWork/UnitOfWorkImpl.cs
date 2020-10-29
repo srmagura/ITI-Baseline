@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Autofac;
-using ITI.DDD.Services.DomainEventsBase;
+using ITI.DDD.Core;
+using ITI.DDD.Domain.DomainEvents;
 
-namespace ITI.DDD.Services.UnitOfWorkBase
+namespace ITI.DDD.Application.UnitOfWorkBase
 {
     public class UnitOfWorkImpl : IUnitOfWork
     {
@@ -12,16 +13,15 @@ namespace ITI.DDD.Services.UnitOfWorkBase
 
         public UnitOfWorkImpl(ILifetimeScope scope, DomainEvents domainEvents)
         {
-            // Console.WriteLine($"DEBUG: CREATE: UnitOfWork: {this.GetHashCode()} -- scope: {scope.GetHashCode()}");
-
             _scope = scope;
             _domainEvents = domainEvents;
         }
 
+        internal static IUnitOfWork? CurrentUnitOfWork { get; private set; }
+
         public IUnitOfWorkScope Begin()
         {
-            // Console.WriteLine($"DEBUG: BEGIN: UnitOfWork: {this.GetHashCode()} -- scope: {_scope.GetHashCode()}");
-
+            CurrentUnitOfWork = this;
             return new UnitOfWorkScope(this);
         }
 
@@ -31,8 +31,6 @@ namespace ITI.DDD.Services.UnitOfWorkBase
         public TParticipant Current<TParticipant>()
             where TParticipant : IDataContext, new()
         {
-            // Console.WriteLine($"DEBUG: CURRENT: UnitOfWork: {this.GetHashCode()} -- scope: {_scope.GetHashCode()}");
-
             var type = typeof(TParticipant);
 
             lock (_lock)
@@ -54,10 +52,13 @@ namespace ITI.DDD.Services.UnitOfWorkBase
             }
         }
 
+        public void RaiseDomainEvent(IDomainEvent domainEvent)
+        {
+            _domainEvents.Raise(domainEvent);
+        }
+
         void IUnitOfWork.OnScopeCommit()
         {
-            // Console.WriteLine($"DEBUG: COMMIT: UnitOfWork: {this.GetHashCode()} -- scope: {_scope.GetHashCode()}");
-
             foreach (var db in _participants.Values)
             {
                 db?.SaveChanges();
@@ -70,8 +71,6 @@ namespace ITI.DDD.Services.UnitOfWorkBase
 
         void IUnitOfWork.OnScopeDispose()
         {
-            // Console.WriteLine($"DEBUG: DISPOSE: UnitOfWork: {this.GetHashCode()} -- scope: {_scope.GetHashCode()}");
-
             ClearParticipants();
         }
 

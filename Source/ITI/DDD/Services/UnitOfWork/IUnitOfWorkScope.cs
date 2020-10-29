@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ITI.DDD.Services.UnitOfWorkBase
+namespace ITI.DDD.Application.UnitOfWorkBase
 {
     public interface IUnitOfWorkScope : IDisposable
     {

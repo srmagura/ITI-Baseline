@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AssemblyName>ITI.DDD.Services</AssemblyName>
-    <RootNamespace>ITI.DDD.Services</RootNamespace>
+    <AssemblyName>ITI.DDD.Application</AssemblyName>
+    <RootNamespace>ITI.DDD.Application</RootNamespace>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Auth\Auth.csproj" />
-    <ProjectReference Include="..\Core\Core.csproj" />
+    <ProjectReference Include="..\Core\Domain.csproj" />
     <ProjectReference Include="..\Logging\Logging.csproj" />
   </ItemGroup>
 

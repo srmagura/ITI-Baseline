@@ -7,9 +7,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ITI", "ITI", "{8EE9D213-AF4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DDD", "DDD", "{C6565177-7BFC-4B3E-A2C5-3FD0E1401096}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "ITI\DDD\Core\Core.csproj", "{10C920CE-A921-460A-A014-EFE58243BD4F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "ITI\DDD\Core\Domain.csproj", "{10C920CE-A921-460A-A014-EFE58243BD4F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "ITI\DDD\Services\Services.csproj", "{D3F76DA8-5685-4A8F-B3FE-600C0AC2FE4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "ITI\DDD\Services\Application.csproj", "{D3F76DA8-5685-4A8F-B3FE-600C0AC2FE4E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "Tests\UnitTests\UnitTests.csproj", "{83B59572-A193-47BE-A64E-461EF934C2D0}"
 EndProject
@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logging", "ITI\DDD\Logging\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Auth", "ITI\DDD\Auth\Auth.csproj", "{99904D13-139C-44D3-8296-8E8A11A20293}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities", "ITI\DDD\Utilities\Utilities.csproj", "{65F76EAE-6DAE-4B17-A0AB-F19B24AD9425}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "ITI\DDD\Utilities\Core.csproj", "{65F76EAE-6DAE-4B17-A0AB-F19B24AD9425}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

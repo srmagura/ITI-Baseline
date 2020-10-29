@@ -1,4 +1,6 @@
-﻿namespace ITI.DDD.Services.UnitOfWorkBase
+﻿using ITI.DDD.Core;
+
+namespace ITI.DDD.Application.UnitOfWorkBase
 {
     public class UnitOfWorkScope : IUnitOfWorkScope
     {

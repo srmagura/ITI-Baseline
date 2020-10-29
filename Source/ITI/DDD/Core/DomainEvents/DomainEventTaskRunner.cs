@@ -5,14 +5,14 @@ using System.Threading.Tasks;
 using Autofac;
 using ITI.DDD.Logging;
 
-namespace ITI.DDD.Services.DomainEventsBase
+namespace ITI.DDD.Domain.DomainEvents
 {
-    internal class TaskRunner : ITaskRunner
+    public class DomainEventTaskRunner
     {
         private readonly ILogger _logger;
         private readonly IAuthScopeResolver _authScopeResolver;
 
-        public TaskRunner(ILogger logger, IAuthScopeResolver authScopeResolver)
+        public DomainEventTaskRunner(ILogger logger, IAuthScopeResolver authScopeResolver)
         {
             _logger = logger;
             _authScopeResolver = authScopeResolver;

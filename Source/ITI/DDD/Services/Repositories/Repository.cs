@@ -1,6 +1,6 @@
-﻿using ITI.DDD.Services.UnitOfWorkBase;
+﻿using ITI.DDD.Application.UnitOfWorkBase;
 
-namespace ITI.DDD.Services.Repositories
+namespace ITI.DDD.Application.Repositories
 {
     public abstract class Repository<TDbContext> 
         where TDbContext : IDataContext, new()

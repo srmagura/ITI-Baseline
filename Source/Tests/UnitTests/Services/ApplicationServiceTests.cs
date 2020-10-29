@@ -1,8 +1,11 @@
-﻿using Iti.Baseline.Inversion;
+﻿using Autofac;
+using ITI.DDD.Application;
+using ITI.DDD.Application.Exceptions;
+using ITI.DDD.Application.UnitOfWorkBase;
 using ITI.DDD.Auth;
+using ITI.DDD.Core;
+using ITI.DDD.Domain.DomainEvents;
 using ITI.DDD.Logging;
-using ITI.DDD.Services;
-using ITI.DDD.Services.UnitOfWorkBase;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System;
@@ -20,31 +23,48 @@ namespace UnitTests.Services
             {
             }
 
-            public Version? QueryForObject(bool allow)
+            public Version? QueryForObject(bool allow, bool entityExists)
             {
                 return Query(
-                    () => Authorize.Require(allow),
-                    () => new Version("1.0.0")
+                    () => {
+                        if (!allow) throw new NotAuthorizedException();
+                    },
+                    () => { 
+                        if(!entityExists)
+                            throw new EntityNotFoundException("test");
+
+                        return new Version("1.0.0");
+                    }
                 );
             }
 
             public int? QueryForScalar()
             {
                 return QueryScalar(
-                    () => Authorize.AnyUser(),
+                    () => { },
                     () => 0
                 );
             }
         }
 
         [TestMethod]
-        public void Query()
+        public void QueryForObject()
         {
-            IOC.RegisterType<ILogger, NullLogWriter>();
+            var ioc = new IOC();
+            DDDAppConfig.AddRegistrations(ioc);
+            ioc.RegisterType<IUnitOfWork, UnitOfWorkImpl>();
 
-            var authContext = Substitute.For<IAuthContext>();
-            IOC.RegisterType<IAuthContext, >
-            var myAppService = new MyApplicationService();
+            ioc.RegisterInstance(Substitute.For<IAuthScopeResolver>());
+            ioc.RegisterInstance(Substitute.For<ILogger>());
+            ioc.RegisterInstance(Substitute.For<IAuthContext>());
+
+            var appService = ioc.ResolveForTest<MyApplicationService>();
+
+            Assert.AreEqual(new Version("1.0.0"), appService.QueryForObject(true, true));
+            Assert.IsNull(appService.QueryForObject(true, false));
+            Assert.ThrowsException<NotAuthorizedException>(
+                () => appService.QueryForObject(false, true)
+            );
         }
     }
 }

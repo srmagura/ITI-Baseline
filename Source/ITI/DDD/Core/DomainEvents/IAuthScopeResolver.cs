@@ -1,6 +1,6 @@
 ﻿using Autofac;
 
-namespace ITI.DDD.Services.DomainEventsBase
+namespace ITI.DDD.Domain.DomainEvents
 {
     public interface IAuthScopeResolver
     {

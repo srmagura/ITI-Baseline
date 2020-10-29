@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace ITI.DDD.Core.ValueObjects
+namespace ITI.DDD.Domain.ValueObjects
 {
     public abstract class ValueObject<T> : IEquatable<T>, IValueObject
         where T : ValueObject<T>

@@ -1,4 +1,4 @@
-﻿namespace ITI.DDD.Services
+﻿namespace ITI.DDD.Domain
 {
     public interface IDomainService { }
 }

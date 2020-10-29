@@ -1,4 +1,5 @@
-﻿using ITI.DDD.Utilities;
+﻿using ITI.DDD.Core;
+using ITI.DDD.Core.Util;
 using System;
 using System.ComponentModel.DataAnnotations;
 
