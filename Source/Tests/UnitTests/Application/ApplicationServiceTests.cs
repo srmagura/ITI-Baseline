@@ -12,7 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace UnitTests.Services
+namespace UnitTests.Application
 {
     [TestClass]
     public class ApplicationServiceTests
