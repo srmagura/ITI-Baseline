@@ -6,10 +6,11 @@ using System.Text;
 
 namespace UnitTests.Harness
 {
+    [TestClass]
     public static class UnitTestConfig
     {
         [AssemblyInitialize]
-        public static void AssemblyInitialize()
+        public static void AssemblyInitialize(TestContext _)
         {
             UnitOfWorkImpl.ShouldWaitForDomainEvents(true);
         }

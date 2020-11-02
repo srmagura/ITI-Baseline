@@ -38,11 +38,16 @@ namespace UnitTests.Application
                 );
             }
 
-            public int? QueryForScalar()
+            public int? QueryForScalar(bool entityExists)
             {
                 return QueryScalar(
                     () => { },
-                    () => 0
+                    () => {
+                        if (!entityExists)
+                            throw new EntityNotFoundException("test");
+
+                        return 1;
+                    }
                 );
             }
         }
@@ -64,6 +69,22 @@ namespace UnitTests.Application
             Assert.ThrowsException<NotAuthorizedException>(
                 () => appService.QueryForObject(false, true)
             );
+        }
+
+        [TestMethod]
+        public void QueryForScalar()
+        {
+            var ioc = new IOC();
+            DDDAppConfig.AddRegistrations(ioc);
+
+            ioc.RegisterInstance(Substitute.For<IAuthScopeResolver>());
+            ioc.RegisterInstance(Substitute.For<ILogger>());
+            ioc.RegisterInstance(Substitute.For<IAuthContext>());
+
+            var appService = ioc.ResolveForTest<MyApplicationService>();
+
+            Assert.AreEqual(1, appService.QueryForScalar(true));
+            Assert.IsNull(appService.QueryForScalar(false));
         }
     }
 }
