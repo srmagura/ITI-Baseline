@@ -1,6 +1,6 @@
 ﻿using ITI.DDD.Core;
 
-namespace ITI.DDD.Application.UnitOfWorkBase
+namespace ITI.DDD.Application.UnitOfWork
 {
     public class UnitOfWorkScope : IUnitOfWorkScope
     {

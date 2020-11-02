@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ITI.DDD.Application.UnitOfWorkBase
+namespace ITI.DDD.Application.UnitOfWork
 {
     internal class DomainEventRaiser : IDomainEventRaiser
     {

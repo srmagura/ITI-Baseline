@@ -4,7 +4,7 @@ using Autofac;
 using ITI.DDD.Core;
 using ITI.DDD.Domain.DomainEvents;
 
-namespace ITI.DDD.Application.UnitOfWorkBase
+namespace ITI.DDD.Application.UnitOfWork
 {
     public class UnitOfWorkImpl : IUnitOfWork
     {

@@ -1,13 +1,14 @@
-﻿using ITI.DDD.Application.UnitOfWorkBase;
+﻿using ITI.DDD.Application;
+using ITI.DDD.Application.UnitOfWork;
 
-namespace ITI.DDD.Application.Repositories
+namespace ITI.DDD.Infrastructure.Repositories
 {
-    public abstract class Repository<TDbContext> 
+    public abstract class Queries<TDbContext>
         where TDbContext : IDataContext, new()
     {
         private readonly IUnitOfWork _uow;
 
-        protected Repository(IUnitOfWork uow)
+        protected Queries(IUnitOfWork uow)
         {
             _uow = uow;
         }

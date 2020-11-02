@@ -1,5 +1,5 @@
 ﻿using ITI.DDD.Application;
-using ITI.DDD.Application.UnitOfWorkBase;
+using ITI.DDD.Application.UnitOfWork;
 using ITI.DDD.Auth;
 using ITI.DDD.Core;
 using ITI.DDD.Domain.DomainEvents;
