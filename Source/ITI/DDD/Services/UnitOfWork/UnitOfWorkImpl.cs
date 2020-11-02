@@ -9,9 +9,9 @@ namespace ITI.DDD.Application.UnitOfWorkBase
     public class UnitOfWorkImpl : IUnitOfWork
     {
         private readonly ILifetimeScope _scope;
-        private readonly DomainEvents _domainEvents;
+        private readonly IDomainEvents _domainEvents;
 
-        public UnitOfWorkImpl(ILifetimeScope scope, DomainEvents domainEvents)
+        public UnitOfWorkImpl(ILifetimeScope scope, IDomainEvents domainEvents)
         {
             _scope = scope;
             _domainEvents = domainEvents;
@@ -57,6 +57,13 @@ namespace ITI.DDD.Application.UnitOfWorkBase
             _domainEvents.Raise(domainEvent);
         }
 
+        private static bool WaitForDomainEvents = false;
+
+        public static void ShouldWaitForDomainEvents(bool waitForDomainEvents)
+        {
+            WaitForDomainEvents = waitForDomainEvents;
+        }
+
         void IUnitOfWork.OnScopeCommit()
         {
             foreach (var db in _participants.Values)
@@ -64,7 +71,11 @@ namespace ITI.DDD.Application.UnitOfWorkBase
                 db?.SaveChanges();
             }
 
-            _domainEvents.HandleAllRaisedEventsAsync();
+            // HandleAllRaisedEventsAsync Will never throw exceptions
+            var domainEventTask = _domainEvents.HandleAllRaisedEventsAsync();
+
+            if (WaitForDomainEvents)
+                domainEventTask.Wait();
 
             ClearParticipants();
         }
@@ -81,6 +92,8 @@ namespace ITI.DDD.Application.UnitOfWorkBase
 
         private void ClearParticipants()
         {
+            CurrentUnitOfWork = null;
+
             try
             {
                 foreach (var p in _participants.Values)

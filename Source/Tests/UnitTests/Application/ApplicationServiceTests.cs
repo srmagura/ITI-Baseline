@@ -52,7 +52,6 @@ namespace UnitTests.Application
         {
             var ioc = new IOC();
             DDDAppConfig.AddRegistrations(ioc);
-            ioc.RegisterType<IUnitOfWork, UnitOfWorkImpl>();
 
             ioc.RegisterInstance(Substitute.For<IAuthScopeResolver>());
             ioc.RegisterInstance(Substitute.For<ILogger>());

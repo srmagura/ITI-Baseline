@@ -5,6 +5,9 @@ using ITI.DDD.Core;
 using ITI.DDD.Logging;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleToAttribute("UnitTests")]
 
 namespace ITI.DDD.Application
 {

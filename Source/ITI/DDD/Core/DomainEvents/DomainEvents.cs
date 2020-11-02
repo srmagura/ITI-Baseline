@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
@@ -9,7 +8,7 @@ using ITI.DDD.Logging;
 
 namespace ITI.DDD.Domain.DomainEvents
 {
-    public class DomainEvents
+    public class DomainEvents : IDomainEvents
     {
         private readonly DomainEventTaskRunner _taskRunner;
         private readonly ILogger _logger;

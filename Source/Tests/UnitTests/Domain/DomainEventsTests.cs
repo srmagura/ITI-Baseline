@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using UnitTests.Mocks;
 
 namespace UnitTests.Domain
 {
@@ -37,38 +38,29 @@ namespace UnitTests.Domain
             }
         }
 
-        private class AuthScopeResolver : IAuthScopeResolver
+        [TestInitialize]
+        public void TestInitialize()
         {
-            private readonly IAuthContext _authContext;
-            private readonly IOC _ioc;
+            DomainEvents.ClearRegistrations();
+        }
 
-            public AuthScopeResolver(IAuthContext authContext, IOC ioc)
-            {
-                _authContext = authContext;
-                _ioc = ioc;
-            }
+        private IOC GetIOC(out ILogger logger)
+        {
+            var ioc = new IOC();
+            logger = Substitute.For<ILogger>();
+            ioc.RegisterInstance(logger);
+            var authContext = Substitute.For<IAuthContext>();
+            ioc.RegisterInstance(authContext);
+            var authScopeResolver = new AuthScopeResolverMock(authContext, ioc);
+            ioc.RegisterInstance<IAuthScopeResolver>(authScopeResolver);
 
-            public ILifetimeScope BeginLifetimeScope(object parentAuthInstance)
-            {
-                return _ioc.BeginLifetimeScope();
-            }
-
-            public object GetDomainEventHandlerAuthContext()
-            {
-                return _authContext;
-            }
+            return ioc;
         }
 
         [TestMethod]
         public async Task ProcessSuccess()
         {
-            var ioc = new IOC();
-            var logger = Substitute.For<ILogger>();
-            ioc.RegisterInstance(logger);
-            var authContext = Substitute.For<IAuthContext>();
-            ioc.RegisterInstance(authContext);
-            var authScopeResolver = new AuthScopeResolver(authContext, ioc);
-            ioc.RegisterInstance<IAuthScopeResolver>(authScopeResolver);
+            var ioc = GetIOC(out var logger);
 
             DomainEvents.Register<CustomerAddedEvent, IDomainEventHandler<CustomerAddedEvent>>();
             var eventHandler = Substitute.For<IDomainEventHandler<CustomerAddedEvent>>();
@@ -88,13 +80,7 @@ namespace UnitTests.Domain
         [TestMethod]
         public async Task ProcessFailure()
         {
-            var ioc = new IOC();
-            var logger = Substitute.For<ILogger>();
-            ioc.RegisterInstance(logger);
-            var authContext = Substitute.For<IAuthContext>();
-            ioc.RegisterInstance(authContext);
-            var authScopeResolver = new AuthScopeResolver(authContext, ioc);
-            ioc.RegisterInstance<IAuthScopeResolver>(authScopeResolver);
+            var ioc = GetIOC(out var logger);
 
             DomainEvents.Register<CustomerAddedEvent, IDomainEventHandler<CustomerAddedEvent>>();
             var eventHandler = Substitute.For<IDomainEventHandler<CustomerAddedEvent>>();
@@ -120,13 +106,7 @@ namespace UnitTests.Domain
         [TestMethod]
         public async Task NoHandlerRegistered()
         {
-            var ioc = new IOC();
-            var logger = Substitute.For<ILogger>();
-            ioc.RegisterInstance(logger);
-            var authContext = Substitute.For<IAuthContext>();
-            ioc.RegisterInstance(authContext);
-            var authScopeResolver = new AuthScopeResolver(authContext, ioc);
-            ioc.RegisterInstance<IAuthScopeResolver>(authScopeResolver);
+            var ioc = GetIOC(out var logger);
 
             var domainEvents = ioc.ResolveForTest<DomainEvents>();
             var ev = new CustomerAddedEvent(Guid.NewGuid());
@@ -139,13 +119,7 @@ namespace UnitTests.Domain
         [TestMethod]
         public async Task FirstHandlerFailsSecondHandlerSucceeds()
         {
-            var ioc = new IOC();
-            var logger = Substitute.For<ILogger>();
-            ioc.RegisterInstance(logger);
-            var authContext = Substitute.For<IAuthContext>();
-            ioc.RegisterInstance(authContext);
-            var authScopeResolver = new AuthScopeResolver(authContext, ioc);
-            ioc.RegisterInstance<IAuthScopeResolver>(authScopeResolver);
+            var ioc = GetIOC(out var logger);
 
             // CustomerAddedEvent handler (fails)
             DomainEvents.Register<CustomerAddedEvent, IDomainEventHandler<CustomerAddedEvent>>();
