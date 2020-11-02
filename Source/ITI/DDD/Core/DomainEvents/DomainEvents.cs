@@ -20,13 +20,6 @@ namespace ITI.DDD.Domain.DomainEvents
             _logger = logger;
         }
 
-        private static bool _waitForDomainEvents;
-
-        public static void WaitForDomainEvents(bool shouldWait)
-        {
-            _waitForDomainEvents = shouldWait;
-        }
-
         private static Dictionary<Type, List<Type>> _handlerTypes = new Dictionary<Type, List<Type>>();
 
         public static void ClearRegistrations()
@@ -66,7 +59,7 @@ namespace ITI.DDD.Domain.DomainEvents
             _domainEvents.Add(domainEvent);
         }
 
-        public void HandleAllRaisedEvents()
+        public async Task HandleAllRaisedEventsAsync()
         {
             try
             {
@@ -97,12 +90,9 @@ namespace ITI.DDD.Domain.DomainEvents
                     }
                 }
 
-                // TODO:SAM what if DomainEvent handler throws?
-
                 _domainEvents.Clear();
 
-                //if (_waitForDomainEvents)
-                //    Task.WhenAll(tasks).Wait();
+                await Task.WhenAll(tasks);
             }
             catch (Exception exc)
             {

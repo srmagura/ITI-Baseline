@@ -64,7 +64,7 @@ namespace ITI.DDD.Application.UnitOfWorkBase
                 db?.SaveChanges();
             }
 
-            _domainEvents.HandleAllRaisedEvents();
+            _domainEvents.HandleAllRaisedEventsAsync();
 
             ClearParticipants();
         }
