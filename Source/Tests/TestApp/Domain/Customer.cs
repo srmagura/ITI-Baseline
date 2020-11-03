@@ -36,9 +36,9 @@ namespace TestApp.Domain
 
         public string Name { get; protected set; }
 
-        public SimpleAddress? Address { get; set; }
-        public SimplePersonName? ContactName { get; set; }
-        public PhoneNumber? ContactPhone { get; set; }
+        public SimpleAddress? Address { get; protected set; }
+        public SimplePersonName? ContactName { get; protected set; }
+        public PhoneNumber? ContactPhone { get; protected set; }
 
         public decimal SomeMoney { get; protected set; }
 
@@ -61,10 +61,21 @@ namespace TestApp.Domain
         // OPERATIONS
         //
 
-        public void SetAddress(SimpleAddress address)
+        public void SetName(string newName)
+        {
+            Name = newName;
+        }
+
+        public void SetAddress(SimpleAddress? address)
         {
             Address = address;
             Raise(new CustomerAddressChangedEvent(Id));
+        }
+
+        public void SetContact(SimplePersonName? contactName, PhoneNumber? contactPhone)
+        {
+            ContactName = contactName;
+            ContactPhone = contactPhone;
         }
 
         //public void RemoveBar(string name)
@@ -78,12 +89,6 @@ namespace TestApp.Domain
         //    _bars.Add(new Bar(name));
         //    Raise(new FooBarsChangedEvent(Id));
         //}
-
-        public void SetName(string newName)
-        {
-            Name = newName;
-        }
-
         //public void SetAllBarNames(string name)
         //{
         //    var i = 1;

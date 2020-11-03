@@ -7,7 +7,7 @@ namespace ITI.DDD.Application
 {
     public interface IDataContext : IDisposable
     {
-        void Initialize(IAuditor auditor, DomainEvents domainEvents);
+        void Initialize(IAuditor auditor);
         void SaveChanges();
     }
 }

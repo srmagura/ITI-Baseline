@@ -1,5 +1,7 @@
-﻿using ITI.DDD.Core;
+﻿using ITI.DDD.Application;
+using ITI.DDD.Core;
 using ITI.DDD.Core.Util;
+using ITI.DDD.Domain.DomainEvents;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +10,7 @@ using System.Text;
 
 namespace TestApp.DataContext
 {
-    public class AppDataContext : DbContext
+    public class AppDataContext : DbContext, IDataContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -39,6 +41,16 @@ namespace TestApp.DataContext
             return _connStrings.DefaultDataContext;
         }
 
+        public void Initialize(IAuditor auditor)
+        {
+            // TODO:SAM
+        }
+
+        void IDataContext.SaveChanges()
+        {
+            SaveChanges();
+        }
+
         public static void Migrate()
         {
             using (var context = new AppDataContext())
@@ -47,5 +59,6 @@ namespace TestApp.DataContext
                 context.Database.Migrate();
             }
         }
+
     }
 }

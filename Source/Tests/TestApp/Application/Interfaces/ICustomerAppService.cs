@@ -9,7 +9,7 @@ namespace TestApp.Application.Interfaces
 {
     interface ICustomerAppService
     {
-        CustomerId Add(
+        CustomerId? Add(
             string name, 
             //List<Bar> bars,
             SimpleAddress? address = null,
