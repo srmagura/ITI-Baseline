@@ -2,11 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Folder Include="DataContext\" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\ITI\DDD\Application\Application.csproj" />

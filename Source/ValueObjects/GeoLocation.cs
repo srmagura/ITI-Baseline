@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using ITI.DDD.Core.Util;
 using ITI.DDD.Domain.ValueObjects;
 
-namespace Iti.Baseline.ValueObjects
+namespace ITI.Baseline.ValueObjects
 {
     public class GeoLocation : ValueObject
     {

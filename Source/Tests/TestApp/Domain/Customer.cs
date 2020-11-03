@@ -1,9 +1,10 @@
-﻿using Iti.Baseline.ValueObjects;
+﻿using ITI.Baseline.ValueObjects;
 using ITI.DDD.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using TestApp.Domain;
 using TestApp.Domain.Events;
+using TestApp.Domain.ValueObjects;
 
 namespace TestApp.Domain
 {
@@ -17,7 +18,7 @@ namespace TestApp.Domain
         {
             Name = name;
             //_bars = bars;
-            _someInts = someInts;
+            //_someInts = someInts;
             SomeNumber = someNumber;
 
             Raise(new CustomerAddedEvent(Id));
@@ -35,9 +36,9 @@ namespace TestApp.Domain
 
         public string Name { get; protected set; }
 
-        public SimpleAddress Address { get; set; }  // NOTE: ValueObject (nullable)
-        public SimplePersonName ContactName { get; set; }
-        public PhoneNumber ContactPhone { get; set; }
+        public SimpleAddress? Address { get; set; }
+        public SimplePersonName? ContactName { get; set; }
+        public PhoneNumber? ContactPhone { get; set; }
 
         public decimal SomeMoney { get; protected set; }
 
@@ -63,35 +64,35 @@ namespace TestApp.Domain
         public void SetAddress(SimpleAddress address)
         {
             Address = address;
-            Raise(new FooAddressChangedEvent(Id));
+            Raise(new CustomerAddressChangedEvent(Id));
         }
 
-        public void RemoveBar(string name)
-        {
-            _bars.RemoveAll(p => p.Name == name);
-            Raise(new FooBarsChangedEvent(Id));
-        }
+        //public void RemoveBar(string name)
+        //{
+        //    _bars.RemoveAll(p => p.Name == name);
+        //    Raise(new FooBarsChangedEvent(Id));
+        //}
 
-        public void AddBar(string name)
-        {
-            _bars.Add(new Bar(name));
-            Raise(new FooBarsChangedEvent(Id));
-        }
+        //public void AddBar(string name)
+        //{
+        //    _bars.Add(new Bar(name));
+        //    Raise(new FooBarsChangedEvent(Id));
+        //}
 
         public void SetName(string newName)
         {
             Name = newName;
         }
 
-        public void SetAllBarNames(string name)
-        {
-            var i = 1;
-            foreach (var bar in _bars)
-            {
-                bar.SetName($"{name} {i}");
-                i++;
-            }
-            Raise(new FooBarsChangedEvent(Id));
-        }
+        //public void SetAllBarNames(string name)
+        //{
+        //    var i = 1;
+        //    foreach (var bar in _bars)
+        //    {
+        //        bar.SetName($"{name} {i}");
+        //        i++;
+        //    }
+        //    Raise(new FooBarsChangedEvent(Id));
+        //}
     }
 }

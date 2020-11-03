@@ -3,7 +3,7 @@ using ITI.DDD.Domain.ValueObjects;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Iti.Baseline.ValueObjects
+namespace ITI.Baseline.ValueObjects
 {
     public class SimplePersonName : ValueObject
     {
@@ -39,7 +39,10 @@ namespace Iti.Baseline.ValueObjects
 
         protected override IEnumerable<object?> GetAtomicValues()
         {
-            throw new System.NotImplementedException();
+            yield return Prefix;
+            yield return First;
+            yield return Middle;
+            yield return Last;
         }
     }
 }

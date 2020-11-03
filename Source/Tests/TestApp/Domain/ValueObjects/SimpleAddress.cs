@@ -1,41 +1,38 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using ITI.DDD.Core.Util;
 using ITI.DDD.Domain.ValueObjects;
+using TestApp.DataContext;
 
 namespace TestApp.Domain.ValueObjects
 {
-    public class SimpleAddress : ValueObject<SimpleAddress>
+    public class SimpleAddress : ValueObject
     {
         protected SimpleAddress() { }
 
-        [JsonConstructor]
-        public SimpleAddress(string line1, string line2, string city, string state, string zip)
+        public SimpleAddress(string line1, string? line2, string city, string state, string zip)
         {
-            Line1 = line1?.Trim().MaxLength(FieldLengths.SimpleAddress.Line1);
-            Line2 = line2?.Trim().MaxLength(FieldLengths.SimpleAddress.Line2);
-            City = city?.Trim().MaxLength(FieldLengths.SimpleAddress.City);
-            State = state?.Trim().MaxLength(FieldLengths.SimpleAddress.State);
-            Zip = zip?.Trim().MaxLength(FieldLengths.SimpleAddress.Zip);
+            Line1 = line1.Trim().MaxLength(TestAppFieldLengths.SimpleAddress.Line1);
+            Line2 = line2?.Trim().MaxLength(TestAppFieldLengths.SimpleAddress.Line2);
+            City = city.Trim().MaxLength(TestAppFieldLengths.SimpleAddress.City);
+            State = state.Trim().MaxLength(TestAppFieldLengths.SimpleAddress.State);
+            Zip = zip.Trim().MaxLength(TestAppFieldLengths.SimpleAddress.Zip);
         }
 
-        [MaxLength(FieldLengths.SimpleAddress.Line1)]
+        [MaxLength(TestAppFieldLengths.SimpleAddress.Line1)]
         public string Line1 { get; protected set; }
 
-        [MaxLength(FieldLengths.SimpleAddress.Line2)]
-        public string Line2 { get; protected set; }
+        [MaxLength(TestAppFieldLengths.SimpleAddress.Line2)]
+        public string? Line2 { get; protected set; }
 
-        [MaxLength(FieldLengths.SimpleAddress.City)]
+        [MaxLength(TestAppFieldLengths.SimpleAddress.City)]
         public string City { get; protected set; }
 
-        [MaxLength(FieldLengths.SimpleAddress.State)]
+        [MaxLength(TestAppFieldLengths.SimpleAddress.State)]
         public string State { get; protected set; }
 
-        [MaxLength(FieldLengths.SimpleAddress.Zip)]
+        [MaxLength(TestAppFieldLengths.SimpleAddress.Zip)]
         public string Zip { get; protected set; }
-
-        public override bool HasValue()
-        {
-            return HasAnyValue(Line1, Line2, City, State, Zip);
-        }
 
         public override string ToString()
         {
@@ -49,7 +46,7 @@ namespace TestApp.Domain.ValueObjects
             return s.Replace("  ", " ").Trim();
         }
 
-        private void AddPart(ref string s, string value)
+        private void AddPart(ref string s, string? value)
         {
             if (!value.HasValue())
                 return;
@@ -57,6 +54,15 @@ namespace TestApp.Domain.ValueObjects
             if (s.HasValue())
                 s += ", ";
             s += value;
+        }
+
+        protected override IEnumerable<object?> GetAtomicValues()
+        {
+            yield return Line1;
+            yield return Line2;
+            yield return City;
+            yield return State;
+            yield return Zip;
         }
     }
 }

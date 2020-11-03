@@ -1,7 +1,7 @@
 ﻿using ITI.DDD.Domain.ValueObjects;
 using System.Collections.Generic;
 
-namespace Iti.Baseline.ValueObjects
+namespace ITI.Baseline.ValueObjects
 {
     public class GeoCoord : ValueObject
     {

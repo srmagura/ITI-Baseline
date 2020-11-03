@@ -1,4 +1,4 @@
-﻿namespace Iti.Baseline.ValueObjects
+﻿namespace ITI.Baseline.ValueObjects
 {
     public static class FieldLengths
     {

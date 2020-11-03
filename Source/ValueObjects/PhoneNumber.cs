@@ -5,7 +5,7 @@ using ITI.Baseline.Util.Validation;
 using ITI.DDD.Core.Util;
 using ITI.DDD.Domain.ValueObjects;
 
-namespace Iti.Baseline.ValueObjects
+namespace ITI.Baseline.ValueObjects
 {
     public class PhoneNumber : ValueObject
     {

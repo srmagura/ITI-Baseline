@@ -15,7 +15,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Auth\Auth.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
-    <ProjectReference Include="..\Utilities\Core.csproj" />
   </ItemGroup>
 
 </Project>

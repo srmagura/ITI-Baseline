@@ -4,7 +4,7 @@ using ITI.Baseline.Util;
 using ITI.Baseline.Util.Validation;
 using ITI.DDD.Domain.ValueObjects;
 
-namespace Iti.Baseline.ValueObjects
+namespace ITI.Baseline.ValueObjects
 {
     public class EmailAddress : ValueObject
     {
