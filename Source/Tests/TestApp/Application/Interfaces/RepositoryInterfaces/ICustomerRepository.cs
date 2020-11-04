@@ -1,5 +1,4 @@
-﻿using ITI.DDD.Infrastructure.Repositories;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using TestApp.DataContext;

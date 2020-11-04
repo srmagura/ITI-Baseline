@@ -36,12 +36,13 @@ namespace TestApp.DataContext
                 {
                     if (_connStrings == null)
                     {
-                        _connStrings = IOC.ResolveStaticUseSparingly<ConnectionStrings>();
+                        if(IOC.IsStaticInitialized)
+                            _connStrings = IOC.ResolveStaticUseSparingly<ConnectionStrings>();
                     }
                 }
             }
 
-            return _connStrings.DefaultDataContext;
+            return (_connStrings ?? new ConnectionStrings()).DefaultDataContext;
         }
 
         public void Initialize(IAuditor auditor)

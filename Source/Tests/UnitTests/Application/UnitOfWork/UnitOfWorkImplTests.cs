@@ -61,13 +61,13 @@ namespace UnitTests.Application.UnitOfWork
         public void CommitHandlesDomainEvents()
         {
             var ioc = new IOC();
+            DDDAppConfig.AddRegistrations(ioc);
             var logger = Substitute.For<ILogger>();
             ioc.RegisterInstance(logger);
             var authContext = Substitute.For<IAuthContext>();
             ioc.RegisterInstance(authContext);
-            var authScopeResolver = new AuthScopeResolverMock(authContext, ioc);
-            ioc.RegisterInstance<IAuthScopeResolver>(authScopeResolver);
-            DDDAppConfig.AddRegistrations(ioc);
+            var authScopeResolver = new DomainEventAuthScopeResolverMock(ioc);
+            ioc.RegisterInstance<IDomainEventAuthScopeResolver>(authScopeResolver);
 
             DomainEvents.Register<CustomerAddedEvent, IDomainEventHandler<CustomerAddedEvent>>();
             var eventHandler = Substitute.For<IDomainEventHandler<CustomerAddedEvent>>();

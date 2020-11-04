@@ -58,7 +58,7 @@ namespace UnitTests.Application
             var ioc = new IOC();
             DDDAppConfig.AddRegistrations(ioc);
 
-            ioc.RegisterInstance(Substitute.For<IAuthScopeResolver>());
+            ioc.RegisterInstance(Substitute.For<IDomainEventAuthScopeResolver>());
             ioc.RegisterInstance(Substitute.For<ILogger>());
             ioc.RegisterInstance(Substitute.For<IAuthContext>());
 
@@ -77,7 +77,7 @@ namespace UnitTests.Application
             var ioc = new IOC();
             DDDAppConfig.AddRegistrations(ioc);
 
-            ioc.RegisterInstance(Substitute.For<IAuthScopeResolver>());
+            ioc.RegisterInstance(Substitute.For<IDomainEventAuthScopeResolver>());
             ioc.RegisterInstance(Substitute.For<ILogger>());
             ioc.RegisterInstance(Substitute.For<IAuthContext>());
 

@@ -51,8 +51,8 @@ namespace UnitTests.Domain
             ioc.RegisterInstance(logger);
             var authContext = Substitute.For<IAuthContext>();
             ioc.RegisterInstance(authContext);
-            var authScopeResolver = new AuthScopeResolverMock(authContext, ioc);
-            ioc.RegisterInstance<IAuthScopeResolver>(authScopeResolver);
+            var authScopeResolver = new DomainEventAuthScopeResolverMock(ioc);
+            ioc.RegisterInstance<IDomainEventAuthScopeResolver>(authScopeResolver);
 
             return ioc;
         }

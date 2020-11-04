@@ -24,7 +24,7 @@ namespace ITI.DDD.Application
             Authorize = baseAuth;
         }
 
-        protected T? Command<T>(Action authorize, Func<T> exec) where T : class
+        protected T Command<T>(Action authorize, Func<T> exec) where T : class?
         {
             try
             {
@@ -51,7 +51,7 @@ namespace ITI.DDD.Application
             }
         }
 
-        protected T? CommandScalar<T>(Action authorize, Func<T> exec) where T : struct
+        protected T CommandScalar<T>(Action authorize, Func<T> exec) where T : struct
         {
             try
             {
@@ -77,6 +77,35 @@ namespace ITI.DDD.Application
                 throw;
             }
         }
+
+        // TODO:SAM WTF
+        protected T? CommandNullableScalar<T>(Action authorize, Func<T> exec) where T : struct
+        {
+            try
+            {
+                using (var uow = UnitOfWork.Begin())
+                {
+                    authorize();
+
+                    var result = exec();
+
+                    uow.Commit();
+
+                    return result;
+                }
+            }
+            catch (EntityNotFoundException enfExc)
+            {
+                Handle(enfExc);
+                return default;
+            }
+            catch (Exception exc)
+            {
+                Handle(exc);
+                throw;
+            }
+        }
+
 
         protected void Command(Action authorize, Action exec)
         {
@@ -102,7 +131,7 @@ namespace ITI.DDD.Application
             }
         }
 
-        protected T? Query<T>(Action authorize, Func<T> exec) where T: class
+        protected T Query<T>(Action authorize, Func<T> exec) where T: class?
         {
             try
             {

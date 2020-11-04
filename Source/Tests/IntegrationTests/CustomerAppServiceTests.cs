@@ -4,6 +4,8 @@ using ITI.DDD.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using TestApp.Application;
+using TestApp.Application.Dto;
+using TestApp.Application.Interfaces;
 using TestApp.Domain.ValueObjects;
 
 namespace IntegrationTests
@@ -29,26 +31,34 @@ namespace IntegrationTests
         [TestMethod]
         public void Add()
         {
-            var customerSvc = _ioc!.ResolveForTest<CustomerAppService>();
+            var customerSvc = _ioc!.ResolveForTest<ICustomerAppService>();
             
             var customerId = customerSvc.Add(
                 "myCustomer",
-                new SimpleAddress("line1", "line2", "city", "NC", "12345"),
+                new AddressDto {
+                    Line1 = "line1",
+                    Line2 = "line2",
+                    City = "city",
+                    State = "NC",
+                    Zip = "12345"
+                },
                 null,
-                new PhoneNumber("19194122710")
+                new PhoneNumberDto { Value = "19194122710" }
             );
             Assert.IsNotNull(customerId);
-            Assert.AreNotEqual(customerId!.Guid, default);
+            Assert.AreNotEqual(customerId, default);
 
             var customer = customerSvc.Get(customerId);
-            Assert.AreEqual("myCustomer", customer.Name);
-            Assert.AreEqual("line1", customer.Address.Line1);
+            Assert.IsNotNull(customer);
+            Assert.AreEqual("myCustomer", customer!.Name);
+            Assert.IsNull(customer.ContactName);
+            Assert.AreEqual("19194122710", customer.ContactPhone?.Value);
+
+            Assert.AreEqual("line1", customer.Address!.Line1);
             Assert.AreEqual("line2", customer.Address.Line2);
             Assert.AreEqual("city", customer.Address.City);
             Assert.AreEqual("NC", customer.Address.State);
             Assert.AreEqual("12345", customer.Address.Zip);
-            Assert.IsNull(customer.ContactName);
-            Assert.AreEqual(customer.ContactPhone?.Value, "19194122710");
         }
     }
 }

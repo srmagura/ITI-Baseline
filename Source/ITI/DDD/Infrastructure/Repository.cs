@@ -3,7 +3,7 @@ using ITI.DDD.Application.UnitOfWork;
 using ITI.DDD.Infrastructure.DataContext;
 using ITI.DDD.Infrastructure.DataMapping;
 
-namespace ITI.DDD.Infrastructure.Repositories
+namespace ITI.DDD.Infrastructure
 {
     public abstract class Repository<TDbContext> 
         where TDbContext : IDataContext, new()

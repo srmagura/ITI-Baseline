@@ -41,11 +41,10 @@ namespace ITI.DDD.Application.UnitOfWork
                 }
 
                 var inst = new TParticipant();
-
-                var auditor = _scope.Resolve<IAuditor>();
-                var domainEvents = _scope.Resolve<DomainEvents>();
-
-                inst.Initialize(auditor, domainEvents);
+                //var auditor = _scope.Resolve<IAuditor>();
+                // TODO:SAM AUDITING
+                //inst.Initialize(auditor);
+                inst.Initialize(null);
 
                 _participants.Add(type, inst);
                 return inst;
@@ -68,7 +67,7 @@ namespace ITI.DDD.Application.UnitOfWork
         {
             foreach (var db in _participants.Values)
             {
-                db?.SaveChanges();
+                db.SaveChanges();
             }
 
             // HandleAllRaisedEventsAsync Will never throw exceptions

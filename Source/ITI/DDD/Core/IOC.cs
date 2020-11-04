@@ -17,13 +17,17 @@ namespace ITI.DDD.Core
         public IOC()
         {
             Static = this;
+
             _containerBuilder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
+            _containerBuilder.RegisterInstance(this);
         }
 
         public T ResolveForTest<T>() where T : notnull
         {
             return Container.Resolve<T>();
         }
+
+        public static bool IsStaticInitialized => Static != null;
 
         public static T ResolveStaticUseSparingly<T>() where T : notnull
         {
@@ -33,9 +37,16 @@ namespace ITI.DDD.Core
             return Static.Container.Resolve<T>();
         }
 
-        public ILifetimeScope BeginLifetimeScope()
+        public ILifetimeScope BeginLifetimeScope(Action<ContainerBuilder>? configurationAction = null)
         {
-            return Container.BeginLifetimeScope();
+            if (configurationAction != null)
+            {
+                return Container.BeginLifetimeScope(configurationAction);
+            }
+            else
+            {
+                return Container.BeginLifetimeScope();
+            }
         }
 
         public void RegisterType<TInterface, TImplementation>()

@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using TestApp.AppConfig;
 using TestApp.DataContext;
 
 namespace IntegrationTests.Harness
@@ -19,7 +20,7 @@ namespace IntegrationTests.Harness
             UnitOfWorkImpl.ShouldWaitForDomainEvents(true);
 
             var ioc = new IOC();
-            
+            DefaultAppConfig.AddRegistrations(ioc);
 
             ioc.RegisterInstance(GetConnectionStrings(testContext));
 
@@ -30,8 +31,11 @@ namespace IntegrationTests.Harness
         {
             var connectionString = "Server=localhost;Database=ITIBaseline_e2e_test;Trusted_Connection=True;Connection Timeout=180;MultipleActiveResultSets=True;";
 
-            //if (testContext.Properties.Contains("ConnectionString"))
-            //    connectionString = (string)testContext.Properties["ConnectionString"];
+            if (testContext?.Properties.Contains("ConnectionString") ?? false)
+            {
+                var tmp = (string?)testContext.Properties["ConnectionString"];
+                if (tmp != null) connectionString = tmp;
+            }
 
             return new ConnectionStrings
             {

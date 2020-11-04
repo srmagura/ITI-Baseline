@@ -1,7 +1,7 @@
 ﻿using ITI.DDD.Application;
 using ITI.DDD.Application.UnitOfWork;
 
-namespace ITI.DDD.Infrastructure.Repositories
+namespace ITI.DDD.Infrastructure
 {
     public abstract class Queries<TDbContext>
         where TDbContext : IDataContext, new()

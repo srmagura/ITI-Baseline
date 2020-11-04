@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace IntegrationTests.Harness
+namespace TestApp.AppConfig
 {
-    public class IntegrationTestAuthContext : IAuthContext
+    public class TestAppAuthContext : IAuthContext
     {
         public bool IsAuthenticated => true;
         public string UserId => "e05ddd56-4616-4a4d-8ee5-1cdc343567a3";
