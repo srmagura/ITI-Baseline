@@ -7,11 +7,14 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
+using TestApp.DataContext.DataModel;
 
 namespace TestApp.DataContext
 {
     public class AppDataContext : DbContext, IDataContext
     {
+        public DbSet<DbCustomer>? Customers { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var connString = GetConnectionString();
@@ -59,6 +62,5 @@ namespace TestApp.DataContext
                 context.Database.Migrate();
             }
         }
-
     }
 }

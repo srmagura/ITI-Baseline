@@ -2,6 +2,7 @@
 using ITI.DDD.Application.UnitOfWork;
 using ITI.DDD.Core;
 using ITI.DDD.Domain.DomainEvents;
+using ITI.DDD.Infrastructure;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -14,10 +15,11 @@ namespace IntegrationTests.Harness
     {
         public static IOC Initialize(TestContext? testContext)
         {
-            var ioc = new IOC();
-            DDDAppConfig.AddRegistrations(ioc);
             DomainEvents.ClearRegistrations();
             UnitOfWorkImpl.ShouldWaitForDomainEvents(true);
+
+            var ioc = new IOC();
+            
 
             ioc.RegisterInstance(GetConnectionStrings(testContext));
 

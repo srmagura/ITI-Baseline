@@ -9,6 +9,8 @@ namespace TestApp.Application.Interfaces
 {
     interface ICustomerAppService
     {
+        CustomerDto Get(Guid id);
+
         CustomerId? Add(
             string name, 
             //List<Bar> bars,
