@@ -55,7 +55,15 @@ namespace TestApp.Application
                 () => { },
                 () =>
                 {
-                    var customer = new Customer(name, new List<int>(), 99);
+                    var customer = new Customer(
+                        name, 
+                        new List<LtcPharmacy> { 
+                            new LtcPharmacy("Pruitt"),
+                            new LtcPharmacy("Alixa") 
+                        },
+                        new List<int> { 1, 2 },
+                        99
+                    );
                     customer.SetAddress(_mapper.Map<SimpleAddress>(address));
                     customer.SetContact(
                         _mapper.Map<SimplePersonName>(contactName), 

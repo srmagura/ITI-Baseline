@@ -3,6 +3,7 @@ using ITI.Baseline.ValueObjects;
 using ITI.DDD.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 using TestApp.Application;
 using TestApp.Application.Dto;
 using TestApp.Application.Interfaces;
@@ -51,6 +52,7 @@ namespace IntegrationTests
             var customer = customerSvc.Get(customerId);
             Assert.IsNotNull(customer);
             Assert.AreEqual("myCustomer", customer!.Name);
+            Assert.AreEqual(99, customer.SomeNumber);
             Assert.IsNull(customer.ContactName);
             Assert.AreEqual("19194122710", customer.ContactPhone?.Value);
 
@@ -59,6 +61,12 @@ namespace IntegrationTests
             Assert.AreEqual("city", customer.Address.City);
             Assert.AreEqual("NC", customer.Address.State);
             Assert.AreEqual("12345", customer.Address.Zip);
+
+            //Assert.AreEqual(2, customer.LtcPharmacies.Count);
+            //Assert.AreEqual("Pruitt", customer.LtcPharmacies[0].Name);
+            //Assert.AreEqual("Alixa", customer.LtcPharmacies[1].Name);
+
+            CollectionAssert.AreEqual(new List<int> { 1, 2 }, customer.SomeInts);
         }
     }
 }

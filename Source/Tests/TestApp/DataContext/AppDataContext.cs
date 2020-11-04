@@ -14,6 +14,7 @@ namespace TestApp.DataContext
     public class AppDataContext : DbContext, IDataContext
     {
         public DbSet<DbCustomer>? Customers { get; set; }
+        public DbSet<DbLtcPharmacy>? LtcPharmacies { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

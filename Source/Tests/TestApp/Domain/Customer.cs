@@ -13,12 +13,16 @@ namespace TestApp.Domain
         [Obsolete("Serialization use only")]
         protected Customer() { }
 
-        public Customer(string name, //List<Bar> bars, 
-            List<int> someInts, long someNumber)
+        public Customer(
+            string name,
+            List<LtcPharmacy> ltcPharmacies, 
+            List<int> someInts, 
+            long someNumber
+        )
         {
             Name = name;
-            //_bars = bars;
-            //_someInts = someInts;
+            _ltcPharmacies = ltcPharmacies;
+            _someInts = someInts;
             SomeNumber = someNumber;
 
             Raise(new CustomerAddedEvent(Id));
@@ -41,21 +45,17 @@ namespace TestApp.Domain
         public PhoneNumber? ContactPhone { get; protected set; }
 
         public decimal SomeMoney { get; protected set; }
-
         public long SomeNumber { get; protected set; }
 
         //
         // RELATIONSHIPS
         //
 
-        //private readonly List<Bar> _bars = new List<Bar>();
-        //public IReadOnlyCollection<Bar> Bars => _bars;
+        private readonly List<LtcPharmacy> _ltcPharmacies = new List<LtcPharmacy>();
+        public IReadOnlyCollection<LtcPharmacy> LtcPharmacies => _ltcPharmacies;
 
-        //private readonly List<int> _someInts = new List<int>();
-        //public IReadOnlyCollection<int> SomeInts => _someInts;
-
-        //private readonly List<Guid> _someGuids = new List<Guid>();
-        //public IReadOnlyCollection<Guid> SomeGuids => _someGuids;
+        private readonly List<int> _someInts = new List<int>();
+        public IReadOnlyCollection<int> SomeInts => _someInts;
 
         //
         // OPERATIONS

@@ -17,18 +17,15 @@ namespace TestApp.DataContext.DataModel
         [MaxLength(64)]
         public string? NotInEntity { get; set; }
 
-        public SimplePersonName? SimplePersonName { get; set; }
-        public PhoneNumber? PhoneNumber { get; set; }
-        public SimpleAddress? SimpleAddress { get; set; }
+        public SimpleAddress? Address { get; set; }
+        public SimplePersonName? ContactName { get; set; }
+        public PhoneNumber? ContactPhone { get; set; }
 
-       // public List<DbBar> Bars { get; set; }
-
-        //public string SomeInts { get; set; }
+        public List<DbLtcPharmacy> LtcPharmacies { get; set; }
+        public string SomeInts { get; set; }
 
         [Column(TypeName = "Money")]
         public decimal SomeMoney { get; set; }
-
-        //public string SomeGuids { get; set; }
 
         public long SomeNumber { get; set; }
     }

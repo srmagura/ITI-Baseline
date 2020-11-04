@@ -2,6 +2,7 @@
 using ITI.DDD.Domain.Entities;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace ITI.DDD.Infrastructure.DataMapping
@@ -19,6 +20,18 @@ namespace ITI.DDD.Infrastructure.DataMapping
                 .ConvertUsing(p => p.Guid);
             cfg.CreateMap<Guid, TIdent>()
                 .ConvertUsing(p => constr(p));
+        }
+
+        protected static void SetPrivateField(object obj, string fieldName, object? value)
+        {
+            var field = obj.GetType().GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance);
+            if (field != null)
+            {
+                field.SetValue(obj, value);
+            }
+
+            var prop = obj.GetType().GetProperty(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            prop?.SetValue(obj, value);
         }
     }
 }

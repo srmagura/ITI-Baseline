@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ITI.Baseline.Util;
 using ITI.Baseline.ValueObjects;
 using ITI.DDD.Core;
 using ITI.DDD.Infrastructure.DataMapping;
@@ -29,22 +30,41 @@ namespace TestApp.AppConfig
         {
             cfg.CreateMap<SimpleAddress, AddressDto>()
                 .ReverseMap();
+            
             cfg.CreateMap<SimplePersonName, PersonNameDto>()
                 .ReverseMap();
+         
             cfg.CreateMap<PhoneNumber, PhoneNumberDto>()
                 .ReverseMap();
-            cfg.CreateMap<PhoneNumber, PhoneNumber>();
         }
 
         private static void ConfigureCustomer(IMapperConfigurationExpression cfg)
         {
             MapIdentity(cfg, p => new CustomerId(p));
+            MapIdentity(cfg, p => new LtcPharmacyId(p));
+
+            cfg.CreateMap<LtcPharmacy, DbLtcPharmacy>()
+                .ReverseMap();
 
             cfg.CreateMap<Customer, DbCustomer>()
                 .ForMember(p => p.NotInEntity, opt => opt.Ignore())
-                .ReverseMap();
+                .ForMember(p => p.SomeInts, opt => opt.Ignore())
+                .AfterMap((e, db) =>
+                {
+                    //db.Bars = MapCollection(e.Bars, db.Bars);
+                    db.SomeInts = e.SomeInts.ToDbJson();
+                })
+                .ReverseMap()
+                .AfterMap((db, e) =>
+                {
+                    //SetPrivateField(e, "_bars", db.Bars.Select(p => p.ToEntity<Bar>()).ToList());
+                    SetPrivateField(e, "_someInts", db.SomeInts.FromDbJson<List<int>>());
+                });
 
-            cfg.CreateMap<DbCustomer, CustomerDto>();
+            cfg.CreateMap<DbLtcPharmacy, LtcPharmacyDto>();
+
+            cfg.CreateMap<DbCustomer, CustomerDto>()
+                .ForMember(p => p.SomeInts, opt => opt.MapFrom(src => src.SomeInts.FromDbJson<List<int>>()));
         }
     }
 }

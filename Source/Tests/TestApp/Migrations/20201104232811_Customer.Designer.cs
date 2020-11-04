@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestApp.DataContext;
 
 namespace TestApp.Migrations
 {
     [DbContext(typeof(AppDataContext))]
-    partial class AppDataContextModelSnapshot : ModelSnapshot
+    [Migration("20201104232811_Customer")]
+    partial class Customer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,10 +39,6 @@ namespace TestApp.Migrations
                         .HasColumnType("nvarchar(64)")
                         .HasMaxLength(64);
 
-                    b.Property<string>("SomeInts")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<decimal>("SomeMoney")
                         .HasColumnType("Money");
 
@@ -50,29 +48,6 @@ namespace TestApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Customers");
-                });
-
-            modelBuilder.Entity("TestApp.DataContext.DataModel.DbLtcPharmacy", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset>("DateCreatedUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<Guid?>("DbCustomerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(64)")
-                        .HasMaxLength(64);
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DbCustomerId");
-
-                    b.ToTable("LtcPharmacies");
                 });
 
             modelBuilder.Entity("TestApp.DataContext.DataModel.DbCustomer", b =>
@@ -171,13 +146,6 @@ namespace TestApp.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("DbCustomerId");
                         });
-                });
-
-            modelBuilder.Entity("TestApp.DataContext.DataModel.DbLtcPharmacy", b =>
-                {
-                    b.HasOne("TestApp.DataContext.DataModel.DbCustomer", null)
-                        .WithMany("LtcPharmacies")
-                        .HasForeignKey("DbCustomerId");
                 });
 #pragma warning restore 612, 618
         }
