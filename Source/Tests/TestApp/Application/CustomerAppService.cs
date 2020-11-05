@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ITI.Baseline.Util.Validation;
 using ITI.Baseline.ValueObjects;
 using ITI.DDD.Application;
 using ITI.DDD.Application.UnitOfWork;
@@ -74,6 +75,46 @@ namespace TestApp.Application
                     return customer.Id.Guid;
                 }
             );
+        }
+
+        public void SetContact(Guid id, PersonNameDto? contactName, PhoneNumberDto? contactPhone)
+        {
+            Command(
+                () => { },
+                () => {
+                    var customer = _customerRepo.Get(new CustomerId(id));
+                    Require.NotNull(customer, "Customer");
+
+                    customer.SetContact(
+                        _mapper.Map<SimplePersonName>(contactName),
+                        _mapper.Map<PhoneNumber>(contactPhone)
+                    );
+                }
+            );
+        }
+
+        public void AddLtcPharmacy(Guid id, string name)
+        {
+            Command(
+                () => { },
+                () => { }
+            );
+        }
+
+        public void RenameLtcPharmacy(Guid ltcPharmacyId, string name)
+        {
+            Command(
+               () => { },
+               () => { }
+           );
+        }
+
+        public void RemoveLtcPharmacy(Guid ltcPharmacyId)
+        {
+            Command(
+               () => { },
+               () => { }
+           );
         }
     }
 }

@@ -4,6 +4,7 @@ using ITI.DDD.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TestApp.Application;
 using TestApp.Application.Dto;
 using TestApp.Application.Interfaces;
@@ -29,14 +30,12 @@ namespace IntegrationTests
             _ioc = IntegrationTestInitialize.Initialize(TestContext);
         }
 
-        [TestMethod]
-        public void Add()
+        private Guid AddCustomer(ICustomerAppService customerSvc)
         {
-            var customerSvc = _ioc!.ResolveForTest<ICustomerAppService>();
-            
             var customerId = customerSvc.Add(
                 "myCustomer",
-                new AddressDto {
+                new AddressDto
+                {
                     Line1 = "line1",
                     Line2 = "line2",
                     City = "city",
@@ -49,7 +48,17 @@ namespace IntegrationTests
             Assert.IsNotNull(customerId);
             Assert.AreNotEqual(customerId, default);
 
+            return customerId;
+        }
+
+        [TestMethod]
+        public void Add()
+        {
+            var customerSvc = _ioc!.ResolveForTest<ICustomerAppService>();
+
+            var customerId = AddCustomer(customerSvc);
             var customer = customerSvc.Get(customerId);
+
             Assert.IsNotNull(customer);
             Assert.AreEqual("myCustomer", customer!.Name);
             Assert.AreEqual(99, customer.SomeNumber);
@@ -62,11 +71,39 @@ namespace IntegrationTests
             Assert.AreEqual("NC", customer.Address.State);
             Assert.AreEqual("12345", customer.Address.Zip);
 
-            //Assert.AreEqual(2, customer.LtcPharmacies.Count);
-            //Assert.AreEqual("Pruitt", customer.LtcPharmacies[0].Name);
-            //Assert.AreEqual("Alixa", customer.LtcPharmacies[1].Name);
+            CollectionAssert.AreEquivalent(
+                new List<string> { "Pruitt", "Alixa" },
+                customer.LtcPharmacies.Select(p => p.Name).ToList()
+            );
 
             CollectionAssert.AreEqual(new List<int> { 1, 2 }, customer.SomeInts);
+        }
+
+        [TestMethod]
+        public void SetContact()
+        {
+            var customerSvc = _ioc!.ResolveForTest<ICustomerAppService>();
+
+            var customerId = AddCustomer(customerSvc);
+            
+            var customer = customerSvc.Get(customerId);
+            Assert.IsNull(customer!.ContactName);
+            Assert.AreEqual("19194122710", customer.ContactPhone?.Value);
+
+            customerSvc.SetContact(
+                customerId,
+                new PersonNameDto { First = "Sam", Last = "Magura" },
+                new PhoneNumberDto { Value = "19195551111" }
+            );
+            customer = customerSvc.Get(customerId);
+            Assert.AreEqual("Sam", customer!.ContactName?.First);
+            Assert.AreEqual("Magura", customer.ContactName?.Last);
+            Assert.AreEqual("19195555555", customer.ContactPhone?.Value);
+
+            customerSvc.SetContact(customerId, null, null);
+            customer = customerSvc.Get(customerId);
+            Assert.IsNull(customer!.ContactName);
+            Assert.IsNull(customer.ContactPhone);
         }
     }
 }

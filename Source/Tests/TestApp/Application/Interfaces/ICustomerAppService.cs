@@ -14,10 +14,15 @@ namespace TestApp.Application.Interfaces
 
         Guid Add(
             string name, 
-            //List<Bar> bars,
             AddressDto? address = null,
             PersonNameDto? contactName = null,
             PhoneNumberDto? contactPhone = null
         );
+
+        void SetContact(Guid id, PersonNameDto? contactName, PhoneNumberDto? contactPhone);
+
+        void AddLtcPharmacy(Guid id, string name);
+        void RenameLtcPharmacy(Guid ltcPharmacyId, string name);
+        void RemoveLtcPharmacy(Guid ltcPharmacyId);
     }
 }
