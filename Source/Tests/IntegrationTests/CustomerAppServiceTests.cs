@@ -105,5 +105,19 @@ namespace IntegrationTests
             Assert.IsNull(customer!.ContactName);
             Assert.IsNull(customer.ContactPhone);
         }
+
+        [TestMethod]
+        public void Remove()
+        {
+            var customerSvc = _ioc!.ResolveForTest<ICustomerAppService>();
+
+            var customerId = AddCustomer(customerSvc);
+            var customer = customerSvc.Get(customerId);
+            Assert.IsNotNull(customer);
+
+            customerSvc.Remove(customerId);
+            customer = customerSvc.Get(customerId);
+            Assert.IsNull(customer);
+        }
     }
 }

@@ -77,6 +77,16 @@ namespace TestApp.Application
             );
         }
 
+        public void Remove(Guid id)
+        {
+            Command(
+                () => { },
+                () => {
+                    _customerRepo.Remove(new CustomerId(id));
+                }
+            );
+        }
+
         public void SetContact(Guid id, PersonNameDto? contactName, PhoneNumberDto? contactPhone)
         {
             Command(

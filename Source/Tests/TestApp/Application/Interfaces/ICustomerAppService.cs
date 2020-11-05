@@ -18,6 +18,7 @@ namespace TestApp.Application.Interfaces
             PersonNameDto? contactName = null,
             PhoneNumberDto? contactPhone = null
         );
+        void Remove(Guid id);
 
         void SetContact(Guid id, PersonNameDto? contactName, PhoneNumberDto? contactPhone);
 

@@ -10,6 +10,7 @@ using TestApp.DataContext;
 using TestApp.DataContext.DataModel;
 using TestApp.Domain;
 using TestApp.Application.Interfaces.RepositoryInterfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace TestApp.Repositories
 {
@@ -32,6 +33,16 @@ namespace TestApp.Repositories
         {
             var dbCustomer = DbMapper.ToDb<DbCustomer>(customer);
             Context.Customers!.Add(dbCustomer);
+        }
+
+        public void Remove(CustomerId id)
+        {
+            var dbCustomer = Aggregate
+                .Include(c => c.LtcPharmacies)
+                .FirstOrDefault(c => c.Id == id.Guid);
+
+            Context.LtcPharmacies!.RemoveRange(dbCustomer.LtcPharmacies);
+            Context.Customers!.Remove(dbCustomer);
         }
     }
 }

@@ -11,5 +11,6 @@ namespace TestApp.Application.Interfaces.RepositoryInterfaces
         Customer Get(CustomerId id);
 
         void Add(Customer customer);
+        void Remove(CustomerId id);
     }
 }
