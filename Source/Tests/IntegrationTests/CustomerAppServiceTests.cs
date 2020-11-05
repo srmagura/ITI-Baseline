@@ -119,5 +119,20 @@ namespace IntegrationTests
             customer = customerSvc.Get(customerId);
             Assert.IsNull(customer);
         }
+
+        [TestMethod]
+        public void AddLtcPharmacy()
+        {
+            var customerSvc = _ioc!.ResolveForTest<ICustomerAppService>();
+
+            var customerId = AddCustomer(customerSvc);
+            customerSvc.AddLtcPharmacy(customerId, "1st Choice");
+
+            var customer = customerSvc.Get(customerId);
+            Assert.IsNotNull(customer);
+
+            Assert.AreEqual(3, customer!.LtcPharmacies.Count);
+            Assert.AreEqual(1, customer.LtcPharmacies.Count(p => p.Name == "1st Choice"));
+        }
     }
 }

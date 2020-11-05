@@ -23,7 +23,7 @@ namespace TestApp.Application.Interfaces
         void SetContact(Guid id, PersonNameDto? contactName, PhoneNumberDto? contactPhone);
 
         void AddLtcPharmacy(Guid id, string name);
-        void RenameLtcPharmacy(Guid ltcPharmacyId, string name);
-        void RemoveLtcPharmacy(Guid ltcPharmacyId);
+        void RenameLtcPharmacy(Guid id, Guid ltcPharmacyId, string name);
+        void RemoveLtcPharmacy(Guid id, Guid ltcPharmacyId);
     }
 }

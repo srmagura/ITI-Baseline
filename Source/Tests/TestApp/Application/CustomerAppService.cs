@@ -107,11 +107,14 @@ namespace TestApp.Application
         {
             Command(
                 () => { },
-                () => { }
+                () => {
+                    var customer = _customerRepo.Get(new CustomerId(id));
+                    customer.AddLtcPharmacy(name);
+                }
             );
         }
 
-        public void RenameLtcPharmacy(Guid ltcPharmacyId, string name)
+        public void RenameLtcPharmacy(Guid id, Guid ltcPharmacyId, string name)
         {
             Command(
                () => { },
@@ -119,11 +122,14 @@ namespace TestApp.Application
            );
         }
 
-        public void RemoveLtcPharmacy(Guid ltcPharmacyId)
+        public void RemoveLtcPharmacy(Guid id, Guid ltcPharmacyId)
         {
             Command(
                () => { },
-               () => { }
+               () => {
+                   var customer = _customerRepo.Get(new CustomerId(id));
+                   customer.RemoveLtcPharmacy(LtcPharmacyId);
+               }
            );
         }
     }

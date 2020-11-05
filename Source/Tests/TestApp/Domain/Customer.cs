@@ -78,17 +78,16 @@ namespace TestApp.Domain
             ContactPhone = contactPhone;
         }
 
-        //public void RemoveBar(string name)
-        //{
-        //    _bars.RemoveAll(p => p.Name == name);
-        //    Raise(new FooBarsChangedEvent(Id));
-        //}
+        public void AddLtcPharmacy(string name)
+        {
+            _ltcPharmacies.Add(new LtcPharmacy(name));
+        }
 
-        //public void AddBar(string name)
-        //{
-        //    _bars.Add(new Bar(name));
-        //    Raise(new FooBarsChangedEvent(Id));
-        //}
+        public void RemoveBar(LtcPharmacyId id)
+        {
+            _ltcPharmacies.RemoveAll(p => p.Id == id);
+        }
+
         //public void SetAllBarNames(string name)
         //{
         //    var i = 1;
