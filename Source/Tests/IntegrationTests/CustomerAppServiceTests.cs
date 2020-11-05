@@ -98,7 +98,7 @@ namespace IntegrationTests
             customer = customerSvc.Get(customerId);
             Assert.AreEqual("Sam", customer!.ContactName?.First);
             Assert.AreEqual("Magura", customer.ContactName?.Last);
-            Assert.AreEqual("19195555555", customer.ContactPhone?.Value);
+            Assert.AreEqual("19195551111", customer.ContactPhone?.Value);
 
             customerSvc.SetContact(customerId, null, null);
             customer = customerSvc.Get(customerId);

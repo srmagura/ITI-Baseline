@@ -2,6 +2,7 @@
 using ITI.DDD.Core;
 using ITI.DDD.Core.Util;
 using ITI.DDD.Domain.DomainEvents;
+using ITI.DDD.Infrastructure.DataContext;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using TestApp.DataContext.DataModel;
 
 namespace TestApp.DataContext
 {
-    public class AppDataContext : DbContext, IDataContext
+    public class AppDataContext : BaseDataContext, IDataContext
     {
         public DbSet<DbCustomer>? Customers { get; set; }
         public DbSet<DbLtcPharmacy>? LtcPharmacies { get; set; }
@@ -44,16 +45,6 @@ namespace TestApp.DataContext
             }
 
             return (_connStrings ?? new ConnectionStrings()).DefaultDataContext;
-        }
-
-        public void Initialize(IAuditor auditor)
-        {
-            // TODO:SAM
-        }
-
-        void IDataContext.SaveChanges()
-        {
-            SaveChanges();
         }
 
         public static void Migrate()

@@ -1,4 +1,5 @@
-﻿using ITI.DDD.Domain.DomainEvents;
+﻿using AutoMapper;
+using ITI.DDD.Domain.DomainEvents;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,7 +8,7 @@ namespace ITI.DDD.Application
 {
     public interface IDataContext : IDisposable
     {
-        void Initialize(IAuditor auditor);
+        void Initialize(IMapper mapper, IAuditor auditor);
         void SaveChanges();
     }
 }

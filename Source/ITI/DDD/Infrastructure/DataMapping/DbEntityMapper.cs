@@ -16,14 +16,23 @@ namespace ITI.DDD.Infrastructure.DataMapping
             _mapper = mapper;
         }
 
-        public TDb ToDb<TDb>(Entity entity)
+        public TDb ToDb<TDb>(Entity entity) where TDb : DbEntity
         {
-            return _mapper.Map<TDb>(entity);
+            var dbEntity = _mapper.Map<TDb>(entity);
+            dbEntity.MappedEntity ??= entity;
+            
+            return dbEntity;
         }
 
-        public TEntity ToEntity<TEntity>(DbEntity dbEntity)
+        public TEntity ToEntity<TEntity>(DbEntity dbEntity) where TEntity : Entity
         {
-            return _mapper.Map<TEntity>(dbEntity);
+            if (dbEntity.MappedEntity != null)
+                return (TEntity)dbEntity.MappedEntity;
+
+            var entity = _mapper.Map<TEntity>(dbEntity);
+            dbEntity.MappedEntity = entity;
+
+            return entity;
         }
     }
 }

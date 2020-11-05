@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using AutoMapper;
 using ITI.DDD.Application;
 using ITI.DDD.Application.Exceptions;
 using ITI.DDD.Application.UnitOfWork;
@@ -52,8 +53,7 @@ namespace UnitTests.Application
             }
         }
 
-        [TestMethod]
-        public void QueryForObject()
+        private IOC ConfigureIOC()
         {
             var ioc = new IOC();
             DDDAppConfig.AddRegistrations(ioc);
@@ -61,7 +61,15 @@ namespace UnitTests.Application
             ioc.RegisterInstance(Substitute.For<IDomainEventAuthScopeResolver>());
             ioc.RegisterInstance(Substitute.For<ILogger>());
             ioc.RegisterInstance(Substitute.For<IAuthContext>());
+            ioc.RegisterInstance(Substitute.For<IMapper>());
 
+            return ioc;
+        }
+
+        [TestMethod]
+        public void QueryForObject()
+        {
+            var ioc = ConfigureIOC();
             var appService = ioc.ResolveForTest<MyApplicationService>();
 
             Assert.AreEqual(new Version("1.0.0"), appService.QueryForObject(true, true));
@@ -74,13 +82,7 @@ namespace UnitTests.Application
         [TestMethod]
         public void QueryForScalar()
         {
-            var ioc = new IOC();
-            DDDAppConfig.AddRegistrations(ioc);
-
-            ioc.RegisterInstance(Substitute.For<IDomainEventAuthScopeResolver>());
-            ioc.RegisterInstance(Substitute.For<ILogger>());
-            ioc.RegisterInstance(Substitute.For<IAuthContext>());
-
+            var ioc = ConfigureIOC();
             var appService = ioc.ResolveForTest<MyApplicationService>();
 
             Assert.AreEqual(1, appService.QueryForScalar(true));

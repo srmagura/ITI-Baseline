@@ -1,4 +1,5 @@
-﻿using ITI.DDD.Application;
+﻿using AutoMapper;
+using ITI.DDD.Application;
 using ITI.DDD.Application.UnitOfWork;
 using ITI.DDD.Auth;
 using ITI.DDD.Core;
@@ -28,7 +29,8 @@ namespace UnitTests.Application.UnitOfWork
         {
             var lifetimeScope = new IOC().BeginLifetimeScope();
             var domainEvents = Substitute.For<IDomainEvents>();
-            var uow = new UnitOfWorkImpl(lifetimeScope, domainEvents);
+            var mapper = Substitute.For<IMapper>();
+            var uow = new UnitOfWorkImpl(lifetimeScope, domainEvents, mapper);
 
             Assert.IsNull(UnitOfWorkImpl.CurrentUnitOfWork);
             uow.Begin();
@@ -62,10 +64,10 @@ namespace UnitTests.Application.UnitOfWork
         {
             var ioc = new IOC();
             DDDAppConfig.AddRegistrations(ioc);
-            var logger = Substitute.For<ILogger>();
-            ioc.RegisterInstance(logger);
-            var authContext = Substitute.For<IAuthContext>();
-            ioc.RegisterInstance(authContext);
+            ioc.RegisterInstance(Substitute.For<ILogger>());
+            ioc.RegisterInstance(Substitute.For<IAuthContext>());
+            ioc.RegisterInstance(Substitute.For<IMapper>());
+
             var authScopeResolver = new DomainEventAuthScopeResolverMock(ioc);
             ioc.RegisterInstance<IDomainEventAuthScopeResolver>(authScopeResolver);
 

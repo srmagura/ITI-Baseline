@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Autofac;
+using AutoMapper;
 using ITI.DDD.Core;
 using ITI.DDD.Domain.DomainEvents;
 
@@ -10,11 +11,13 @@ namespace ITI.DDD.Application.UnitOfWork
     {
         private readonly ILifetimeScope _scope;
         private readonly IDomainEvents _domainEvents;
+        private readonly IMapper _mapper;
 
-        public UnitOfWorkImpl(ILifetimeScope scope, IDomainEvents domainEvents)
+        public UnitOfWorkImpl(ILifetimeScope scope, IDomainEvents domainEvents, IMapper mapper)
         {
             _scope = scope;
             _domainEvents = domainEvents;
+            _mapper = mapper;
         }
 
         internal static IUnitOfWork? CurrentUnitOfWork { get; private set; }
@@ -44,7 +47,7 @@ namespace ITI.DDD.Application.UnitOfWork
                 //var auditor = _scope.Resolve<IAuditor>();
                 // TODO:SAM AUDITING
                 //inst.Initialize(auditor);
-                inst.Initialize(null);
+                inst.Initialize(_mapper, null);
 
                 _participants.Add(type, inst);
                 return inst;
