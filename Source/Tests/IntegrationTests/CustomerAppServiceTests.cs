@@ -152,5 +152,23 @@ namespace IntegrationTests
                 customer!.LtcPharmacies.Select(p => p.Name).ToList()
             );
         }
+
+        [TestMethod]
+        public void RemoveLtcPharmacy()
+        {
+            var customerSvc = _ioc!.ResolveForTest<ICustomerAppService>();
+
+            var customerId = AddCustomer(customerSvc);
+            var customer = customerSvc.Get(customerId);
+            var pruittId = customer!.LtcPharmacies.Single(p => p.Name == "Pruitt").Id;
+
+            customerSvc.RemoveLtcPharmacy(customerId, pruittId);
+
+            customer = customerSvc.Get(customerId);
+            CollectionAssert.AreEquivalent(
+                new List<string> { "Alixa" },
+                customer!.LtcPharmacies.Select(p => p.Name).ToList()
+            );
+        }
     }
 }
