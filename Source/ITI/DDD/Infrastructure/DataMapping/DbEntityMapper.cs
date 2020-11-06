@@ -19,7 +19,7 @@ namespace ITI.DDD.Infrastructure.DataMapping
         public TDb ToDb<TDb>(Entity entity) where TDb : DbEntity
         {
             var dbEntity = _mapper.Map<TDb>(entity);
-            dbEntity.MappedEntity ??= entity;
+            dbEntity.MappedEntity ??= entity; // TODO:SAM is this necessary?
             
             return dbEntity;
         }

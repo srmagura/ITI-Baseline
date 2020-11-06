@@ -53,20 +53,15 @@ namespace TestApp.AppConfig
 
             cfg.CreateMap<Customer, DbCustomer>()
                 .ForMember(p => p.NotInEntity, opt => opt.Ignore())
-                .ForMember(p => p.LtcPharmacies, opt => opt.Ignore())
                 .ForMember(p => p.SomeInts, opt => opt.Ignore())
                 .AfterMap((e, db) =>
                 {
-                    db.LtcPharmacies = MapCollection(e.LtcPharmacies, db.LtcPharmacies);
                     db.SomeInts = e.SomeInts.ToDbJson();
                 })
                 .ReverseMap()
                 .ForMember(p => p.SomeInts, opt => opt.Ignore())
                 .AfterMap((db, e) =>
                 {
-                    SetPrivateField(e, "_ltcPharmacies", 
-                        db.LtcPharmacies.Select(p => DbEntityMapper!.ToEntity<LtcPharmacy>(p)).ToList()
-                    );
                     SetPrivateField(e, "_someInts", db.SomeInts.FromDbJson<List<int>>());
                 });
 

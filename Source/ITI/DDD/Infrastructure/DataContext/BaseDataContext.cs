@@ -44,7 +44,6 @@ namespace ITI.DDD.Infrastructure.DataContext
                         continue;
 
                     _mapper.Map(dbEntity.MappedEntity, dbEntity);
-                    var y = 1;
                 }
             }
         }
