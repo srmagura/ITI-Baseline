@@ -118,7 +118,10 @@ namespace TestApp.Application
         {
             Command(
                () => { },
-               () => { }
+               () => {
+                   var customer = _customerRepo.Get(new CustomerId(id));
+                   customer.RenameLtcPharmacy(new LtcPharmacyId(ltcPharmacyId), name);
+               }
            );
         }
 
@@ -128,7 +131,7 @@ namespace TestApp.Application
                () => { },
                () => {
                    var customer = _customerRepo.Get(new CustomerId(id));
-                   customer.RemoveLtcPharmacy(LtcPharmacyId);
+                   customer.RemoveLtcPharmacy(new LtcPharmacyId(ltcPharmacyId));
                }
            );
         }

@@ -129,10 +129,28 @@ namespace IntegrationTests
             customerSvc.AddLtcPharmacy(customerId, "1st Choice");
 
             var customer = customerSvc.Get(customerId);
-            Assert.IsNotNull(customer);
+            CollectionAssert.AreEquivalent(
+                new List<string> { "Pruitt", "Alixa", "1st Choice" },
+                customer!.LtcPharmacies.Select(p => p.Name).ToList()
+            );
+        }
 
-            Assert.AreEqual(3, customer!.LtcPharmacies.Count);
-            Assert.AreEqual(1, customer.LtcPharmacies.Count(p => p.Name == "1st Choice"));
+        [TestMethod]
+        public void RenameLtcPharmacy()
+        {
+            var customerSvc = _ioc!.ResolveForTest<ICustomerAppService>();
+
+            var customerId = AddCustomer(customerSvc);
+            var customer = customerSvc.Get(customerId);
+            var pruittId = customer!.LtcPharmacies.Single(p => p.Name == "Pruitt").Id;
+            
+            customerSvc.RenameLtcPharmacy(customerId, pruittId, "Pruitt2");
+
+            customer = customerSvc.Get(customerId);
+            CollectionAssert.AreEquivalent(
+                new List<string> { "Pruitt2", "Alixa" },
+                customer!.LtcPharmacies.Select(p => p.Name).ToList()
+            );
         }
     }
 }

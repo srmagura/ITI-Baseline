@@ -13,6 +13,8 @@ namespace ITI.DDD.Application.UnitOfWork
         private readonly IDomainEvents _domainEvents;
         private readonly IMapper _mapper;
 
+        private Guid Guid = Guid.NewGuid();//nocommit
+
         public UnitOfWorkImpl(ILifetimeScope scope, IDomainEvents domainEvents, IMapper mapper)
         {
             _scope = scope;

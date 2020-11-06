@@ -21,7 +21,9 @@ namespace TestApp.Repositories
         {
         }
 
-        private IQueryable<DbCustomer> Aggregate => Context.Customers!.AsQueryable();
+        private IQueryable<DbCustomer> Aggregate => Context.Customers!
+            .Include(c => c.LtcPharmacies)
+            .AsQueryable();
 
         public Customer Get(CustomerId id)
         {

@@ -28,7 +28,7 @@ namespace TestApp.AppConfig
             var mapper = new Mapper(config);
             ioc.RegisterInstance<IMapper>(mapper);
 
-            Mapper = mapper;
+            SetStaticMapper(mapper);
         }
 
         private static void ConfigureValueObjects(IMapperConfigurationExpression cfg)
@@ -61,11 +61,12 @@ namespace TestApp.AppConfig
                     db.SomeInts = e.SomeInts.ToDbJson();
                 })
                 .ReverseMap()
-                .ForMember(p => p.LtcPharmacies, opt => opt.Ignore())
                 .ForMember(p => p.SomeInts, opt => opt.Ignore())
                 .AfterMap((db, e) =>
                 {
-                    //SetPrivateField(e, "_ltcPharmacies", db.LtcPharmacies.Select(p => p.ToEntity<LtcPharmacy>()).ToList());
+                    SetPrivateField(e, "_ltcPharmacies", 
+                        db.LtcPharmacies.Select(p => DbEntityMapper!.ToEntity<LtcPharmacy>(p)).ToList()
+                    );
                     SetPrivateField(e, "_someInts", db.SomeInts.FromDbJson<List<int>>());
                 });
 

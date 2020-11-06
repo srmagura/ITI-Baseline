@@ -2,6 +2,7 @@
 using ITI.DDD.Domain.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TestApp.Domain;
 using TestApp.Domain.Events;
 using TestApp.Domain.ValueObjects;
@@ -83,7 +84,12 @@ namespace TestApp.Domain
             _ltcPharmacies.Add(new LtcPharmacy(name));
         }
 
-        public void RemoveBar(LtcPharmacyId id)
+        public void RenameLtcPharmacy(LtcPharmacyId id, string name)
+        {
+            _ltcPharmacies.Single(p => p.Id == id).SetName(name);
+        }
+
+        public void RemoveLtcPharmacy(LtcPharmacyId id)
         {
             _ltcPharmacies.RemoveAll(p => p.Id == id);
         }

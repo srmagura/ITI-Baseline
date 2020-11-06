@@ -33,12 +33,22 @@ namespace ITI.DDD.Domain.Entities
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((Identity) obj);
+            return Equals((Identity)obj);
         }
 
         public override int GetHashCode()
         {
             return Guid.GetHashCode();
+        }
+
+        public static bool operator ==(Identity left, Identity right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Identity left, Identity right)
+        {
+            return !left.Equals(right);
         }
     }
 }

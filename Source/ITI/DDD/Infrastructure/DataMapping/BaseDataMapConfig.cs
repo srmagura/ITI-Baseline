@@ -12,6 +12,13 @@ namespace ITI.DDD.Infrastructure.DataMapping
     public abstract class BaseDataMapConfig
     {
         protected static IMapper? Mapper;
+        protected static IDbEntityMapper? DbEntityMapper;
+
+        protected static void SetStaticMapper(IMapper mapper)
+        {
+            Mapper = mapper;
+            DbEntityMapper = new DbEntityMapper(mapper);
+        }
 
         protected static void BaseConfig(IMapperConfigurationExpression cfg)
         {
