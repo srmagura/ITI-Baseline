@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ITI\Baseline\Passwords\Passwords.csproj" />
     <ProjectReference Include="..\..\ITI\DDD\Application\Application.csproj" />
     <ProjectReference Include="..\..\ITI\DDD\Auth\Auth.csproj" />
     <ProjectReference Include="..\..\ITI\DDD\Core\Core.csproj" />
