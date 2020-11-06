@@ -39,6 +39,16 @@ namespace UnitTests.Application
                 );
             }
 
+            public Version? QueryForNullableObject()
+            {
+                return Query(
+                    () => { },
+                    () => {
+                        return (Version?) null;
+                    }
+                );
+            }
+
             public int? QueryForScalar(bool entityExists)
             {
                 return QueryScalar(
@@ -51,9 +61,67 @@ namespace UnitTests.Application
                     }
                 );
             }
+
+            public int? QueryForNullableScalar()
+            {
+                return QueryNullableScalar(
+                    () => {},
+                    () => {
+                        return (int?) 1;
+                    }
+                );
+            }
+
+            public void VoidCommand(Action action)
+            {
+                Command(
+                    () => { },
+                    () => { action();  }
+                );
+            }
+
+            public Version? CommandForObject()
+            {
+                return Command(
+                    () => { },
+                    () => {
+                        return new Version("1.0.0");
+                    }
+                );
+            }
+
+            public Version? CommandForNullableObject()
+            {
+                return Command(
+                    () => { },
+                    () => {
+                        return (Version?)null;
+                    }
+                );
+            }
+
+            public int? CommandForScalar()
+            {
+                return CommandScalar(
+                    () => { },
+                    () => {
+                        return 1;
+                    }
+                );
+            }
+
+            public int? CommandForNullableScalar()
+            {
+                return QueryNullableScalar(
+                    () => { },
+                    () => {
+                        return (int?)1;
+                    }
+                );
+            }
         }
 
-        private IOC ConfigureIOC()
+        private MyApplicationService CreateAppService()
         {
             var ioc = new IOC();
             DDDAppConfig.AddRegistrations(ioc);
@@ -63,14 +131,13 @@ namespace UnitTests.Application
             ioc.RegisterInstance(Substitute.For<IAuthContext>());
             ioc.RegisterInstance(Substitute.For<IMapper>());
 
-            return ioc;
+            return ioc.ResolveForTest<MyApplicationService>();
         }
 
         [TestMethod]
         public void QueryForObject()
         {
-            var ioc = ConfigureIOC();
-            var appService = ioc.ResolveForTest<MyApplicationService>();
+            var appService = CreateAppService();
 
             Assert.AreEqual(new Version("1.0.0"), appService.QueryForObject(true, true));
             Assert.IsNull(appService.QueryForObject(true, false));
@@ -80,13 +147,65 @@ namespace UnitTests.Application
         }
 
         [TestMethod]
+        public void QueryForNullableObject()
+        {
+            var appService = CreateAppService();
+            Assert.IsNull(appService.QueryForNullableObject());
+        }
+
+        [TestMethod]
         public void QueryForScalar()
         {
-            var ioc = ConfigureIOC();
-            var appService = ioc.ResolveForTest<MyApplicationService>();
+            var appService = CreateAppService();
 
             Assert.AreEqual(1, appService.QueryForScalar(true));
             Assert.IsNull(appService.QueryForScalar(false));
+        }
+
+        [TestMethod]
+        public void QueryForNullableScalar()
+        {
+            var appService = CreateAppService();
+            Assert.AreEqual(1, appService.QueryForNullableScalar());
+        }
+
+        [TestMethod]
+        public void VoidCommand()
+        {
+            var appService = CreateAppService();
+            var action = Substitute.For<Action>();
+            appService.VoidCommand(action);
+
+            action.Received().Invoke();
+        }
+
+        [TestMethod]
+        public void CommandForObject()
+        {
+            var appService = CreateAppService();
+            Assert.AreEqual(new Version("1.0.0"), appService.CommandForObject());
+        }
+
+        [TestMethod]
+        public void CommandForNullableObject()
+        {
+            var appService = CreateAppService();
+            Assert.IsNull(appService.CommandForNullableObject());
+        }
+
+        [TestMethod]
+        public void CommandForScalar()
+        {
+            var appService = CreateAppService();
+
+            Assert.AreEqual(1, appService.CommandForScalar());
+        }
+
+        [TestMethod]
+        public void CommandForNullableScalar()
+        {
+            var appService = CreateAppService();
+            Assert.AreEqual(1, appService.CommandForNullableScalar());
         }
     }
 }
