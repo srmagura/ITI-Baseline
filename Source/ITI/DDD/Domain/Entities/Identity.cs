@@ -14,7 +14,8 @@ namespace ITI.DDD.Domain.Entities
             Guid = guid;
         }
 
-        public Guid Guid { get; protected set; }
+        // Setter is public for AutoMapper reasons only - do not use it
+        public Guid Guid { get; set; }
 
         public override string ToString()
         {

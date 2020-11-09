@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.EquivalencyExpression;
 using ITI.Baseline.Util;
 using ITI.Baseline.ValueObjects;
 using ITI.DDD.Core;
@@ -45,14 +46,14 @@ namespace TestApp.AppConfig
 
         private static void ConfigureCustomer(IMapperConfigurationExpression cfg)
         {
-            MapIdentity(cfg, p => new CustomerId(p));
-            MapIdentity(cfg, p => new LtcPharmacyId(p));
+            MapIdentity<CustomerId>(cfg);
+            MapIdentity<LtcPharmacyId>(cfg);
 
             cfg.CreateMap<LtcPharmacy, DbLtcPharmacy>()
+                .EqualityComparison((e, db) => e.Id.Guid == db.Id)
                 .ReverseMap();
 
             cfg.CreateMap<Customer, DbCustomer>()
-                .ForMember(p => p.NotInEntity, opt => opt.Ignore())
                 .ForMember(p => p.SomeInts, opt => opt.Ignore())
                 .AfterMap((e, db) =>
                 {

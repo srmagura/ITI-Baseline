@@ -40,12 +40,14 @@ namespace ITI.DDD.Infrastructure.DataContext
             {
                 if (entry.Entity is DbEntity dbEntity)
                 {
-                    if (dbEntity.MappedEntity == null)
-                        continue;
-
-                    _mapper.Map(dbEntity.MappedEntity, dbEntity);
+                    if (dbEntity.MappedEntity != null)
+                    {
+                        _mapper.Map(dbEntity.MappedEntity, dbEntity);
+                    }
                 }
             }
+
+            ChangeTracker.DetectChanges();
         }
     }
 }

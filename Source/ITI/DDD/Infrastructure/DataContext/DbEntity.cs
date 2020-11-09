@@ -9,11 +9,13 @@ namespace ITI.DDD.Infrastructure.DataContext
 {
     public abstract class DbEntity
     {
-        public Guid Id { get; set; } = SequentialGuid.Next();
-        public DateTimeOffset DateCreatedUtc { get; set; } = DateTimeOffset.UtcNow;
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public Guid Id { get; set; }
 
         [NotMapped]
         [IgnoreMap]
         public Entity? MappedEntity { get; set; }
+
+        public DateTimeOffset DateCreatedUtc { get; set; } = DateTimeOffset.UtcNow;
     }
 }

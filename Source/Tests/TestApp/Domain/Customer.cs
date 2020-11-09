@@ -93,16 +93,5 @@ namespace TestApp.Domain
         {
             _ltcPharmacies.RemoveAll(p => p.Id == id);
         }
-
-        //public void SetAllBarNames(string name)
-        //{
-        //    var i = 1;
-        //    foreach (var bar in _bars)
-        //    {
-        //        bar.SetName($"{name} {i}");
-        //        i++;
-        //    }
-        //    Raise(new FooBarsChangedEvent(Id));
-        //}
     }
 }

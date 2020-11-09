@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.EquivalencyExpression;
 using ITI.DDD.Domain.Entities;
 using ITI.DDD.Infrastructure.DataContext;
 using System;
@@ -23,19 +24,16 @@ namespace ITI.DDD.Infrastructure.DataMapping
         protected static void BaseConfig(IMapperConfigurationExpression cfg)
         {
             cfg.DisableConstructorMapping();
+            cfg.AddCollectionMappers();
         }
 
-        protected static void MapIdentity<TIdent>(IMapperConfigurationExpression cfg, Func<Guid?, TIdent> constr)
-            where TIdent : Identity, new()
+        protected static void MapIdentity<TIdentity>(IMapperConfigurationExpression cfg)
+            where TIdentity : Identity, new()
         {
-            cfg.CreateMap<TIdent?, Guid?>()
-                .ConvertUsing(p => p == null ? (Guid?)null : p.Guid);
-            cfg.CreateMap<Guid?, TIdent?>()
-                .ConvertUsing(p => p == null ? null : constr(p.Value));
-            cfg.CreateMap<TIdent, Guid>()
-                .ConvertUsing(p => p.Guid);
-            cfg.CreateMap<Guid, TIdent>()
-                .ConvertUsing(p => constr(p));
+            cfg.CreateMap<TIdentity, Guid>()
+                .ConstructUsing(p => p.Guid)
+                .ReverseMap()
+                .ConstructUsing(p => new TIdentity() { Guid = p });
         }
 
         protected static void SetPrivateField(object obj, string fieldName, object? value)
@@ -55,34 +53,6 @@ namespace ITI.DDD.Infrastructure.DataMapping
             var prop = e.GetType().GetProperty("Id", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             var id = prop?.GetValue(e) as Identity;
             return id?.Guid ?? Guid.Empty;
-        }
-
-        protected static List<TDb> MapCollection<TEntity, TDb>(IReadOnlyCollection<TEntity> eList, List<TDb> dbList)
-           where TEntity : Entity
-           where TDb : DbEntity
-        {
-            dbList ??= new List<TDb>();
-
-            // remove
-            dbList.RemoveAll(dbx => eList.All(ex => GetDbId(ex) != dbx.Id));
-
-            // update
-            foreach (var dbBar in dbList)
-            {
-                var eBar = eList.FirstOrDefault(p => GetDbId(p) == dbBar.Id);
-                if (eBar != null)
-                {
-                    Mapper!.Map(eBar, dbBar);
-                }
-            }
-
-            // add
-            var toAdd = eList.Where(ex => dbList.All(dbx => dbx.Id != GetDbId(ex)))
-                .Select(Mapper!.Map<TDb>)
-                .ToList();
-            dbList.AddRange(toAdd);
-
-            return dbList;
         }
     }
 }

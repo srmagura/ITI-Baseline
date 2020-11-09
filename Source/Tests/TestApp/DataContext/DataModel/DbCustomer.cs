@@ -14,9 +14,6 @@ namespace TestApp.DataContext.DataModel
         [MaxLength(64)]
         public string Name { get; set; }
 
-        [MaxLength(64)]
-        public string? NotInEntity { get; set; }
-
         public SimpleAddress? Address { get; set; }
         public SimplePersonName? ContactName { get; set; }
         public PhoneNumber? ContactPhone { get; set; }
