@@ -26,7 +26,7 @@ namespace ITI.DDD.Infrastructure.DataContext
         public override int SaveChanges()
         {
             UpdateEntityMaps();
-            //HandleAudit(_auditor);
+            _auditor?.Process(this);
 
             return base.SaveChanges();
         }

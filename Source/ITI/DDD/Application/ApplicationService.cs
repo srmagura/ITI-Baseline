@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleToAttribute("UnitTests")]
 
+// TODO:SAM Give nice DbUpdateExceptions (feature that was in Baseline 1) ??!?
 namespace ITI.DDD.Application
 {
     public abstract class ApplicationService

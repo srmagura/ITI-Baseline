@@ -1,4 +1,5 @@
-﻿using ITI.Baseline.ValueObjects;
+﻿using ITI.Baseline.Audit;
+using ITI.Baseline.ValueObjects;
 using ITI.DDD.Infrastructure.DataContext;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using TestApp.Domain.ValueObjects;
 
 namespace TestApp.DataContext.DataModel
 {
-    public class DbCustomer : DbEntity
+    public class DbCustomer : DbEntity, IDbAudited
     {
         [MaxLength(64)]
         public string Name { get; set; }
@@ -25,5 +26,8 @@ namespace TestApp.DataContext.DataModel
         public decimal SomeMoney { get; set; }
 
         public long SomeNumber { get; set; }
+
+        public string AuditEntityName => "Customer";
+        public string AuditEntityId => Id.ToString();
     }
 }

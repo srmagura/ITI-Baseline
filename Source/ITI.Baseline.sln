@@ -35,6 +35,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passwords", "ITI\Baseline\P
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ValueObjects", "ITI\Baseline\ValueObjects\ValueObjects.csproj", "{A70E7894-A7FF-4276-9ABC-62521B6DEC31}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Audit", "ITI\Baseline\Audit\Audit.csproj", "{C1C477CF-919B-47E0-B044-3B3586508FFB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -89,6 +91,10 @@ Global
 		{A70E7894-A7FF-4276-9ABC-62521B6DEC31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A70E7894-A7FF-4276-9ABC-62521B6DEC31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A70E7894-A7FF-4276-9ABC-62521B6DEC31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1C477CF-919B-47E0-B044-3B3586508FFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1C477CF-919B-47E0-B044-3B3586508FFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1C477CF-919B-47E0-B044-3B3586508FFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1C477CF-919B-47E0-B044-3B3586508FFB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -108,6 +114,7 @@ Global
 		{E6499B27-E34A-480F-B0B3-C586FB688FD4} = {377CB845-C49D-4DCC-85B6-DE46E76A4652}
 		{0908925E-738E-47C4-B9FB-02693F4E25CD} = {4B8C931E-9571-4920-A64A-A2A4F05BB685}
 		{A70E7894-A7FF-4276-9ABC-62521B6DEC31} = {4B8C931E-9571-4920-A64A-A2A4F05BB685}
+		{C1C477CF-919B-47E0-B044-3B3586508FFB} = {4B8C931E-9571-4920-A64A-A2A4F05BB685}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {78A81A9B-7673-4707-8E17-EC64CD4F73AC}

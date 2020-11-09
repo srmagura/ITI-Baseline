@@ -1,4 +1,5 @@
-﻿using ITI.DDD.Application;
+﻿using ITI.Baseline.Audit;
+using ITI.DDD.Application;
 using ITI.DDD.Core;
 using ITI.DDD.Core.Util;
 using ITI.DDD.Domain.DomainEvents;
@@ -12,10 +13,11 @@ using TestApp.DataContext.DataModel;
 
 namespace TestApp.DataContext
 {
-    public class AppDataContext : BaseDataContext, IDataContext
+    public class AppDataContext : BaseDataContext, IDataContext, IAuditDataContext
     {
         public DbSet<DbCustomer>? Customers { get; set; }
         public DbSet<DbLtcPharmacy>? LtcPharmacies { get; set; }
+        public DbSet<AuditRecord>? AuditRecords { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,5 +7,6 @@ namespace ITI.DDD.Application
 {
     public interface IAuditor
     {
+        public void Process(DbContext context);
     }
 }

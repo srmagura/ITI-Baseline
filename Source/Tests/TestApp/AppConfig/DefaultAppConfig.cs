@@ -1,4 +1,5 @@
-﻿using ITI.DDD.Application;
+﻿using ITI.Baseline.Audit;
+using ITI.DDD.Application;
 using ITI.DDD.Auth;
 using ITI.DDD.Core;
 using ITI.DDD.Domain.DomainEvents;
@@ -11,6 +12,7 @@ using TestApp.Application;
 using TestApp.Application.Interfaces;
 using TestApp.Application.Interfaces.QueryInterfaces;
 using TestApp.Application.Interfaces.RepositoryInterfaces;
+using TestApp.DataContext;
 using TestApp.Queries;
 using TestApp.Repositories;
 using UnitTests.Mocks;
@@ -23,12 +25,16 @@ namespace TestApp.AppConfig
         {
             DDDAppConfig.AddRegistrations(ioc);
             DDDInfrastructureConfig.AddRegistrations(ioc);
+            BaselineAuditConfig.AddRegistrations(ioc);
+
             ioc.RegisterType<ILogWriter, ConsoleLogWriter>();
             
             DataMapConfig.RegisterMapper(ioc);
 
             ioc.RegisterType<IAuthContext, TestAppAuthContext>();
             ioc.RegisterType<IDomainEventAuthScopeResolver, DomainEventAuthScopeResolver>();
+
+            ioc.RegisterType<IAuditDataContext, AppDataContext>();
 
             ioc.RegisterType<ICustomerAppService, CustomerAppService>();
 

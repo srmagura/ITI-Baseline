@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>ITI.Baseline.Audit</AssemblyName>
+    <RootNamespace>ITI.Baseline.Audit</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\DDD\Application\Application.csproj" />
+    <ProjectReference Include="..\..\DDD\Core\Core.csproj" />
+  </ItemGroup>
+
+</Project>

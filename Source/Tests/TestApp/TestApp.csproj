@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ITI\Baseline\Audit\Audit.csproj" />
     <ProjectReference Include="..\..\ITI\Baseline\Util\Util.csproj" />
     <ProjectReference Include="..\..\ITI\Baseline\ValueObjects\ValueObjects.csproj" />
     <ProjectReference Include="..\..\ITI\DDD\Application\Application.csproj" />
