@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ITI\Baseline\Util\Util.csproj" />
-    <ProjectReference Include="..\ITI\DDD\Domain\Domain.csproj" />
+    <ProjectReference Include="..\..\DDD\Domain\Domain.csproj" />
+    <ProjectReference Include="..\Util\Util.csproj" />
   </ItemGroup>
 
 </Project>
