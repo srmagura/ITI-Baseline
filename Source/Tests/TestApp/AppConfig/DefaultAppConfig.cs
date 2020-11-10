@@ -33,6 +33,7 @@ namespace TestApp.AppConfig
 
             ioc.RegisterType<IAuthContext, TestAppAuthContext>();
             ioc.RegisterType<IDomainEventAuthScopeResolver, DomainEventAuthScopeResolver>();
+            ioc.RegisterType<IAuditAppPermissions, AppPermissions>();
 
             ioc.RegisterType<IAuditDataContext, AppDataContext>();
 

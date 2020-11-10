@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.EquivalencyExpression;
+using ITI.Baseline.Audit;
 using ITI.Baseline.Util;
 using ITI.Baseline.ValueObjects;
 using ITI.DDD.Core;
@@ -23,6 +24,8 @@ namespace TestApp.AppConfig
                 BaseConfig(cfg);
 
                 ConfigureValueObjects(cfg);
+                ConfigureAudit(cfg);
+
                 ConfigureCustomer(cfg);
             });
 
@@ -42,6 +45,11 @@ namespace TestApp.AppConfig
          
             cfg.CreateMap<PhoneNumber, PhoneNumberDto>()
                 .ReverseMap();
+        }
+
+        private static void ConfigureAudit(IMapperConfigurationExpression cfg)
+        {
+            cfg.CreateMap<AuditRecord, AuditRecordDto>();
         }
 
         private static void ConfigureCustomer(IMapperConfigurationExpression cfg)

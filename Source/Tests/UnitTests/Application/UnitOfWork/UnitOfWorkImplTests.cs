@@ -27,10 +27,10 @@ namespace UnitTests.Application.UnitOfWork
         [TestMethod]
         public void SetsCurrentUnitOfWork()
         {
-            var lifetimeScope = new IOC().BeginLifetimeScope();
             var domainEvents = Substitute.For<IDomainEvents>();
             var mapper = Substitute.For<IMapper>();
-            var uow = new UnitOfWorkImpl(lifetimeScope, domainEvents, mapper);
+            var auditor = Substitute.For<IAuditor>();
+            var uow = new UnitOfWorkImpl(domainEvents, mapper, auditor);
 
             Assert.IsNull(UnitOfWorkImpl.CurrentUnitOfWork);
             uow.Begin();
@@ -67,6 +67,7 @@ namespace UnitTests.Application.UnitOfWork
             ioc.RegisterInstance(Substitute.For<ILogger>());
             ioc.RegisterInstance(Substitute.For<IAuthContext>());
             ioc.RegisterInstance(Substitute.For<IMapper>());
+            ioc.RegisterInstance(Substitute.For<IAuditor>());
 
             var authScopeResolver = new DomainEventAuthScopeResolverMock(ioc);
             ioc.RegisterInstance<IDomainEventAuthScopeResolver>(authScopeResolver);

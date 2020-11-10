@@ -130,6 +130,7 @@ namespace UnitTests.Application
             ioc.RegisterInstance(Substitute.For<ILogger>());
             ioc.RegisterInstance(Substitute.For<IAuthContext>());
             ioc.RegisterInstance(Substitute.For<IMapper>());
+            ioc.RegisterInstance(Substitute.For<IAuditor>());
 
             return ioc.ResolveForTest<MyApplicationService>();
         }

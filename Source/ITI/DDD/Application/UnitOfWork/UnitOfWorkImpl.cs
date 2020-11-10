@@ -9,17 +9,19 @@ namespace ITI.DDD.Application.UnitOfWork
 {
     public class UnitOfWorkImpl : IUnitOfWork
     {
-        private readonly ILifetimeScope _scope;
         private readonly IDomainEvents _domainEvents;
         private readonly IMapper _mapper;
+        private readonly IAuditor _auditor;
 
-        private Guid Guid = Guid.NewGuid();//nocommit
-
-        public UnitOfWorkImpl(ILifetimeScope scope, IDomainEvents domainEvents, IMapper mapper)
+        public UnitOfWorkImpl(
+            IDomainEvents domainEvents,
+            IMapper mapper,
+            IAuditor auditor
+        )
         {
-            _scope = scope;
             _domainEvents = domainEvents;
             _mapper = mapper;
+            _auditor = auditor;
         }
 
         internal static IUnitOfWork? CurrentUnitOfWork { get; private set; }
@@ -46,10 +48,8 @@ namespace ITI.DDD.Application.UnitOfWork
                 }
 
                 var inst = new TParticipant();
-                //var auditor = _scope.Resolve<IAuditor>();
-                // TODO:SAM AUDITING
-                //inst.Initialize(auditor);
-                inst.Initialize(_mapper, null);
+
+                inst.Initialize(_mapper, _auditor);
 
                 _participants.Add(type, inst);
                 return inst;
