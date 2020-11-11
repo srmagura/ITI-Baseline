@@ -7,6 +7,7 @@ using ITI.DDD.Auth;
 using ITI.DDD.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Newtonsoft.Json;
 
 namespace ITI.Baseline.Audit
 {
@@ -23,7 +24,7 @@ namespace ITI.Baseline.Audit
 
         public void Process(DbContext context)
         {
-            if (!(context is IAuditDataContext auditDataContext)) 
+            if (!(context is IAuditDataContext auditDataContext))
                 return;
 
             try
@@ -61,8 +62,7 @@ namespace ITI.Baseline.Audit
                         //    continue;
 
                         var changeType = entry.State.ToString();
-                        var changes = "";
-                        //var changes = GetChangeDetails(auditEntity.AuditEntityName, entry);
+                        var changes = GetChangeDetails(auditEntity.AuditEntityName, entry);
 
                         var aggregateName = auditEntity.AuditEntityName;
                         var aggregateId = auditEntity.AuditEntityId;
@@ -78,18 +78,18 @@ namespace ITI.Baseline.Audit
 
                         //if (ShouldAudit(changes))
                         //{
-                            var audit = new AuditRecord(
-                                _auth?.UserId, 
-                                _auth?.UserName,
-                                aggregateName, 
-                                aggregateId,
-                                auditEntity.AuditEntityName, 
-                                auditEntity.AuditEntityId,
-                                changeType, 
-                                changes
-                            );
+                        var audit = new AuditRecord(
+                            _auth?.UserId,
+                            _auth?.UserName,
+                            aggregateName,
+                            aggregateId,
+                            auditEntity.AuditEntityName,
+                            auditEntity.AuditEntityId,
+                            changeType,
+                            changes
+                        );
 
-                            list.Add(audit);
+                        list.Add(audit);
                         //}
                     }
                 }
@@ -100,6 +100,119 @@ namespace ITI.Baseline.Audit
             }
 
             return list;
+        }
+
+        private string GetChangeDetails(string entityName, EntityEntry entry)
+        {
+            var state = entry.State;
+
+            if (entry.Entity is IDbAuditedChild child)
+            {
+                if (!child.HasParent)
+                    state = EntityState.Deleted;
+            }
+
+            //
+
+            var fromValues = entry.OriginalValues;
+            var toValues = entry.CurrentValues;
+
+            if (state == EntityState.Added || state == EntityState.Deleted)
+                toValues = null;
+
+            var auditProperties = GetAuditProperties(entityName, state, "", fromValues, toValues);
+
+            ////
+
+            //foreach (var rf in entry.References)
+            //{
+            //    if (rf?.TargetEntry?.Entity is IValueObject)
+            //    {
+            //        AddValueObject(entityName, rf, auditProperties);
+            //    }
+            //}
+
+            return auditProperties.ToJson(Formatting.None);
+        }
+
+        private List<AuditPropertyDto> GetAuditProperties(
+            string entityName,
+            EntityState state,
+            string prefix,
+            PropertyValues fromValues,
+            PropertyValues toValues
+        )
+        {
+            var auditProperties = new List<AuditPropertyDto>();
+
+            foreach (var prop in fromValues.Properties)
+            {
+                if (prop.IsShadowProperty())
+                    continue;
+
+                var fieldName = prop.Name;
+                var fromValue = fromValues[fieldName];
+                var toValue = toValues?[fieldName];
+
+                var changeInfo = GetAuditProperty(entityName, state, $"{prefix}.{fieldName}", fromValue, toValue);
+                if (changeInfo != null)
+                    auditProperties.Add(changeInfo);
+            }
+
+            return auditProperties;
+        }
+
+        private AuditPropertyDto GetAuditProperty(string entityName, EntityState state, string fieldName, object fromValue, object toValue)
+        {
+            if (CompareValues(fromValue, toValue))
+                return null;
+
+            //entityName = entityName.ToLowerInvariant();
+
+            //if (IgnoredFields.ContainsKey(entityName))
+            //{
+            //    var ignoredFields = IgnoredFields[entityName];
+            //    var fn = fieldName.ToLower();
+            //    while (fn.StartsWith("."))
+            //        fn = fn.Substring(1);
+            //    if (ignoredFields.Any(p => p == fn))
+            //    {
+            //        return null;
+            //    }
+            //}
+
+            //if (MaskedFields.ContainsKey(en))
+            //{
+            //    var maskedFields = MaskedFields[en];
+            //    var fn = fieldName.ToLower();
+            //    while (fn.StartsWith("."))
+            //        fn = fn.Substring(1);
+            //    if (maskedFields.Any(p => p == fn))
+            //    {
+            //        if (fromValue != null)
+            //            fromValue = "(hidden)";
+            //        if (toValue != null)
+            //            toValue = "(hidden)";
+            //    }
+            //}
+
+            return new AuditPropertyDto(fieldName, fromValue?.ToString(), toValue?.ToString());
+        }
+
+        private bool CompareValues(object a, object b)
+        {
+            if (a == null && b == null)
+                return true;
+
+            if (a == null || b == null)
+                return false;
+
+            if (a is decimal d1 && b is decimal d2)
+            {
+                return d1 == d2;
+            }
+
+            return a.ToString() == b.ToString();
         }
     }
 }
