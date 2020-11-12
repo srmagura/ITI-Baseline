@@ -1,6 +1,7 @@
 ﻿using IntegrationTests.Harness;
 using ITI.Baseline.Audit;
 using ITI.DDD.Core;
+using ITI.DDD.Core.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using System;
@@ -56,10 +57,10 @@ namespace IntegrationTests
         public void Add()
         {
             var customerSvc = _ioc!.ResolveForTest<ICustomerAppService>();
-            var auditAppSvc = _ioc!.ResolveForTest<IAuditAppService>();
+            var auditSvc = _ioc!.ResolveForTest<IAuditAppService>();
 
             var customerId = AddCustomer(customerSvc);
-            var auditRecords = auditAppSvc.List("Customer", customerId.ToString(), 0, 1000);
+            var auditRecords = auditSvc.List("Customer", customerId.ToString(), 0, 1000);
             
             var auditRecord = auditRecords.Single(r => r.Entity == "Customer");
             Assert.AreEqual(new TestAppAuthContext().UserId, auditRecord.UserId);
@@ -95,6 +96,39 @@ namespace IntegrationTests
 
             var ltcAddedRecords = auditRecords.Where(r => r.Entity == "LtcPharmacy" && r.Event == "Added");
             Assert.AreEqual(2, ltcAddedRecords.Count());
+
+            foreach(var ltcAddedRecord in ltcAddedRecords)
+            {
+                changes = JsonConvert.DeserializeObject<List<AuditPropertyDto>>(auditRecord.Changes);
+                Assert.IsNotNull(
+                    changes.SingleOrDefault(p => p.Name == "Name" && p.From == null && p.To.HasValue())
+                );
+            }
+        }
+
+        [TestMethod]
+        public void SetContact()
+        {
+            var customerSvc = _ioc!.ResolveForTest<ICustomerAppService>();
+            var auditSvc = _ioc!.ResolveForTest<IAuditAppService>();
+
+            var customerId = AddCustomer(customerSvc);
+            var customer = customerSvc.Get(customerId);
+            customerSvc.SetContact(
+                customerId,
+                new PersonNameDto { First = "Sam", Last = "Magura" },
+                new PhoneNumberDto { Value = "19195551111" }
+            );
+
+            var auditRecords = auditSvc.List("Customer", customerId.ToString(), 0, 1000);
+            var auditRecord = auditRecords.Single(r => r.Entity == "Customer");
+            
+            Assert.AreEqual(new TestAppAuthContext().UserId, auditRecord.UserId);
+            Assert.AreEqual(new TestAppAuthContext().UserName, auditRecord.UserName);
+            Assert.AreEqual("Customer", auditRecord.Aggregate);
+            Assert.AreEqual(customerId.ToString(), auditRecord.AggregateId);
+            Assert.AreEqual("Customer", auditRecord.Entity);
+            Assert.AreEqual("Modified", auditRecord.Event);
         }
     }
 }
