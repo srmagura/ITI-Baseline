@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using ITI.DDD.Core.Util;
 using ITI.DDD.Domain.ValueObjects;
@@ -8,6 +9,7 @@ namespace TestApp.Domain.ValueObjects
 {
     public class SimpleAddress : ValueObject
     {
+        [Obsolete("AutoMapper use only")]
         protected SimpleAddress() { }
 
         public SimpleAddress(string line1, string? line2, string city, string state, string zip)

@@ -20,7 +20,7 @@ namespace ITI.DDD.Core.Util
                 : s.Substring(0, maxLength);
         }
 
-        public static bool HasValue(this string s)
+        public static bool HasValue(this string? s)
         {
             return !string.IsNullOrWhiteSpace(s);
         }

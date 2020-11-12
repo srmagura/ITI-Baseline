@@ -71,11 +71,27 @@ namespace IntegrationTests
 
             var changes = JsonConvert.DeserializeObject<List<AuditPropertyDto>>(auditRecord.Changes);
             Assert.IsNotNull(
-                changes.SingleOrDefault(p => p.Name =="Name" && p.To == "" && p.From == "myCustomer")
+                changes.SingleOrDefault(p => p.Name =="Name" && p.From == null && p.To == "myCustomer")
             );
             Assert.IsNotNull(
-                changes.SingleOrDefault(p => p.Name == "SomeInts" && p.To == "" && p.From == "[1, 2]")
+                changes.SingleOrDefault(p => p.Name == "SomeInts" && p.From == null && p.To == "[1,2]")
             );
+            Assert.IsNotNull(
+                changes.SingleOrDefault(p => p.Name == "Address.Line1" && p.From == null && p.To == "line1")
+            );
+            Assert.IsNotNull(
+                changes.SingleOrDefault(p => p.Name == "Address.Line2" && p.From == null && p.To == "line2")
+            );
+            Assert.IsNotNull(
+                changes.SingleOrDefault(p => p.Name == "Address.City" && p.From == null && p.To == "city")
+            );
+            Assert.IsNotNull(
+                changes.SingleOrDefault(p => p.Name == "Address.State" && p.From == null && p.To == "NC")
+            );
+            Assert.IsNotNull(
+                changes.SingleOrDefault(p => p.Name == "Address.Zip" && p.From == null && p.To == "12345")
+            );
+            Assert.IsNull(changes.FirstOrDefault(p => p.Name == "Address.HasValue"));
 
             var ltcAddedRecords = auditRecords.Where(r => r.Entity == "LtcPharmacy" && r.Event == "Added");
             Assert.AreEqual(2, ltcAddedRecords.Count());

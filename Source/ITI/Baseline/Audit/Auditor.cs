@@ -4,6 +4,7 @@ using System.Linq;
 using ITI.Baseline.Util;
 using ITI.DDD.Application;
 using ITI.DDD.Auth;
+using ITI.DDD.Domain.ValueObjects;
 using ITI.DDD.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -33,12 +34,12 @@ namespace ITI.Baseline.Audit
 
                 if (auditRecords.HasItems())
                 {
-                    auditDataContext.AuditRecords.AddRange(auditRecords);
+                    auditDataContext.AuditRecords!.AddRange(auditRecords);
                 }
             }
             catch (Exception exc)
             {
-                // eat exception!
+                // eat exception
                 _logger?.Error("Could not process audit", exc);
             }
         }
@@ -124,15 +125,29 @@ namespace ITI.Baseline.Audit
 
             ////
 
-            //foreach (var rf in entry.References)
-            //{
-            //    if (rf?.TargetEntry?.Entity is IValueObject)
-            //    {
-            //        AddValueObject(entityName, rf, auditProperties);
-            //    }
-            //}
+            foreach (var reference in entry.References)
+            {
+                if (reference?.TargetEntry?.Entity is ValueObject)
+                {
+                    var valueObjectProps = GetValueObjectAuditProperties(entityName, reference);
+                    auditProperties.AddRange(valueObjectProps);
+                }
+            }
 
             return auditProperties.ToJson(Formatting.None);
+        }
+
+        private List<AuditPropertyDto> GetValueObjectAuditProperties(string entityName, ReferenceEntry reference)
+        {
+            var state = reference.TargetEntry.State;
+
+            var fromValues = reference.TargetEntry.OriginalValues;
+            var toValues = reference.TargetEntry.CurrentValues;
+
+            if (state == EntityState.Added || state == EntityState.Deleted)
+                toValues = null;
+
+            return GetAuditProperties(entityName, state, reference.Metadata.Name, fromValues, toValues);
         }
 
         private List<AuditPropertyDto> GetAuditProperties(
@@ -140,7 +155,7 @@ namespace ITI.Baseline.Audit
             EntityState state,
             string prefix,
             PropertyValues fromValues,
-            PropertyValues toValues
+            PropertyValues? toValues
         )
         {
             var auditProperties = new List<AuditPropertyDto>();
@@ -150,9 +165,19 @@ namespace ITI.Baseline.Audit
                 if (prop.IsShadowProperty())
                     continue;
 
+                if (prop.Name == "HasValue")
+                    continue;
+
                 var fieldName = prop.Name;
                 var fromValue = fromValues[fieldName];
                 var toValue = toValues?[fieldName];
+
+                if(state == EntityState.Added)
+                {
+                    var tmp = fromValue;
+                    fromValue = toValue;
+                    toValue = tmp;
+                }
 
                 var changeInfo = GetAuditProperty(entityName, state, $"{prefix}.{fieldName}", fromValue, toValue);
                 if (changeInfo != null)
@@ -162,7 +187,7 @@ namespace ITI.Baseline.Audit
             return auditProperties;
         }
 
-        private AuditPropertyDto GetAuditProperty(string entityName, EntityState state, string fieldName, object fromValue, object toValue)
+        private AuditPropertyDto? GetAuditProperty(string entityName, EntityState state, string fieldName, object fromValue, object toValue)
         {
             if (CompareValues(fromValue, toValue))
                 return null;

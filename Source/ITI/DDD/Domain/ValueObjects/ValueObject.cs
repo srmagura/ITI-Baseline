@@ -10,7 +10,7 @@ namespace ITI.DDD.Domain.ValueObjects
     [Owned]
     public abstract class ValueObject : IEquatable<ValueObject>
     {
-        public bool? HasValue { get; protected set; } = true;   // EF CORE
+        public bool? HasValue { get; protected set; } = true;
 
         protected abstract IEnumerable<object?> GetAtomicValues();
 

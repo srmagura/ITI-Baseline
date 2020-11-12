@@ -2,9 +2,7 @@
 {
     public class AuditPropertyDto
     {
-        public AuditPropertyDto() { }
-
-        public AuditPropertyDto(string name, string from, string to)
+        public AuditPropertyDto(string name, string? from, string? to)
         {
             Name = name;
             From = from;
@@ -15,7 +13,7 @@
         }
 
         public string Name { get; set; }
-        public string From { get; set; }
-        public string To { get; set; }
+        public string? From { get; set; }
+        public string? To { get; set; }
     }
 }

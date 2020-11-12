@@ -10,8 +10,8 @@ namespace ITI.Baseline.Audit
         protected AuditRecord() { }
 
         public AuditRecord(
-            string userId, 
-            string userName, 
+            string? userId, 
+            string? userName, 
             string aggregate, 
             string aggregateId, 
             string entity, 
@@ -21,8 +21,8 @@ namespace ITI.Baseline.Audit
         )
         {
             WhenUtc = DateTimeOffset.UtcNow;
-            UserId = userId.MaxLength(64);
-            UserName = userName.MaxLength(64);
+            UserId = userId?.MaxLength(64);
+            UserName = userName?.MaxLength(64);
             Aggregate = aggregate.MaxLength(64);
             AggregateId = aggregateId.MaxLength(64);
             Entity = entity.MaxLength(64);
@@ -38,10 +38,10 @@ namespace ITI.Baseline.Audit
         public DateTimeOffset WhenUtc { get; protected set; }
 
         [MaxLength(64)]
-        public string UserId { get; protected set; }
+        public string? UserId { get; protected set; }
 
         [MaxLength(64)]
-        public string UserName { get; protected set; }
+        public string? UserName { get; protected set; }
 
         [MaxLength(64)]
         public string Aggregate { get; protected set; }
