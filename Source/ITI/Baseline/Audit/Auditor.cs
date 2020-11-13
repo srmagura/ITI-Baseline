@@ -62,11 +62,10 @@ namespace ITI.Baseline.Audit
                         if (entry.State == EntityState.Detached)
                             continue;
 
-                        // TODO:SAM what is this used for?
-                        //if (entry.State == EntityState.Unchanged && !HasReferenceChanges(entry))
-                        //    continue;
+                        var changeType = entry.State == EntityState.Unchanged
+                            ? EntityState.Modified.ToString()
+                            : entry.State.ToString();
 
-                        var changeType = entry.State.ToString();
                         var changes = GetChangeDetails(auditEntity.AuditEntityName, entry);
 
                         var aggregateName = auditEntity.AuditEntityName;

@@ -37,12 +37,15 @@ namespace TestApp.AppConfig
 
         private static void ConfigureValueObjects(IMapperConfigurationExpression cfg)
         {
+            cfg.CreateMap<SimpleAddress, SimpleAddress>();
             cfg.CreateMap<SimpleAddress, AddressDto>()
                 .ReverseMap();
-            
+
+            cfg.CreateMap<SimplePersonName, SimplePersonName>();
             cfg.CreateMap<SimplePersonName, PersonNameDto>()
                 .ReverseMap();
-         
+
+            cfg.CreateMap<PhoneNumber, PhoneNumber>();
             cfg.CreateMap<PhoneNumber, PhoneNumberDto>()
                 .ReverseMap();
         }
