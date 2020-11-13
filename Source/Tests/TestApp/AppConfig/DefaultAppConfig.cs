@@ -27,6 +27,7 @@ namespace TestApp.AppConfig
             DDDInfrastructureConfig.AddRegistrations(ioc);
             BaselineAuditConfig.AddRegistrations(ioc);
 
+            ioc.RegisterType<IAuditFieldConfiguration, AuditFieldConfiguration>();
             ioc.RegisterType<ILogWriter, ConsoleLogWriter>();
             
             DataMapConfig.RegisterMapper(ioc);

@@ -4,6 +4,7 @@ using System.Linq;
 using ITI.Baseline.Util;
 using ITI.DDD.Application;
 using ITI.DDD.Auth;
+using ITI.DDD.Core.Util;
 using ITI.DDD.Domain.ValueObjects;
 using ITI.DDD.Logging;
 using Microsoft.EntityFrameworkCore;
@@ -16,11 +17,13 @@ namespace ITI.Baseline.Audit
     {
         private readonly ILogger _logger;
         private readonly IAuthContext _auth;
+        private readonly IAuditFieldConfiguration _auditFieldConfiguration;
 
-        public Auditor(ILogger logger, IAuthContext auth)
+        public Auditor(ILogger logger, IAuthContext auth, IAuditFieldConfiguration auditFieldConfiguration)
         {
             _logger = logger;
             _auth = auth;
+            _auditFieldConfiguration = auditFieldConfiguration;
         }
 
         public void Process(DbContext context)
@@ -192,34 +195,36 @@ namespace ITI.Baseline.Audit
             if (CompareValues(fromValue, toValue))
                 return null;
 
-            //entityName = entityName.ToLowerInvariant();
+            if (_auditFieldConfiguration.IgnoredFields.ContainsKey(entityName))
+            {
+                var ignoredFields = _auditFieldConfiguration.IgnoredFields[entityName];
 
-            //if (IgnoredFields.ContainsKey(entityName))
-            //{
-            //    var ignoredFields = IgnoredFields[entityName];
-            //    var fn = fieldName.ToLower();
-            //    while (fn.StartsWith("."))
-            //        fn = fn.Substring(1);
-            //    if (ignoredFields.Any(p => p == fn))
-            //    {
-            //        return null;
-            //    }
-            //}
+                var fn = fieldName;
+                while (fn.StartsWith("."))
+                    fn = fn.Substring(1);
 
-            //if (MaskedFields.ContainsKey(en))
-            //{
-            //    var maskedFields = MaskedFields[en];
-            //    var fn = fieldName.ToLower();
-            //    while (fn.StartsWith("."))
-            //        fn = fn.Substring(1);
-            //    if (maskedFields.Any(p => p == fn))
-            //    {
-            //        if (fromValue != null)
-            //            fromValue = "(hidden)";
-            //        if (toValue != null)
-            //            toValue = "(hidden)";
-            //    }
-            //}
+                if (ignoredFields.Any(p => p == fn))
+                {
+                    return null;
+                }
+            }
+
+            if (_auditFieldConfiguration.MaskedFields.ContainsKey(entityName))
+            {
+                var maskedFields = _auditFieldConfiguration.MaskedFields[entityName];
+
+                var fn = fieldName;
+                while (fn.StartsWith("."))
+                    fn = fn.Substring(1);
+
+                if (maskedFields.Any(p => p == fn))
+                {
+                    if (fromValue != null)
+                        fromValue = "(hidden)";
+                    if (toValue != null)
+                        toValue = "(hidden)";
+                }
+            }
 
             return new AuditPropertyDto(fieldName, fromValue?.ToString(), toValue?.ToString());
         }

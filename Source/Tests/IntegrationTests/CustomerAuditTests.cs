@@ -100,6 +100,9 @@ namespace IntegrationTests
                 changes.SingleOrDefault(p => p.Name == "Address.Zip" && p.From == null && p.To == "12345")
             );
             Assert.IsNull(changes.FirstOrDefault(p => p.Name == "Address.HasValue"));
+            Assert.IsNotNull(
+                changes.SingleOrDefault(c => c.Name == nameof(Customer.SomeMoney) && c.From == null && c.To == "(hidden)")
+            );
             AssertDoesNotIncludeIgnoredFields(changes);
 
             var ltcAddedRecords = auditRecords.Where(r => r.Entity == "LtcPharmacy" && r.Event == "Added");
@@ -141,6 +144,10 @@ namespace IntegrationTests
                 changes.SingleOrDefault(p => p.Name == "Name" && p.From == "Pruitt" && p.To == "Pruitt2")
             );
             AssertDoesNotIncludeIgnoredFields(changes);
+
+            // Aggergate audit records should not include modified events for children
+            var customerAuditRecords = auditSvc.List("Customer", customerId.ToString(), 0, 1000);
+            Assert.AreEqual(0, customerAuditRecords.Count(r => r.Entity == "LtcPharmacy" && r.Event == "Modified"));
         }
 
         [TestMethod]
@@ -223,6 +230,9 @@ namespace IntegrationTests
                 changes.SingleOrDefault(p => p.Name == "Address.Zip" && p.From == "12345" && p.To == null)
             );
             Assert.IsNull(changes.FirstOrDefault(p => p.Name == "Address.HasValue"));
+            Assert.IsNotNull(
+                changes.SingleOrDefault(c => c.Name == nameof(Customer.SomeMoney) && c.From == "(hidden)" && c.To == null)
+            );
             AssertDoesNotIncludeIgnoredFields(changes);
         }
     }
