@@ -55,6 +55,11 @@ namespace IntegrationTests
             return customerId;
         }
 
+        private void AssertDoesNotIncludeIgnoredFields(List<AuditPropertyDto> changes)
+        {
+            Assert.IsNull(changes.FirstOrDefault(c => c.Name == nameof(Customer.SomeNumber)));
+        }
+
         [TestMethod]
         public void Add()
         {
@@ -95,6 +100,7 @@ namespace IntegrationTests
                 changes.SingleOrDefault(p => p.Name == "Address.Zip" && p.From == null && p.To == "12345")
             );
             Assert.IsNull(changes.FirstOrDefault(p => p.Name == "Address.HasValue"));
+            AssertDoesNotIncludeIgnoredFields(changes);
 
             var ltcAddedRecords = auditRecords.Where(r => r.Entity == "LtcPharmacy" && r.Event == "Added");
             Assert.AreEqual(2, ltcAddedRecords.Count());
@@ -134,6 +140,7 @@ namespace IntegrationTests
             Assert.IsNotNull(
                 changes.SingleOrDefault(p => p.Name == "Name" && p.From == "Pruitt" && p.To == "Pruitt2")
             );
+            AssertDoesNotIncludeIgnoredFields(changes);
         }
 
         [TestMethod]
@@ -216,6 +223,7 @@ namespace IntegrationTests
                 changes.SingleOrDefault(p => p.Name == "Address.Zip" && p.From == "12345" && p.To == null)
             );
             Assert.IsNull(changes.FirstOrDefault(p => p.Name == "Address.HasValue"));
+            AssertDoesNotIncludeIgnoredFields(changes);
         }
     }
 }
