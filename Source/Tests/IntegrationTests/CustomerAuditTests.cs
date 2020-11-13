@@ -1,5 +1,6 @@
 ﻿using IntegrationTests.Harness;
 using ITI.Baseline.Audit;
+using ITI.DDD.Application.UnitOfWork;
 using ITI.DDD.Core;
 using ITI.DDD.Core.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -11,6 +12,7 @@ using System.Text;
 using TestApp.AppConfig;
 using TestApp.Application.Dto;
 using TestApp.Application.Interfaces;
+using TestApp.Application.Interfaces.RepositoryInterfaces;
 using TestApp.DataContext;
 using TestApp.Domain;
 
@@ -234,6 +236,32 @@ namespace IntegrationTests
                 changes.SingleOrDefault(c => c.Name == nameof(Customer.SomeMoney) && c.From == "(hidden)" && c.To == null)
             );
             AssertDoesNotIncludeIgnoredFields(changes);
+        }
+
+        [TestMethod]
+        public void DoesNotAddRecordIfNothingChanged()
+        {
+            var uow = _ioc!.ResolveForTest<IUnitOfWork>();
+            var customerRepo = _ioc!.ResolveForTest<ICustomerRepository>();
+            var customerSvc = _ioc!.ResolveForTest<ICustomerAppService>();
+            var auditSvc = _ioc!.ResolveForTest<IAuditAppService>();
+
+            var customerId = AddCustomer(customerSvc);
+
+            using(var scope = uow.Begin())
+            {
+                customerRepo.Get(new CustomerId(customerId));
+                scope.Commit();
+            };
+
+            var auditRecords = auditSvc.List("Customer", customerId.ToString(), 0, 1000);
+            Assert.IsNotNull(
+                auditRecords.SingleOrDefault(r => r.Entity == "Customer" && r.Event == "Added")
+            );
+            Assert.AreEqual(
+                1,
+                auditRecords.Count(r => r.Entity == "Customer")
+            );
         }
     }
 }

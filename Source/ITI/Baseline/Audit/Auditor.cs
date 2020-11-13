@@ -62,6 +62,7 @@ namespace ITI.Baseline.Audit
                         if (entry.State == EntityState.Detached)
                             continue;
 
+                        // TODO:SAM what is this used for?
                         //if (entry.State == EntityState.Unchanged && !HasReferenceChanges(entry))
                         //    continue;
 
@@ -80,21 +81,21 @@ namespace ITI.Baseline.Audit
                                 changeType = EntityState.Deleted.ToString();
                         }
 
-                        //if (ShouldAudit(changes))
-                        //{
-                        var audit = new AuditRecord(
-                            _auth?.UserId,
-                            _auth?.UserName,
-                            aggregateName,
-                            aggregateId,
-                            auditEntity.AuditEntityName,
-                            auditEntity.AuditEntityId,
-                            changeType,
-                            changes
-                        );
+                        if (changes.HasValue() && changes != "[]")
+                        {
+                            var audit = new AuditRecord(
+                                _auth?.UserId,
+                                _auth?.UserName,
+                                aggregateName,
+                                aggregateId,
+                                auditEntity.AuditEntityName,
+                                auditEntity.AuditEntityId,
+                                changeType,
+                                changes
+                            );
 
-                        list.Add(audit);
-                        //}
+                            list.Add(audit);
+                        }
                     }
                 }
                 catch (Exception exc)
@@ -126,7 +127,7 @@ namespace ITI.Baseline.Audit
 
             var auditProperties = GetAuditProperties(entityName, state, "", fromValues, toValues);
 
-            ////
+            //
 
             foreach (var reference in entry.References)
             {
@@ -175,7 +176,7 @@ namespace ITI.Baseline.Audit
                 var fromValue = fromValues[fieldName];
                 var toValue = toValues?[fieldName];
 
-                if(state == EntityState.Added)
+                if (state == EntityState.Added)
                 {
                     var tmp = fromValue;
                     fromValue = toValue;
