@@ -44,8 +44,9 @@ namespace ITI.Baseline.Audit
                                 )
                                 || (p.Aggregate == entityName
                                     && p.AggregateId == entityId
-                                    && p.AggregateId != p.EntityId)
-                                );
+                                    && p.AggregateId != p.EntityId
+                                    && (p.Event == "Added" || p.Event == "Deleted" || p.Event == "Removed")
+                                ));
 
                 var list = q
                     .OrderByDescending(p => p.WhenUtc)
