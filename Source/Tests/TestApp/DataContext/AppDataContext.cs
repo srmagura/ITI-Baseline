@@ -5,6 +5,7 @@ using ITI.DDD.Core.Util;
 using ITI.DDD.Domain.DomainEvents;
 using ITI.DDD.Infrastructure.DataContext;
 using Microsoft.EntityFrameworkCore;
+using RequestTrace;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -18,6 +19,9 @@ namespace TestApp.DataContext
         public DbSet<DbCustomer>? Customers { get; set; }
         public DbSet<DbLtcPharmacy>? LtcPharmacies { get; set; }
         public DbSet<AuditRecord>? AuditRecords { get; set; }
+
+        public DbSet<DbRequestTrace>? IncomingGoogleRequests { get; set; }
+        public DbSet<DbRequestTrace>? OutgoingGoogleRequests { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
