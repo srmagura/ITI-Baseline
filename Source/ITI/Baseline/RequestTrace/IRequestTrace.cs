@@ -4,16 +4,16 @@ using System.Text;
 
 namespace RequestTrace
 {
-    interface IRequestTrace
+    public interface IRequestTrace
     {
         void WriteTrace(
-            string externalServiceName, 
+            string service, 
             RequestTraceDirection direction,
             DateTimeOffset dateBeginUtc, 
             string url, 
             string request, 
             string response, 
-            Exception exc = null
+            Exception? exc = null
         );
     }
 }

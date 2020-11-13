@@ -5,17 +5,17 @@ namespace RequestTrace
     public class ConsoleRequestTrace : IRequestTrace
     {
         public void WriteTrace(
-            string externalServiceName,
+            string service,
             RequestTraceDirection direction,
             DateTimeOffset dateBeginUtc,
             string url,
             string request,
             string response,
-            Exception exc = null
+            Exception? exc
         )
         {
             Console.WriteLine("-----------------------------------------");
-            Console.WriteLine($"SERVICE : {externalServiceName}");
+            Console.WriteLine($"SERVICE : {service}");
             Console.WriteLine($"DIR     : {direction}");
             Console.WriteLine($"BEGIN   : {dateBeginUtc}");
             Console.WriteLine($"END     : {DateTimeOffset.UtcNow}");

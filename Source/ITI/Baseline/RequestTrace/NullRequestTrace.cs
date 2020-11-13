@@ -7,13 +7,13 @@ namespace RequestTrace
     public class NullRequestTrace : IRequestTrace
     {
         public void WriteTrace(
-            string externalServiceName, 
+            string service, 
             RequestTraceDirection direction, 
             DateTimeOffset dateBeginUtc, 
             string url, 
             string request, 
             string response, 
-            Exception exc = null
+            Exception? exc
         )
         {
             // do nothing

@@ -18,10 +18,9 @@ namespace TestApp.DataContext
     {
         public DbSet<DbCustomer>? Customers { get; set; }
         public DbSet<DbLtcPharmacy>? LtcPharmacies { get; set; }
+        
         public DbSet<AuditRecord>? AuditRecords { get; set; }
-
-        public DbSet<DbRequestTrace>? IncomingGoogleRequests { get; set; }
-        public DbSet<DbRequestTrace>? OutgoingGoogleRequests { get; set; }
+        public DbSet<DbRequestTrace>? RequestTraces { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -60,6 +59,12 @@ namespace TestApp.DataContext
                 context.Database.SetCommandTimeout(600);
                 context.Database.Migrate();
             }
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<DbRequestTrace>()
+                .HasIndex(t => new { t.Service, t.Direction });
         }
     }
 }
