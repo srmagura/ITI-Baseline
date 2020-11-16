@@ -3,7 +3,9 @@ using ITI.DDD.Application.UnitOfWork;
 using ITI.DDD.Core;
 using ITI.DDD.Domain.DomainEvents;
 using ITI.DDD.Infrastructure;
+using ITI.DDD.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using RequestTrace;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -22,7 +24,10 @@ namespace IntegrationTests.Harness
             var ioc = new IOC();
             DefaultAppConfig.AddRegistrations(ioc);
 
-            ioc.RegisterInstance(GetConnectionStrings(testContext));
+            var connectionStrings = GetConnectionStrings(testContext);
+            ioc.RegisterInstance(connectionStrings);
+            ioc.RegisterInstance<IDbLoggerSettings>(connectionStrings);
+            ioc.RegisterInstance<IDbRequestTraceSettings>(connectionStrings);
 
             return ioc;
         }

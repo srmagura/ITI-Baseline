@@ -3,24 +3,20 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Text;
 using Dapper;
-using ITI.DDD.Application.UnitOfWork;
-using ITI.DDD.Infrastructure;
-using ITI.DDD.Infrastructure.DataMapping;
 using ITI.DDD.Logging;
 using RequestTrace;
-using TestApp.DataContext;
 
 namespace TestApp.Infrastructure
 {
     public class DapperRequestTrace : IRequestTrace
     {
         private readonly ILogger _logger;
-        private readonly ConnectionStrings _connectionStrings;
+        private readonly IDbRequestTraceSettings _settings;
 
-        public DapperRequestTrace(ILogger logger, ConnectionStrings connectionStrings)
+        public DapperRequestTrace(ILogger logger, IDbRequestTraceSettings settings)
         {
             _logger = logger;
-            _connectionStrings = connectionStrings;
+            _settings = settings;
         }
 
         public void WriteTrace(
@@ -35,10 +31,10 @@ namespace TestApp.Infrastructure
         {
             try
             {
-                var trace = new DbRequestTrace(
+                var trace = new RequestTrace.DbRequestTrace(
                     service, 
                     direction, 
-                    dateBeginUtc, 
+                    dateBeginUtc,
                     DateTimeOffset.UtcNow, 
                     url, 
                     request, 
@@ -46,11 +42,11 @@ namespace TestApp.Infrastructure
                     exception
                 );
 
-                using (var connection = new SqlConnection(_connectionStrings.DefaultDataContext))
+                using (var connection = new SqlConnection(_settings.RequestTraceConnectionString))
                 {
                     connection.Open();
-                    var sqlStatement = @"
-INSERT INTO RequestTraces
+                    var sqlStatement = $@"
+INSERT INTO {_settings.RequestTraceTableName}
 VALUES (
 @Service,
 @Direction,
