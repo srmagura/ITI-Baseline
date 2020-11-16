@@ -26,7 +26,7 @@ namespace TestApp.Domain
             _someInts = someInts;
             SomeNumber = someNumber;
 
-            Raise(new CustomerAddedEvent(Id));
+            Raise(new CustomerAddedEvent(Id, Name));
         }
 
         //

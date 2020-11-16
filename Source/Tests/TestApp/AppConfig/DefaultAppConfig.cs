@@ -13,6 +13,8 @@ using TestApp.Application.Interfaces;
 using TestApp.Application.Interfaces.QueryInterfaces;
 using TestApp.Application.Interfaces.RepositoryInterfaces;
 using TestApp.DataContext;
+using TestApp.Domain.Events;
+using TestApp.Infrastructure;
 using TestApp.Queries;
 using TestApp.Repositories;
 using UnitTests.Mocks;
@@ -31,6 +33,8 @@ namespace TestApp.AppConfig
             ioc.RegisterType<ILogWriter, DbLogWriter>();
             
             DataMapConfig.RegisterMapper(ioc);
+
+            DomainEvents.Register<CustomerAddedEvent, CustomerAddedDomainEventHandler>();
 
             ioc.RegisterType<IAuthContext, TestAppAuthContext>();
             ioc.RegisterType<IDomainEventAuthScopeResolver, DomainEventAuthScopeResolver>();
