@@ -140,7 +140,7 @@ namespace ITI.Baseline.Audit
             return auditProperties.ToJson(Formatting.None);
         }
 
-        private List<AuditPropertyDto> GetValueObjectAuditProperties(string entityName, ReferenceEntry reference)
+        private List<AuditPropertyDto> GetValueObjectAuditProperties(string entityName, ReferenceEntry reference, string? prefix = null)
         {
             var state = reference.TargetEntry.State;
 
@@ -150,7 +150,15 @@ namespace ITI.Baseline.Audit
             if (state == EntityState.Added || state == EntityState.Deleted)
                 toValues = null;
 
-            return GetAuditProperties(entityName, state, reference.Metadata.Name, fromValues, toValues);
+            var auditProperties =  GetAuditProperties(entityName, state, prefix + "." + reference.Metadata.Name, fromValues, toValues);
+            
+            foreach(var childReference in reference.TargetEntry.References)
+            {
+                var childProps = GetValueObjectAuditProperties(entityName, childReference, prefix: reference.Metadata.Name);
+                auditProperties.AddRange(childProps);
+            }
+
+            return auditProperties;
         }
 
         private List<AuditPropertyDto> GetAuditProperties(
@@ -182,7 +190,7 @@ namespace ITI.Baseline.Audit
                     toValue = tmp;
                 }
 
-                var changeInfo = GetAuditProperty(entityName, state, $"{prefix}.{fieldName}", fromValue, toValue);
+                var changeInfo = GetAuditProperty(entityName, $"{prefix}.{fieldName}", fromValue, toValue);
                 if (changeInfo != null)
                     auditProperties.Add(changeInfo);
             }
@@ -190,7 +198,7 @@ namespace ITI.Baseline.Audit
             return auditProperties;
         }
 
-        private AuditPropertyDto? GetAuditProperty(string entityName, EntityState state, string fieldName, object fromValue, object toValue)
+        private AuditPropertyDto? GetAuditProperty(string entityName, string fieldName, object? fromValue, object? toValue)
         {
             if (CompareValues(fromValue, toValue))
                 return null;
@@ -229,7 +237,7 @@ namespace ITI.Baseline.Audit
             return new AuditPropertyDto(fieldName, fromValue?.ToString(), toValue?.ToString());
         }
 
-        private bool CompareValues(object a, object b)
+        private bool CompareValues(object? a, object? b)
         {
             if (a == null && b == null)
                 return true;

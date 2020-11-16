@@ -1,21 +1,19 @@
-using IntegrationTests.Harness;
+﻿using IntegrationTests.Harness;
 using ITI.Baseline.Audit;
-using ITI.Baseline.ValueObjects;
 using ITI.DDD.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using TestApp.Application;
+using System.Text;
 using TestApp.Application.Dto;
 using TestApp.Application.Interfaces;
-using TestApp.Domain.ValueObjects;
 
 namespace IntegrationTests
 {
     [TestClass]
-    public class FacilityAppServiceTests
+    public class FacilityAuditTests
     {
         private static TestContext? TestContext;
         private IOC? _ioc;
@@ -42,38 +40,10 @@ namespace IntegrationTests
         }
 
         [TestMethod]
-        public void SetContactNull()
+        public void ChangeContact()
         {
             var facilitySvc = _ioc!.ResolveForTest<IFacilityAppService>();
-
-            var facilityId = AddFacility(facilitySvc);
-            var facility = facilitySvc.Get(facilityId);
-
-            Assert.IsNotNull(facility);
-            Assert.AreEqual("myFacility", facility!.Name);
-            Assert.IsNull(facility.Contact);
-        }
-
-        [TestMethod]
-        public void SetContactNonNullButPropertiesNull()
-        {
-            var facilitySvc = _ioc!.ResolveForTest<IFacilityAppService>();
-
-            var facilityId = AddFacility(facilitySvc);
-            facilitySvc.SetContact(facilityId, new FacilityContactDto());
-
-            var facility = facilitySvc.Get(facilityId);
-
-            Assert.IsNotNull(facility);
-            Assert.IsNotNull(facility!.Contact);
-            Assert.IsNull(facility.Contact!.Name);
-            Assert.IsNull(facility.Contact!.Email);
-        }
-
-        [TestMethod]
-        public void SetContactNonNull()
-        {
-            var facilitySvc = _ioc!.ResolveForTest<IFacilityAppService>();
+            var auditSvc = _ioc!.ResolveForTest<IAuditAppService>();
 
             var facilityId = AddFacility(facilitySvc);
 
@@ -91,14 +61,34 @@ namespace IntegrationTests
                     }
                 }
             );
+            facilitySvc.SetContact(facilityId,
+                new FacilityContactDto
+                {
+                    Name = new PersonNameDto
+                    {
+                        First = "Sam",
+                        Last = "Magura"
+                    },
+                    Email = new EmailAddressDto
+                    {
+                        Value = "magura@example2.com"
+                    }
+                }
+            );
 
-            var facility = facilitySvc.Get(facilityId);
+            var auditRecords = auditSvc.List("Facility", facilityId.ToString(), 0, 1000);
+            var auditRecord = auditRecords.First();
+            var changes = JsonConvert.DeserializeObject<List<AuditPropertyDto>>(auditRecord.Changes);
 
-            Assert.IsNotNull(facility);
-            Assert.IsNotNull(facility!.Contact);
-            Assert.AreEqual("Kelly", facility.Contact!.Name?.First);
-            Assert.AreEqual("Campbell", facility.Contact!.Name?.Last);
-            Assert.AreEqual("campbell@example2.com", facility.Contact.Email?.Value);       
+            Assert.IsNotNull(
+                changes.SingleOrDefault(c => c.Name == "Contact.Name.First" && c.From == "Kelly" && c.To == "Sam")
+            );
+            Assert.IsNotNull(
+                changes.SingleOrDefault(c => c.Name == "Contact.Name.Last" && c.From == "Campbell" && c.To == "Magura")
+            );
+            Assert.IsNotNull(
+                changes.SingleOrDefault(c => c.Name == "Contact.Email.Value" && c.From == "campbell@example2.com" && c.To == "magura@example2.com")
+            );
         }
     }
 }

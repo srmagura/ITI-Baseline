@@ -92,6 +92,7 @@ namespace TestApp.AppConfig
         {
             MapIdentity<FacilityId>(cfg);
 
+            cfg.CreateMap<FacilityContact, FacilityContact>();
             cfg.CreateMap<FacilityContact, FacilityContactDto>()
                 .ReverseMap();
 
