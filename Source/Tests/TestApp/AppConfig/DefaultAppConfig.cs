@@ -28,7 +28,7 @@ namespace TestApp.AppConfig
             BaselineAuditConfig.AddRegistrations(ioc);
 
             ioc.RegisterType<IAuditFieldConfiguration, AuditFieldConfiguration>();
-            ioc.RegisterType<ILogWriter, ConsoleLogWriter>();
+            ioc.RegisterType<ILogWriter, DbLogWriter>();
             
             DataMapConfig.RegisterMapper(ioc);
 

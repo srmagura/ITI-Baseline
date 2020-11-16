@@ -4,6 +4,7 @@ using ITI.DDD.Core;
 using ITI.DDD.Core.Util;
 using ITI.DDD.Domain.DomainEvents;
 using ITI.DDD.Infrastructure.DataContext;
+using ITI.DDD.Logging;
 using Microsoft.EntityFrameworkCore;
 using RequestTrace;
 using System;
@@ -21,6 +22,7 @@ namespace TestApp.DataContext
         
         public DbSet<AuditRecord>? AuditRecords { get; set; }
         public DbSet<DbRequestTrace>? RequestTraces { get; set; }
+        public DbSet<LogEntry>? LogEntries { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -65,6 +67,8 @@ namespace TestApp.DataContext
         {
             modelBuilder.Entity<DbRequestTrace>()
                 .HasIndex(t => new { t.Service, t.Direction });
+
+            modelBuilder.Entity<LogEntry>().HasIndex(p => p.WhenUtc);
         }
     }
 }
