@@ -39,10 +39,13 @@ namespace TestApp.AppConfig
             ioc.RegisterType<IAuditDataContext, AppDataContext>();
 
             ioc.RegisterType<ICustomerAppService, CustomerAppService>();
+            ioc.RegisterType<IFacilityAppService, FacilityAppService>();
 
             ioc.RegisterType<ICustomerRepository, EfCustomerRepository>();
+            ioc.RegisterType<IFacilityRepository, EfFacilityRepository>();
 
             ioc.RegisterType<ICustomerQueries, EfCustomerQueries>();
+            ioc.RegisterType<IFacilityQueries, EfFacilityQueries>();
         }
     }
 }

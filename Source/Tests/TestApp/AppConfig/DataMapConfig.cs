@@ -27,6 +27,7 @@ namespace TestApp.AppConfig
                 ConfigureAudit(cfg);
 
                 ConfigureCustomer(cfg);
+                ConfigureFacility(cfg);
             });
 
             var mapper = new Mapper(config);
@@ -47,6 +48,10 @@ namespace TestApp.AppConfig
 
             cfg.CreateMap<PhoneNumber, PhoneNumber>();
             cfg.CreateMap<PhoneNumber, PhoneNumberDto>()
+                .ReverseMap();
+
+            cfg.CreateMap<EmailAddress, EmailAddress>();
+            cfg.CreateMap<EmailAddress, EmailAddressDto>()
                 .ReverseMap();
         }
 
@@ -81,6 +86,19 @@ namespace TestApp.AppConfig
 
             cfg.CreateMap<DbCustomer, CustomerDto>()
                 .ForMember(p => p.SomeInts, opt => opt.MapFrom(src => src.SomeInts.FromDbJson<List<int>>()));
+        }
+
+        private static void ConfigureFacility(IMapperConfigurationExpression cfg)
+        {
+            MapIdentity<FacilityId>(cfg);
+
+            cfg.CreateMap<FacilityContact, FacilityContactDto>()
+                .ReverseMap();
+
+            cfg.CreateMap<Facility, DbFacility>()
+                .ReverseMap();
+
+            cfg.CreateMap<DbFacility, FacilityDto>();
         }
     }
 }

@@ -19,6 +19,7 @@ namespace TestApp.DataContext
     {
         public DbSet<DbCustomer>? Customers { get; set; }
         public DbSet<DbLtcPharmacy>? LtcPharmacies { get; set; }
+        public DbSet<DbFacility>? Facilities { get; set; }
         
         public DbSet<AuditRecord>? AuditRecords { get; set; }
         public DbSet<DbRequestTrace>? RequestTraces { get; set; }
