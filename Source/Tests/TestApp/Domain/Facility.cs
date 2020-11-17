@@ -11,7 +11,7 @@ namespace TestApp.Domain
     // Test of nested value objects
     public class Facility : AggregateRoot
     {
-        [Obsolete("AutoMapper use only")]
+        [Obsolete("Persistence use only")]
         protected Facility() { }
 
         public FacilityId Id { get; set; } = new FacilityId();

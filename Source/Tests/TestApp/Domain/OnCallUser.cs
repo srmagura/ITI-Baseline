@@ -10,7 +10,7 @@ namespace TestApp.Domain
 {
     public class OnCallUser : User
     {
-        [Obsolete("AutoMapper use only")]
+        [Obsolete("Persistence use only")]
         protected OnCallUser() { }
 
         public OnCallUser(OnCallProviderId onCallProviderId, EmailAddress email)

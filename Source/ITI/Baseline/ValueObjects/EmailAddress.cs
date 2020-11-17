@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using ITI.Baseline.Util;
 using ITI.Baseline.Util.Validation;
@@ -8,6 +9,9 @@ namespace ITI.Baseline.ValueObjects
 {
     public class EmailAddress : ValueObject
     {
+        [Obsolete("Persistence user only")]
+        protected EmailAddress() { }
+
         public EmailAddress(string value)
         {
             Value = value.Trim();

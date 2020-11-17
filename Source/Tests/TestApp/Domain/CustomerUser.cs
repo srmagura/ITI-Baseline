@@ -10,7 +10,7 @@ namespace TestApp.Domain
 {
     public class CustomerUser : User
     {
-        [Obsolete("AutoMapper use only")]
+        [Obsolete("Persistence use only")]
         protected CustomerUser() { }
 
         public CustomerUser(CustomerId customerId, EmailAddress email)

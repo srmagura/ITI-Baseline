@@ -9,6 +9,9 @@ namespace TestApp.Domain.ValueObjects
 {
     public class SimpleAddress : ValueObject
     {
+        [Obsolete("Persistence user only")]
+        protected SimpleAddress() { }
+
         public SimpleAddress(string line1, string? line2, string city, string state, string zip)
         {
             Line1 = line1.Trim().MaxLength(TestAppFieldLengths.SimpleAddress.Line1);

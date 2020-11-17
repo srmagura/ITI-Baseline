@@ -29,12 +29,16 @@ namespace TestApp.Queries
             var q = Context.Users!
                 .Where(u => u.Id == id.Guid);
 
-            return _mapper.ProjectToDto<UserDto>(q);
+            // Can't use projection because of inheritance
+            var user = q.FirstOrDefault();
+            return _mapper.Map<UserDto>(user);
         }
 
         public List<UserDto> List()
         {
-            return _mapper.ProjectToDtoList<UserDto>(Context.Users!);
+            // Can't use projection because of inheritance
+            var users = Context.Users.ToList();
+            return _mapper.Map<List<UserDto>>(users);
         }
     }
 }

@@ -20,7 +20,6 @@ namespace TestApp.Application
 {
     public class UserAppService : ApplicationService, IUserAppService
     {
-        private readonly IMapper _mapper;
         private readonly IUserQueries _userQueries;
         private readonly IUserRepository _userRepo;
 
@@ -33,7 +32,6 @@ namespace TestApp.Application
             IUserRepository userRepo
         ) : base(uow, logger, auth)
         {
-            _mapper = mapper;
             _userQueries = userQueries;
             _userRepo = userRepo;
         }
@@ -62,7 +60,7 @@ namespace TestApp.Application
                 {
                     var customerUser = new CustomerUser(
                         new CustomerId(customerId),
-                        _mapper.Map<EmailAddress>(email)
+                        email.ToValueObject()
                     );
 
                     _userRepo.Add(customerUser);
@@ -79,7 +77,7 @@ namespace TestApp.Application
                 {
                     var onCallUser = new OnCallUser(
                         new OnCallProviderId(onCallProviderId),
-                        _mapper.Map<EmailAddress>(email)
+                        email.ToValueObject()
                     );
 
                     _userRepo.Add(onCallUser);

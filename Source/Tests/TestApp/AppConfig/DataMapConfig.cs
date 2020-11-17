@@ -103,10 +103,19 @@ namespace TestApp.AppConfig
         private static void ConfigureUser(IMapperConfigurationExpression cfg)
         {
             MapIdentity<UserId>(cfg);
+            MapIdentity<OnCallProviderId>(cfg);
+
+            cfg.CreateMap<User, DbUser>()
+                .IncludeAllDerived()
+                .ReverseMap();
 
             cfg.CreateMap<CustomerUser, DbCustomerUser>()
                 .ReverseMap();
             cfg.CreateMap<OnCallUser, DbOnCallUser>()
+                .ReverseMap();
+
+            cfg.CreateMap<DbUser, UserDto>()
+                .IncludeAllDerived()
                 .ReverseMap();
 
             cfg.CreateMap<DbCustomerUser, CustomerUserDto>();

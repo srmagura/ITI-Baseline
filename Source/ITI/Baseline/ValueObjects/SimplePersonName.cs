@@ -1,5 +1,6 @@
 ﻿using ITI.DDD.Core.Util;
 using ITI.DDD.Domain.ValueObjects;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -7,6 +8,9 @@ namespace ITI.Baseline.ValueObjects
 {
     public class SimplePersonName : ValueObject
     {
+        [Obsolete("Persistence user only")]
+        protected SimplePersonName() { }
+
         public SimplePersonName(string first, string? middle, string last, string? prefix = null)
         {
             Prefix = prefix?.Trim().MaxLength(FieldLengths.SimplePersonName.Prefix);
@@ -21,13 +25,13 @@ namespace ITI.Baseline.ValueObjects
         public string? Prefix { get; protected set; }
 
         [MaxLength(FieldLengths.SimplePersonName.First)]
-        public string First { get; protected set; }
+        public string? First { get; protected set; }
 
         [MaxLength(FieldLengths.SimplePersonName.Middle)]
         public string? Middle { get; protected set; }
 
         [MaxLength(FieldLengths.SimplePersonName.Last)]
-        public string Last { get; protected set; }
+        public string? Last { get; protected set; }
 
         public override string ToString()
         {

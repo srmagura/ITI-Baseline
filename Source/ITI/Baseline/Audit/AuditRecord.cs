@@ -6,7 +6,7 @@ namespace ITI.Baseline.Audit
 {
     public class AuditRecord
     {
-        [Obsolete("AutoMapper use only")]
+        [Obsolete("Persistence use only")]
         protected AuditRecord() { }
 
         public AuditRecord(

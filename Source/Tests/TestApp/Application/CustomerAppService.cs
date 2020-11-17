@@ -21,7 +21,6 @@ namespace TestApp.Application
 {
     public class CustomerAppService : ApplicationService, ICustomerAppService
     {
-        private readonly IMapper _mapper;
         private readonly ICustomerQueries _customerQueries;
         private readonly ICustomerRepository _customerRepo;
 
@@ -29,12 +28,10 @@ namespace TestApp.Application
             IUnitOfWork uow,
             ILogger logger,
             IAuthContext auth,
-            IMapper mapper,
             ICustomerQueries customerQueries,
             ICustomerRepository customerRepo
         ) : base(uow, logger, auth)
         {
-            _mapper = mapper;
             _customerQueries = customerQueries;
             _customerRepo = customerRepo;
         }

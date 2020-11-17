@@ -8,6 +8,9 @@ namespace TestApp.Domain.ValueObjects
 {
     public class FacilityContact : ValueObject
     {
+        [Obsolete("Persistence use only")]
+        protected FacilityContact() { }
+
         public FacilityContact(SimplePersonName? name, EmailAddress? email)
         {
             Name = name;

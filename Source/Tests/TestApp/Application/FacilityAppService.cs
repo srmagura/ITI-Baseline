@@ -20,7 +20,6 @@ namespace TestApp.Application
 {
     public class FacilityAppService : ApplicationService, IFacilityAppService
     {
-        private readonly IMapper _mapper;
         private readonly IFacilityQueries _facilityQueries;
         private readonly IFacilityRepository _facilityRepo;
 
@@ -28,12 +27,10 @@ namespace TestApp.Application
             IUnitOfWork uow, 
             ILogger logger, 
             IAuthContext auth,
-            IMapper mapper,
             IFacilityQueries facilityQueries,
             IFacilityRepository facilityRepo
         ) : base(uow, logger, auth)
         {
-            _mapper = mapper;
             _facilityQueries = facilityQueries;
             _facilityRepo = facilityRepo;
         }

@@ -148,9 +148,10 @@ namespace IntegrationTests
             );
             AssertDoesNotIncludeIgnoredFields(changes);
 
-            // Aggergate audit records should not include modified events for children
             var customerAuditRecords = auditSvc.List("Customer", customerId.ToString(), 0, 1000);
-            Assert.AreEqual(0, customerAuditRecords.Count(r => r.Entity == "LtcPharmacy" && r.Event == "Modified"));
+            Assert.IsNotNull(
+                customerAuditRecords.SingleOrDefault(r => r.Entity == "LtcPharmacy" && r.Event == "Modified")
+            );
         }
 
         [TestMethod]
