@@ -37,7 +37,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ValueObjects", "ITI\Baselin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Audit", "ITI\Baseline\Audit\Audit.csproj", "{C1C477CF-919B-47E0-B044-3B3586508FFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RequestTrace", "ITI\Baseline\RequestTrace\RequestTrace.csproj", "{F853DB3E-58F9-4BEB-8A65-13437594C1A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RequestTrace", "ITI\Baseline\RequestTrace\RequestTrace.csproj", "{F853DB3E-58F9-4BEB-8A65-13437594C1A9}"
+EndProject
+Project("{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}") = "iti-baseline-types", "iti-baseline-types\iti-baseline-types.njsproj", "{BF411086-97CA-4AC5-830C-015C3E4364E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -101,6 +103,10 @@ Global
 		{F853DB3E-58F9-4BEB-8A65-13437594C1A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F853DB3E-58F9-4BEB-8A65-13437594C1A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F853DB3E-58F9-4BEB-8A65-13437594C1A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF411086-97CA-4AC5-830C-015C3E4364E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF411086-97CA-4AC5-830C-015C3E4364E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF411086-97CA-4AC5-830C-015C3E4364E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF411086-97CA-4AC5-830C-015C3E4364E9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
