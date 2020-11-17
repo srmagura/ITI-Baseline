@@ -44,12 +44,15 @@ namespace TestApp.AppConfig
 
             ioc.RegisterType<ICustomerAppService, CustomerAppService>();
             ioc.RegisterType<IFacilityAppService, FacilityAppService>();
+            ioc.RegisterType<IUserAppService, UserAppService>();
 
             ioc.RegisterType<ICustomerRepository, EfCustomerRepository>();
             ioc.RegisterType<IFacilityRepository, EfFacilityRepository>();
+            ioc.RegisterType<IUserRepository, EfUserRepository>();
 
             ioc.RegisterType<ICustomerQueries, EfCustomerQueries>();
             ioc.RegisterType<IFacilityQueries, EfFacilityQueries>();
+            ioc.RegisterType<IUserQueries, EfUserQueries>();
         }
     }
 }

@@ -6,6 +6,6 @@ namespace TestApp.Application.Dto
 {
     public class PhoneNumberDto
     {
-        public string Value { get; set; }
+        public string? Value { get; set; }
     }
 }

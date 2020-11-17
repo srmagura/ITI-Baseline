@@ -15,6 +15,7 @@ using TestApp.Application.Interfaces;
 using TestApp.Application.Interfaces.RepositoryInterfaces;
 using TestApp.DataContext;
 using TestApp.Domain;
+using TestApp.Domain.Identities;
 
 namespace IntegrationTests
 {

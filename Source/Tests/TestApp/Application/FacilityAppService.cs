@@ -13,6 +13,7 @@ using TestApp.Application.Interfaces;
 using TestApp.Application.Interfaces.QueryInterfaces;
 using TestApp.Application.Interfaces.RepositoryInterfaces;
 using TestApp.Domain;
+using TestApp.Domain.Identities;
 using TestApp.Domain.ValueObjects;
 
 namespace TestApp.Application
@@ -68,11 +69,10 @@ namespace TestApp.Application
             Command(
                 () => { },
                 () => {
-                    var facility = _facilityRepo.Get(new FacilityId(id));
-                    Require.NotNull(facility, "Facility");
+                    var facility = _facilityRepo.Get(new FacilityId(id))
+                        ?? throw new ValidationException("Facility");
 
-                    var contactValue = _mapper.Map<FacilityContact>(contact);
-                    facility.SetContact(contactValue);
+                    facility.SetContact(contact?.ToValueObject());
                 }
             );
         }

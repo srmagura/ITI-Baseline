@@ -9,8 +9,6 @@ namespace ITI.Baseline.ValueObjects
 {
     public class PhoneNumber : ValueObject
     {
-        protected PhoneNumber() { }
-
         public PhoneNumber(string value)
         {
             value = value.DigitsOnly();

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TestApp.Domain.Events;
+using TestApp.Domain.Identities;
 using TestApp.Domain.ValueObjects;
 
 namespace TestApp.Domain

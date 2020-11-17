@@ -8,8 +8,6 @@ namespace ITI.Baseline.ValueObjects
 {
     public class EmailAddress : ValueObject
     {
-        protected EmailAddress() { }
-
         public EmailAddress(string value)
         {
             Value = value.Trim();

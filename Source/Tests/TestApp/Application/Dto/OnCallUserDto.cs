@@ -4,8 +4,8 @@ using System.Text;
 
 namespace TestApp.Application.Dto
 {
-    public class EmailAddressDto
+    public class OnCallUserDto
     {
-        public string? Value { get; set; }
+        public Guid OnCallUserId { get; set; }
     }
 }

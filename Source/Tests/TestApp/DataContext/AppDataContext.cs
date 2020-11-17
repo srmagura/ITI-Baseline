@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 using TestApp.DataContext.DataModel;
+using TestApp.Domain.Enums;
 
 namespace TestApp.DataContext
 {
@@ -21,9 +22,14 @@ namespace TestApp.DataContext
         public DbSet<DbLtcPharmacy>? LtcPharmacies { get; set; }
         public DbSet<DbFacility>? Facilities { get; set; }
         
+        public DbSet<DbUser>? Users { get; set; }
+        public DbSet<DbCustomerUser>? CustomerUsers { get; set; }
+        public DbSet<DbOnCallUser>? OnCallUsers { get; set; }
+
         public DbSet<AuditRecord>? AuditRecords { get; set; }
         public DbSet<DbRequestTrace>? RequestTraces { get; set; }
         public DbSet<LogEntry>? LogEntries { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -68,6 +74,11 @@ namespace TestApp.DataContext
         {
             modelBuilder.Entity<DbRequestTrace>()
                 .HasIndex(t => new { t.Service, t.Direction });
+
+            modelBuilder.Entity<DbUser>()
+                .HasDiscriminator(u => u.Type)
+                .HasValue<DbCustomerUser>(UserType.Customer)
+                .HasValue<DbOnCallUser>(UserType.OnCall);
 
             modelBuilder.Entity<LogEntry>().HasIndex(p => p.WhenUtc);
         }

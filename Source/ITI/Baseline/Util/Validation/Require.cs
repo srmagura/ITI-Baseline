@@ -2,11 +2,11 @@
 {
     public static class Require
     {
-        public static void NotNull(object? obj, string message)
-        {
-            if (obj == null)
-                throw new ValidationException(message);
-        }
+        // For NotNull, do
+        //
+        // MyProperty = myProperty ?? throw new ValidationException("myMessage")
+        //
+        // since this works better with nullable reference types.
 
         public static void NotEmpty(string? s, string message)
         {

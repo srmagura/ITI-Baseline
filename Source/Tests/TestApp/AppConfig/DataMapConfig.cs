@@ -12,6 +12,7 @@ using System.Text;
 using TestApp.Application.Dto;
 using TestApp.DataContext.DataModel;
 using TestApp.Domain;
+using TestApp.Domain.Identities;
 using TestApp.Domain.ValueObjects;
 
 namespace TestApp.AppConfig
@@ -28,6 +29,7 @@ namespace TestApp.AppConfig
 
                 ConfigureCustomer(cfg);
                 ConfigureFacility(cfg);
+                ConfigureUser(cfg);
             });
 
             var mapper = new Mapper(config);
@@ -39,20 +41,16 @@ namespace TestApp.AppConfig
         private static void ConfigureValueObjects(IMapperConfigurationExpression cfg)
         {
             cfg.CreateMap<SimpleAddress, SimpleAddress>();
-            cfg.CreateMap<SimpleAddress, AddressDto>()
-                .ReverseMap();
+            cfg.CreateMap<SimpleAddress, AddressDto>();
 
             cfg.CreateMap<SimplePersonName, SimplePersonName>();
-            cfg.CreateMap<SimplePersonName, PersonNameDto>()
-                .ReverseMap();
+            cfg.CreateMap<SimplePersonName, PersonNameDto>();
 
             cfg.CreateMap<PhoneNumber, PhoneNumber>();
-            cfg.CreateMap<PhoneNumber, PhoneNumberDto>()
-                .ReverseMap();
+            cfg.CreateMap<PhoneNumber, PhoneNumberDto>();
 
             cfg.CreateMap<EmailAddress, EmailAddress>();
-            cfg.CreateMap<EmailAddress, EmailAddressDto>()
-                .ReverseMap();
+            cfg.CreateMap<EmailAddress, EmailAddressDto>();
         }
 
         private static void ConfigureAudit(IMapperConfigurationExpression cfg)
@@ -100,6 +98,19 @@ namespace TestApp.AppConfig
                 .ReverseMap();
 
             cfg.CreateMap<DbFacility, FacilityDto>();
+        }
+
+        private static void ConfigureUser(IMapperConfigurationExpression cfg)
+        {
+            MapIdentity<UserId>(cfg);
+
+            cfg.CreateMap<CustomerUser, DbCustomerUser>()
+                .ReverseMap();
+            cfg.CreateMap<OnCallUser, DbOnCallUser>()
+                .ReverseMap();
+
+            cfg.CreateMap<DbCustomerUser, CustomerUserDto>();
+            cfg.CreateMap<DbOnCallUser, OnCallUserDto>();
         }
     }
 }

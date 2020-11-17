@@ -7,8 +7,9 @@ using TestApp.Domain.Identities;
 
 namespace TestApp.Application.Interfaces.QueryInterfaces
 {
-    public interface ICustomerQueries
+    public interface IUserQueries
     {
-        CustomerDto? Get(CustomerId id);
+        UserDto? Get(UserId id);
+        List<UserDto> List();
     }
 }

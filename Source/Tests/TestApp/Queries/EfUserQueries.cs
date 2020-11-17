@@ -15,21 +15,26 @@ using TestApp.Domain.Identities;
 
 namespace TestApp.Queries
 {
-    public class EfCustomerQueries : Queries<AppDataContext>, ICustomerQueries
+    public class EfUserQueries : Queries<AppDataContext>, IUserQueries
     {
         private readonly IMapper _mapper;
 
-        public EfCustomerQueries(IUnitOfWork uow, IMapper mapper) : base(uow)
+        public EfUserQueries(IUnitOfWork uow, IMapper mapper) : base(uow)
         {
             _mapper = mapper;
         }
 
-        public CustomerDto? Get(CustomerId id)
+        public UserDto? Get(UserId id)
         {
-            var q = Context.Customers!
-                .Where(p => p.Id == id.Guid);
+            var q = Context.Users!
+                .Where(u => u.Id == id.Guid);
 
-            return _mapper.ProjectToDto<CustomerDto>(q);
+            return _mapper.ProjectToDto<UserDto>(q);
+        }
+
+        public List<UserDto> List()
+        {
+            return _mapper.ProjectToDtoList<UserDto>(Context.Users!);
         }
     }
 }

@@ -7,8 +7,6 @@ namespace ITI.Baseline.ValueObjects
 {
     public class SimplePersonName : ValueObject
     {
-        protected SimplePersonName() { }
-
         public SimplePersonName(string first, string? middle, string last, string? prefix = null)
         {
             Prefix = prefix?.Trim().MaxLength(FieldLengths.SimplePersonName.Prefix);

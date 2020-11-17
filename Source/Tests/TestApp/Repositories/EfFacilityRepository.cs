@@ -11,6 +11,7 @@ using TestApp.DataContext.DataModel;
 using TestApp.Domain;
 using TestApp.Application.Interfaces.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
+using TestApp.Domain.Identities;
 
 namespace TestApp.Repositories
 {

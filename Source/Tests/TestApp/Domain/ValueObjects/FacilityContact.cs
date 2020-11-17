@@ -8,6 +8,12 @@ namespace TestApp.Domain.ValueObjects
 {
     public class FacilityContact : ValueObject
     {
+        public FacilityContact(SimplePersonName? name, EmailAddress? email)
+        {
+            Name = name;
+            Email = email;
+        }
+
         public SimplePersonName? Name { get; set; }
         public EmailAddress? Email { get; set; }
 

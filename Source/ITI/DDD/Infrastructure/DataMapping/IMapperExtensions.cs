@@ -12,5 +12,10 @@ namespace ITI.DDD.Infrastructure.DataMapping
         {
             return mapper.ProjectTo<T>(queryable).FirstOrDefault();
         }
+
+        public static List<T> ProjectToDtoList<T>(this IMapper mapper, IQueryable queryable) where T : class
+        {
+            return mapper.ProjectTo<T>(queryable).ToList();
+        }
     }
 }

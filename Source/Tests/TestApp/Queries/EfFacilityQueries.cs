@@ -11,6 +11,7 @@ using TestApp.Application.Dto;
 using TestApp.Application.Interfaces.QueryInterfaces;
 using TestApp.DataContext;
 using TestApp.Domain;
+using TestApp.Domain.Identities;
 
 namespace TestApp.Queries
 {

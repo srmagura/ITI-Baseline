@@ -8,11 +8,13 @@ using ITI.DDD.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using TestApp.AppConfig;
 using TestApp.Application.Dto;
 using TestApp.Application.Interfaces;
 using TestApp.Application.Interfaces.QueryInterfaces;
 using TestApp.Application.Interfaces.RepositoryInterfaces;
 using TestApp.Domain;
+using TestApp.Domain.Identities;
 using TestApp.Domain.ValueObjects;
 
 namespace TestApp.Application
@@ -24,8 +26,8 @@ namespace TestApp.Application
         private readonly ICustomerRepository _customerRepo;
 
         public CustomerAppService(
-            IUnitOfWork uow, 
-            ILogger logger, 
+            IUnitOfWork uow,
+            ILogger logger,
             IAuthContext auth,
             IMapper mapper,
             ICustomerQueries customerQueries,
@@ -46,9 +48,9 @@ namespace TestApp.Application
         }
 
         public Guid Add(
-            string name, 
-            AddressDto? address = null, 
-            PersonNameDto? contactName = null, 
+            string name,
+            AddressDto? address = null,
+            PersonNameDto? contactName = null,
             PhoneNumberDto? contactPhone = null
         )
         {
@@ -57,18 +59,18 @@ namespace TestApp.Application
                 () =>
                 {
                     var customer = new Customer(
-                        name, 
-                        new List<LtcPharmacy> { 
+                        name,
+                        new List<LtcPharmacy> {
                             new LtcPharmacy("Pruitt"),
-                            new LtcPharmacy("Alixa") 
+                            new LtcPharmacy("Alixa")
                         },
                         new List<int> { 1, 2 },
                         99
                     );
-                    customer.SetAddress(_mapper.Map<SimpleAddress>(address));
+                    customer.SetAddress(address?.ToValueObject());
                     customer.SetContact(
-                        _mapper.Map<SimplePersonName>(contactName), 
-                        _mapper.Map<PhoneNumber>(contactPhone)
+                        contactName?.ToValueObject(),
+                        contactPhone?.ToValueObject()
                     );
 
                     _customerRepo.Add(customer);
@@ -81,7 +83,8 @@ namespace TestApp.Application
         {
             Command(
                 () => { },
-                () => {
+                () =>
+                {
                     _customerRepo.Remove(new CustomerId(id));
                 }
             );
@@ -91,13 +94,14 @@ namespace TestApp.Application
         {
             Command(
                 () => { },
-                () => {
-                    var customer = _customerRepo.Get(new CustomerId(id));
-                    Require.NotNull(customer, "Customer");
+                () =>
+                {
+                    var customer = _customerRepo.Get(new CustomerId(id))
+                        ?? throw new ValidationException("Customer");
 
                     customer.SetContact(
-                        _mapper.Map<SimplePersonName>(contactName),
-                        _mapper.Map<PhoneNumber>(contactPhone)
+                        contactName?.ToValueObject(),
+                        contactPhone?.ToValueObject()
                     );
                 }
             );
@@ -107,8 +111,11 @@ namespace TestApp.Application
         {
             Command(
                 () => { },
-                () => {
-                    var customer = _customerRepo.Get(new CustomerId(id));
+                () =>
+                {
+                    var customer = _customerRepo.Get(new CustomerId(id))
+                        ?? throw new ValidationException("Customer");
+
                     customer.AddLtcPharmacy(name);
                 }
             );
@@ -117,22 +124,28 @@ namespace TestApp.Application
         public void RenameLtcPharmacy(Guid id, Guid ltcPharmacyId, string name)
         {
             Command(
-               () => { },
-               () => {
-                   var customer = _customerRepo.Get(new CustomerId(id));
-                   customer.RenameLtcPharmacy(new LtcPharmacyId(ltcPharmacyId), name);
-               }
+                () => { },
+                () =>
+                {
+                    var customer = _customerRepo.Get(new CustomerId(id))
+                        ?? throw new ValidationException("Customer");
+
+                    customer.RenameLtcPharmacy(new LtcPharmacyId(ltcPharmacyId), name);
+                }
            );
         }
 
         public void RemoveLtcPharmacy(Guid id, Guid ltcPharmacyId)
         {
             Command(
-               () => { },
-               () => {
-                   var customer = _customerRepo.Get(new CustomerId(id));
-                   customer.RemoveLtcPharmacy(new LtcPharmacyId(ltcPharmacyId));
-               }
+                () => { },
+                () =>
+                {
+                    var customer = _customerRepo.Get(new CustomerId(id))
+                        ?? throw new ValidationException("Customer");
+
+                    customer.RemoveLtcPharmacy(new LtcPharmacyId(ltcPharmacyId));
+                }
            );
         }
     }

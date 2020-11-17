@@ -3,6 +3,7 @@ using ITI.DDD.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using TestApp.Domain.Identities;
 using TestApp.Domain.ValueObjects;
 
 namespace TestApp.Domain
