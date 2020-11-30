@@ -1,4 +1,5 @@
-﻿using ITI.DDD.Domain.Entities;
+﻿using ITI.Baseline.Util.Validation;
+using ITI.DDD.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,7 +14,7 @@ namespace TestApp.Domain
 
         public LtcPharmacy(string name)
         {
-            Name = name;
+            SetName(name);
         }
 
         //
@@ -26,7 +27,7 @@ namespace TestApp.Domain
         // ATTRIBUTES
         //
 
-        public string Name { get; protected set; }
+        public string? Name { get; protected set; }
 
         //
         // OPERATIONS
@@ -34,7 +35,7 @@ namespace TestApp.Domain
 
         internal void SetName(string name)
         {
-            Name = name;
+            Name = name ?? throw new ValidationException("Name");
         }
     }
 }

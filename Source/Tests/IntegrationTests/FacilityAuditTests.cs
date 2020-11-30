@@ -78,7 +78,7 @@ namespace IntegrationTests
 
             var auditRecords = auditSvc.List("Facility", facilityId.ToString(), 0, 1000);
             var auditRecord = auditRecords.First();
-            var changes = JsonConvert.DeserializeObject<List<AuditPropertyDto>>(auditRecord.Changes);
+            var changes = JsonConvert.DeserializeObject<List<AuditPropertyDto>>(auditRecord.Changes!);
 
             Assert.IsNotNull(
                 changes.SingleOrDefault(c => c.Name == "Contact.Name.First" && c.From == "Kelly" && c.To == "Sam")

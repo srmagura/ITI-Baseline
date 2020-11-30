@@ -22,19 +22,19 @@ namespace TestApp.Domain.ValueObjects
         }
 
         [MaxLength(TestAppFieldLengths.SimpleAddress.Line1)]
-        public string Line1 { get; protected set; }
+        public string? Line1 { get; protected set; }
 
         [MaxLength(TestAppFieldLengths.SimpleAddress.Line2)]
         public string? Line2 { get; protected set; }
 
         [MaxLength(TestAppFieldLengths.SimpleAddress.City)]
-        public string City { get; protected set; }
+        public string? City { get; protected set; }
 
         [MaxLength(TestAppFieldLengths.SimpleAddress.State)]
-        public string State { get; protected set; }
+        public string? State { get; protected set; }
 
         [MaxLength(TestAppFieldLengths.SimpleAddress.Zip)]
-        public string Zip { get; protected set; }
+        public string? Zip { get; protected set; }
 
         public override string ToString()
         {

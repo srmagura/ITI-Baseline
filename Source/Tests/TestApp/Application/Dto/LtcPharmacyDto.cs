@@ -7,6 +7,6 @@ namespace TestApp.Application.Dto
     public class LtcPharmacyDto
     {
         public Guid Id { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 }

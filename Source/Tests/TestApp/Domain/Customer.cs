@@ -1,4 +1,5 @@
 ﻿using ITI.Baseline.Audit;
+using ITI.Baseline.Util.Validation;
 using ITI.Baseline.ValueObjects;
 using ITI.DDD.Domain.Entities;
 using System;
@@ -22,12 +23,12 @@ namespace TestApp.Domain
             long someNumber
         )
         {
-            Name = name;
+            SetName(name);
             _ltcPharmacies = ltcPharmacies;
             _someInts = someInts;
             SomeNumber = someNumber;
 
-            Raise(new CustomerAddedEvent(Id, Name));
+            Raise(new CustomerAddedEvent(Id, name));
         }
 
         //
@@ -40,7 +41,7 @@ namespace TestApp.Domain
         // ATTRIBUTES
         //
 
-        public string Name { get; protected set; }
+        public string? Name { get; protected set; }
 
         public SimpleAddress? Address { get; protected set; }
         public SimplePersonName? ContactName { get; protected set; }
@@ -65,7 +66,7 @@ namespace TestApp.Domain
 
         public void SetName(string newName)
         {
-            Name = newName;
+            Name = newName ?? throw new ValidationException("Name");
         }
 
         public void SetAddress(SimpleAddress? address)

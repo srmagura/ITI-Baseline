@@ -46,9 +46,6 @@ namespace TestApp.DataContext
             base.OnConfiguring(optionsBuilder);
         }
 
-        private static ConnectionStrings? _connStrings = null;
-        private static readonly object LockObject = new object();
-
         public static void Migrate(ConnectionStrings connectionStrings)
         {
             using (var context = new AppDataContext(connectionStrings))

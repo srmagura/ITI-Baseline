@@ -13,14 +13,14 @@ namespace TestApp.DataContext.DataModel
     public class DbCustomer : DbEntity, IDbAudited
     {
         [MaxLength(64)]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         public SimpleAddress? Address { get; set; }
         public SimplePersonName? ContactName { get; set; }
         public PhoneNumber? ContactPhone { get; set; }
 
-        public List<DbLtcPharmacy> LtcPharmacies { get; set; }
-        public string SomeInts { get; set; }
+        public List<DbLtcPharmacy> LtcPharmacies { get; set; } = new List<DbLtcPharmacy>();
+        public string SomeInts { get; set; } = "[]";
 
         [Column(TypeName = "Money")]
         public decimal SomeMoney { get; set; }
