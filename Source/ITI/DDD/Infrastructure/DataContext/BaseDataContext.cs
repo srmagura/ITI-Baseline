@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using ITI.DDD.Application;
+using ITI.DDD.Core;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ITI.DDD.Infrastructure.DataContext
@@ -48,6 +50,23 @@ namespace ITI.DDD.Infrastructure.DataContext
             }
 
             ChangeTracker.DetectChanges();
+        }
+
+        public List<IDomainEvent> GetAllDomainEvents()
+        {
+            var domainEvents = new List<IDomainEvent>();
+
+            foreach (var entry in ChangeTracker.Entries())
+            {
+                if (entry.Entity is DbEntity dbEntity)
+                {
+                    domainEvents.AddRange(dbEntity.DomainEvents);
+                }
+            }
+
+            return domainEvents
+                .OrderBy(e => e.DateCreatedUtc)
+                .ToList();
         }
     }
 }

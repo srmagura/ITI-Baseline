@@ -31,10 +31,10 @@ namespace IntegrationTests
         [TestMethod]
         public void LogWrittenWhenCustomerAdded()
         {
-            var customerSvc = _ioc!.ResolveForTest<ICustomerAppService>();
+            var customerSvc = _ioc!.Resolve<ICustomerAppService>();
             customerSvc.Add("myCustomer");
 
-            using(var db = new AppDataContext())
+            using(var db = _ioc.Resolve<AppDataContext>())
             {
                 var logEntries = db.LogEntries!.ToList();
                 Assert.AreEqual(1, logEntries.Count);

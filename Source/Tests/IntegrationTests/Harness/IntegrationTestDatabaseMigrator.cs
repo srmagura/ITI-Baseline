@@ -13,9 +13,8 @@ namespace IntegrationTests.Harness
         [AssemblyInitialize]
         public static void MigrateDatabase(TestContext testContext)
         {
-            var ioc = new IOC();
-            ioc.RegisterInstance(IntegrationTestAppConfig.GetConnectionStrings(testContext));
-            AppDataContext.Migrate();
+            var connectionStrings = IntegrationTestAppConfig.GetConnectionStrings(testContext);
+            AppDataContext.Migrate(connectionStrings);
         }
     }
 }

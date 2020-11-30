@@ -42,8 +42,8 @@ namespace IntegrationTests
         [TestMethod]
         public void ChangeContact()
         {
-            var facilitySvc = _ioc!.ResolveForTest<IFacilityAppService>();
-            var auditSvc = _ioc!.ResolveForTest<IAuditAppService>();
+            var facilitySvc = _ioc!.Resolve<IFacilityAppService>();
+            var auditSvc = _ioc!.Resolve<IAuditAppService>();
 
             var facilityId = AddFacility(facilitySvc);
 

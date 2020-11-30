@@ -4,7 +4,7 @@ using ITI.DDD.Application.UnitOfWork;
 namespace ITI.DDD.Infrastructure
 {
     public abstract class Queries<TDbContext>
-        where TDbContext : IDataContext, new()
+        where TDbContext : IDataContext
     {
         private readonly IUnitOfWork _uow;
 

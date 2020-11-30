@@ -30,40 +30,28 @@ namespace TestApp.DataContext
         public DbSet<DbRequestTrace>? RequestTraces { get; set; }
         public DbSet<LogEntry>? LogEntries { get; set; }
 
+        private readonly string _connectionString;
+
+        public AppDataContext(ConnectionStrings connectionStrings)
+        {
+            _connectionString = connectionStrings.DefaultDataContext;
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connString = GetConnectionString();
-
             optionsBuilder
                 .EnableSensitiveDataLogging()
-                .UseSqlServer(connString);
+                .UseSqlServer(_connectionString);
 
             base.OnConfiguring(optionsBuilder);
         }
 
         private static ConnectionStrings? _connStrings = null;
         private static readonly object LockObject = new object();
-        private static string GetConnectionString()
-        {
-            if (_connStrings == null)
-            {
-                lock (LockObject)
-                {
-                    if (_connStrings == null)
-                    {
-                        if(IOC.IsStaticInitialized)
-                            _connStrings = IOC.ResolveStaticUseSparingly<ConnectionStrings>();
-                    }
-                }
-            }
 
-            return (_connStrings ?? new ConnectionStrings()).DefaultDataContext;
-        }
-
-        public static void Migrate()
+        public static void Migrate(ConnectionStrings connectionStrings)
         {
-            using (var context = new AppDataContext())
+            using (var context = new AppDataContext(connectionStrings))
             {
                 context.Database.SetCommandTimeout(600);
                 context.Database.Migrate();

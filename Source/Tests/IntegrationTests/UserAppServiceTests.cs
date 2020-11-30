@@ -31,7 +31,7 @@ namespace IntegrationTests
         [TestMethod]
         public void GetCustomerUser()
         {
-            var userSvc = _ioc!.ResolveForTest<IUserAppService>();
+            var userSvc = _ioc!.Resolve<IUserAppService>();
             var customerId = Guid.NewGuid();
 
             var userId = userSvc.AddCustomerUser(
@@ -54,7 +54,7 @@ namespace IntegrationTests
         [TestMethod]
         public void GetOnCallUser()
         {
-            var userSvc = _ioc!.ResolveForTest<IUserAppService>();
+            var userSvc = _ioc!.Resolve<IUserAppService>();
             var onCallProviderId = Guid.NewGuid();
 
             var userId = userSvc.AddOnCallUser(
@@ -77,7 +77,7 @@ namespace IntegrationTests
         [TestMethod]
         public void List()
         {
-            var userSvc = _ioc!.ResolveForTest<IUserAppService>();
+            var userSvc = _ioc!.Resolve<IUserAppService>();
             
             var customerId = Guid.NewGuid();
             var onCallProviderId = Guid.NewGuid();

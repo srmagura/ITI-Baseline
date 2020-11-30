@@ -6,7 +6,7 @@ using ITI.DDD.Infrastructure.DataMapping;
 namespace ITI.DDD.Infrastructure
 {
     public abstract class Repository<TDbContext> 
-        where TDbContext : IDataContext, new()
+        where TDbContext : IDataContext
     {
         private readonly IUnitOfWork _uow;
         protected readonly IDbEntityMapper DbMapper;

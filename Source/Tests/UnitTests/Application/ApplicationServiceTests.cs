@@ -132,7 +132,7 @@ namespace UnitTests.Application
             ioc.RegisterInstance(Substitute.For<IMapper>());
             ioc.RegisterInstance(Substitute.For<IAuditor>());
 
-            return ioc.ResolveForTest<MyApplicationService>();
+            return ioc.Resolve<MyApplicationService>();
         }
 
         [TestMethod]

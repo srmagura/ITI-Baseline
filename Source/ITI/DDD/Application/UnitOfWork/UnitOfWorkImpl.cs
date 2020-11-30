@@ -12,16 +12,19 @@ namespace ITI.DDD.Application.UnitOfWork
         private readonly IDomainEvents _domainEvents;
         private readonly IMapper _mapper;
         private readonly IAuditor _auditor;
+        private readonly IOC _ioc;
 
         public UnitOfWorkImpl(
             IDomainEvents domainEvents,
             IMapper mapper,
-            IAuditor auditor
+            IAuditor auditor,
+            IOC ioc
         )
         {
             _domainEvents = domainEvents;
             _mapper = mapper;
             _auditor = auditor;
+            _ioc = ioc;
         }
 
         internal static IUnitOfWork? CurrentUnitOfWork { get; private set; }
@@ -35,8 +38,7 @@ namespace ITI.DDD.Application.UnitOfWork
         private readonly Dictionary<Type, IDataContext> _participants = new Dictionary<Type, IDataContext>();
         private readonly object _lock = new object();
 
-        public TParticipant Current<TParticipant>()
-            where TParticipant : IDataContext, new()
+        public TParticipant Current<TParticipant>() where TParticipant : IDataContext
         {
             var type = typeof(TParticipant);
 
@@ -47,7 +49,7 @@ namespace ITI.DDD.Application.UnitOfWork
                     return (TParticipant)_participants[type];
                 }
 
-                var inst = new TParticipant();
+                var inst = _ioc.Resolve<TParticipant>();
 
                 inst.Initialize(_mapper, _auditor);
 
@@ -73,9 +75,14 @@ namespace ITI.DDD.Application.UnitOfWork
             foreach (var db in _participants.Values)
             {
                 db.SaveChanges();
+                
+                foreach(var domainEvent in db.GetAllDomainEvents())
+                {
+                    _domainEvents.Raise(domainEvent);
+                }
             }
 
-            // HandleAllRaisedEventsAsync Will never throw exceptions
+            // HandleAllRaisedEventsAsync will never throw exceptions
             var domainEventTask = _domainEvents.HandleAllRaisedEventsAsync();
 
             if (WaitForDomainEvents)

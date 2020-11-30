@@ -30,7 +30,7 @@ namespace UnitTests.Application.UnitOfWork
             var domainEvents = Substitute.For<IDomainEvents>();
             var mapper = Substitute.For<IMapper>();
             var auditor = Substitute.For<IAuditor>();
-            var uow = new UnitOfWorkImpl(domainEvents, mapper, auditor);
+            var uow = new UnitOfWorkImpl(domainEvents, mapper, auditor, new IOC());
 
             Assert.IsNull(UnitOfWorkImpl.CurrentUnitOfWork);
             uow.Begin();
@@ -69,6 +69,16 @@ namespace UnitTests.Application.UnitOfWork
             ioc.RegisterInstance(Substitute.For<IMapper>());
             ioc.RegisterInstance(Substitute.For<IAuditor>());
 
+            var dataContext = Substitute.For<IDataContext>();
+            ioc.RegisterInstance(dataContext);
+
+            dataContext.GetAllDomainEvents().Returns(
+                new List<IDomainEvent> 
+                { 
+                    new CustomerAddedEvent(Guid.NewGuid()) 
+                }
+            );
+
             var authScopeResolver = new DomainEventAuthScopeResolverMock(ioc);
             ioc.RegisterInstance<IDomainEventAuthScopeResolver>(authScopeResolver);
 
@@ -76,7 +86,7 @@ namespace UnitTests.Application.UnitOfWork
             var eventHandler = Substitute.For<IDomainEventHandler<CustomerAddedEvent>>();
             ioc.RegisterInstance(eventHandler);
 
-            var uow = ioc.ResolveForTest<UnitOfWorkImpl>();
+            var uow = ioc.Resolve<UnitOfWorkImpl>();
 
             using (var scope = uow.Begin())
             {
@@ -86,18 +96,14 @@ namespace UnitTests.Application.UnitOfWork
             // Event discarded since no commit
             eventHandler.DidNotReceive().Handle(Arg.Any<CustomerAddedEvent>());
 
-            Guid customerId;
             using (var scope = uow.Begin())
             {
                 var customer =  new Customer();
-                customerId = customer.Id;
-
+                scope.Current<IDataContext>();
                 scope.Commit();
             }
 
-            eventHandler.Received(1).Handle(
-                Arg.Is<CustomerAddedEvent>(e => e.CustomerId == customerId)
-            );
+            eventHandler.Received(1).Handle(Arg.Any<CustomerAddedEvent>());
         }
     }
 }

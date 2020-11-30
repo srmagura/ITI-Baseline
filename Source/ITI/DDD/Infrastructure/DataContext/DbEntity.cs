@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ITI.DDD.Core;
 using ITI.DDD.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -17,5 +18,8 @@ namespace ITI.DDD.Infrastructure.DataContext
         public Entity? MappedEntity { get; set; }
 
         public DateTimeOffset DateCreatedUtc { get; set; } = DateTimeOffset.UtcNow;
+
+        [NotMapped]
+        public List<IDomainEvent> DomainEvents { get; set; } = new List<IDomainEvent>();
     }
 }

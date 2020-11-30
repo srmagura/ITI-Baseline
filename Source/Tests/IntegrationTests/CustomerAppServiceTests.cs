@@ -54,7 +54,7 @@ namespace IntegrationTests
         [TestMethod]
         public void Add()
         {
-            var customerSvc = _ioc!.ResolveForTest<ICustomerAppService>();
+            var customerSvc = _ioc!.Resolve<ICustomerAppService>();
 
             var customerId = AddCustomer(customerSvc);
             var customer = customerSvc.Get(customerId);
@@ -82,7 +82,7 @@ namespace IntegrationTests
         [TestMethod]
         public void SetContact()
         {
-            var customerSvc = _ioc!.ResolveForTest<ICustomerAppService>();
+            var customerSvc = _ioc!.Resolve<ICustomerAppService>();
 
             var customerId = AddCustomer(customerSvc);
             
@@ -109,7 +109,7 @@ namespace IntegrationTests
         [TestMethod]
         public void Remove()
         {
-            var customerSvc = _ioc!.ResolveForTest<ICustomerAppService>();
+            var customerSvc = _ioc!.Resolve<ICustomerAppService>();
 
             var customerId = AddCustomer(customerSvc);
             var customer = customerSvc.Get(customerId);
@@ -123,7 +123,7 @@ namespace IntegrationTests
         [TestMethod]
         public void AddLtcPharmacy()
         {
-            var customerSvc = _ioc!.ResolveForTest<ICustomerAppService>();
+            var customerSvc = _ioc!.Resolve<ICustomerAppService>();
 
             var customerId = AddCustomer(customerSvc);
             customerSvc.AddLtcPharmacy(customerId, "1st Choice");
@@ -138,7 +138,7 @@ namespace IntegrationTests
         [TestMethod]
         public void RenameLtcPharmacy()
         {
-            var customerSvc = _ioc!.ResolveForTest<ICustomerAppService>();
+            var customerSvc = _ioc!.Resolve<ICustomerAppService>();
 
             var customerId = AddCustomer(customerSvc);
             var customer = customerSvc.Get(customerId);
@@ -156,7 +156,7 @@ namespace IntegrationTests
         [TestMethod]
         public void RemoveLtcPharmacy()
         {
-            var customerSvc = _ioc!.ResolveForTest<ICustomerAppService>();
+            var customerSvc = _ioc!.Resolve<ICustomerAppService>();
 
             var customerId = AddCustomer(customerSvc);
             var customer = customerSvc.Get(customerId);

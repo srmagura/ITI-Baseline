@@ -35,11 +35,11 @@ namespace IntegrationTests
         [TestMethod]
         public void WritesLog()
         {
-            var logger = _ioc!.ResolveForTest<ILogger>();
+            var logger = _ioc!.Resolve<ILogger>();
 
             logger.Error("myMessage", new Exception("myException"));
 
-            using (var db = new AppDataContext())
+            using (var db = _ioc.Resolve<AppDataContext>())
             {
                 var logEntry = db.LogEntries!.Single();
 

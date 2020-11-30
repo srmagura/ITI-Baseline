@@ -16,7 +16,7 @@ namespace ITI.DDD.Application.UnitOfWork
             ParentUnitOfWork.OnScopeDispose();
         }
 
-        public TParticipant Current<TParticipant>() where TParticipant : IDataContext, new()
+        public TParticipant Current<TParticipant>() where TParticipant : IDataContext
         {
             return ParentUnitOfWork.Current<TParticipant>();
         }

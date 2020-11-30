@@ -8,7 +8,7 @@ namespace ITI.DDD.Application.UnitOfWork
         IUnitOfWorkScope Begin();
 
         TParticipant Current<TParticipant>()
-            where TParticipant : IDataContext, new();
+            where TParticipant : IDataContext;
 
         void OnScopeCommit();
         void OnScopeDispose();

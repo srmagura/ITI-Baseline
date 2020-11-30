@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ITI.DDD.Core;
 using ITI.DDD.Domain.DomainEvents;
 using System;
 using System.Collections.Generic;
@@ -10,5 +11,7 @@ namespace ITI.DDD.Application
     {
         void Initialize(IMapper mapper, IAuditor auditor);
         void SaveChanges();
+
+        List<IDomainEvent> GetAllDomainEvents();
     }
 }

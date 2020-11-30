@@ -44,7 +44,7 @@ namespace IntegrationTests
         [TestMethod]
         public void SetContactNull()
         {
-            var facilitySvc = _ioc!.ResolveForTest<IFacilityAppService>();
+            var facilitySvc = _ioc!.Resolve<IFacilityAppService>();
 
             var facilityId = AddFacility(facilitySvc);
             var facility = facilitySvc.Get(facilityId);
@@ -57,7 +57,7 @@ namespace IntegrationTests
         [TestMethod]
         public void SetContactNonNullButPropertiesNull()
         {
-            var facilitySvc = _ioc!.ResolveForTest<IFacilityAppService>();
+            var facilitySvc = _ioc!.Resolve<IFacilityAppService>();
 
             var facilityId = AddFacility(facilitySvc);
             facilitySvc.SetContact(facilityId, new FacilityContactDto());
@@ -73,7 +73,7 @@ namespace IntegrationTests
         [TestMethod]
         public void SetContactNonNull()
         {
-            var facilitySvc = _ioc!.ResolveForTest<IFacilityAppService>();
+            var facilitySvc = _ioc!.Resolve<IFacilityAppService>();
 
             var facilityId = AddFacility(facilitySvc);
 

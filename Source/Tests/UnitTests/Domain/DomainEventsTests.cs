@@ -66,7 +66,7 @@ namespace UnitTests.Domain
             var eventHandler = Substitute.For<IDomainEventHandler<CustomerAddedEvent>>();
             ioc.RegisterInstance(eventHandler);
 
-            var domainEvents = ioc.ResolveForTest<DomainEvents>();
+            var domainEvents = ioc.Resolve<DomainEvents>();
             var ev = new CustomerAddedEvent(Guid.NewGuid());
             domainEvents.Raise(ev);
             await domainEvents.HandleAllRaisedEventsAsync();
@@ -89,7 +89,7 @@ namespace UnitTests.Domain
                 .Do(x => { throw new Exception("myException"); });
             ioc.RegisterInstance(eventHandler);
 
-            var domainEvents = ioc.ResolveForTest<DomainEvents>();
+            var domainEvents = ioc.Resolve<DomainEvents>();
             var ev = new CustomerAddedEvent(Guid.NewGuid());
             domainEvents.Raise(ev);
             await domainEvents.HandleAllRaisedEventsAsync();
@@ -108,7 +108,7 @@ namespace UnitTests.Domain
         {
             var ioc = GetIOC(out var logger);
 
-            var domainEvents = ioc.ResolveForTest<DomainEvents>();
+            var domainEvents = ioc.Resolve<DomainEvents>();
             var ev = new CustomerAddedEvent(Guid.NewGuid());
             domainEvents.Raise(ev);
             await domainEvents.HandleAllRaisedEventsAsync();
@@ -135,7 +135,7 @@ namespace UnitTests.Domain
             ioc.RegisterInstance(vendorEventHandler);
 
             // Raise events
-            var domainEvents = ioc.ResolveForTest<DomainEvents>();
+            var domainEvents = ioc.Resolve<DomainEvents>();
             var customerEvent = new CustomerAddedEvent(Guid.NewGuid());
             var vendorEvent = new VendorAddedEvent(Guid.NewGuid());
             domainEvents.Raise(customerEvent);

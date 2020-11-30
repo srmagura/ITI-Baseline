@@ -15,9 +15,11 @@ namespace ITI.DDD.Domain.Entities
 
         public DateTimeOffset DateCreatedUtc { get; protected set; }
 
+        public List<IDomainEvent> DomainEvents { get; } = new List<IDomainEvent>();
+
         protected void Raise(IDomainEvent domainEvent)
         {
-            IOC.ResolveStaticUseSparingly<IDomainEventRaiser>().Raise(domainEvent);
+            DomainEvents.Add(domainEvent);
         }
     }
 }

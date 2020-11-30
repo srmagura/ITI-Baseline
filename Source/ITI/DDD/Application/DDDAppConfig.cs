@@ -14,7 +14,6 @@ namespace ITI.DDD.Application
         {
             ioc.RegisterType<ILogger, Logger>();
 
-            ioc.RegisterType<IDomainEventRaiser, DomainEventRaiser>();
             ioc.RegisterLifetimeScope<IDomainEvents, DomainEvents>();
             ioc.RegisterLifetimeScope<IUnitOfWork, UnitOfWorkImpl>();
         }

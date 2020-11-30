@@ -34,7 +34,7 @@ namespace IntegrationTests
         public void WritesTrace()
         {
             _ioc!.RegisterType<IRequestTrace, DapperRequestTrace>();
-            var requestTrace = _ioc.ResolveForTest<IRequestTrace>();
+            var requestTrace = _ioc.Resolve<IRequestTrace>();
 
             requestTrace.WriteTrace(
                 service: "Google",
@@ -46,7 +46,7 @@ namespace IntegrationTests
                 exc: new Exception("myException")
             );
 
-            using (var db = new AppDataContext())
+            using (var db = _ioc.Resolve<AppDataContext>())
             {
                 var trace = db.RequestTraces!.Single();
 
