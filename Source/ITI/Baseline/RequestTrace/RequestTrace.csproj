@@ -4,6 +4,12 @@
     <OutputType>Library</OutputType>
     <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
+    <Version>0.1.0</Version>
+    <PackageId>ITI.Baseline.RequestTrace</PackageId>
+    <Authors>ITI.Baseline.RequestTrace</Authors>
+    <Product>ITI.Baseline.RequestTrace</Product>
+    <AssemblyName>ITI.Baseline.RequestTrace</AssemblyName>
+    <RootNamespace>ITI.Baseline.RequestTrace</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RequestTrace
+namespace ITI.Baseline.RequestTrace
 {
     public class ConsoleRequestTrace : IRequestTrace
     {

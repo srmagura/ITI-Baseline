@@ -5,6 +5,7 @@
     <AssemblyName>ITI.DDD.Domain</AssemblyName>
     <RootNamespace>ITI.DDD.Domain</RootNamespace>
     <Nullable>enable</Nullable>
+    <Version>0.1.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

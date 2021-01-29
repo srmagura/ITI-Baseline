@@ -3,7 +3,7 @@ using ITI.DDD.Application.UnitOfWork;
 using ITI.DDD.Core;
 using ITI.DDD.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using RequestTrace;
+using ITI.Baseline.RequestTrace;
 using System;
 using System.Collections.Generic;
 using System.Linq;

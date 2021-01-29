@@ -4,9 +4,8 @@ using System.Data.SqlClient;
 using System.Text;
 using Dapper;
 using ITI.DDD.Logging;
-using RequestTrace;
 
-namespace TestApp.Infrastructure
+namespace ITI.Baseline.RequestTrace
 {
     public class DapperRequestTrace : IRequestTrace
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace RequestTrace
+namespace ITI.Baseline.RequestTrace
 {
     public interface IRequestTrace
     {

@@ -1,5 +1,5 @@
 ﻿using ITI.DDD.Logging;
-using RequestTrace;
+using ITI.Baseline.RequestTrace;
 using System;
 using System.Collections.Generic;
 using System.Text;

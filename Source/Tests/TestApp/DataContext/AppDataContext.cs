@@ -6,7 +6,7 @@ using ITI.DDD.Domain.DomainEvents;
 using ITI.DDD.Infrastructure.DataContext;
 using ITI.DDD.Logging;
 using Microsoft.EntityFrameworkCore;
-using RequestTrace;
+using ITI.Baseline.RequestTrace;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
