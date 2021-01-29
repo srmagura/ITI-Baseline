@@ -18,17 +18,17 @@ namespace TestApp.DataContext
 {
     public class AppDataContext : BaseDataContext, IDataContext, IAuditDataContext
     {
-        public DbSet<DbCustomer>? Customers { get; set; }
-        public DbSet<DbLtcPharmacy>? LtcPharmacies { get; set; }
-        public DbSet<DbFacility>? Facilities { get; set; }
-        
-        public DbSet<DbUser>? Users { get; set; }
-        public DbSet<DbCustomerUser>? CustomerUsers { get; set; }
-        public DbSet<DbOnCallUser>? OnCallUsers { get; set; }
+        public DbSet<DbCustomer> Customers => Set<DbCustomer>();
+        public DbSet<DbLtcPharmacy> LtcPharmacies => Set<DbLtcPharmacy>();
+        public DbSet<DbFacility> Facilities => Set<DbFacility>();
 
-        public DbSet<AuditRecord>? AuditRecords { get; set; }
-        public DbSet<DbRequestTrace>? RequestTraces { get; set; }
-        public DbSet<LogEntry>? LogEntries { get; set; }
+        public DbSet<DbUser> Users => Set<DbUser>();
+        public DbSet<DbCustomerUser> CustomerUsers => Set<DbCustomerUser>();
+        public DbSet<DbOnCallUser> OnCallUsers => Set<DbOnCallUser>();
+
+        public DbSet<AuditRecord> AuditRecords => Set<AuditRecord>();
+        public DbSet<DbRequestTrace> RequestTraces => Set<DbRequestTrace>();
+        public DbSet<LogEntry> LogEntries => Set<LogEntry>();
 
         private readonly string _connectionString;
 

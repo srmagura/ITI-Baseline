@@ -44,8 +44,11 @@ namespace TestApp.Repositories
                 .Include(c => c.LtcPharmacies)
                 .FirstOrDefault(c => c.Id == id.Guid);
 
-            Context.LtcPharmacies!.RemoveRange(dbCustomer.LtcPharmacies);
-            Context.Customers!.Remove(dbCustomer);
+            if (dbCustomer != null)
+            {
+                Context.LtcPharmacies!.RemoveRange(dbCustomer.LtcPharmacies);
+                Context.Customers!.Remove(dbCustomer);
+            }
         }
     }
 }

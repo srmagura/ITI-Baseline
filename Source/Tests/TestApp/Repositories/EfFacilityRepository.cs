@@ -42,7 +42,8 @@ namespace TestApp.Repositories
             var dbFacility = Aggregate
                 .FirstOrDefault(c => c.Id == id.Guid);
 
-            Context.Facilities!.Remove(dbFacility);
+            if(dbFacility != null)
+                Context.Facilities!.Remove(dbFacility);
         }
     }
 }
