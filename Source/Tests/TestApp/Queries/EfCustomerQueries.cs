@@ -10,6 +10,7 @@ using System.Text;
 using TestApp.Application.Dto;
 using TestApp.Application.Interfaces.QueryInterfaces;
 using TestApp.DataContext;
+using TestApp.DataContext.DataModel;
 using TestApp.Domain;
 using TestApp.Domain.Identities;
 
@@ -26,10 +27,10 @@ namespace TestApp.Queries
 
         public CustomerDto? Get(CustomerId id)
         {
-            var q = Context.Customers!
+            var q = Context.Customers
                 .Where(p => p.Id == id.Guid);
 
-            return _mapper.ProjectToDto<CustomerDto>(q);
+            return _mapper.ProjectToDto<DbCustomer, CustomerDto>(q);
         }
     }
 }

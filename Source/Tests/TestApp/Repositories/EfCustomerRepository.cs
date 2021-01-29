@@ -26,10 +26,13 @@ namespace TestApp.Repositories
             .Include(c => c.LtcPharmacies)
             .AsQueryable();
 
-        public Customer Get(CustomerId id)
+        public Customer? Get(CustomerId id)
         {
             var dbCustomer = Aggregate.FirstOrDefault(c => c.Id == id.Guid);
-            return DbMapper.ToEntity<Customer>(dbCustomer);
+
+            return dbCustomer != null
+                ? DbMapper.ToEntity<Customer>(dbCustomer)
+                : null;
         }
 
         public void Add(Customer customer)

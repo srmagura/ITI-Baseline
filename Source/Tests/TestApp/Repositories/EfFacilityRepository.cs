@@ -25,10 +25,13 @@ namespace TestApp.Repositories
         private IQueryable<DbFacility> Aggregate => Context.Facilities!
             .AsQueryable();
 
-        public Facility Get(FacilityId id)
+        public Facility? Get(FacilityId id)
         {
             var dbFacility = Aggregate.FirstOrDefault(c => c.Id == id.Guid);
-            return DbMapper.ToEntity<Facility>(dbFacility);
+            
+            return dbFacility != null
+                ? DbMapper.ToEntity<Facility>(dbFacility)
+                : null;
         }
 
         public void Add(Facility facility)
