@@ -8,7 +8,7 @@ namespace RequestTrace
     // Make sure to add an index like this:
     //
     //     modelBuilder.Entity<DbRequestTrace>()
-    //         .HasIndex(t => new { t.Service, t.Direction
+    //         .HasIndex(t => new { t.Service, t.Direction })
     //     });
     //
     public class DbRequestTrace
@@ -29,9 +29,26 @@ namespace RequestTrace
         public string Response { get; set; }
         public string? Exception { get; set; }
 
-        [Obsolete("Serialization use only")]
-        protected DbRequestTrace()
+        // For persistence use
+        public DbRequestTrace(
+            string service,
+            string direction,
+            DateTimeOffset dateBeginUtc,
+            DateTimeOffset dateEndUtc,
+            string url,
+            string request,
+            string response,
+            string? exception
+        )
         {
+            Service = service;
+            Direction = direction;
+            DateBeginUtc = dateBeginUtc;
+            DateEndUtc = dateEndUtc;
+            Url = url;
+            Request = request;
+            Response = response;
+            Exception = exception;
         }
 
         public DbRequestTrace(
@@ -42,17 +59,18 @@ namespace RequestTrace
             string url,
             string request,
             string response,
-            Exception? exc
+            Exception? exception
+        ) : this(
+            service,
+            direction.ToString(),
+            dateBeginUtc,
+            dateEndUtc,
+            url,
+            request,
+            response,
+            exception?.ToString()
         )
         {
-            Service = service;
-            Direction = direction.ToString();
-            DateBeginUtc = dateBeginUtc;
-            DateEndUtc = dateEndUtc;
-            Url = url;
-            Request = request;
-            Response = response;
-            Exception = exc?.ToString();
         }
     }
 }

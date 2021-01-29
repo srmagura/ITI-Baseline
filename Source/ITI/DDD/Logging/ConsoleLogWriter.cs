@@ -11,10 +11,10 @@ namespace ITI.DDD.Logging
 
         public static bool HasErrors { get; protected set; } = false;
 
-        public void Write(string level, string userId, string userName, string hostname, string process, string thread, string message,
-            Exception exc = null)
+        public void Write(string? level, string? userId, string? userName, string? hostname, string? process, string? thread, string? message,
+            Exception? exc = null)
         {
-            if (exc != null || level.ToUpper() == "ERROR")
+            if (exc != null || level?.ToUpper() == "ERROR")
                 HasErrors = true;
 
             Console.WriteLine($"{DateTime.Now}: {level}: {userId}|{userName}|{hostname}|{process}|{thread}: {message}");

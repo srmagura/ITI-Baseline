@@ -10,7 +10,7 @@ namespace ITI.Baseline.Util
         private readonly DateTime _start;
         private readonly Action<string, TimeSpan> _output;
 
-        public DebugTimer(string name, Action<string, TimeSpan> output = null)
+        public DebugTimer(string name, Action<string, TimeSpan>? output = null)
         {
             _name = name;
             _start = DateTime.Now;

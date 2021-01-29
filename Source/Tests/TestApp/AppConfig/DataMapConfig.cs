@@ -32,6 +32,8 @@ namespace TestApp.AppConfig
                 ConfigureUser(cfg);
             });
 
+            config.AssertConfigurationIsValid();
+
             var mapper = new Mapper(config);
             ioc.RegisterInstance<IMapper>(mapper);
 
@@ -64,6 +66,8 @@ namespace TestApp.AppConfig
             MapIdentity<LtcPharmacyId>(cfg);
 
             cfg.CreateMap<LtcPharmacy, DbLtcPharmacy>()
+                .ForMember(p => p.Customer, opt => opt.Ignore())
+                .ForMember(p => p.CustomerId, opt => opt.Ignore())
                 .EqualityComparison((e, db) => e.Id.Guid == db.Id)
                 .ReverseMap();
 

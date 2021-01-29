@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 using System.Security.Cryptography;
 
-namespace Iti.Baseline.Passwords
+namespace ITI.Baseline.Passwords
 {
     public class DefaultPasswordEncoder : IPasswordEncoder<EncodedPassword>
     {

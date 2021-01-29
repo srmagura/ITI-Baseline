@@ -9,7 +9,6 @@ namespace ITI.Baseline.ValueObjects
 {
     public class EmailAddress : ValueObject
     {
-        [Obsolete("Persistence user only")]
         protected EmailAddress() { }
 
         public EmailAddress(string value)
@@ -21,11 +20,11 @@ namespace ITI.Baseline.ValueObjects
         }
 
         [MaxLength(FieldLengths.EmailAddress.Value)]
-        public string Value { get; protected set; }
+        public string? Value { get; protected set; }
 
         public override string ToString()
         {
-            return Value;
+            return Value ?? "";
         }
 
         protected override IEnumerable<object?> GetAtomicValues()

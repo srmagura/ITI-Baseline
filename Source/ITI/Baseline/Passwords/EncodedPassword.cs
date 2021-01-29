@@ -3,12 +3,10 @@ using ITI.DDD.Domain.ValueObjects;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Iti.Baseline.Passwords
+namespace ITI.Baseline.Passwords
 {
     public class EncodedPassword : ValueObject, IEncodedPassword
     {
-        protected EncodedPassword() { }
-
         internal EncodedPassword(string encodedValue)
         {
             Require.NotEmpty(encodedValue, "Invalid password (empty)");

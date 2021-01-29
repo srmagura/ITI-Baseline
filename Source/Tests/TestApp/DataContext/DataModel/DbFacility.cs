@@ -10,6 +10,8 @@ namespace TestApp.DataContext.DataModel
 {
     public class DbFacility : DbEntity, IDbAudited
     {
+        public DbFacility() { }
+
         [MaxLength(64)]
         public string? Name { get; set; }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using ITI.DDD.Core.Util;
 using ITI.DDD.Domain.ValueObjects;
@@ -7,6 +8,7 @@ namespace ITI.Baseline.ValueObjects
 {
     public class GeoLocation : ValueObject
     {
+        [Obsolete]
         protected GeoLocation() { }
 
         public GeoLocation(

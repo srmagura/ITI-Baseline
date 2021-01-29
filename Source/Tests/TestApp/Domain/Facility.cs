@@ -11,18 +11,18 @@ namespace TestApp.Domain
     // Test of nested value objects
     public class Facility : AggregateRoot
     {
-        [Obsolete("Persistence use only")]
+        [Obsolete]
         protected Facility() { }
-
-        public FacilityId Id { get; set; } = new FacilityId();
-        public string? Name { get; set; }
-        public FacilityContact? Contact { get; set; }
 
         public Facility(string name, FacilityContact? contact)
         {
             Name = name;
             SetContact(contact);
         }
+
+        public FacilityId Id { get; set; } = new FacilityId();
+        public string? Name { get; set; }
+        public FacilityContact? Contact { get; set; }
 
         public void SetContact(FacilityContact? contact)
         {
