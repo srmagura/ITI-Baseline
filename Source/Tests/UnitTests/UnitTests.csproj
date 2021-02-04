@@ -24,6 +24,7 @@
     <ProjectReference Include="..\..\ITI\DDD\Core\Core.csproj" />
     <ProjectReference Include="..\..\ITI\DDD\Domain\Domain.csproj" />
     <ProjectReference Include="..\..\ITI\DDD\Logging\Logging.csproj" />
+    <ProjectReference Include="..\TestApp\TestApp.csproj" />
   </ItemGroup>
 
 </Project>

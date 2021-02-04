@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using TestApp.Domain.Identities;
 using UnitTests.Mocks;
 
 namespace UnitTests.Domain
@@ -20,9 +21,9 @@ namespace UnitTests.Domain
     {
         public class CustomerAddedEvent : BaseDomainEvent
         {
-            public Guid CustomerId { get; set; }
+            public CustomerId CustomerId { get; set; }
 
-            public CustomerAddedEvent(Guid customerId)
+            public CustomerAddedEvent(CustomerId customerId)
             {
                 CustomerId = customerId;
             }
@@ -30,9 +31,9 @@ namespace UnitTests.Domain
 
         public class VendorAddedEvent : BaseDomainEvent
         {
-            public Guid VendorId { get; set; }
+            public VendorId VendorId { get; set; }
 
-            public VendorAddedEvent(Guid vendorId)
+            public VendorAddedEvent(VendorId vendorId)
             {
                 VendorId = vendorId;
             }
@@ -67,7 +68,7 @@ namespace UnitTests.Domain
             ioc.RegisterInstance(eventHandler);
 
             var domainEvents = ioc.Resolve<DomainEvents>();
-            var ev = new CustomerAddedEvent(Guid.NewGuid());
+            var ev = new CustomerAddedEvent(new CustomerId());
             domainEvents.Raise(ev);
             await domainEvents.HandleAllRaisedEventsAsync();
 
@@ -90,7 +91,7 @@ namespace UnitTests.Domain
             ioc.RegisterInstance(eventHandler);
 
             var domainEvents = ioc.Resolve<DomainEvents>();
-            var ev = new CustomerAddedEvent(Guid.NewGuid());
+            var ev = new CustomerAddedEvent(new CustomerId());
             domainEvents.Raise(ev);
             await domainEvents.HandleAllRaisedEventsAsync();
 
@@ -98,7 +99,7 @@ namespace UnitTests.Domain
             eventHandler.Received().Handle(ev);
 
             logger.Received().Error(
-                Arg.Any<string>(), 
+                Arg.Any<string>(),
                 Arg.Is<Exception>(e => e.InnerException != null && e.InnerException.Message == "myException")
             );
         }
@@ -109,7 +110,7 @@ namespace UnitTests.Domain
             var ioc = GetIOC(out var logger);
 
             var domainEvents = ioc.Resolve<DomainEvents>();
-            var ev = new CustomerAddedEvent(Guid.NewGuid());
+            var ev = new CustomerAddedEvent(new CustomerId());
             domainEvents.Raise(ev);
             await domainEvents.HandleAllRaisedEventsAsync();
 
@@ -136,8 +137,8 @@ namespace UnitTests.Domain
 
             // Raise events
             var domainEvents = ioc.Resolve<DomainEvents>();
-            var customerEvent = new CustomerAddedEvent(Guid.NewGuid());
-            var vendorEvent = new VendorAddedEvent(Guid.NewGuid());
+            var customerEvent = new CustomerAddedEvent(new CustomerId());
+            var vendorEvent = new VendorAddedEvent(new VendorId());
             domainEvents.Raise(customerEvent);
             domainEvents.Raise(vendorEvent);
             await domainEvents.HandleAllRaisedEventsAsync();

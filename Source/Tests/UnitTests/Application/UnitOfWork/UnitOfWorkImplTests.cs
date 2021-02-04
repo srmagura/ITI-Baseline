@@ -11,6 +11,7 @@ using NSubstitute;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using TestApp.Domain.Identities;
 using UnitTests.Mocks;
 
 namespace UnitTests.Application.UnitOfWork
@@ -41,9 +42,9 @@ namespace UnitTests.Application.UnitOfWork
 
         public class CustomerAddedEvent : BaseDomainEvent
         {
-            public Guid CustomerId { get; set; }
+            public CustomerId CustomerId { get; set; }
 
-            public CustomerAddedEvent(Guid customerId)
+            public CustomerAddedEvent(CustomerId customerId)
             {
                 CustomerId = customerId;
             }
@@ -51,7 +52,7 @@ namespace UnitTests.Application.UnitOfWork
 
         private class Customer : Entity
         {
-            public Guid Id { get; set; } = Guid.NewGuid();
+            public CustomerId Id { get; set; } = new CustomerId();
 
             public Customer()
             {
@@ -75,7 +76,7 @@ namespace UnitTests.Application.UnitOfWork
             dataContext.GetAllDomainEvents().Returns(
                 new List<IDomainEvent> 
                 { 
-                    new CustomerAddedEvent(Guid.NewGuid()) 
+                    new CustomerAddedEvent(new CustomerId()) 
                 }
             );
 

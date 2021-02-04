@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>annotations</Nullable>
     <AssemblyName>ITI.DDD.Infrastructure</AssemblyName>
     <RootNamespace>ITI.DDD.Infrastructure</RootNamespace>
     <Version>0.1.2</Version>

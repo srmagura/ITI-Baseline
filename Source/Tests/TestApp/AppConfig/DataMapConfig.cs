@@ -21,7 +21,8 @@ namespace TestApp.AppConfig
     {
         public static void RegisterMapper(IOC ioc)
         {
-            var config = new MapperConfiguration(cfg => {
+            var config = new MapperConfiguration(cfg =>
+            {
                 BaseConfig(cfg);
 
                 ConfigureValueObjects(cfg);
@@ -62,8 +63,10 @@ namespace TestApp.AppConfig
 
         private static void ConfigureCustomer(IMapperConfigurationExpression cfg)
         {
-            MapIdentity<CustomerId>(cfg);
-            MapIdentity<LtcPharmacyId>(cfg);
+            MapIdentity(cfg, guid => new CustomerId(guid));
+            MapIdentity(cfg, guid => new LtcPharmacyId(guid));
+
+            MapIdentity(cfg, guid => new VendorId(guid));
 
             cfg.CreateMap<LtcPharmacy, DbLtcPharmacy>()
                 .ForMember(p => p.Customer, opt => opt.Ignore())
@@ -92,7 +95,7 @@ namespace TestApp.AppConfig
 
         private static void ConfigureFacility(IMapperConfigurationExpression cfg)
         {
-            MapIdentity<FacilityId>(cfg);
+            MapIdentity(cfg, guid => new FacilityId(guid));
 
             cfg.CreateMap<FacilityContact, FacilityContact>();
             cfg.CreateMap<FacilityContact, FacilityContactDto>()
@@ -106,8 +109,8 @@ namespace TestApp.AppConfig
 
         private static void ConfigureUser(IMapperConfigurationExpression cfg)
         {
-            MapIdentity<UserId>(cfg);
-            MapIdentity<OnCallProviderId>(cfg);
+            MapIdentity(cfg, guid => new UserId(guid));
+            MapIdentity(cfg, guid => new OnCallProviderId(guid));
 
             cfg.CreateMap<User, DbUser>()
                 .IncludeAllDerived()

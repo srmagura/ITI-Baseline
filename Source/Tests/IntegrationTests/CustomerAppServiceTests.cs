@@ -8,6 +8,7 @@ using System.Linq;
 using TestApp.Application;
 using TestApp.Application.Dto;
 using TestApp.Application.Interfaces;
+using TestApp.Domain.Identities;
 using TestApp.Domain.ValueObjects;
 
 namespace IntegrationTests
@@ -30,7 +31,7 @@ namespace IntegrationTests
             _ioc = IntegrationTestInitialize.Initialize(TestContext);
         }
 
-        private Guid AddCustomer(ICustomerAppService customerSvc)
+        private CustomerId AddCustomer(ICustomerAppService customerSvc)
         {
             var customerId = customerSvc.Add(
                 "myCustomer",
@@ -57,7 +58,10 @@ namespace IntegrationTests
             var customerSvc = _ioc!.Resolve<ICustomerAppService>();
 
             var customerId = AddCustomer(customerSvc);
+
             var customer = customerSvc.Get(customerId);
+
+            Assert.AreEqual(customerId.Guid, customer.Id.Guid);
 
             Assert.IsNotNull(customer);
             Assert.AreEqual("myCustomer", customer!.Name);

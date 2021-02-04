@@ -35,19 +35,19 @@ namespace TestApp.Application
             _facilityRepo = facilityRepo;
         }
 
-        public FacilityDto? Get(Guid id)
+        public FacilityDto? Get(FacilityId id)
         {
             return Query(
                 () => { },
-                () => _facilityQueries.Get(new FacilityId(id))
+                () => _facilityQueries.Get(id)
             );
         }
 
-        public Guid Add(
+        public FacilityId Add(
             string name
         )
         {
-            return CommandScalar(
+            return Command(
                 () => { },
                 () =>
                 {
@@ -56,17 +56,17 @@ namespace TestApp.Application
                         null
                     );                
                     _facilityRepo.Add(facility);
-                    return facility.Id.Guid;
+                    return facility.Id;
                 }
             );
         }
   
-        public void SetContact(Guid id, FacilityContactDto? contact)
+        public void SetContact(FacilityId id, FacilityContactDto? contact)
         {
             Command(
                 () => { },
                 () => {
-                    var facility = _facilityRepo.Get(new FacilityId(id))
+                    var facility = _facilityRepo.Get(id)
                         ?? throw new ValidationException("Facility");
 
                     facility.SetContact(contact?.ToValueObject());

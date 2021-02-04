@@ -37,7 +37,7 @@ namespace IntegrationTests
             _ioc = IntegrationTestInitialize.Initialize(TestContext);
         }
 
-        private Guid AddCustomer(ICustomerAppService customerSvc)
+        private CustomerId AddCustomer(ICustomerAppService customerSvc)
         {
             var customerId = customerSvc.Add(
                 "myCustomer",
@@ -70,13 +70,13 @@ namespace IntegrationTests
             var auditSvc = _ioc!.Resolve<IAuditAppService>();
 
             var customerId = AddCustomer(customerSvc);
-            var auditRecords = auditSvc.List("Customer", customerId.ToString(), 0, 1000);
+            var auditRecords = auditSvc.List("Customer", customerId.Guid.ToString(), 0, 1000);
 
             var auditRecord = auditRecords.Single(r => r.Entity == "Customer");
             Assert.AreEqual(new TestAppAuthContext().UserId, auditRecord.UserId);
             Assert.AreEqual(new TestAppAuthContext().UserName, auditRecord.UserName);
             Assert.AreEqual("Customer", auditRecord.Aggregate);
-            Assert.AreEqual(customerId.ToString(), auditRecord.AggregateId);
+            Assert.AreEqual(customerId.Guid.ToString(), auditRecord.AggregateId);
             Assert.AreEqual("Customer", auditRecord.Entity);
             Assert.AreEqual("Added", auditRecord.Event);
 
@@ -131,15 +131,15 @@ namespace IntegrationTests
             var pruittId = customer!.LtcPharmacies.Single(p => p.Name == "Pruitt").Id;
             customerSvc.RenameLtcPharmacy(customerId, pruittId, "Pruitt2");
 
-            var auditRecords = auditSvc.List("LtcPharmacy", pruittId.ToString(), 0, 1000);
+            var auditRecords = auditSvc.List("LtcPharmacy", pruittId.Guid.ToString(), 0, 1000);
             var auditRecord = auditRecords.Single(r => r.Entity == "LtcPharmacy" && r.Event == "Modified");
 
             Assert.AreEqual(new TestAppAuthContext().UserId, auditRecord.UserId);
             Assert.AreEqual(new TestAppAuthContext().UserName, auditRecord.UserName);
             Assert.AreEqual("Customer", auditRecord.Aggregate);
-            Assert.AreEqual(customerId.ToString(), auditRecord.AggregateId);
+            Assert.AreEqual(customerId.Guid.ToString(), auditRecord.AggregateId);
             Assert.AreEqual("LtcPharmacy", auditRecord.Entity);
-            Assert.AreEqual(pruittId.ToString(), auditRecord.EntityId);
+            Assert.AreEqual(pruittId.Guid.ToString(), auditRecord.EntityId);
 
             var changes = JsonConvert.DeserializeObject<List<AuditPropertyDto>>(auditRecord.Changes!);
             Assert.AreEqual(1, changes.Count);
@@ -148,7 +148,7 @@ namespace IntegrationTests
             );
             AssertDoesNotIncludeIgnoredFields(changes);
 
-            var customerAuditRecords = auditSvc.List("Customer", customerId.ToString(), 0, 1000);
+            var customerAuditRecords = auditSvc.List("Customer", customerId.Guid.ToString(), 0, 1000);
             Assert.IsNotNull(
                 customerAuditRecords.SingleOrDefault(r => r.Entity == "LtcPharmacy" && r.Event == "Modified")
             );
@@ -168,13 +168,13 @@ namespace IntegrationTests
                 new PhoneNumberDto { Value = "19195551111" }
             );
 
-            var auditRecords = auditSvc.List("Customer", customerId.ToString(), 0, 1000);
+            var auditRecords = auditSvc.List("Customer", customerId.Guid.ToString(), 0, 1000);
             var auditRecord = auditRecords.Single(r => r.Entity == "Customer" && r.Event == "Modified");
 
             Assert.AreEqual(new TestAppAuthContext().UserId, auditRecord.UserId);
             Assert.AreEqual(new TestAppAuthContext().UserName, auditRecord.UserName);
             Assert.AreEqual("Customer", auditRecord.Aggregate);
-            Assert.AreEqual(customerId.ToString(), auditRecord.AggregateId);
+            Assert.AreEqual(customerId.Guid.ToString(), auditRecord.AggregateId);
             Assert.AreEqual("Customer", auditRecord.Entity);
 
             var changes = JsonConvert.DeserializeObject<List<AuditPropertyDto>>(auditRecord.Changes!);
@@ -208,7 +208,7 @@ namespace IntegrationTests
 
             customerSvc.Remove(customerId);
 
-            var auditRecords = auditSvc.List("Customer", customerId.ToString(), 0, 1000);
+            var auditRecords = auditSvc.List("Customer", customerId.Guid.ToString(), 0, 1000);
             var auditRecord = auditRecords.Single(r => r.Entity == "Customer" && r.Event == "Deleted");
 
             var changes = JsonConvert.DeserializeObject<List<AuditPropertyDto>>(auditRecord.Changes!);
@@ -252,11 +252,11 @@ namespace IntegrationTests
 
             using(var scope = uow.Begin())
             {
-                customerRepo.Get(new CustomerId(customerId));
+                customerRepo.Get(customerId);
                 scope.Commit();
             };
 
-            var auditRecords = auditSvc.List("Customer", customerId.ToString(), 0, 1000);
+            var auditRecords = auditSvc.List("Customer", customerId.Guid.ToString(), 0, 1000);
             Assert.IsNotNull(
                 auditRecords.SingleOrDefault(r => r.Entity == "Customer" && r.Event == "Added")
             );

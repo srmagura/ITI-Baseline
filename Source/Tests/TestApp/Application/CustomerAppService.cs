@@ -36,22 +36,22 @@ namespace TestApp.Application
             _customerRepo = customerRepo;
         }
 
-        public CustomerDto? Get(Guid id)
+        public CustomerDto? Get(CustomerId id)
         {
             return Query(
                 () => { },
-                () => _customerQueries.Get(new CustomerId(id))
+                () => _customerQueries.Get(id)
             );
         }
 
-        public Guid Add(
+        public CustomerId Add(
             string name,
             AddressDto? address = null,
             PersonNameDto? contactName = null,
             PhoneNumberDto? contactPhone = null
         )
         {
-            return CommandScalar(
+            return Command(
                 () => { },
                 () =>
                 {
@@ -71,29 +71,29 @@ namespace TestApp.Application
                     );
 
                     _customerRepo.Add(customer);
-                    return customer.Id.Guid;
+                    return customer.Id;
                 }
             );
         }
 
-        public void Remove(Guid id)
+        public void Remove(CustomerId id)
         {
             Command(
                 () => { },
                 () =>
                 {
-                    _customerRepo.Remove(new CustomerId(id));
+                    _customerRepo.Remove(id);
                 }
             );
         }
 
-        public void SetContact(Guid id, PersonNameDto? contactName, PhoneNumberDto? contactPhone)
+        public void SetContact(CustomerId id, PersonNameDto? contactName, PhoneNumberDto? contactPhone)
         {
             Command(
                 () => { },
                 () =>
                 {
-                    var customer = _customerRepo.Get(new CustomerId(id))
+                    var customer = _customerRepo.Get(id)
                         ?? throw new ValidationException("Customer");
 
                     customer.SetContact(
@@ -104,13 +104,13 @@ namespace TestApp.Application
             );
         }
 
-        public void AddLtcPharmacy(Guid id, string name)
+        public void AddLtcPharmacy(CustomerId id, string name)
         {
             Command(
                 () => { },
                 () =>
                 {
-                    var customer = _customerRepo.Get(new CustomerId(id))
+                    var customer = _customerRepo.Get(id)
                         ?? throw new ValidationException("Customer");
 
                     customer.AddLtcPharmacy(name);
@@ -118,30 +118,30 @@ namespace TestApp.Application
             );
         }
 
-        public void RenameLtcPharmacy(Guid id, Guid ltcPharmacyId, string name)
+        public void RenameLtcPharmacy(CustomerId id, LtcPharmacyId ltcPharmacyId, string name)
         {
             Command(
                 () => { },
                 () =>
                 {
-                    var customer = _customerRepo.Get(new CustomerId(id))
+                    var customer = _customerRepo.Get(id)
                         ?? throw new ValidationException("Customer");
 
-                    customer.RenameLtcPharmacy(new LtcPharmacyId(ltcPharmacyId), name);
+                    customer.RenameLtcPharmacy(ltcPharmacyId, name);
                 }
            );
         }
 
-        public void RemoveLtcPharmacy(Guid id, Guid ltcPharmacyId)
+        public void RemoveLtcPharmacy(CustomerId id, LtcPharmacyId ltcPharmacyId)
         {
             Command(
                 () => { },
                 () =>
                 {
-                    var customer = _customerRepo.Get(new CustomerId(id))
+                    var customer = _customerRepo.Get(id)
                         ?? throw new ValidationException("Customer");
 
-                    customer.RemoveLtcPharmacy(new LtcPharmacyId(ltcPharmacyId));
+                    customer.RemoveLtcPharmacy(ltcPharmacyId);
                 }
            );
         }

@@ -9,9 +9,11 @@ using System.Linq;
 using System.Text;
 using TestApp.Application.Dto;
 using TestApp.Application.Interfaces;
+using TestApp.Domain.Identities;
 
 namespace IntegrationTests
 {
+
     [TestClass]
     public class FacilityAuditTests
     {
@@ -30,7 +32,7 @@ namespace IntegrationTests
             _ioc = IntegrationTestInitialize.Initialize(TestContext);
         }
 
-        private Guid AddFacility(IFacilityAppService facilitySvc)
+        private FacilityId AddFacility(IFacilityAppService facilitySvc)
         {
             var facilityId = facilitySvc.Add("myFacility");
             Assert.IsNotNull(facilityId);
@@ -76,7 +78,7 @@ namespace IntegrationTests
                 }
             );
 
-            var auditRecords = auditSvc.List("Facility", facilityId.ToString(), 0, 1000);
+            var auditRecords = auditSvc.List("Facility", facilityId.Guid.ToString(), 0, 1000);
             var auditRecord = auditRecords.First();
             var changes = JsonConvert.DeserializeObject<List<AuditPropertyDto>>(auditRecord.Changes!);
 

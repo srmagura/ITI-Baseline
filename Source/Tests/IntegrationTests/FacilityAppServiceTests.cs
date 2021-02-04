@@ -10,6 +10,7 @@ using System.Linq;
 using TestApp.Application;
 using TestApp.Application.Dto;
 using TestApp.Application.Interfaces;
+using TestApp.Domain.Identities;
 using TestApp.Domain.ValueObjects;
 
 namespace IntegrationTests
@@ -32,7 +33,7 @@ namespace IntegrationTests
             _ioc = IntegrationTestInitialize.Initialize(TestContext);
         }
 
-        private Guid AddFacility(IFacilityAppService facilitySvc)
+        private FacilityId AddFacility(IFacilityAppService facilitySvc)
         {
             var facilityId = facilitySvc.Add("myFacility");
             Assert.IsNotNull(facilityId);

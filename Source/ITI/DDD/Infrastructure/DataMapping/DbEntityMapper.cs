@@ -23,6 +23,9 @@ namespace ITI.DDD.Infrastructure.DataMapping
 
         public TEntity ToEntity<TEntity>(DbEntity dbEntity) where TEntity : Entity
         {
+            if (dbEntity == null)
+                return null;
+
             var entity = _mapper.Map<TEntity>(dbEntity);
             dbEntity.MappedEntity = entity;
 

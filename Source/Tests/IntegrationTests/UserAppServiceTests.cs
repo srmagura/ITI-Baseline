@@ -48,7 +48,7 @@ namespace IntegrationTests
             Assert.IsNotNull(user);
             Assert.IsNotNull(customerUser);
             Assert.AreEqual("magura@example2.com", customerUser!.Email?.Value);
-            Assert.AreEqual(customerId, customerUser.CustomerId);
+            Assert.AreEqual(customerId, customerUser.CustomerId.Guid);
         }
 
         [TestMethod]
@@ -71,7 +71,7 @@ namespace IntegrationTests
             Assert.IsNotNull(user);
             Assert.IsNotNull(onCallUser);
             Assert.AreEqual("todd@example2.com", onCallUser!.Email?.Value);
-            Assert.AreEqual(onCallProviderId, onCallUser.OnCallProviderId);
+            Assert.AreEqual(onCallProviderId, onCallUser.OnCallProviderId.Guid);
         }
 
         [TestMethod]
@@ -103,11 +103,11 @@ namespace IntegrationTests
 
             Assert.IsNotNull(customerUser);
             Assert.AreEqual("magura@example2.com", customerUser!.Email?.Value);
-            Assert.AreEqual(customerId, customerUser.CustomerId);
+            Assert.AreEqual(customerId, customerUser.CustomerId.Guid);
 
             Assert.IsNotNull(onCallUser);
             Assert.AreEqual("todd@example2.com", onCallUser!.Email?.Value);
-            Assert.AreEqual(onCallProviderId, onCallUser.OnCallProviderId);
+            Assert.AreEqual(onCallProviderId, onCallUser.OnCallProviderId.Guid);
         }
     }
 }

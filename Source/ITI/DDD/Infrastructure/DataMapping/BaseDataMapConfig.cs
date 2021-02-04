@@ -27,13 +27,33 @@ namespace ITI.DDD.Infrastructure.DataMapping
             cfg.AddCollectionMappers();
         }
 
-        protected static void MapIdentity<TIdentity>(IMapperConfigurationExpression cfg)
+        /*
+        protected static void MapIdentity<TIdentity>(IMapperConfigurationExpression cfg, Func<Guid, TIdentity> constr)
             where TIdentity : Identity, new()
         {
             cfg.CreateMap<TIdentity, Guid>()
                 .ConstructUsing(p => p.Guid)
                 .ReverseMap()
                 .ConstructUsing(p => new TIdentity() { Guid = p });
+        }
+        */
+
+        protected static void MapIdentity<TIdent>(IMapperConfigurationExpression cfg, Func<Guid?, TIdent> constr)
+            where TIdent : Identity, new()
+        {
+            cfg.CreateMap<TIdent, Guid?>()
+                .ConvertUsing(id => id == null ? (Guid?)null : id.Guid)
+                ;
+            cfg.CreateMap<Guid?, TIdent>()
+                .ConvertUsing(guid => guid == null ? null : constr(guid.Value))
+                ;
+
+            cfg.CreateMap<TIdent, Guid>()
+                .ConvertUsing(id => id.Guid)
+                ;
+            cfg.CreateMap<Guid, TIdent>()
+                .ConvertUsing(guid => constr(guid))
+                ;
         }
 
         protected static void SetPrivateField(object obj, string fieldName, object? value)
@@ -46,13 +66,6 @@ namespace ITI.DDD.Infrastructure.DataMapping
 
             var prop = obj.GetType().GetProperty(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             prop?.SetValue(obj, value);
-        }
-
-        protected static Guid GetDbId(Entity e)
-        {
-            var prop = e.GetType().GetProperty("Id", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-            var id = prop?.GetValue(e) as Identity;
-            return id?.Guid ?? Guid.Empty;
         }
     }
 }
