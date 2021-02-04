@@ -11,7 +11,7 @@ namespace ITI.DDD.Infrastructure.DataContext
     public abstract class DbEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = SequentialGuid.Next();
 
         [NotMapped]
         [IgnoreMap]

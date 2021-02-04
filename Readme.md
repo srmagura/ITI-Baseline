@@ -1,6 +1,8 @@
 # Publishing
 Each project is its own NuGet package.
 
+0. Install https://github.com/microsoft/artifacts-credprovider
+
 1. Update version number in the project properties.
 2. In PowerShell, do:
 ```
