@@ -44,11 +44,28 @@ namespace ITI.DDD.Domain.Entities
 
         public static bool operator ==(Identity left, Identity right)
         {
+            if (ReferenceEquals(left, null))
+            {
+                if (ReferenceEquals(right, null))
+                {
+                    // null == null = true.
+                    return true;
+                }
+
+                // Only the left side is null.
+                return false;
+            }
             return left.Equals(right);
         }
 
         public static bool operator !=(Identity left, Identity right)
         {
+            if (ReferenceEquals(left, null))
+            {
+                if (ReferenceEquals(right, null))
+                    return false;
+                return true;
+            }
             return !left.Equals(right);
         }
     }

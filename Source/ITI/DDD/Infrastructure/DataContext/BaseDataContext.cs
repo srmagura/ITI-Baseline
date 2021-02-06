@@ -36,7 +36,8 @@ namespace ITI.DDD.Infrastructure.DataContext
         private void UpdateEntityMaps()
         {
             if(_mapper == null)
-                throw new Exception("SaveChanges called before DataContext initialized.");
+                // throw new Exception("SaveChanges called before DataContext initialized.");
+                return;
 
             foreach (var entry in ChangeTracker.Entries())
             {
