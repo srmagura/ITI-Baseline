@@ -154,7 +154,7 @@ namespace ITI.DDD.Application
             }
         }
 
-        protected T? QueryScalar<T>(Action authorize, Func<T> exec) where T : struct
+        protected T QueryScalar<T>(Action authorize, Func<T> exec) where T : struct
         {
             try
             {

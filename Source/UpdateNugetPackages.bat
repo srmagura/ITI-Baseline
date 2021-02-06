@@ -1,7 +1,7 @@
 
 dotnet pack -c Release
 
-SET VER=0.1.5
+SET VER=0.1.6
 
 dotnet nuget push --source "iti-azure-devops" --api-key az --interactive ./ITI/Baseline/Audit/bin/Release/ITI.Baseline.Audit.%VER%.nupkg
 dotnet nuget push --source "iti-azure-devops" --api-key az --interactive ./ITI/Baseline/Passwords/bin/Release/ITI.Baseline.Passwords.%VER%.nupkg
