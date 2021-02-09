@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ITI.Baseline.Util
 {
-    public class DebugTimer
+    public class DebugTimer : IDisposable
     {
         private readonly string _name;
         private readonly DateTime _start;

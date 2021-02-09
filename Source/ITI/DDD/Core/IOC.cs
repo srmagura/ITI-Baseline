@@ -35,21 +35,30 @@ namespace ITI.DDD.Core
             }
         }
 
+        private void EnsureNotBuilt()
+        {
+            if (_container != null)
+                throw new Exception("Container already built:  Cannot register new types.");
+        }
+
         public void RegisterType<TInterface, TImplementation>()
             where TInterface : notnull
             where TImplementation : notnull
         {
+            EnsureNotBuilt();
             _containerBuilder.RegisterType<TImplementation>().As<TInterface>();
         }
 
         public void RegisterType<T>() where T : notnull
         {
+            EnsureNotBuilt();
             _containerBuilder.RegisterType<T>();
         }
 
         public void RegisterInstance<T>(T instance)
             where T : class
         {
+            EnsureNotBuilt();
             _containerBuilder.RegisterInstance(instance);
         }
 
@@ -57,6 +66,7 @@ namespace ITI.DDD.Core
             where T : TInt
             where TInt : class
         {
+            EnsureNotBuilt();
             _containerBuilder.RegisterInstance<TInt>(instance);
         }
 
@@ -64,12 +74,14 @@ namespace ITI.DDD.Core
             where TImpl : TInt
             where TInt : class
         {
+            EnsureNotBuilt();
             _containerBuilder.RegisterType<TImpl>().As<TInt>().InstancePerLifetimeScope();
         }
 
         public void RegisterLifetimeScope<TImpl>()
             where TImpl : class
         {
+            EnsureNotBuilt();
             _containerBuilder.RegisterType<TImpl>().InstancePerLifetimeScope();
         }
     }

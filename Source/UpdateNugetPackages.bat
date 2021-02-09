@@ -1,7 +1,7 @@
 
 dotnet pack -c Release
 
-SET VER=0.1.6
+SET VER=0.1.7
 
 dotnet nuget push --source "iti-azure-devops" --api-key az --interactive ./ITI/Baseline/Audit/bin/Release/ITI.Baseline.Audit.%VER%.nupkg
 dotnet nuget push --source "iti-azure-devops" --api-key az --interactive ./ITI/Baseline/Passwords/bin/Release/ITI.Baseline.Passwords.%VER%.nupkg
@@ -15,3 +15,5 @@ dotnet nuget push --source "iti-azure-devops" --api-key az --interactive ./ITI/D
 dotnet nuget push --source "iti-azure-devops" --api-key az --interactive ./ITI/DDD/Domain/bin/Release/ITI.DDD.Domain.%VER%.nupkg
 dotnet nuget push --source "iti-azure-devops" --api-key az --interactive ./ITI/DDD/Infrastructure/bin/Release/ITI.DDD.Infrastructure.%VER%.nupkg
 dotnet nuget push --source "iti-azure-devops" --api-key az --interactive ./ITI/DDD/Logging/bin/Release/ITI.DDD.Logging.%VER%.nupkg
+
+pause
