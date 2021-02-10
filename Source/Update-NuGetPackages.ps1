@@ -1,6 +1,6 @@
 param([string] $version)
 
-if($version -eq $null) {
+if(!$version) {
 	"Version parameter is required. Exiting..."
 	exit 1
 }
@@ -19,5 +19,3 @@ dotnet nuget push --source "iti-azure-devops" --api-key az --interactive ./ITI/D
 dotnet nuget push --source "iti-azure-devops" --api-key az --interactive ./ITI/DDD/Domain/bin/Release/ITI.DDD.Domain.$version.nupkg
 dotnet nuget push --source "iti-azure-devops" --api-key az --interactive ./ITI/DDD/Infrastructure/bin/Release/ITI.DDD.Infrastructure.$version.nupkg
 dotnet nuget push --source "iti-azure-devops" --api-key az --interactive ./ITI/DDD/Logging/bin/Release/ITI.DDD.Logging.$version.nupkg
-
-pause
