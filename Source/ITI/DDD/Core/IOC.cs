@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Features.ResolveAnything;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 
 namespace ITI.DDD.Core
@@ -8,7 +9,8 @@ namespace ITI.DDD.Core
     public class IOC
     {
         private readonly ContainerBuilder _containerBuilder = new ContainerBuilder();
-
+        public ContainerBuilder ContainerBuilder => _containerBuilder;
+        
         private IContainer? _container;
         public IContainer Container => _container ??= _containerBuilder.Build();
 

@@ -5,12 +5,13 @@
     <Nullable>enable</Nullable>
     <AssemblyName>ITI.DDD.Core</AssemblyName>
     <RootNamespace>ITI.DDD.Core</RootNamespace>
-    <Version>0.1.7</Version>
+    <Version>0.1.8</Version>
     <Authors />
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
   </ItemGroup>
 
 </Project>
