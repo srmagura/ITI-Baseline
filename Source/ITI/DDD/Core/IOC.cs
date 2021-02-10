@@ -8,6 +8,7 @@ namespace ITI.DDD.Core
     public class IOC
     {
         private readonly ContainerBuilder _containerBuilder;
+        public ContainerBuilder ContainerBuilder => _containerBuilder;
         
         private IContainer? _container;
         public IContainer Container => _container ??= _containerBuilder.Build();
