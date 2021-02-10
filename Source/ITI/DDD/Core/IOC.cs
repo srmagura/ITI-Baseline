@@ -16,7 +16,6 @@ namespace ITI.DDD.Core
         public IOC(ContainerBuilder? containerBuilder = null)
         {
             _containerBuilder = containerBuilder ?? new ContainerBuilder();
-            _containerBuilder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
             _containerBuilder.RegisterInstance(this);
         }
 

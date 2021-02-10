@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Autofac.Features.ResolveAnything;
 using ITI.DDD.Auth;
 using ITI.DDD.Core;
 using ITI.DDD.Domain.DomainEvents;
@@ -48,6 +49,8 @@ namespace UnitTests.Domain
         private IOC GetIOC(out ILogger logger)
         {
             var ioc = new IOC();
+            ioc.ContainerBuilder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
+
             logger = Substitute.For<ILogger>();
             ioc.RegisterInstance(logger);
             var authContext = Substitute.For<IAuthContext>();

@@ -134,6 +134,7 @@ namespace UnitTests.Application
         {
             var ioc = new IOC();
             DDDAppConfig.AddRegistrations(ioc);
+            ioc.RegisterType<MyApplicationService>();
 
             ioc.RegisterInstance(Substitute.For<IDomainEventAuthScopeResolver>());
             ioc.RegisterInstance(Substitute.For<ILogger>());

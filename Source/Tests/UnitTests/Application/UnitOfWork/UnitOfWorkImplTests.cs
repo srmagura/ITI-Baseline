@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using Autofac;
+using Autofac.Features.ResolveAnything;
+using AutoMapper;
 using ITI.DDD.Application;
 using ITI.DDD.Application.UnitOfWork;
 using ITI.DDD.Auth;
@@ -64,6 +66,7 @@ namespace UnitTests.Application.UnitOfWork
         public void CommitHandlesDomainEvents()
         {
             var ioc = new IOC();
+            ioc.ContainerBuilder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
             DDDAppConfig.AddRegistrations(ioc);
             ioc.RegisterInstance(Substitute.For<ILogger>());
             ioc.RegisterInstance(Substitute.For<IAuthContext>());

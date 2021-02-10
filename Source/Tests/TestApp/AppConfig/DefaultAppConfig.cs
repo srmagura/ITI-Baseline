@@ -35,10 +35,12 @@ namespace TestApp.AppConfig
             DataMapConfig.RegisterMapper(ioc);
 
             DomainEvents.Register<CustomerAddedEvent, CustomerAddedDomainEventHandler>();
+            ioc.RegisterType<CustomerAddedDomainEventHandler>();
 
             ioc.RegisterType<IAuthContext, TestAppAuthContext>();
             ioc.RegisterType<IDomainEventAuthScopeResolver, DomainEventAuthScopeResolver>();
             ioc.RegisterType<IAuditAppPermissions, AppPermissions>();
+            ioc.RegisterType<AppDataContext>();
 
             ioc.RegisterType<IAuditDataContext, AppDataContext>();
 
