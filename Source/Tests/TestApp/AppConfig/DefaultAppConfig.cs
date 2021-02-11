@@ -1,4 +1,5 @@
-﻿using ITI.Baseline.Audit;
+﻿using Autofac;
+using ITI.Baseline.Audit;
 using ITI.DDD.Application;
 using ITI.DDD.Auth;
 using ITI.DDD.Core;
@@ -23,38 +24,38 @@ namespace TestApp.AppConfig
 {
     public static class DefaultAppConfig
     {
-        public static void AddRegistrations(IOC ioc)
+        public static void AddRegistrations(ContainerBuilder builder)
         {
-            DDDAppConfig.AddRegistrations(ioc);
-            DDDInfrastructureConfig.AddRegistrations(ioc);
-            BaselineAuditConfig.AddRegistrations(ioc);
+            DDDAppConfig.AddRegistrations(builder);
+            DDDInfrastructureConfig.AddRegistrations(builder);
+            BaselineAuditConfig.AddRegistrations(builder);
 
-            ioc.RegisterType<IAuditFieldConfiguration, AuditFieldConfiguration>();
-            ioc.RegisterType<ILogWriter, DbLogWriter>();
+            builder.RegisterType<AuditFieldConfiguration>().As<IAuditFieldConfiguration>();
+            builder.RegisterType<DbLogWriter>().As<ILogWriter>();
             
-            DataMapConfig.RegisterMapper(ioc);
+            DataMapConfig.RegisterMapper(builder);
 
             DomainEvents.Register<CustomerAddedEvent, CustomerAddedDomainEventHandler>();
-            ioc.RegisterType<CustomerAddedDomainEventHandler>();
+            builder.RegisterType<CustomerAddedDomainEventHandler>();
 
-            ioc.RegisterType<IAuthContext, TestAppAuthContext>();
-            ioc.RegisterType<IDomainEventAuthScopeResolver, DomainEventAuthScopeResolver>();
-            ioc.RegisterType<IAuditAppPermissions, AppPermissions>();
-            ioc.RegisterType<AppDataContext>();
+            builder.RegisterType<TestAppAuthContext>().As<IAuthContext>();
+            builder.RegisterType<DomainEventAuthScopeResolver>().As<IDomainEventAuthScopeResolver>();
+            builder.RegisterType<AppPermissions>().As<IAuditAppPermissions>();
+            builder.RegisterType<AppDataContext>();
 
-            ioc.RegisterType<IAuditDataContext, AppDataContext>();
+            builder.RegisterType<AppDataContext>().As<IAuditDataContext>();
 
-            ioc.RegisterType<ICustomerAppService, CustomerAppService>();
-            ioc.RegisterType<IFacilityAppService, FacilityAppService>();
-            ioc.RegisterType<IUserAppService, UserAppService>();
+            builder.RegisterType<CustomerAppService>().As<ICustomerAppService>();
+            builder.RegisterType<FacilityAppService>().As<IFacilityAppService>();
+            builder.RegisterType<UserAppService>().As<IUserAppService>();
 
-            ioc.RegisterType<ICustomerRepository, EfCustomerRepository>();
-            ioc.RegisterType<IFacilityRepository, EfFacilityRepository>();
-            ioc.RegisterType<IUserRepository, EfUserRepository>();
+            builder.RegisterType<EfCustomerRepository>().As<ICustomerRepository>();
+            builder.RegisterType<EfFacilityRepository>().As<IFacilityRepository>();
+            builder.RegisterType<EfUserRepository>().As<IUserRepository>();
 
-            ioc.RegisterType<ICustomerQueries, EfCustomerQueries>();
-            ioc.RegisterType<IFacilityQueries, EfFacilityQueries>();
-            ioc.RegisterType<IUserQueries, EfUserQueries>();
+            builder.RegisterType<EfCustomerQueries>().As<ICustomerQueries>();
+            builder.RegisterType<EfFacilityQueries>().As<IFacilityQueries>();
+            builder.RegisterType<EfUserQueries>().As<IUserQueries>();
         }
     }
 }

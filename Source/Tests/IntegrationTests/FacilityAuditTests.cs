@@ -1,4 +1,5 @@
-﻿using IntegrationTests.Harness;
+﻿using Autofac;
+using IntegrationTests.Harness;
 using ITI.Baseline.Audit;
 using ITI.DDD.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -18,7 +19,7 @@ namespace IntegrationTests
     public class FacilityAuditTests
     {
         private static TestContext? TestContext;
-        private IOC? _ioc;
+        private IContainer? _container;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -29,7 +30,7 @@ namespace IntegrationTests
         [TestInitialize]
         public void TestInitialize()
         {
-            _ioc = IntegrationTestInitialize.Initialize(TestContext);
+            _container = IntegrationTestInitialize.Initialize(TestContext).Build();
         }
 
         private FacilityId AddFacility(IFacilityAppService facilitySvc)
@@ -44,8 +45,8 @@ namespace IntegrationTests
         [TestMethod]
         public void ChangeContact()
         {
-            var facilitySvc = _ioc!.Resolve<IFacilityAppService>();
-            var auditSvc = _ioc!.Resolve<IAuditAppService>();
+            var facilitySvc = _container!.Resolve<IFacilityAppService>();
+            var auditSvc = _container!.Resolve<IAuditAppService>();
 
             var facilityId = AddFacility(facilitySvc);
 

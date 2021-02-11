@@ -132,17 +132,18 @@ namespace UnitTests.Application
 
         private MyApplicationService CreateAppService()
         {
-            var ioc = new IOC();
-            DDDAppConfig.AddRegistrations(ioc);
-            ioc.RegisterType<MyApplicationService>();
+            var builder = new ContainerBuilder();
+            DDDAppConfig.AddRegistrations(builder);
+            builder.RegisterType<MyApplicationService>();
 
-            ioc.RegisterInstance(Substitute.For<IDomainEventAuthScopeResolver>());
-            ioc.RegisterInstance(Substitute.For<ILogger>());
-            ioc.RegisterInstance(Substitute.For<IAuthContext>());
-            ioc.RegisterInstance(Substitute.For<IMapper>());
-            ioc.RegisterInstance(Substitute.For<IAuditor>());
+            builder.RegisterInstance(Substitute.For<IDomainEventAuthScopeResolver>());
+            builder.RegisterInstance(Substitute.For<ILogger>());
+            builder.RegisterInstance(Substitute.For<IAuthContext>());
+            builder.RegisterInstance(Substitute.For<IMapper>());
+            builder.RegisterInstance(Substitute.For<IAuditor>());
 
-            return ioc.Resolve<MyApplicationService>();
+            var container = builder.Build();
+            return container.Resolve<MyApplicationService>();
         }
 
         [TestMethod]

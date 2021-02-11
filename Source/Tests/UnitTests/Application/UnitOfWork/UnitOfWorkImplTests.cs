@@ -33,7 +33,8 @@ namespace UnitTests.Application.UnitOfWork
             var domainEvents = Substitute.For<IDomainEvents>();
             var mapper = Substitute.For<IMapper>();
             var auditor = Substitute.For<IAuditor>();
-            var uow = new UnitOfWorkImpl(domainEvents, mapper, auditor, new IOC());
+            var lifetimeScope = new ContainerBuilder().Build().BeginLifetimeScope();
+            var uow = new UnitOfWorkImpl(domainEvents, mapper, auditor, lifetimeScope);
 
             Assert.IsNull(UnitOfWorkImpl.CurrentUnitOfWork);
             uow.Begin();
@@ -65,16 +66,16 @@ namespace UnitTests.Application.UnitOfWork
         [TestMethod]
         public void CommitHandlesDomainEvents()
         {
-            var ioc = new IOC();
-            ioc.ContainerBuilder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
-            DDDAppConfig.AddRegistrations(ioc);
-            ioc.RegisterInstance(Substitute.For<ILogger>());
-            ioc.RegisterInstance(Substitute.For<IAuthContext>());
-            ioc.RegisterInstance(Substitute.For<IMapper>());
-            ioc.RegisterInstance(Substitute.For<IAuditor>());
+            var builder = new ContainerBuilder();
+            builder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
+            DDDAppConfig.AddRegistrations(builder);
+            builder.RegisterInstance(Substitute.For<ILogger>());
+            builder.RegisterInstance(Substitute.For<IAuthContext>());
+            builder.RegisterInstance(Substitute.For<IMapper>());
+            builder.RegisterInstance(Substitute.For<IAuditor>());
 
             var dataContext = Substitute.For<IDataContext>();
-            ioc.RegisterInstance(dataContext);
+            builder.RegisterInstance(dataContext);
 
             dataContext.GetAllDomainEvents().Returns(
                 new List<IDomainEvent> 
@@ -83,14 +84,16 @@ namespace UnitTests.Application.UnitOfWork
                 }
             );
 
-            var authScopeResolver = new DomainEventAuthScopeResolverMock(ioc);
-            ioc.RegisterInstance<IDomainEventAuthScopeResolver>(authScopeResolver);
+            builder.Register<IDomainEventAuthScopeResolver>(c =>
+                new DomainEventAuthScopeResolverMock(c.Resolve<ILifetimeScope>())
+            );
 
             DomainEvents.Register<CustomerAddedEvent, IDomainEventHandler<CustomerAddedEvent>>();
             var eventHandler = Substitute.For<IDomainEventHandler<CustomerAddedEvent>>();
-            ioc.RegisterInstance(eventHandler);
+            builder.RegisterInstance(eventHandler);
 
-            var uow = ioc.Resolve<UnitOfWorkImpl>();
+            var container = builder.Build();
+            var uow = container.Resolve<UnitOfWorkImpl>();
 
             using (var scope = uow.Begin())
             {

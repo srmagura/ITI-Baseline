@@ -1,3 +1,4 @@
+using Autofac;
 using IntegrationTests.Harness;
 using ITI.Baseline.Audit;
 using ITI.Baseline.ValueObjects;
@@ -19,7 +20,7 @@ namespace IntegrationTests
     public class FacilityAppServiceTests
     {
         private static TestContext? TestContext;
-        private IOC? _ioc;
+        private IContainer? _container;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -30,7 +31,7 @@ namespace IntegrationTests
         [TestInitialize]
         public void TestInitialize()
         {
-            _ioc = IntegrationTestInitialize.Initialize(TestContext);
+            _container = IntegrationTestInitialize.Initialize(TestContext).Build();
         }
 
         private FacilityId AddFacility(IFacilityAppService facilitySvc)
@@ -45,7 +46,7 @@ namespace IntegrationTests
         [TestMethod]
         public void SetContactNull()
         {
-            var facilitySvc = _ioc!.Resolve<IFacilityAppService>();
+            var facilitySvc = _container!.Resolve<IFacilityAppService>();
 
             var facilityId = AddFacility(facilitySvc);
             var facility = facilitySvc.Get(facilityId);
@@ -58,7 +59,7 @@ namespace IntegrationTests
         [TestMethod]
         public void SetContactNonNullButPropertiesNull()
         {
-            var facilitySvc = _ioc!.Resolve<IFacilityAppService>();
+            var facilitySvc = _container!.Resolve<IFacilityAppService>();
 
             var facilityId = AddFacility(facilitySvc);
             facilitySvc.SetContact(facilityId, new FacilityContactDto());
@@ -74,7 +75,7 @@ namespace IntegrationTests
         [TestMethod]
         public void SetContactNonNull()
         {
-            var facilitySvc = _ioc!.Resolve<IFacilityAppService>();
+            var facilitySvc = _container!.Resolve<IFacilityAppService>();
 
             var facilityId = AddFacility(facilitySvc);
 

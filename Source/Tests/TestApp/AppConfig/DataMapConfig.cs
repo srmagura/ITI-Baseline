@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Autofac;
+using AutoMapper;
 using AutoMapper.EquivalencyExpression;
 using ITI.Baseline.Audit;
 using ITI.Baseline.Util;
@@ -19,7 +20,7 @@ namespace TestApp.AppConfig
 {
     public class DataMapConfig : BaseDataMapConfig
     {
-        public static void RegisterMapper(IOC ioc)
+        public static void RegisterMapper(ContainerBuilder builder)
         {
             var config = new MapperConfiguration(cfg =>
             {
@@ -36,7 +37,7 @@ namespace TestApp.AppConfig
             config.AssertConfigurationIsValid();
 
             var mapper = new Mapper(config);
-            ioc.RegisterInstance<IMapper>(mapper);
+            builder.RegisterInstance<IMapper>(mapper);
 
             SetStaticMapper(mapper);
         }

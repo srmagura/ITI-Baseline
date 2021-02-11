@@ -1,4 +1,5 @@
-﻿using ITI.DDD.Core;
+﻿using Autofac;
+using ITI.DDD.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -8,14 +9,14 @@ namespace IntegrationTests.Harness
 {
     public static class IntegrationTestInitialize
     {
-        public static IOC Initialize(TestContext? testContext)
+        public static ContainerBuilder Initialize(TestContext? testContext)
         {
-            var ioc = IntegrationTestAppConfig.Initialize(testContext);
+            var builder = IntegrationTestAppConfig.Initialize(testContext);
 
             var connectionString = IntegrationTestAppConfig.GetConnectionStrings(testContext).DefaultDataContext;
             IntegrationTestData.ResetDb(connectionString);
 
-            return ioc;
+            return builder;
         }
     }
 }

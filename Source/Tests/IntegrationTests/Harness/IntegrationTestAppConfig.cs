@@ -10,25 +10,26 @@ using System.Collections.Generic;
 using System.Text;
 using TestApp.AppConfig;
 using TestApp.DataContext;
+using Autofac;
 
 namespace IntegrationTests.Harness
 {
     public static class IntegrationTestAppConfig
     {
-        public static IOC Initialize(TestContext? testContext)
+        public static ContainerBuilder Initialize(TestContext? testContext)
         {
             DomainEvents.ClearRegistrations();
             UnitOfWorkImpl.ShouldWaitForDomainEvents(true);
 
-            var ioc = new IOC();
-            DefaultAppConfig.AddRegistrations(ioc);
+            var builder = new ContainerBuilder();
+            DefaultAppConfig.AddRegistrations(builder);
 
             var connectionStrings = GetConnectionStrings(testContext);
-            ioc.RegisterInstance(connectionStrings);
-            ioc.RegisterInstance<IDbLoggerSettings>(connectionStrings);
-            ioc.RegisterInstance<IDbRequestTraceSettings>(connectionStrings);
+            builder.RegisterInstance(connectionStrings);
+            builder.RegisterInstance<IDbLoggerSettings>(connectionStrings);
+            builder.RegisterInstance<IDbRequestTraceSettings>(connectionStrings);
 
-            return ioc;
+            return builder;
         }
 
         public static ConnectionStrings GetConnectionStrings(TestContext? testContext)

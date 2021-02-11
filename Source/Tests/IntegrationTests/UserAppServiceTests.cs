@@ -1,4 +1,5 @@
-﻿using IntegrationTests.Harness;
+﻿using Autofac;
+using IntegrationTests.Harness;
 using ITI.DDD.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -14,7 +15,7 @@ namespace IntegrationTests
     public class UserAppServiceTests
     {
         private static TestContext? TestContext;
-        private IOC? _ioc;
+        private IContainer? _container;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -25,13 +26,13 @@ namespace IntegrationTests
         [TestInitialize]
         public void TestInitialize()
         {
-            _ioc = IntegrationTestInitialize.Initialize(TestContext);
+            _container = IntegrationTestInitialize.Initialize(TestContext).Build();
         }
 
         [TestMethod]
         public void GetCustomerUser()
         {
-            var userSvc = _ioc!.Resolve<IUserAppService>();
+            var userSvc = _container!.Resolve<IUserAppService>();
             var customerId = Guid.NewGuid();
 
             var userId = userSvc.AddCustomerUser(
@@ -54,7 +55,7 @@ namespace IntegrationTests
         [TestMethod]
         public void GetOnCallUser()
         {
-            var userSvc = _ioc!.Resolve<IUserAppService>();
+            var userSvc = _container!.Resolve<IUserAppService>();
             var onCallProviderId = Guid.NewGuid();
 
             var userId = userSvc.AddOnCallUser(
@@ -77,7 +78,7 @@ namespace IntegrationTests
         [TestMethod]
         public void List()
         {
-            var userSvc = _ioc!.Resolve<IUserAppService>();
+            var userSvc = _container!.Resolve<IUserAppService>();
             
             var customerId = Guid.NewGuid();
             var onCallProviderId = Guid.NewGuid();

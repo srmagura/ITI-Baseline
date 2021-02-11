@@ -12,19 +12,19 @@ namespace ITI.DDD.Application.UnitOfWork
         private readonly IDomainEvents _domainEvents;
         private readonly IMapper _mapper;
         private readonly IAuditor _auditor;
-        private readonly IOC _ioc;
+        private readonly ILifetimeScope _lifetimeScope;
 
         public UnitOfWorkImpl(
             IDomainEvents domainEvents,
             IMapper mapper,
             IAuditor auditor,
-            IOC ioc
+            ILifetimeScope lifetimeScope
         )
         {
             _domainEvents = domainEvents;
             _mapper = mapper;
             _auditor = auditor;
-            _ioc = ioc;
+            _lifetimeScope = lifetimeScope;
         }
 
         internal static IUnitOfWork? CurrentUnitOfWork { get; private set; }
@@ -49,7 +49,7 @@ namespace ITI.DDD.Application.UnitOfWork
                     return (TParticipant)_participants[type];
                 }
 
-                var inst = _ioc.Resolve<TParticipant>();
+                var inst = _lifetimeScope.Resolve<TParticipant>();
 
                 inst.Initialize(_mapper, _auditor);
 

@@ -1,4 +1,5 @@
-﻿using IntegrationTests.Harness;
+﻿using Autofac;
+using IntegrationTests.Harness;
 using ITI.DDD.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -14,7 +15,7 @@ namespace IntegrationTests
     public class DomainEventTests
     {
         private static TestContext? TestContext;
-        private IOC? _ioc;
+        private IContainer? _container;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -25,16 +26,16 @@ namespace IntegrationTests
         [TestInitialize]
         public void TestInitialize()
         {
-            _ioc = IntegrationTestInitialize.Initialize(TestContext);
+            _container = IntegrationTestInitialize.Initialize(TestContext).Build();
         }
 
         [TestMethod]
         public void LogWrittenWhenCustomerAdded()
         {
-            var customerSvc = _ioc!.Resolve<ICustomerAppService>();
+            var customerSvc = _container!.Resolve<ICustomerAppService>();
             customerSvc.Add("myCustomer");
 
-            using(var db = _ioc.Resolve<AppDataContext>())
+            using(var db = _container.Resolve<AppDataContext>())
             {
                 var logEntries = db.LogEntries!.ToList();
                 Assert.AreEqual(1, logEntries.Count);

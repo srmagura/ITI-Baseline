@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using TestApp.DataContext;
 using TestApp.Infrastructure;
+using Autofac;
 
 namespace IntegrationTests
 {
@@ -16,7 +17,7 @@ namespace IntegrationTests
     public class RequestTraceTests
     {
         private static TestContext? TestContext;
-        private IOC? _ioc;
+        private ContainerBuilder? _builder;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -27,14 +28,15 @@ namespace IntegrationTests
         [TestInitialize]
         public void TestInitialize()
         {
-            _ioc = IntegrationTestInitialize.Initialize(TestContext);
+            _builder = IntegrationTestInitialize.Initialize(TestContext);
         }
 
         [TestMethod]
         public void WritesTrace()
         {
-            _ioc!.RegisterType<IRequestTrace, DapperRequestTrace>();
-            var requestTrace = _ioc.Resolve<IRequestTrace>();
+            _builder!.RegisterType<DapperRequestTrace>().As<IRequestTrace>();
+            var container = _builder!.Build();
+            var requestTrace = container.Resolve<IRequestTrace>();
 
             requestTrace.WriteTrace(
                 service: "Google",
@@ -46,7 +48,7 @@ namespace IntegrationTests
                 exc: new Exception("myException")
             );
 
-            using (var db = _ioc.Resolve<AppDataContext>())
+            using (var db = container.Resolve<AppDataContext>())
             {
                 var trace = db.RequestTraces!.Single();
 

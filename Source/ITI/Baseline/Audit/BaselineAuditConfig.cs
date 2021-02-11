@@ -1,4 +1,5 @@
-﻿using ITI.DDD.Application;
+﻿using Autofac;
+using ITI.DDD.Application;
 using ITI.DDD.Core;
 using System;
 using System.Collections.Generic;
@@ -8,10 +9,10 @@ namespace ITI.Baseline.Audit
 {
     public static class BaselineAuditConfig
     {
-        public static void AddRegistrations(IOC ioc)
+        public static void AddRegistrations(ContainerBuilder builder)
         {
-            ioc.RegisterType<IAuditor, Auditor>();
-            ioc.RegisterType<IAuditAppService, AuditAppService>();
+            builder.RegisterType<Auditor>().As<IAuditor>();
+            builder.RegisterType<AuditAppService>().As<IAuditAppService>();
         }
     }
 }
