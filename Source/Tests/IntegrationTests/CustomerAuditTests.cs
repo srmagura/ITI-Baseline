@@ -1,4 +1,5 @@
-﻿using IntegrationTests.Harness;
+﻿using Autofac;
+using IntegrationTests.Harness;
 using ITI.Baseline.Audit;
 using ITI.DDD.Application.UnitOfWork;
 using ITI.DDD.Core;
@@ -23,7 +24,7 @@ namespace IntegrationTests
     public class CustomerAuditTests
     {
         private static TestContext? TestContext;
-        private IOC? _ioc;
+        private IContainer? _container;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -34,7 +35,7 @@ namespace IntegrationTests
         [TestInitialize]
         public void TestInitialize()
         {
-            _ioc = IntegrationTestInitialize.Initialize(TestContext);
+            _container = IntegrationTestInitialize.Initialize(TestContext).Build();
         }
 
         private CustomerId AddCustomer(ICustomerAppService customerSvc)
@@ -66,8 +67,8 @@ namespace IntegrationTests
         [TestMethod]
         public void Add()
         {
-            var customerSvc = _ioc!.Resolve<ICustomerAppService>();
-            var auditSvc = _ioc!.Resolve<IAuditAppService>();
+            var customerSvc = _container!.Resolve<ICustomerAppService>();
+            var auditSvc = _container!.Resolve<IAuditAppService>();
 
             var customerId = AddCustomer(customerSvc);
             var auditRecords = auditSvc.List("Customer", customerId.Guid.ToString(), 0, 1000);
@@ -123,8 +124,8 @@ namespace IntegrationTests
         [TestMethod]
         public void ChangeProperty()
         {
-            var customerSvc = _ioc!.Resolve<ICustomerAppService>();
-            var auditSvc = _ioc!.Resolve<IAuditAppService>();
+            var customerSvc = _container!.Resolve<ICustomerAppService>();
+            var auditSvc = _container!.Resolve<IAuditAppService>();
 
             var customerId = AddCustomer(customerSvc);
             var customer = customerSvc.Get(customerId);
@@ -157,8 +158,8 @@ namespace IntegrationTests
         [TestMethod]
         public void ChangeValueObject()
         {
-            var customerSvc = _ioc!.Resolve<ICustomerAppService>();
-            var auditSvc = _ioc!.Resolve<IAuditAppService>();
+            var customerSvc = _container!.Resolve<ICustomerAppService>();
+            var auditSvc = _container!.Resolve<IAuditAppService>();
 
             var customerId = AddCustomer(customerSvc);
             var customer = customerSvc.Get(customerId);
@@ -195,8 +196,8 @@ namespace IntegrationTests
         [TestMethod]
         public void Remove()
         {
-            var customerSvc = _ioc!.Resolve<ICustomerAppService>();
-            var auditSvc = _ioc!.Resolve<IAuditAppService>();
+            var customerSvc = _container!.Resolve<ICustomerAppService>();
+            var auditSvc = _container!.Resolve<IAuditAppService>();
 
             var customerId = AddCustomer(customerSvc);
             var customer = customerSvc.Get(customerId);
@@ -243,10 +244,10 @@ namespace IntegrationTests
         [TestMethod]
         public void DoesNotAddRecordIfNothingChanged()
         {
-            var uow = _ioc!.Resolve<IUnitOfWork>();
-            var customerRepo = _ioc!.Resolve<ICustomerRepository>();
-            var customerSvc = _ioc!.Resolve<ICustomerAppService>();
-            var auditSvc = _ioc!.Resolve<IAuditAppService>();
+            var uow = _container!.Resolve<IUnitOfWork>();
+            var customerRepo = _container!.Resolve<ICustomerRepository>();
+            var customerSvc = _container!.Resolve<ICustomerAppService>();
+            var auditSvc = _container!.Resolve<IAuditAppService>();
 
             var customerId = AddCustomer(customerSvc);
 

@@ -1,3 +1,4 @@
+using Autofac;
 using IntegrationTests.Harness;
 using ITI.Baseline.ValueObjects;
 using ITI.DDD.Core;
@@ -17,7 +18,7 @@ namespace IntegrationTests
     public class CustomerAppServiceTests
     {
         private static TestContext? TestContext;
-        private IOC? _ioc;
+        private IContainer? _container;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -28,7 +29,7 @@ namespace IntegrationTests
         [TestInitialize]
         public void TestInitialize()
         {
-            _ioc = IntegrationTestInitialize.Initialize(TestContext);
+            _container = IntegrationTestInitialize.Initialize(TestContext).Build();
         }
 
         private CustomerId AddCustomer(ICustomerAppService customerSvc)
@@ -55,7 +56,7 @@ namespace IntegrationTests
         [TestMethod]
         public void Add()
         {
-            var customerSvc = _ioc!.Resolve<ICustomerAppService>();
+            var customerSvc = _container!.Resolve<ICustomerAppService>();
 
             var customerId = AddCustomer(customerSvc);
 
@@ -86,7 +87,7 @@ namespace IntegrationTests
         [TestMethod]
         public void SetContact()
         {
-            var customerSvc = _ioc!.Resolve<ICustomerAppService>();
+            var customerSvc = _container!.Resolve<ICustomerAppService>();
 
             var customerId = AddCustomer(customerSvc);
             
@@ -113,7 +114,7 @@ namespace IntegrationTests
         [TestMethod]
         public void Remove()
         {
-            var customerSvc = _ioc!.Resolve<ICustomerAppService>();
+            var customerSvc = _container!.Resolve<ICustomerAppService>();
 
             var customerId = AddCustomer(customerSvc);
             var customer = customerSvc.Get(customerId);
@@ -127,7 +128,7 @@ namespace IntegrationTests
         [TestMethod]
         public void AddLtcPharmacy()
         {
-            var customerSvc = _ioc!.Resolve<ICustomerAppService>();
+            var customerSvc = _container!.Resolve<ICustomerAppService>();
 
             var customerId = AddCustomer(customerSvc);
             customerSvc.AddLtcPharmacy(customerId, "1st Choice");
@@ -142,7 +143,7 @@ namespace IntegrationTests
         [TestMethod]
         public void RenameLtcPharmacy()
         {
-            var customerSvc = _ioc!.Resolve<ICustomerAppService>();
+            var customerSvc = _container!.Resolve<ICustomerAppService>();
 
             var customerId = AddCustomer(customerSvc);
             var customer = customerSvc.Get(customerId);
@@ -160,7 +161,7 @@ namespace IntegrationTests
         [TestMethod]
         public void RemoveLtcPharmacy()
         {
-            var customerSvc = _ioc!.Resolve<ICustomerAppService>();
+            var customerSvc = _container!.Resolve<ICustomerAppService>();
 
             var customerId = AddCustomer(customerSvc);
             var customer = customerSvc.Get(customerId);

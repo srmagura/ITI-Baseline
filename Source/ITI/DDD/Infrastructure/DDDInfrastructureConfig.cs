@@ -1,4 +1,5 @@
-﻿using ITI.DDD.Core;
+﻿using Autofac;
+using ITI.DDD.Core;
 using ITI.DDD.Infrastructure.DataContext;
 using ITI.DDD.Infrastructure.DataMapping;
 using System;
@@ -9,9 +10,9 @@ namespace ITI.DDD.Infrastructure
 {
     public static class DDDInfrastructureConfig
     {
-        public static void AddRegistrations(IOC ioc)
+        public static void AddRegistrations(ContainerBuilder builder)
         {
-            ioc.RegisterType<IDbEntityMapper, DbEntityMapper>();
+            builder.RegisterType<DbEntityMapper>().As<IDbEntityMapper>();
         }
     }
 }

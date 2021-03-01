@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Autofac.Features.ResolveAnything;
 using ITI.DDD.Auth;
 using ITI.DDD.Core;
 using ITI.DDD.Domain.DomainEvents;
@@ -45,29 +46,36 @@ namespace UnitTests.Domain
             DomainEvents.ClearRegistrations();
         }
 
-        private IOC GetIOC(out ILogger logger)
+        private ContainerBuilder GetContainerBuilder(out ILogger logger)
         {
-            var ioc = new IOC();
-            logger = Substitute.For<ILogger>();
-            ioc.RegisterInstance(logger);
-            var authContext = Substitute.For<IAuthContext>();
-            ioc.RegisterInstance(authContext);
-            var authScopeResolver = new DomainEventAuthScopeResolverMock(ioc);
-            ioc.RegisterInstance<IDomainEventAuthScopeResolver>(authScopeResolver);
+            var builder = new ContainerBuilder();
+            builder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
 
-            return ioc;
+            logger = Substitute.For<ILogger>();
+            builder.RegisterInstance(logger);
+
+            var authContext = Substitute.For<IAuthContext>();
+            builder.RegisterInstance(authContext);
+
+            builder.Register<IDomainEventAuthScopeResolver>(c =>
+                new DomainEventAuthScopeResolverMock(c.Resolve<ILifetimeScope>())
+            );
+
+            return builder;
         }
 
         [TestMethod]
         public async Task ProcessSuccess()
         {
-            var ioc = GetIOC(out var logger);
+            var builder = GetContainerBuilder(out var logger);
 
             DomainEvents.Register<CustomerAddedEvent, IDomainEventHandler<CustomerAddedEvent>>();
             var eventHandler = Substitute.For<IDomainEventHandler<CustomerAddedEvent>>();
-            ioc.RegisterInstance(eventHandler);
+            builder.RegisterInstance(eventHandler);
 
-            var domainEvents = ioc.Resolve<DomainEvents>();
+            var container = builder.Build();
+            var domainEvents = container.Resolve<DomainEvents>();
+            
             var ev = new CustomerAddedEvent(new CustomerId());
             domainEvents.Raise(ev);
             await domainEvents.HandleAllRaisedEventsAsync();
@@ -81,16 +89,18 @@ namespace UnitTests.Domain
         [TestMethod]
         public async Task ProcessFailure()
         {
-            var ioc = GetIOC(out var logger);
+            var builder = GetContainerBuilder(out var logger);
 
             DomainEvents.Register<CustomerAddedEvent, IDomainEventHandler<CustomerAddedEvent>>();
             var eventHandler = Substitute.For<IDomainEventHandler<CustomerAddedEvent>>();
             eventHandler
                 .When(x => x.Handle(Arg.Any<CustomerAddedEvent>()))
                 .Do(x => { throw new Exception("myException"); });
-            ioc.RegisterInstance(eventHandler);
+            builder.RegisterInstance(eventHandler);
 
-            var domainEvents = ioc.Resolve<DomainEvents>();
+            var container = builder.Build();
+            var domainEvents = container.Resolve<DomainEvents>();
+
             var ev = new CustomerAddedEvent(new CustomerId());
             domainEvents.Raise(ev);
             await domainEvents.HandleAllRaisedEventsAsync();
@@ -107,9 +117,10 @@ namespace UnitTests.Domain
         [TestMethod]
         public async Task NoHandlerRegistered()
         {
-            var ioc = GetIOC(out var logger);
+            var builder = GetContainerBuilder(out var logger);
+            var container = builder.Build();
+            var domainEvents = container.Resolve<DomainEvents>();
 
-            var domainEvents = ioc.Resolve<DomainEvents>();
             var ev = new CustomerAddedEvent(new CustomerId());
             domainEvents.Raise(ev);
             await domainEvents.HandleAllRaisedEventsAsync();
@@ -120,7 +131,7 @@ namespace UnitTests.Domain
         [TestMethod]
         public async Task FirstHandlerFailsSecondHandlerSucceeds()
         {
-            var ioc = GetIOC(out var logger);
+            var builder = GetContainerBuilder(out var logger);
 
             // CustomerAddedEvent handler (fails)
             DomainEvents.Register<CustomerAddedEvent, IDomainEventHandler<CustomerAddedEvent>>();
@@ -128,15 +139,17 @@ namespace UnitTests.Domain
             customerEventHandler
                 .When(x => x.Handle(Arg.Any<CustomerAddedEvent>()))
                 .Do(x => { throw new Exception("myException"); });
-            ioc.RegisterInstance(customerEventHandler);
+            builder.RegisterInstance(customerEventHandler);
 
             // VendorAddedEvent handler (succeeds)
             DomainEvents.Register<VendorAddedEvent, IDomainEventHandler<VendorAddedEvent>>();
             var vendorEventHandler = Substitute.For<IDomainEventHandler<VendorAddedEvent>>();
-            ioc.RegisterInstance(vendorEventHandler);
+            builder.RegisterInstance(vendorEventHandler);
 
+            var container = builder.Build();
+            var domainEvents = container.Resolve<DomainEvents>();
+            
             // Raise events
-            var domainEvents = ioc.Resolve<DomainEvents>();
             var customerEvent = new CustomerAddedEvent(new CustomerId());
             var vendorEvent = new VendorAddedEvent(new VendorId());
             domainEvents.Raise(customerEvent);

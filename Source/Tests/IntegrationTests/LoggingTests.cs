@@ -11,6 +11,7 @@ using System.Text;
 using TestApp.AppConfig;
 using TestApp.DataContext;
 using TestApp.Infrastructure;
+using Autofac;
 
 namespace IntegrationTests
 {
@@ -18,7 +19,7 @@ namespace IntegrationTests
     public class LoggingTests
     {
         private static TestContext? TestContext;
-        private IOC? _ioc;
+        private IContainer? _container;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -29,17 +30,17 @@ namespace IntegrationTests
         [TestInitialize]
         public void TestInitialize()
         {
-            _ioc = IntegrationTestInitialize.Initialize(TestContext);
+            _container = IntegrationTestInitialize.Initialize(TestContext).Build();
         }
 
         [TestMethod]
         public void WritesLog()
         {
-            var logger = _ioc!.Resolve<ILogger>();
+            var logger = _container!.Resolve<ILogger>();
 
             logger.Error("myMessage", new Exception("myException"));
 
-            using (var db = _ioc.Resolve<AppDataContext>())
+            using (var db = _container.Resolve<AppDataContext>())
             {
                 var logEntry = db.LogEntries!.Single();
 

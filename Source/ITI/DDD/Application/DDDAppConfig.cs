@@ -1,4 +1,5 @@
-﻿using ITI.DDD.Application.UnitOfWork;
+﻿using Autofac;
+using ITI.DDD.Application.UnitOfWork;
 using ITI.DDD.Core;
 using ITI.DDD.Domain.DomainEvents;
 using ITI.DDD.Logging;
@@ -10,12 +11,12 @@ namespace ITI.DDD.Application
 {
     public static class DDDAppConfig
     {
-        public static void AddRegistrations(IOC ioc)
+        public static void AddRegistrations(ContainerBuilder builder)
         {
-            ioc.RegisterType<ILogger, Logger>();
+            builder.RegisterType<Logger>().As<ILogger>();
 
-            ioc.RegisterLifetimeScope<IDomainEvents, DomainEvents>();
-            ioc.RegisterLifetimeScope<IUnitOfWork, UnitOfWorkImpl>();
+            builder.RegisterType<DomainEvents>().As<IDomainEvents>().InstancePerLifetimeScope();
+            builder.RegisterType<UnitOfWorkImpl>().As<IUnitOfWork>().InstancePerLifetimeScope();
         }
     }
 }

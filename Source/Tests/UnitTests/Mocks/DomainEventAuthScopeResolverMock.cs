@@ -10,16 +10,16 @@ namespace UnitTests.Mocks
 {
     internal class DomainEventAuthScopeResolverMock : IDomainEventAuthScopeResolver
     {
-        private readonly IOC _ioc;
+        private readonly ILifetimeScope _scope;
 
-        public DomainEventAuthScopeResolverMock(IOC ioc)
+        public DomainEventAuthScopeResolverMock(ILifetimeScope scope)
         {
-            _ioc = ioc;
+            _scope = scope;
         }
 
         public ILifetimeScope BeginLifetimeScope()
         {
-            return _ioc.BeginLifetimeScope();
+            return _scope.BeginLifetimeScope();
         }
     }
 
