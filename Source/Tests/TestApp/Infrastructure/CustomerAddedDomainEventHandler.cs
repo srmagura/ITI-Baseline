@@ -10,6 +10,11 @@ namespace TestApp.Infrastructure
 {
     public class CustomerAddedDomainEventHandler : IDomainEventHandler<CustomerAddedEvent>
     {
+        public static void Register()
+        {
+            DomainEvents.Register<CustomerAddedEvent, CustomerAddedDomainEventHandler>();
+        }
+
         private readonly ILogger _logger;
         private readonly IAuthContext _authContext;
 

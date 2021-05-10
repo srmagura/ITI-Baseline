@@ -35,8 +35,7 @@ namespace TestApp.AppConfig
             
             DataMapConfig.RegisterMapper(builder);
 
-            DomainEvents.Register<CustomerAddedEvent, CustomerAddedDomainEventHandler>();
-            builder.RegisterType<CustomerAddedDomainEventHandler>();
+            ConfigureDomainEvents(builder);
 
             builder.RegisterType<TestAppAuthContext>().As<IAuthContext>();
             builder.RegisterType<DomainEventAuthScopeResolver>().As<IDomainEventAuthScopeResolver>();
@@ -56,6 +55,14 @@ namespace TestApp.AppConfig
             builder.RegisterType<EfCustomerQueries>().As<ICustomerQueries>();
             builder.RegisterType<EfFacilityQueries>().As<IFacilityQueries>();
             builder.RegisterType<EfUserQueries>().As<IUserQueries>();
+        }
+
+        private static void ConfigureDomainEvents(ContainerBuilder builder)
+        {
+            builder.RegisterBuildCallback(DomainEventAuthScopeResolver.OnContainerBuilt);
+
+            CustomerAddedDomainEventHandler.Register();
+            builder.RegisterType<CustomerAddedDomainEventHandler>();
         }
     }
 }

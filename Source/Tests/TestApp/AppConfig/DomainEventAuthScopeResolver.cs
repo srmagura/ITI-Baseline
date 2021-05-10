@@ -11,19 +11,18 @@ namespace UnitTests.Mocks
 {
     internal class DomainEventAuthScopeResolver : IDomainEventAuthScopeResolver
     {
-        private readonly ILifetimeScope _scope;
+        private static ILifetimeScope RootLifetimeScope;
 
-        public DomainEventAuthScopeResolver(ILifetimeScope scope)
+        public static void OnContainerBuilt(ILifetimeScope rootLifetimeScope)
         {
-            _scope = scope;
+            RootLifetimeScope = rootLifetimeScope;
         }
 
         public ILifetimeScope BeginLifetimeScope()
         {
-            return _scope.BeginLifetimeScope(c => {
+            return RootLifetimeScope.BeginLifetimeScope(c => {
                 c.RegisterType<TestAppSystemAuthContext>().As<IAuthContext>();
             });
         }
     }
-
 }
