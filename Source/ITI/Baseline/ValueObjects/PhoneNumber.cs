@@ -8,7 +8,7 @@ using ITI.DDD.Domain.ValueObjects;
 
 namespace ITI.Baseline.ValueObjects
 {
-    public class PhoneNumber : ValueObject
+    public record PhoneNumber : ValueObject
     {
         [Obsolete("Persistence user only")]
         protected PhoneNumber() { }
@@ -22,11 +22,6 @@ namespace ITI.Baseline.ValueObjects
         }
 
         [MaxLength(FieldLengths.PhoneNumber.Value)]
-        public string? Value { get; protected set; }
-
-        protected override IEnumerable<object?> GetAtomicValues()
-        {
-            yield return Value;
-        }
+        public string? Value { get; protected init; }
     }
 }

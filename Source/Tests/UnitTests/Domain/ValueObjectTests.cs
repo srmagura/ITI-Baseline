@@ -36,7 +36,7 @@ namespace UnitTests.Domain
             Assert.AreNotEqual(name1, name3);
         }
 
-        private class Person : ValueObject
+        private record Person : ValueObject
         {
             public SimplePersonName Name { get; set; }
             public int Age { get; set; }
@@ -45,12 +45,6 @@ namespace UnitTests.Domain
             {
                 Name = name;
                 Age = age;
-            }
-
-            protected override IEnumerable<object?> GetAtomicValues()
-            {
-                yield return Name;
-                yield return Age;
             }
         }
 

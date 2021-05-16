@@ -7,7 +7,7 @@ using TestApp.DataContext;
 
 namespace TestApp.Domain.ValueObjects
 {
-    public class SimpleAddress : ValueObject
+    public record SimpleAddress : ValueObject
     {
         [Obsolete("Persistence user only")]
         protected SimpleAddress() { }
@@ -22,19 +22,19 @@ namespace TestApp.Domain.ValueObjects
         }
 
         [MaxLength(TestAppFieldLengths.SimpleAddress.Line1)]
-        public string? Line1 { get; protected set; }
+        public string? Line1 { get; protected init; }
 
         [MaxLength(TestAppFieldLengths.SimpleAddress.Line2)]
-        public string? Line2 { get; protected set; }
+        public string? Line2 { get; protected init; }
 
         [MaxLength(TestAppFieldLengths.SimpleAddress.City)]
-        public string? City { get; protected set; }
+        public string? City { get; protected init; }
 
         [MaxLength(TestAppFieldLengths.SimpleAddress.State)]
-        public string? State { get; protected set; }
+        public string? State { get; protected init; }
 
         [MaxLength(TestAppFieldLengths.SimpleAddress.Zip)]
-        public string? Zip { get; protected set; }
+        public string? Zip { get; protected init; }
 
         public override string ToString()
         {
@@ -48,7 +48,7 @@ namespace TestApp.Domain.ValueObjects
             return s.Replace("  ", " ").Trim();
         }
 
-        private void AddPart(ref string s, string? value)
+        private static void AddPart(ref string s, string? value)
         {
             if (!value.HasValue())
                 return;
@@ -56,15 +56,6 @@ namespace TestApp.Domain.ValueObjects
             if (s.HasValue())
                 s += ", ";
             s += value;
-        }
-
-        protected override IEnumerable<object?> GetAtomicValues()
-        {
-            yield return Line1;
-            yield return Line2;
-            yield return City;
-            yield return State;
-            yield return Zip;
         }
     }
 }

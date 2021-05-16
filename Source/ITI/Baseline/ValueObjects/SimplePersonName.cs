@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ITI.Baseline.ValueObjects
 {
-    public class SimplePersonName : ValueObject
+    public record SimplePersonName : ValueObject
     {
         [Obsolete("Persistence user only")]
         protected SimplePersonName() { }
@@ -22,29 +22,21 @@ namespace ITI.Baseline.ValueObjects
         //
 
         [MaxLength(FieldLengths.SimplePersonName.Prefix)]
-        public string? Prefix { get; protected set; }
+        public string? Prefix { get; protected init; }
 
         [MaxLength(FieldLengths.SimplePersonName.First)]
-        public string? First { get; protected set; }
+        public string? First { get; protected init; }
 
         [MaxLength(FieldLengths.SimplePersonName.Middle)]
-        public string? Middle { get; protected set; }
+        public string? Middle { get; protected init; }
 
         [MaxLength(FieldLengths.SimplePersonName.Last)]
-        public string? Last { get; protected set; }
+        public string? Last { get; protected init; }
 
         public override string ToString()
         {
             var s = $"{Prefix ?? ""} {Last}, {First} {Middle}";
             return s.Trim();
-        }
-
-        protected override IEnumerable<object?> GetAtomicValues()
-        {
-            yield return Prefix;
-            yield return First;
-            yield return Middle;
-            yield return Last;
         }
     }
 }

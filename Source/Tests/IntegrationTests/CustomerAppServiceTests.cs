@@ -62,7 +62,7 @@ namespace IntegrationTests
 
             var customer = customerSvc.Get(customerId);
 
-            Assert.AreEqual(customerId.Guid, customer.Id.Guid);
+            Assert.AreEqual(customerId.Guid, customer?.Id.Guid);
 
             Assert.IsNotNull(customer);
             Assert.AreEqual("myCustomer", customer!.Name);

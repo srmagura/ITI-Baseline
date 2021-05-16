@@ -7,7 +7,7 @@ using ITI.DDD.Domain.ValueObjects;
 
 namespace ITI.Baseline.ValueObjects
 {
-    public class EmailAddress : ValueObject
+    public record EmailAddress : ValueObject
     {
         protected EmailAddress() { }
 
@@ -15,21 +15,16 @@ namespace ITI.Baseline.ValueObjects
         {
             Value = value.Trim();
 
-            Require.HasValue(Value, "Email Address", 1, 256);
+            Require.HasValue(Value, "Email Address", 1, FieldLengths.EmailAddress.Value);
             Require.IsTrue(Value.IsValidEmail(), $"Invalid Email Address: {Value}");
         }
 
         [MaxLength(FieldLengths.EmailAddress.Value)]
-        public string? Value { get; protected set; }
+        public string? Value { get; protected init; }
 
         public override string ToString()
         {
             return Value ?? "";
-        }
-
-        protected override IEnumerable<object?> GetAtomicValues()
-        {
-            yield return Value;
         }
     }
 }

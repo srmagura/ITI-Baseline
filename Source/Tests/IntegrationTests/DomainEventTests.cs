@@ -35,15 +35,13 @@ namespace IntegrationTests
             var customerSvc = _container!.Resolve<ICustomerAppService>();
             customerSvc.Add("myCustomer");
 
-            using(var db = _container.Resolve<AppDataContext>())
-            {
-                var logEntries = db.LogEntries!.ToList();
-                Assert.AreEqual(1, logEntries.Count);
+            using var db = _container!.Resolve<AppDataContext>();
+            var logEntries = db.LogEntries!.ToList();
+            Assert.AreEqual(1, logEntries.Count);
 
-                var logEntry = logEntries[0];
-                Assert.AreEqual("info", logEntry.Level?.ToLowerInvariant());
-                Assert.AreEqual("Customer added: myCustomer (by SYSTEM)", logEntry.Message);
-            }
+            var logEntry = logEntries[0];
+            Assert.AreEqual("info", logEntry.Level?.ToLowerInvariant());
+            Assert.AreEqual("Customer added: myCustomer (by SYSTEM)", logEntry.Message);
         }
     }
 }

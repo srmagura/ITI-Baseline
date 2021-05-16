@@ -40,16 +40,14 @@ namespace IntegrationTests
 
             logger.Error("myMessage", new Exception("myException"));
 
-            using (var db = _container.Resolve<AppDataContext>())
-            {
-                var logEntry = db.LogEntries!.Single();
+            using var db = _container!.Resolve<AppDataContext>();
+            var logEntry = db.LogEntries!.Single();
 
-                Assert.AreEqual(new TestAppAuthContext().UserId, logEntry.UserId);
-                Assert.AreEqual(new TestAppAuthContext().UserName, logEntry.UserName);
-                Assert.AreEqual("error", logEntry.Level?.ToLowerInvariant());
-                Assert.AreEqual("myMessage", logEntry.Message);
-                Assert.IsTrue(logEntry.Exception!.Contains("myException"));
-            }
+            Assert.AreEqual(new TestAppAuthContext().UserId, logEntry.UserId);
+            Assert.AreEqual(new TestAppAuthContext().UserName, logEntry.UserName);
+            Assert.AreEqual("error", logEntry.Level?.ToLowerInvariant());
+            Assert.AreEqual("myMessage", logEntry.Message);
+            Assert.IsTrue(logEntry.Exception!.Contains("myException"));
         }
     }
 }

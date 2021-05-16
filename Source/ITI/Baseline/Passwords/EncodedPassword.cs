@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ITI.Baseline.Passwords
 {
-    public class EncodedPassword : ValueObject, IEncodedPassword
+    public record EncodedPassword : ValueObject, IEncodedPassword
     {
         [Obsolete("Serialization Only", true)]
         protected EncodedPassword() { }
@@ -26,11 +26,6 @@ namespace ITI.Baseline.Passwords
         public override string ToString()
         {
             return Value;
-        }
-
-        protected override IEnumerable<object> GetAtomicValues()
-        {
-            yield return Value;
         }
     }
 }

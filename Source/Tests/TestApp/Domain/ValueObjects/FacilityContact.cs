@@ -6,7 +6,7 @@ using System.Text;
 
 namespace TestApp.Domain.ValueObjects
 {
-    public class FacilityContact : ValueObject
+    public record FacilityContact : ValueObject
     {
         [Obsolete("Persistence use only")]
         protected FacilityContact() { }
@@ -17,13 +17,7 @@ namespace TestApp.Domain.ValueObjects
             Email = email;
         }
 
-        public SimplePersonName? Name { get; set; }
-        public EmailAddress? Email { get; set; }
-
-        protected override IEnumerable<object?> GetAtomicValues()
-        {
-            yield return Name;
-            yield return Email;
-        }
+        public SimplePersonName? Name { get; protected init; }
+        public EmailAddress? Email { get; protected init; }
     }
 }
