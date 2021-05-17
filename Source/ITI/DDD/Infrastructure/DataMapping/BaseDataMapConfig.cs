@@ -27,22 +27,11 @@ namespace ITI.DDD.Infrastructure.DataMapping
             cfg.AddCollectionMappers();
         }
 
-        /*
-        protected static void MapIdentity<TIdentity>(IMapperConfigurationExpression cfg, Func<Guid, TIdentity> constr)
-            where TIdentity : Identity, new()
-        {
-            cfg.CreateMap<TIdentity, Guid>()
-                .ConstructUsing(p => p.Guid)
-                .ReverseMap()
-                .ConstructUsing(p => new TIdentity() { Guid = p });
-        }
-        */
-
         protected static void MapIdentity<TIdent>(IMapperConfigurationExpression cfg, Func<Guid?, TIdent> constr)
             where TIdent : Identity, new()
         {
             cfg.CreateMap<TIdent, Guid?>()
-                .ConvertUsing(id => id == null ? (Guid?)null : id.Guid)
+                .ConvertUsing(id => id == null ? null : id.Guid)
                 ;
             cfg.CreateMap<Guid?, TIdent>()
                 .ConvertUsing(guid => guid == null ? null : constr(guid.Value))

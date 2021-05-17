@@ -81,7 +81,7 @@ namespace IntegrationTests
             Assert.AreEqual("Customer", auditRecord.Entity);
             Assert.AreEqual("Added", auditRecord.Event);
 
-            var changes = JsonConvert.DeserializeObject<List<AuditPropertyDto>>(auditRecord.Changes!);
+            var changes = JsonConvert.DeserializeObject<List<AuditPropertyDto>>(auditRecord.Changes!)!;
             Assert.IsNotNull(
                 changes.SingleOrDefault(p => p.Name == "Name" && p.From == null && p.To == "myCustomer")
             );
@@ -114,7 +114,7 @@ namespace IntegrationTests
 
             foreach (var ltcAddedRecord in ltcAddedRecords)
             {
-                changes = JsonConvert.DeserializeObject<List<AuditPropertyDto>>(auditRecord.Changes!);
+                changes = JsonConvert.DeserializeObject<List<AuditPropertyDto>>(auditRecord.Changes!)!;
                 Assert.IsNotNull(
                     changes.SingleOrDefault(p => p.Name == "Name" && p.From == null && p.To.HasValue())
                 );
@@ -142,7 +142,7 @@ namespace IntegrationTests
             Assert.AreEqual("LtcPharmacy", auditRecord.Entity);
             Assert.AreEqual(pruittId.Guid.ToString(), auditRecord.EntityId);
 
-            var changes = JsonConvert.DeserializeObject<List<AuditPropertyDto>>(auditRecord.Changes!);
+            var changes = JsonConvert.DeserializeObject<List<AuditPropertyDto>>(auditRecord.Changes!)!;
             Assert.AreEqual(1, changes.Count);
             Assert.IsNotNull(
                 changes.SingleOrDefault(p => p.Name == "Name" && p.From == "Pruitt" && p.To == "Pruitt2")
@@ -178,7 +178,7 @@ namespace IntegrationTests
             Assert.AreEqual(customerId.Guid.ToString(), auditRecord.AggregateId);
             Assert.AreEqual("Customer", auditRecord.Entity);
 
-            var changes = JsonConvert.DeserializeObject<List<AuditPropertyDto>>(auditRecord.Changes!);
+            var changes = JsonConvert.DeserializeObject<List<AuditPropertyDto>>(auditRecord.Changes!)!;
             Assert.IsNull(changes.SingleOrDefault(p => p.Name == "Name"));
             Assert.IsNull(changes.SingleOrDefault(p => p.Name == "Address.Line1"));
             Assert.IsNotNull(
@@ -212,7 +212,7 @@ namespace IntegrationTests
             var auditRecords = auditSvc.List("Customer", customerId.Guid.ToString(), 0, 1000);
             var auditRecord = auditRecords.Single(r => r.Entity == "Customer" && r.Event == "Deleted");
 
-            var changes = JsonConvert.DeserializeObject<List<AuditPropertyDto>>(auditRecord.Changes!);
+            var changes = JsonConvert.DeserializeObject<List<AuditPropertyDto>>(auditRecord.Changes!)!;
             Assert.IsNotNull(
                 changes.SingleOrDefault(p => p.Name == "Name" && p.From == "myCustomer" && p.To == null)
             );

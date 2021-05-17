@@ -14,10 +14,12 @@ namespace UnitTests.Domain
             var id1 = new TestId();
             var id2 = new TestId();
             var id1_copy = new TestId(id1.Guid);
-            TestId id_null1 = null;
-            TestId id_null2 = null;
+            TestId? id_null1 = null;
+            TestId? id_null2 = null;
 
+#pragma warning disable CS1718 // Comparison made to same variable
             Assert.IsTrue(id1 == id1);
+#pragma warning restore CS1718 // Comparison made to same variable
             Assert.IsFalse(id1 == id2);
             Assert.IsTrue(id1 == id1_copy);
 
@@ -51,7 +53,7 @@ namespace UnitTests.Domain
         }
     }
 
-    internal class TestId : Identity
+    internal record TestId : Identity
     {
         public TestId() { }
         public TestId(Guid guid) : base(guid) { }

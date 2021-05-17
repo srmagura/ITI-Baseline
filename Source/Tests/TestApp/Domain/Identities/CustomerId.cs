@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TestApp.Domain.Identities
 {
-    public class CustomerId : Identity
+    public record CustomerId : Identity
     {
         public CustomerId() { }
         public CustomerId(Guid guid) : base(guid) { }

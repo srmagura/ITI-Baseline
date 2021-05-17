@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TestApp.Domain.Identities
 {
-    public class OnCallProviderId : Identity
+    public record OnCallProviderId : Identity
     {
         public OnCallProviderId() { }
         public OnCallProviderId(Guid guid) : base(guid) { }

@@ -3,7 +3,7 @@ using System;
 
 namespace TestApp.Domain.Identities
 {
-    public class VendorId : Identity
+    public record VendorId : Identity
     {
         public VendorId() { }
         public VendorId(Guid guid) : base(guid) { }

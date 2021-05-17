@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TestApp.Domain.Identities
 {
-    public class LtcPharmacyId : Identity
+    public record LtcPharmacyId : Identity
     {
         public LtcPharmacyId() { }
         public LtcPharmacyId(Guid guid) : base(guid) { }
