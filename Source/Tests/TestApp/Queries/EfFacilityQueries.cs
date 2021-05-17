@@ -28,10 +28,9 @@ namespace TestApp.Queries
 
         public FacilityDto? Get(FacilityId id)
         {
-            var q = Context.Facilities!
-                .Where(p => p.Id == id.Guid);
-
-            return _mapper.ProjectToDto<DbFacility, FacilityDto>(q);
+            return Context.Facilities!
+                .Where(p => p.Id == id.Guid)
+                .ProjectToDto<DbFacility, FacilityDto>(_mapper);
         }
     }
 }

@@ -33,27 +33,14 @@
   </PropertyGroup>
   <ItemGroup>
     <TypeScriptCompile Include="AuditPropertyDto.ts" />
-    <TypeScriptCompile Include="EmailRecordDto.ts" />
-    <TypeScriptCompile Include="EmailRecordId.ts" />
-    <TypeScriptCompile Include="EmailStatus.ts" />
-    <TypeScriptCompile Include="FaxRecordDto.ts" />
-    <TypeScriptCompile Include="FaxRecordId.ts" />
-    <TypeScriptCompile Include="FaxStatus.ts" />
-    <TypeScriptCompile Include="GeoCoord.ts" />
-    <TypeScriptCompile Include="GeoLocation.ts" />
     <TypeScriptCompile Include="Identity.ts" />
     <TypeScriptCompile Include="index.ts" />
-    <TypeScriptCompile Include="NotificationId.ts" />
-    <TypeScriptCompile Include="NotificationStatus.ts" />
     <TypeScriptCompile Include="PhoneNumber.ts" />
-    <TypeScriptCompile Include="SmsRecordDto.ts" />
-    <TypeScriptCompile Include="SmsRecordId.ts" />
-    <TypeScriptCompile Include="SmsStatus.ts" />
-    <TypeScriptCompile Include="VoiceRecordDto.ts" />
-    <TypeScriptCompile Include="VoiceRecordId.ts" />
-    <TypeScriptCompile Include="VoiceStatus.ts" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".npmignore">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="package.json" />
     <Content Include="tsconfig.json" />
   </ItemGroup>
