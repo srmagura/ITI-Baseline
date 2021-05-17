@@ -1,10 +1,10 @@
-Source/Website/dist/*
-Source/Website/App_Data/BuildDate.txt
-*.js
-*.js.map
-manifest.json
-*profile.backup*
-*.min.map
+**/.yarn/*
+!**/.yarn/patches
+!**/.yarn/releases
+!**/.yarn/plugins
+!**/.yarn/sdks
+!**/.yarn/versions
+.pnp.*
 
 
 ## Ignore Visual Studio temporary files, build results, and
@@ -24,8 +24,6 @@ manifest.json
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
-[Rr]elease/
-[Rr]eleases/
 x64/
 x86/
 bld/
