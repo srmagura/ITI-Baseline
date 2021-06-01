@@ -1,5 +1,6 @@
 ﻿using ITI.DDD.Core;
 using System;
+using System.Threading.Tasks;
 
 namespace ITI.DDD.Application.UnitOfWork
 {
@@ -11,6 +12,7 @@ namespace ITI.DDD.Application.UnitOfWork
             where TParticipant : IDataContext;
 
         void OnScopeCommit();
+        Task OnScopeCommitAsync();
         void OnScopeDispose();
 
         void RaiseDomainEvent(IDomainEvent domainEvent);

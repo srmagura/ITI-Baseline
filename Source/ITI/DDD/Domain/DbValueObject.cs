@@ -8,7 +8,7 @@ using System.Reflection;
 namespace ITI.DDD.Domain.ValueObjects
 {
     [Owned]
-    public abstract record ValueObject
+    public abstract record DbValueObject
     {
         public bool? HasValue { get; private init; } = true;
     }

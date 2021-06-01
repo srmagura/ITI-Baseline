@@ -7,7 +7,7 @@ using ITI.DDD.Domain.ValueObjects;
 
 namespace ITI.Baseline.ValueObjects
 {
-    public record EmailAddress : ValueObject
+    public record EmailAddress : DbValueObject
     {
         protected EmailAddress() { }
 

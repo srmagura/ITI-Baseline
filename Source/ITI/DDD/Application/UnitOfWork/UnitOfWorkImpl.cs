@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Autofac;
 using AutoMapper;
 using ITI.DDD.Core;
@@ -70,13 +71,11 @@ namespace ITI.DDD.Application.UnitOfWork
             WaitForDomainEvents = waitForDomainEvents;
         }
 
-        void IUnitOfWork.OnScopeCommit()
+        private void RaiseDomainEvents()
         {
             foreach (var db in _participants.Values)
             {
-                db.SaveChanges();
-                
-                foreach(var domainEvent in db.GetAllDomainEvents())
+                foreach (var domainEvent in db.GetAllDomainEvents())
                 {
                     _domainEvents.Raise(domainEvent);
                 }
@@ -87,8 +86,32 @@ namespace ITI.DDD.Application.UnitOfWork
 
             if (WaitForDomainEvents)
                 domainEventTask.Wait();
+        }
+
+        void IUnitOfWork.OnScopeCommit()
+        {
+            RaiseDomainEvents();
+
+            foreach (var db in _participants.Values)
+            {
+                db.SaveChanges();
+            }
 
             ClearParticipants();
+        }
+
+        async Task IUnitOfWork.OnScopeCommitAsync()
+        {
+            RaiseDomainEvents();
+
+            var tasks = new List<Task>();
+
+            foreach (var db in _participants.Values)
+            {
+                tasks.Add(db.SaveChangesAsync());
+            }
+
+            await Task.WhenAll(tasks);
         }
 
         void IUnitOfWork.OnScopeDispose()

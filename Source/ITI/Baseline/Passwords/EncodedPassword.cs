@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ITI.Baseline.Passwords
 {
-    public record EncodedPassword : ValueObject, IEncodedPassword
+    public record EncodedPassword : DbValueObject, IEncodedPassword
     {
         [Obsolete("Serialization Only", true)]
         protected EncodedPassword() { }

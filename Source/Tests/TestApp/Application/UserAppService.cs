@@ -54,7 +54,7 @@ namespace TestApp.Application
 
         public Guid AddCustomerUser(Guid customerId, EmailAddressDto email)
         {
-            return CommandScalar(
+            return CommandValue(
                 () => { },
                 () =>
                 {
@@ -71,7 +71,7 @@ namespace TestApp.Application
 
         public Guid AddOnCallUser(Guid onCallProviderId, EmailAddressDto email)
         {
-            return CommandScalar(
+            return CommandValue(
                 () => { },
                 () =>
                 {

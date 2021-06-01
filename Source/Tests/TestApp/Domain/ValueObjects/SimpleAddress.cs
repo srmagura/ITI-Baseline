@@ -7,7 +7,7 @@ using TestApp.DataContext;
 
 namespace TestApp.Domain.ValueObjects
 {
-    public record SimpleAddress : ValueObject
+    public record SimpleAddress : DbValueObject
     {
         [Obsolete("Persistence user only")]
         protected SimpleAddress() { }

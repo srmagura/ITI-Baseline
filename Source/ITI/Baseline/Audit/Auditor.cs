@@ -130,7 +130,7 @@ namespace ITI.Baseline.Audit
 
             foreach (var reference in entry.References)
             {
-                if (reference?.TargetEntry?.Entity is ValueObject)
+                if (reference?.TargetEntry?.Entity is DbValueObject)
                 {
                     var valueObjectProps = GetValueObjectAuditProperties(entityName, reference);
                     auditProperties.AddRange(valueObjectProps);

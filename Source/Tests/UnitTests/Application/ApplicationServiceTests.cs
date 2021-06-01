@@ -52,9 +52,9 @@ namespace UnitTests.Application
                 );
             }
 
-            public int? QueryForScalar(bool entityExists)
+            public int? QueryForValue(bool entityExists)
             {
-                return QueryScalar(
+                return QueryValue(
                     () => { },
                     () =>
                     {
@@ -66,9 +66,9 @@ namespace UnitTests.Application
                 );
             }
 
-            public int? QueryForNullableScalar()
+            public int? QueryForNullableValue()
             {
-                return QueryNullableScalar(
+                return QueryNullableValue(
                     () => { },
                     () =>
                     {
@@ -107,9 +107,9 @@ namespace UnitTests.Application
                 );
             }
 
-            public int? CommandForScalar()
+            public int? CommandForValue()
             {
-                return CommandScalar(
+                return CommandValue(
                     () => { },
                     () =>
                     {
@@ -118,9 +118,9 @@ namespace UnitTests.Application
                 );
             }
 
-            public int? CommandForNullableScalar()
+            public int? CommandForNullableValue()
             {
-                return QueryNullableScalar(
+                return QueryNullableValue(
                     () => { },
                     () =>
                     {
@@ -166,21 +166,19 @@ namespace UnitTests.Application
         }
 
         [TestMethod]
-        public void QueryForScalar()
+        public void QueryForValue()
         {
             var appService = CreateAppService();
 
-            Assert.AreEqual(1, appService.QueryForScalar(true));
-            
-            //Assert.IsNull(appService.QueryForScalar(false));
-            Assert.AreEqual(0, appService.QueryForScalar(false));    // nullable reference types disabled currently
+            Assert.AreEqual(1, appService.QueryForValue(true));
+            Assert.AreEqual(0, appService.QueryForValue(false));    // nullable reference types disabled currently
         }
 
         [TestMethod]
-        public void QueryForNullableScalar()
+        public void QueryForNullableValue()
         {
             var appService = CreateAppService();
-            Assert.AreEqual(1, appService.QueryForNullableScalar());
+            Assert.AreEqual(1, appService.QueryForNullableValue());
         }
 
         [TestMethod]
@@ -208,18 +206,18 @@ namespace UnitTests.Application
         }
 
         [TestMethod]
-        public void CommandForScalar()
+        public void CommandForValue()
         {
             var appService = CreateAppService();
 
-            Assert.AreEqual(1, appService.CommandForScalar());
+            Assert.AreEqual(1, appService.CommandForValue());
         }
 
         [TestMethod]
-        public void CommandForNullableScalar()
+        public void CommandForNullableValue()
         {
             var appService = CreateAppService();
-            Assert.AreEqual(1, appService.CommandForNullableScalar());
+            Assert.AreEqual(1, appService.CommandForNullableValue());
         }
     }
 }

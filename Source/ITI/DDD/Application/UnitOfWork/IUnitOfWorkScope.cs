@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace ITI.DDD.Application.UnitOfWork
 {
@@ -8,5 +9,6 @@ namespace ITI.DDD.Application.UnitOfWork
             where TParticipant : IDataContext;
 
         void Commit();
+        Task CommitAsync();
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ITI.DDD.Core;
+using System.Threading.Tasks;
 
 namespace ITI.DDD.Application.UnitOfWork
 {
@@ -24,6 +25,11 @@ namespace ITI.DDD.Application.UnitOfWork
         public void Commit()
         {
             ParentUnitOfWork.OnScopeCommit();
+        }
+
+        public async Task CommitAsync()
+        {
+            await ParentUnitOfWork.OnScopeCommitAsync();
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace TestApp.Domain.ValueObjects
 {
-    public record FacilityContact : ValueObject
+    public record FacilityContact : DbValueObject
     {
         [Obsolete("Persistence use only")]
         protected FacilityContact() { }

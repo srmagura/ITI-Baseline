@@ -8,7 +8,7 @@ using ITI.DDD.Domain.ValueObjects;
 
 namespace ITI.Baseline.ValueObjects
 {
-    public record PhoneNumber : ValueObject
+    public record PhoneNumber : DbValueObject
     {
         [Obsolete("Persistence user only")]
         protected PhoneNumber() { }

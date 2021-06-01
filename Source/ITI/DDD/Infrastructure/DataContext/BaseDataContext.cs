@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ITI.DDD.Infrastructure.DataContext
 {
@@ -31,6 +33,14 @@ namespace ITI.DDD.Infrastructure.DataContext
             _auditor?.Process(this);
 
             return base.SaveChanges();
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            UpdateEntityMaps();
+            _auditor?.Process(this);
+
+            return base.SaveChangesAsync(cancellationToken);
         }
 
         private void UpdateEntityMaps()

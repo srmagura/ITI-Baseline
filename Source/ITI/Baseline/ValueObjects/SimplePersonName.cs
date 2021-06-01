@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ITI.Baseline.ValueObjects
 {
-    public record SimplePersonName : ValueObject
+    public record SimplePersonName : DbValueObject
     {
         [Obsolete("Persistence user only")]
         protected SimplePersonName() { }

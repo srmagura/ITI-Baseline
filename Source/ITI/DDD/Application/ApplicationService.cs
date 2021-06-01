@@ -6,6 +6,7 @@ using ITI.DDD.Logging;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 [assembly: InternalsVisibleToAttribute("UnitTests")]
 
@@ -52,7 +53,7 @@ namespace ITI.DDD.Application
             }
         }
 
-        protected T CommandScalar<T>(Action authorize, Func<T> exec) where T : struct
+        protected T CommandValue<T>(Action authorize, Func<T> exec) where T : struct
         {
             try
             {
@@ -79,7 +80,7 @@ namespace ITI.DDD.Application
             }
         }
 
-        protected T? CommandNullableScalar<T>(Action authorize, Func<T> exec) where T : struct
+        protected T? CommandNullableValue<T>(Action authorize, Func<T> exec) where T : struct
         {
             try
             {
@@ -105,7 +106,6 @@ namespace ITI.DDD.Application
                 throw;
             }
         }
-
 
         protected void Command(Action authorize, Action exec)
         {
@@ -118,6 +118,103 @@ namespace ITI.DDD.Application
                     exec();
 
                     uow.Commit();
+                }
+            }
+            catch (EntityNotFoundException enfExc)
+            {
+                Handle(enfExc);
+            }
+            catch (Exception exc)
+            {
+                Handle(exc);
+                throw;
+            }
+        }
+
+        protected async Task<T?> CommandAsync<T>(Func<Task> authorize, Func<Task<T?>> exec) where T : class
+        {
+            try
+            {
+                using (var uow = UnitOfWork.Begin())
+                {
+                    await authorize();
+                    var result = await exec();
+                    await uow.CommitAsync();
+
+                    return result;
+                }
+            }
+            catch (EntityNotFoundException enfExc)
+            {
+                Handle(enfExc);
+                return default;
+            }
+            catch (Exception exc)
+            {
+                Handle(exc);
+                throw;
+            }
+        }
+
+        protected async Task<T> CommandValueAsync<T>(Func<Task> authorize, Func<Task<T>> exec) where T : struct
+        {
+            try
+            {
+                using (var uow = UnitOfWork.Begin())
+                {
+                    await authorize ();
+                    var result = await exec();
+                    await uow.CommitAsync();
+
+                    return result;
+                }
+            }
+            catch (EntityNotFoundException enfExc)
+            {
+                Handle(enfExc);
+                return default;
+            }
+            catch (Exception exc)
+            {
+                Handle(exc);
+                throw;
+            }
+        }
+
+        protected async Task<T?> CommandNullableValueAsync<T>(Func<Task> authorize, Func<Task<T>> exec) where T : struct
+        {
+            try
+            {
+                using (var uow = UnitOfWork.Begin())
+                {
+                    await authorize();
+                    var result = await exec();
+                    await uow.CommitAsync();
+
+                    return result;
+                }
+            }
+            catch (EntityNotFoundException enfExc)
+            {
+                Handle(enfExc);
+                return default;
+            }
+            catch (Exception exc)
+            {
+                Handle(exc);
+                throw;
+            }
+        }
+
+        protected async Task CommandAsync(Func<Task> authorize, Func<Task> exec)
+        {
+            try
+            {
+                using (var uow = UnitOfWork.Begin())
+                {
+                    await authorize();
+                    await exec();
+                    await uow.CommitAsync();
                 }
             }
             catch (EntityNotFoundException enfExc)
@@ -154,7 +251,7 @@ namespace ITI.DDD.Application
             }
         }
 
-        protected T QueryScalar<T>(Action authorize, Func<T> exec) where T : struct
+        protected T QueryValue<T>(Action authorize, Func<T> exec) where T : struct
         {
             try
             {
@@ -177,7 +274,7 @@ namespace ITI.DDD.Application
             }
         }
 
-        protected T? QueryNullableScalar<T>(Action authorize, Func<T?> exec) where T : struct
+        protected T? QueryNullableValue<T>(Action authorize, Func<T?> exec) where T : struct
         {
             try
             {
@@ -186,6 +283,75 @@ namespace ITI.DDD.Application
                     authorize();
 
                     return exec();
+                }
+            }
+            catch (EntityNotFoundException enfExc)
+            {
+                Handle(enfExc);
+                return default;
+            }
+            catch (Exception exc)
+            {
+                Handle(exc);
+                throw;
+            }
+        }
+
+        protected async Task<T?> QueryAsync<T>(Func<Task> authorize, Func<Task<T?>> exec) where T : class
+        {
+            try
+            {
+                using (UnitOfWork.Begin())
+                {
+                    await authorize();
+
+                    return await exec();
+                }
+            }
+            catch (EntityNotFoundException enfExc)
+            {
+                Handle(enfExc);
+                return default(T?);
+            }
+            catch (Exception exc)
+            {
+                Handle(exc);
+                throw;
+            }
+        }
+
+        protected async Task<T> QueryValueAsync<T>(Func<Task> authorize, Func<Task<T>> exec) where T : struct
+        {
+            try
+            {
+                using (UnitOfWork.Begin())
+                {
+                    await authorize();
+
+                    return await exec();
+                }
+            }
+            catch (EntityNotFoundException enfExc)
+            {
+                Handle(enfExc);
+                return default;
+            }
+            catch (Exception exc)
+            {
+                Handle(exc);
+                throw;
+            }
+        }
+
+        protected async Task<T?> QueryNullableValueAsync<T>(Func<Task> authorize, Func<Task<T?>> exec) where T : struct
+        {
+            try
+            {
+                using (UnitOfWork.Begin())
+                {
+                    await authorize();
+
+                    return await exec();
                 }
             }
             catch (EntityNotFoundException enfExc)

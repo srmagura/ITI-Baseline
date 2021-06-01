@@ -36,7 +36,7 @@ namespace UnitTests.Domain
             Assert.AreNotEqual(name1, name3);
         }
 
-        private record Person : ValueObject
+        private record Person : DbValueObject
         {
             public SimplePersonName Name { get; set; }
             public int Age { get; set; }
