@@ -4,6 +4,7 @@ using ITI.DDD.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using TestApp.Domain.Events;
 
 namespace TestApp.Infrastructure
@@ -24,9 +25,10 @@ namespace TestApp.Infrastructure
             _authContext = authContext;
         }
 
-        public void Handle(CustomerAddedEvent domainEvent)
+        public Task HandleAsync(CustomerAddedEvent domainEvent)
         {
             _logger.Info($"Customer added: {domainEvent.Name} (by {_authContext.UserName})");
+            return Task.CompletedTask;
         }
     }
 }

@@ -101,7 +101,7 @@ namespace UnitTests.Application.UnitOfWork
             }
 
             // Event discarded since no commit
-            eventHandler.DidNotReceive().Handle(Arg.Any<CustomerAddedEvent>());
+            eventHandler.DidNotReceive().HandleAsync(Arg.Any<CustomerAddedEvent>());
 
             using (var scope = uow.Begin())
             {
@@ -110,7 +110,7 @@ namespace UnitTests.Application.UnitOfWork
                 scope.Commit();
             }
 
-            eventHandler.Received(1).Handle(Arg.Any<CustomerAddedEvent>());
+            eventHandler.Received(1).HandleAsync(Arg.Any<CustomerAddedEvent>());
         }
     }
 }

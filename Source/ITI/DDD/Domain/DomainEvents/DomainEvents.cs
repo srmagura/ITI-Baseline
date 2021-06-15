@@ -19,11 +19,11 @@ namespace ITI.DDD.Domain.DomainEvents
             _domainEventAuthScopeResolver = domainEventAuthScopeResolver;
         }
 
-        private static Dictionary<Type, List<Type>> _handlerTypes = new Dictionary<Type, List<Type>>();
+        private static Dictionary<Type, List<Type>> HandlerTypes = new();
 
         public static void ClearRegistrations()
         {
-            _handlerTypes = new Dictionary<Type, List<Type>>();
+            HandlerTypes = new();
         }
 
         public static void Register<TEvent, THandler>()
@@ -34,14 +34,14 @@ namespace ITI.DDD.Domain.DomainEvents
             var handlerType = typeof(THandler);
 
             List<Type> handlerTypeList;
-            if (_handlerTypes.ContainsKey(eventType))
+            if (HandlerTypes.ContainsKey(eventType))
             {
-                handlerTypeList = _handlerTypes[eventType];
+                handlerTypeList = HandlerTypes[eventType];
             }
             else
             {
                 handlerTypeList = new List<Type>();
-                _handlerTypes.Add(eventType, handlerTypeList);
+                HandlerTypes.Add(eventType, handlerTypeList);
             }
 
             // don't allow duplicate registrations for handlers
@@ -51,7 +51,7 @@ namespace ITI.DDD.Domain.DomainEvents
             }
         }
 
-        private List<IDomainEvent> _domainEvents = new List<IDomainEvent>();
+        private readonly List<IDomainEvent> _domainEvents = new();
 
         public void Raise(IDomainEvent domainEvent)
         {
@@ -71,10 +71,10 @@ namespace ITI.DDD.Domain.DomainEvents
                 {
                     var domainEventType = domainEvent.GetType();
 
-                    if (!_handlerTypes.ContainsKey(domainEventType))
+                    if (!HandlerTypes.ContainsKey(domainEventType))
                         continue;
 
-                    var handlerTypes = _handlerTypes[domainEventType];
+                    var handlerTypes = HandlerTypes[domainEventType];
                     if (handlerTypes == null)
                         continue;
 
@@ -96,24 +96,24 @@ namespace ITI.DDD.Domain.DomainEvents
 
         private Task ExecuteHandler(Type handlerType, IDomainEvent domainEvent)
         {
-            return Task.Run(() =>
+            return Task.Run(async () =>
             {
                 try
                 {
-                    using (var scope = _domainEventAuthScopeResolver.BeginLifetimeScope())
+                    using var scope = _domainEventAuthScopeResolver.BeginLifetimeScope();
+                    var handler = scope.Resolve(handlerType);
+
+                    var handleMethod = handler.GetType()
+                        .GetMethod(nameof(IDomainEventHandler<IDomainEvent>.HandleAsync), new[] { domainEvent.GetType() });
+                    if (handleMethod == null)
                     {
-                        var handler = scope.Resolve(handlerType);
-
-                        var handleMethod = handler.GetType()
-                            .GetMethod("Handle", new[] { domainEvent.GetType() });
-                        if (handleMethod == null)
-                        {
-                            _logger?.Error($"Domain Event: could not resolve handler method for {handlerType.Name}");
-                            return;
-                        }
-
-                        handleMethod.Invoke(handler, new object[] { domainEvent });
+                        _logger?.Error($"Domain Event: could not resolve handler method for {handlerType.Name}");
+                        return;
                     }
+
+                    var returnValue = handleMethod.Invoke(handler, new object[] { domainEvent });
+                    if (returnValue is Task t)
+                        await t;
                 }
                 catch (Exception exc)
                 {

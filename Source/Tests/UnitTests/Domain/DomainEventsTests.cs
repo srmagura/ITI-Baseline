@@ -80,8 +80,8 @@ namespace UnitTests.Domain
             domainEvents.Raise(ev);
             await domainEvents.HandleAllRaisedEventsAsync();
 
-            eventHandler.Received(1).Handle(Arg.Any<CustomerAddedEvent>());
-            eventHandler.Received().Handle(ev);
+            await eventHandler.Received(1).HandleAsync(Arg.Any<CustomerAddedEvent>());
+            await eventHandler.Received().HandleAsync(ev);
 
             logger.DidNotReceive().Error(Arg.Any<string>());
         }
@@ -94,7 +94,7 @@ namespace UnitTests.Domain
             DomainEvents.Register<CustomerAddedEvent, IDomainEventHandler<CustomerAddedEvent>>();
             var eventHandler = Substitute.For<IDomainEventHandler<CustomerAddedEvent>>();
             eventHandler
-                .When(x => x.Handle(Arg.Any<CustomerAddedEvent>()))
+                .When(x => x.HandleAsync(Arg.Any<CustomerAddedEvent>()))
                 .Do(x => { throw new Exception("myException"); });
             builder.RegisterInstance(eventHandler);
 
@@ -105,8 +105,8 @@ namespace UnitTests.Domain
             domainEvents.Raise(ev);
             await domainEvents.HandleAllRaisedEventsAsync();
 
-            eventHandler.Received(1).Handle(Arg.Any<CustomerAddedEvent>());
-            eventHandler.Received().Handle(ev);
+            await eventHandler.Received(1).HandleAsync(Arg.Any<CustomerAddedEvent>());
+            await eventHandler.Received().HandleAsync(ev);
 
             logger.Received().Error(
                 Arg.Any<string>(),
@@ -137,7 +137,7 @@ namespace UnitTests.Domain
             DomainEvents.Register<CustomerAddedEvent, IDomainEventHandler<CustomerAddedEvent>>();
             var customerEventHandler = Substitute.For<IDomainEventHandler<CustomerAddedEvent>>();
             customerEventHandler
-                .When(x => x.Handle(Arg.Any<CustomerAddedEvent>()))
+                .When(x => x.HandleAsync(Arg.Any<CustomerAddedEvent>()))
                 .Do(x => { throw new Exception("myException"); });
             builder.RegisterInstance(customerEventHandler);
 
@@ -156,8 +156,8 @@ namespace UnitTests.Domain
             domainEvents.Raise(vendorEvent);
             await domainEvents.HandleAllRaisedEventsAsync();
 
-            customerEventHandler.Received(1).Handle(customerEvent);
-            vendorEventHandler.Received(1).Handle(vendorEvent);
+            await customerEventHandler.Received(1).HandleAsync(customerEvent);
+            await vendorEventHandler.Received(1).HandleAsync(vendorEvent);
 
             logger.Received().Error(
                 Arg.Any<string>(),
