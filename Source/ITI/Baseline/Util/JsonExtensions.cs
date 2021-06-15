@@ -52,7 +52,7 @@ namespace ITI.Baseline.Util
             return JsonConvert.DeserializeObject(json, t, DbJsonSettings);
         }
 
-        public static JsonSerializerSettings DbJsonSettings = new JsonSerializerSettings()
+        public static readonly JsonSerializerSettings DbJsonSettings = new JsonSerializerSettings()
         {
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
             ObjectCreationHandling = ObjectCreationHandling.Replace,

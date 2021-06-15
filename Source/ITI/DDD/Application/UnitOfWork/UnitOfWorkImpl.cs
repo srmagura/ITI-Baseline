@@ -112,7 +112,7 @@ namespace ITI.DDD.Application.UnitOfWork
             var domainEventTask = _domainEvents.HandleAllRaisedEventsAsync();
 
             if (WaitForDomainEvents)
-                domainEventTask.Wait();
+                await domainEventTask;
 
             ClearParticipants();
         }

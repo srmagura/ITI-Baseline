@@ -162,7 +162,7 @@ namespace ITI.DDD.Application
             {
                 using (var uow = UnitOfWork.Begin())
                 {
-                    await authorize ();
+                    await authorize();
                     var result = await exec();
                     await uow.CommitAsync();
 
@@ -228,7 +228,7 @@ namespace ITI.DDD.Application
             }
         }
 
-        protected T? Query<T>(Action authorize, Func<T?> exec) where T: class
+        protected T? Query<T>(Action authorize, Func<T?> exec) where T : class
         {
             try
             {
