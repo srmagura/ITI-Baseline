@@ -3,9 +3,11 @@ using ITI.DDD.Application;
 using ITI.DDD.Application.UnitOfWork;
 using ITI.DDD.Auth;
 using ITI.DDD.Logging;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ITI.Baseline.Audit
 {
@@ -29,14 +31,14 @@ namespace ITI.Baseline.Audit
             _mapper = mapper;
         }
 
-        public List<AuditRecordDto> List(string entityName, string entityId, int skip, int take)
+        public async Task<List<AuditRecordDto>> ListAsync(string entityName, string entityId, int skip, int take)
         {
             try
             {
                 Authorize.Require(_perms.CanViewAudit);
 
                 if (_context == null)
-                    throw new Exception("IAuditDataContext not registered (IOC)");
+                    throw new Exception("IAuditDataContext not registered (IOC).");
 
                 var q = _context.AuditRecords
                     .Where(p => (p.Entity == entityName
@@ -47,11 +49,11 @@ namespace ITI.Baseline.Audit
                                     && p.AggregateId != p.EntityId
                                 ));
 
-                var list = q
+                var list = await q
                     .OrderByDescending(p => p.WhenUtc)
                     .Skip(skip)
                     .Take(take)
-                    .ToList();
+                    .ToListAsync();
 
                 return _mapper.Map<List<AuditRecordDto>>(list);
             }

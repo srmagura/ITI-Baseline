@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using TestApp.Application.Dto;
 using TestApp.Application.Interfaces;
 using TestApp.Domain.Identities;
@@ -33,7 +34,7 @@ namespace IntegrationTests
             _container = IntegrationTestInitialize.Initialize(TestContext).Build();
         }
 
-        private FacilityId AddFacility(IFacilityAppService facilitySvc)
+        private static FacilityId AddFacility(IFacilityAppService facilitySvc)
         {
             var facilityId = facilitySvc.Add("myFacility");
             Assert.IsNotNull(facilityId);
@@ -43,7 +44,7 @@ namespace IntegrationTests
         }
 
         [TestMethod]
-        public void ChangeContact()
+        public async Task ChangeContact()
         {
             var facilitySvc = _container!.Resolve<IFacilityAppService>();
             var auditSvc = _container!.Resolve<IAuditAppService>();
@@ -79,7 +80,7 @@ namespace IntegrationTests
                 }
             );
 
-            var auditRecords = auditSvc.List("Facility", facilityId.Guid.ToString(), 0, 1000);
+            var auditRecords = await auditSvc.ListAsync("Facility", facilityId.Guid.ToString(), 0, 1000);
             var auditRecord = auditRecords.First();
             var changes = JsonConvert.DeserializeObject<List<AuditPropertyDto>>(auditRecord.Changes!)!;
 

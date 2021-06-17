@@ -209,7 +209,7 @@ namespace ITI.Baseline.Audit
 
                 var fn = fieldName;
                 while (fn.StartsWith("."))
-                    fn = fn.Substring(1);
+                    fn = fn[1..];
 
                 if (ignoredFields.Any(p => p == fn))
                 {
@@ -223,7 +223,7 @@ namespace ITI.Baseline.Audit
 
                 var fn = fieldName;
                 while (fn.StartsWith("."))
-                    fn = fn.Substring(1);
+                    fn = fn[1..];
 
                 if (maskedFields.Any(p => p == fn))
                 {
@@ -237,7 +237,7 @@ namespace ITI.Baseline.Audit
             return new AuditPropertyDto(fieldName, fromValue?.ToString(), toValue?.ToString());
         }
 
-        private bool CompareValues(object? a, object? b)
+        private static bool CompareValues(object? a, object? b)
         {
             if (a == null && b == null)
                 return true;

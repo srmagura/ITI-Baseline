@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using TestApp.AppConfig;
 using TestApp.Application.Dto;
 using TestApp.Application.Interfaces;
@@ -38,7 +39,7 @@ namespace IntegrationTests
             _container = IntegrationTestInitialize.Initialize(TestContext).Build();
         }
 
-        private CustomerId AddCustomer(ICustomerAppService customerSvc)
+        private static CustomerId AddCustomer(ICustomerAppService customerSvc)
         {
             var customerId = customerSvc.Add(
                 "myCustomer",
@@ -59,19 +60,19 @@ namespace IntegrationTests
             return customerId;
         }
 
-        private void AssertDoesNotIncludeIgnoredFields(List<AuditPropertyDto> changes)
+        private static void AssertDoesNotIncludeIgnoredFields(List<AuditPropertyDto> changes)
         {
             Assert.IsNull(changes.FirstOrDefault(c => c.Name == nameof(Customer.SomeNumber)));
         }
 
         [TestMethod]
-        public void Add()
+        public async Task Add()
         {
             var customerSvc = _container!.Resolve<ICustomerAppService>();
             var auditSvc = _container!.Resolve<IAuditAppService>();
 
             var customerId = AddCustomer(customerSvc);
-            var auditRecords = auditSvc.List("Customer", customerId.Guid.ToString(), 0, 1000);
+            var auditRecords = await auditSvc.ListAsync("Customer", customerId.Guid.ToString(), 0, 1000);
 
             var auditRecord = auditRecords.Single(r => r.Entity == "Customer");
             Assert.AreEqual(new TestAppAuthContext().UserId, auditRecord.UserId);
@@ -122,7 +123,7 @@ namespace IntegrationTests
         }
 
         [TestMethod]
-        public void ChangeProperty()
+        public async Task ChangeProperty()
         {
             var customerSvc = _container!.Resolve<ICustomerAppService>();
             var auditSvc = _container!.Resolve<IAuditAppService>();
@@ -132,7 +133,7 @@ namespace IntegrationTests
             var pruittId = customer!.LtcPharmacies.Single(p => p.Name == "Pruitt").Id;
             customerSvc.RenameLtcPharmacy(customerId, pruittId, "Pruitt2");
 
-            var auditRecords = auditSvc.List("LtcPharmacy", pruittId.Guid.ToString(), 0, 1000);
+            var auditRecords = await auditSvc.ListAsync("LtcPharmacy", pruittId.Guid.ToString(), 0, 1000);
             var auditRecord = auditRecords.Single(r => r.Entity == "LtcPharmacy" && r.Event == "Modified");
 
             Assert.AreEqual(new TestAppAuthContext().UserId, auditRecord.UserId);
@@ -149,14 +150,14 @@ namespace IntegrationTests
             );
             AssertDoesNotIncludeIgnoredFields(changes);
 
-            var customerAuditRecords = auditSvc.List("Customer", customerId.Guid.ToString(), 0, 1000);
+            var customerAuditRecords = await auditSvc.ListAsync("Customer", customerId.Guid.ToString(), 0, 1000);
             Assert.IsNotNull(
                 customerAuditRecords.SingleOrDefault(r => r.Entity == "LtcPharmacy" && r.Event == "Modified")
             );
         }
 
         [TestMethod]
-        public void ChangeValueObject()
+        public async Task ChangeValueObject()
         {
             var customerSvc = _container!.Resolve<ICustomerAppService>();
             var auditSvc = _container!.Resolve<IAuditAppService>();
@@ -169,7 +170,7 @@ namespace IntegrationTests
                 new PhoneNumberDto { Value = "19195551111" }
             );
 
-            var auditRecords = auditSvc.List("Customer", customerId.Guid.ToString(), 0, 1000);
+            var auditRecords = await auditSvc.ListAsync("Customer", customerId.Guid.ToString(), 0, 1000);
             var auditRecord = auditRecords.Single(r => r.Entity == "Customer" && r.Event == "Modified");
 
             Assert.AreEqual(new TestAppAuthContext().UserId, auditRecord.UserId);
@@ -194,7 +195,7 @@ namespace IntegrationTests
         }
 
         [TestMethod]
-        public void Remove()
+        public async Task Remove()
         {
             var customerSvc = _container!.Resolve<ICustomerAppService>();
             var auditSvc = _container!.Resolve<IAuditAppService>();
@@ -209,7 +210,7 @@ namespace IntegrationTests
 
             customerSvc.Remove(customerId);
 
-            var auditRecords = auditSvc.List("Customer", customerId.Guid.ToString(), 0, 1000);
+            var auditRecords = await auditSvc.ListAsync("Customer", customerId.Guid.ToString(), 0, 1000);
             var auditRecord = auditRecords.Single(r => r.Entity == "Customer" && r.Event == "Deleted");
 
             var changes = JsonConvert.DeserializeObject<List<AuditPropertyDto>>(auditRecord.Changes!)!;
@@ -242,7 +243,7 @@ namespace IntegrationTests
         }
 
         [TestMethod]
-        public void DoesNotAddRecordIfNothingChanged()
+        public async Task DoesNotAddRecordIfNothingChanged()
         {
             var uow = _container!.Resolve<IUnitOfWork>();
             var customerRepo = _container!.Resolve<ICustomerRepository>();
@@ -257,7 +258,7 @@ namespace IntegrationTests
                 scope.Commit();
             };
 
-            var auditRecords = auditSvc.List("Customer", customerId.Guid.ToString(), 0, 1000);
+            var auditRecords = await auditSvc.ListAsync("Customer", customerId.Guid.ToString(), 0, 1000);
             Assert.IsNotNull(
                 auditRecords.SingleOrDefault(r => r.Entity == "Customer" && r.Event == "Added")
             );
