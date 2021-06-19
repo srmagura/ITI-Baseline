@@ -1,7 +1,9 @@
-﻿namespace ITI.Baseline.Audit
+﻿using System.Threading.Tasks;
+
+namespace ITI.Baseline.Audit
 {
     public interface IAuditAppPermissions
     {
-        bool CanViewAudit { get; }
+        Task<bool> CanViewAuditAsync(string entityName, string entityId);
     }
 }

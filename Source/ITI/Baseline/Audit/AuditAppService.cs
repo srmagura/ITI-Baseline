@@ -35,7 +35,7 @@ namespace ITI.Baseline.Audit
         {
             try
             {
-                Authorize.Require(_perms.CanViewAudit);
+                Authorize.Require(await _perms.CanViewAuditAsync(entityName, entityId));
 
                 if (_context == null)
                     throw new Exception("IAuditDataContext not registered (IOC).");
