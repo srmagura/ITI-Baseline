@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ITI.Baseline.Util;
 using ITI.DDD.Application;
 using ITI.DDD.Application.UnitOfWork;
 using ITI.DDD.Auth;
@@ -18,9 +19,9 @@ namespace ITI.Baseline.Audit
         private readonly IMapper _mapper;
 
         public AuditAppService(
-            IUnitOfWork uow, 
+            IUnitOfWork uow,
             ILogger logger,
-            IAuthContext auth, 
+            IAuthContext auth,
             IAuditAppPermissions perms,
             IAuditDataContext context,
             IMapper mapper
@@ -31,37 +32,38 @@ namespace ITI.Baseline.Audit
             _mapper = mapper;
         }
 
-        public async Task<List<AuditRecordDto>> ListAsync(string entityName, string entityId, int skip, int take)
+        public Task<FilteredList<AuditRecordDto>?> ListAsync(string entityName, string entityId, int skip, int take)
         {
-            try
-            {
-                Authorize.Require(await _perms.CanViewAuditAsync(entityName, entityId));
+            return QueryAsync(
+                async () => Authorize.Require(await _perms.CanViewAuditAsync(entityName, entityId)),
+                async () =>
+                {
+                    if (_context == null)
+                        throw new Exception("IAuditDataContext not registered (IOC).");
 
-                if (_context == null)
-                    throw new Exception("IAuditDataContext not registered (IOC).");
+                    var q = _context.AuditRecords
+                        .Where(p => (p.Entity == entityName
+                                     && p.EntityId == entityId
+                                    )
+                                    || (p.Aggregate == entityName
+                                        && p.AggregateId == entityId
+                                        && p.AggregateId != p.EntityId
+                                    ));
 
-                var q = _context.AuditRecords
-                    .Where(p => (p.Entity == entityName
-                                 && p.EntityId == entityId
-                                )
-                                || (p.Aggregate == entityName
-                                    && p.AggregateId == entityId
-                                    && p.AggregateId != p.EntityId
-                                ));
+                    var count = await q.CountAsync();
 
-                var list = await q
-                    .OrderByDescending(p => p.WhenUtc)
-                    .Skip(skip)
-                    .Take(take)
-                    .ToListAsync();
+                    var items = await q
+                        .OrderByDescending(p => p.WhenUtc)
+                        .Skip(skip)
+                        .Take(take)
+                        .ToListAsync();
 
-                return _mapper.Map<List<AuditRecordDto>>(list);
-            }
-            catch (Exception exc)
-            {
-                Log.Error("Could not retrieve audit records", exc);
-                throw;
-            }
+                    var dtos = _mapper.Map<List<AuditRecordDto>>(items);
+
+                    return new FilteredList<AuditRecordDto>(count, dtos);
+                }
+            );
+
         }
     }
 }

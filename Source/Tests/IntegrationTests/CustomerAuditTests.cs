@@ -72,7 +72,7 @@ namespace IntegrationTests
             var auditSvc = _container!.Resolve<IAuditAppService>();
 
             var customerId = AddCustomer(customerSvc);
-            var auditRecords = await auditSvc.ListAsync("Customer", customerId.Guid.ToString(), 0, 1000);
+            var auditRecords = (await auditSvc.ListAsync("Customer", customerId.Guid.ToString(), 0, 1000))!.Items;
 
             var auditRecord = auditRecords.Single(r => r.Entity == "Customer");
             Assert.AreEqual(new TestAppAuthContext().UserId, auditRecord.UserId);
@@ -133,7 +133,7 @@ namespace IntegrationTests
             var pruittId = customer!.LtcPharmacies.Single(p => p.Name == "Pruitt").Id;
             customerSvc.RenameLtcPharmacy(customerId, pruittId, "Pruitt2");
 
-            var auditRecords = await auditSvc.ListAsync("LtcPharmacy", pruittId.Guid.ToString(), 0, 1000);
+            var auditRecords = (await auditSvc.ListAsync("LtcPharmacy", pruittId.Guid.ToString(), 0, 1000))!.Items;
             var auditRecord = auditRecords.Single(r => r.Entity == "LtcPharmacy" && r.Event == "Modified");
 
             Assert.AreEqual(new TestAppAuthContext().UserId, auditRecord.UserId);
@@ -150,7 +150,7 @@ namespace IntegrationTests
             );
             AssertDoesNotIncludeIgnoredFields(changes);
 
-            var customerAuditRecords = await auditSvc.ListAsync("Customer", customerId.Guid.ToString(), 0, 1000);
+            var customerAuditRecords = (await auditSvc.ListAsync("Customer", customerId.Guid.ToString(), 0, 1000))!.Items;
             Assert.IsNotNull(
                 customerAuditRecords.SingleOrDefault(r => r.Entity == "LtcPharmacy" && r.Event == "Modified")
             );
@@ -170,7 +170,7 @@ namespace IntegrationTests
                 new PhoneNumberDto { Value = "19195551111" }
             );
 
-            var auditRecords = await auditSvc.ListAsync("Customer", customerId.Guid.ToString(), 0, 1000);
+            var auditRecords = (await auditSvc.ListAsync("Customer", customerId.Guid.ToString(), 0, 1000))!.Items;
             var auditRecord = auditRecords.Single(r => r.Entity == "Customer" && r.Event == "Modified");
 
             Assert.AreEqual(new TestAppAuthContext().UserId, auditRecord.UserId);
@@ -210,7 +210,7 @@ namespace IntegrationTests
 
             customerSvc.Remove(customerId);
 
-            var auditRecords = await auditSvc.ListAsync("Customer", customerId.Guid.ToString(), 0, 1000);
+            var auditRecords = (await auditSvc.ListAsync("Customer", customerId.Guid.ToString(), 0, 1000))!.Items;
             var auditRecord = auditRecords.Single(r => r.Entity == "Customer" && r.Event == "Deleted");
 
             var changes = JsonConvert.DeserializeObject<List<AuditPropertyDto>>(auditRecord.Changes!)!;
@@ -258,7 +258,7 @@ namespace IntegrationTests
                 scope.Commit();
             };
 
-            var auditRecords = await auditSvc.ListAsync("Customer", customerId.Guid.ToString(), 0, 1000);
+            var auditRecords =( await auditSvc.ListAsync("Customer", customerId.Guid.ToString(), 0, 1000))!.Items;
             Assert.IsNotNull(
                 auditRecords.SingleOrDefault(r => r.Entity == "Customer" && r.Event == "Added")
             );

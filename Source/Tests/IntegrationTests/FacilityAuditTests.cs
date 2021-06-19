@@ -80,7 +80,9 @@ namespace IntegrationTests
                 }
             );
 
-            var auditRecords = await auditSvc.ListAsync("Facility", facilityId.Guid.ToString(), 0, 1000);
+            var filteredList = await auditSvc.ListAsync("Facility", facilityId.Guid.ToString(), 0, 1000);
+            Assert.IsTrue(filteredList!.TotalFilteredCount > 0);
+            var auditRecords = filteredList!.Items;
             var auditRecord = auditRecords.First();
             var changes = JsonConvert.DeserializeObject<List<AuditPropertyDto>>(auditRecord.Changes!)!;
 
