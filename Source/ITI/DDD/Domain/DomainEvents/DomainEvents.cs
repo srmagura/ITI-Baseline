@@ -80,7 +80,7 @@ namespace ITI.DDD.Domain.DomainEvents
 
                     foreach (var handlerType in handlerTypes)
                     {
-                        tasks.Add(ExecuteHandler(handlerType, domainEvent));
+                        tasks.Add(ExecuteHandlerAsync(handlerType, domainEvent));
                     }
                 }
 
@@ -94,33 +94,29 @@ namespace ITI.DDD.Domain.DomainEvents
             }
         }
 
-        private Task ExecuteHandler(Type handlerType, IDomainEvent domainEvent)
+        private async Task ExecuteHandlerAsync(Type handlerType, IDomainEvent domainEvent)
         {
-            return Task.Run(async () =>
+            try
             {
-                try
-                {
-                    using var scope = _domainEventAuthScopeResolver.BeginLifetimeScope();
-                    var handler = scope.Resolve(handlerType);
+                using var scope = _domainEventAuthScopeResolver.BeginLifetimeScope();
+                var handler = scope.Resolve(handlerType);
 
-                    var handleMethod = handler.GetType()
-                        .GetMethod(nameof(IDomainEventHandler<IDomainEvent>.HandleAsync), new[] { domainEvent.GetType() });
-                    if (handleMethod == null)
-                    {
-                        _logger?.Error($"Domain Event: could not resolve handler method for {handlerType.Name}");
-                        return;
-                    }
-
-                    var returnValue = handleMethod.Invoke(handler, new object[] { domainEvent });
-                    if (returnValue is Task t)
-                        await t;
-                }
-                catch (Exception exc)
+                var handleMethod = handler.GetType()
+                    .GetMethod(nameof(IDomainEventHandler<IDomainEvent>.HandleAsync), new[] { domainEvent.GetType() });
+                if (handleMethod == null)
                 {
-                    _logger.Error($"DomainEvent:{handlerType.Name}: {exc.Message}", exc);
+                    _logger?.Error($"Domain Event: could not resolve handler method for {handlerType.Name}");
+                    return;
                 }
+
+                var returnValue = handleMethod.Invoke(handler, new object[] { domainEvent });
+                if (returnValue is Task t)
+                    await t;
             }
-            );
+            catch (Exception exc)
+            {
+                _logger.Error($"DomainEvent:{handlerType.Name}: {exc.Message}", exc);
+            }
         }
     }
 }
