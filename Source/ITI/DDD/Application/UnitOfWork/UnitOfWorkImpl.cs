@@ -94,19 +94,15 @@ namespace ITI.DDD.Application.UnitOfWork
 
         async Task IUnitOfWork.OnScopeCommitAsync()
         {
-            var tasks = new List<Task>();
-
             foreach (var db in _participants.Values)
             {
-                tasks.Add(db.SaveChangesAsync());
+                await db.SaveChangesAsync();
 
                 foreach (var domainEvent in db.GetAllDomainEvents())
                 {
                     _domainEvents.Raise(domainEvent);
                 }
             }
-
-            await Task.WhenAll(tasks);
 
             // HandleAllRaisedEventsAsync will never throw exceptions
             var domainEventTask = _domainEvents.HandleAllRaisedEventsAsync();
