@@ -65,8 +65,6 @@ namespace ITI.DDD.Domain.DomainEvents
                 if (_domainEvents == null)
                     return;
 
-                var tasks = new List<Task>();
-
                 foreach (var domainEvent in _domainEvents)
                 {
                     var domainEventType = domainEvent.GetType();
@@ -80,13 +78,13 @@ namespace ITI.DDD.Domain.DomainEvents
 
                     foreach (var handlerType in handlerTypes)
                     {
-                        tasks.Add(ExecuteHandlerAsync(handlerType, domainEvent));
+                        // Don't execute domain events in parallel, in case event 2 
+                        // depends on the result of event 1 
+                        await ExecuteHandlerAsync(handlerType, domainEvent);
                     }
                 }
 
                 _domainEvents.Clear();
-
-                await Task.WhenAll(tasks);
             }
             catch (Exception exc)
             {
