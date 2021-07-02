@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TestApp.Application;
 using TestApp.Application.Dto;
 using TestApp.Application.Interfaces;
@@ -32,9 +33,9 @@ namespace IntegrationTests
             _container = IntegrationTestInitialize.Initialize(TestContext).Build();
         }
 
-        private CustomerId AddCustomer(ICustomerAppService customerSvc)
+        private async Task<CustomerId> AddCustomerAsync(ICustomerAppService customerSvc)
         {
-            var customerId = customerSvc.Add(
+            var customerId = await customerSvc.AddAsync(
                 "myCustomer",
                 new AddressDto
                 {
@@ -54,15 +55,15 @@ namespace IntegrationTests
         }
 
         [TestMethod]
-        public void Add()
+        public async Task Add()
         {
             var customerSvc = _container!.Resolve<ICustomerAppService>();
 
-            var customerId = AddCustomer(customerSvc);
+            var customerId = await AddCustomerAsync(customerSvc);
 
-            var customer = customerSvc.Get(customerId);
+            var customer = await customerSvc.GetAsync(customerId);
 
-            Assert.AreEqual(customerId.Guid, customer?.Id.Guid);
+            Assert.AreEqual(customerId, customer?.Id);
 
             Assert.IsNotNull(customer);
             Assert.AreEqual("myCustomer", customer!.Name);
@@ -85,55 +86,55 @@ namespace IntegrationTests
         }
 
         [TestMethod]
-        public void SetContact()
+        public async Task SetContact()
         {
             var customerSvc = _container!.Resolve<ICustomerAppService>();
 
-            var customerId = AddCustomer(customerSvc);
+            var customerId = await AddCustomerAsync(customerSvc);
             
-            var customer = customerSvc.Get(customerId);
+            var customer = await customerSvc.GetAsync(customerId);
             Assert.IsNull(customer!.ContactName);
             Assert.AreEqual("19194122710", customer.ContactPhone?.Value);
 
-            customerSvc.SetContact(
+            await customerSvc.SetContactAsync(
                 customerId,
                 new PersonNameDto { First = "Sam", Last = "Magura" },
                 new PhoneNumberDto { Value = "19195551111" }
             );
-            customer = customerSvc.Get(customerId);
+            customer = await customerSvc.GetAsync(customerId);
             Assert.AreEqual("Sam", customer!.ContactName?.First);
             Assert.AreEqual("Magura", customer.ContactName?.Last);
             Assert.AreEqual("19195551111", customer.ContactPhone?.Value);
 
-            customerSvc.SetContact(customerId, null, null);
-            customer = customerSvc.Get(customerId);
+            await customerSvc.SetContactAsync(customerId, null, null);
+            customer = await customerSvc.GetAsync(customerId);
             Assert.IsNull(customer!.ContactName);
             Assert.IsNull(customer.ContactPhone);
         }
 
         [TestMethod]
-        public void Remove()
+        public async Task Remove()
         {
             var customerSvc = _container!.Resolve<ICustomerAppService>();
 
-            var customerId = AddCustomer(customerSvc);
-            var customer = customerSvc.Get(customerId);
+            var customerId = await AddCustomerAsync(customerSvc);
+            var customer = await customerSvc.GetAsync(customerId);
             Assert.IsNotNull(customer);
 
-            customerSvc.Remove(customerId);
-            customer = customerSvc.Get(customerId);
+            await customerSvc.RemoveAsync(customerId);
+            customer = await customerSvc.GetAsync(customerId);
             Assert.IsNull(customer);
         }
 
         [TestMethod]
-        public void AddLtcPharmacy()
+        public async Task AddLtcPharmacy()
         {
             var customerSvc = _container!.Resolve<ICustomerAppService>();
 
-            var customerId = AddCustomer(customerSvc);
-            customerSvc.AddLtcPharmacy(customerId, "1st Choice");
+            var customerId = await AddCustomerAsync(customerSvc);
+            await customerSvc.AddLtcPharmacyAsync(customerId, "1st Choice");
 
-            var customer = customerSvc.Get(customerId);
+            var customer = await customerSvc.GetAsync(customerId);
             CollectionAssert.AreEquivalent(
                 new List<string> { "Pruitt", "Alixa", "1st Choice" },
                 customer!.LtcPharmacies.Select(p => p.Name).ToList()
@@ -141,17 +142,17 @@ namespace IntegrationTests
         }
 
         [TestMethod]
-        public void RenameLtcPharmacy()
+        public async Task RenameLtcPharmacy()
         {
             var customerSvc = _container!.Resolve<ICustomerAppService>();
 
-            var customerId = AddCustomer(customerSvc);
-            var customer = customerSvc.Get(customerId);
+            var customerId = await AddCustomerAsync(customerSvc);
+            var customer = await customerSvc.GetAsync(customerId);
             var pruittId = customer!.LtcPharmacies.Single(p => p.Name == "Pruitt").Id;
             
-            customerSvc.RenameLtcPharmacy(customerId, pruittId, "Pruitt2");
+            await customerSvc.RenameLtcPharmacyAsync(customerId, pruittId, "Pruitt2");
 
-            customer = customerSvc.Get(customerId);
+            customer = await customerSvc.GetAsync(customerId);
             CollectionAssert.AreEquivalent(
                 new List<string> { "Pruitt2", "Alixa" },
                 customer!.LtcPharmacies.Select(p => p.Name).ToList()
@@ -159,17 +160,17 @@ namespace IntegrationTests
         }
 
         [TestMethod]
-        public void RemoveLtcPharmacy()
+        public async Task RemoveLtcPharmacy()
         {
             var customerSvc = _container!.Resolve<ICustomerAppService>();
 
-            var customerId = AddCustomer(customerSvc);
-            var customer = customerSvc.Get(customerId);
+            var customerId = await AddCustomerAsync(customerSvc);
+            var customer = await customerSvc.GetAsync(customerId);
             var pruittId = customer!.LtcPharmacies.Single(p => p.Name == "Pruitt").Id;
 
-            customerSvc.RemoveLtcPharmacy(customerId, pruittId);
+            await customerSvc.RemoveLtcPharmacyAsync(customerId, pruittId);
 
-            customer = customerSvc.Get(customerId);
+            customer = await customerSvc.GetAsync(customerId);
             CollectionAssert.AreEquivalent(
                 new List<string> { "Alixa" },
                 customer!.LtcPharmacies.Select(p => p.Name).ToList()

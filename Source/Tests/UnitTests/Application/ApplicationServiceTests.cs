@@ -12,6 +12,7 @@ using NSubstitute;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace UnitTests.Application
 {
@@ -24,113 +25,99 @@ namespace UnitTests.Application
             {
             }
 
-            public Version? QueryForObject(bool allow, bool entityExists)
+            public Task<Version?> QueryForObjectAsync(bool allow, bool entityExists)
             {
-                return Query(
+                return QueryAsync<Version?>(
                     () =>
                     {
                         if (!allow) throw new NotAuthorizedException();
+                        return Task.CompletedTask;
                     },
                     () =>
                     {
                         if (!entityExists)
                             throw new EntityNotFoundException("test");
 
-                        return new Version("1.0.0");
+                        return Task.FromResult<Version?>(new Version("1.0.0"));
                     }
                 );
             }
 
-            public Version? QueryForNullableObject()
+            public Task<Version?> QueryForNullableObjectAsync()
             {
-                return Query(
-                    () => { },
-                    () =>
-                    {
-                        return (Version?)null;
-                    }
+                return QueryAsync(
+                    () => Task.CompletedTask,
+                    () => Task.FromResult((Version?)null)
                 );
             }
 
-            public int? QueryForValue(bool entityExists)
+            public Task<int> QueryForValueAsync(bool entityExists)
             {
-                return QueryValue(
-                    () => { },
+                return QueryAsync(
+                    () => Task.CompletedTask,
                     () =>
                     {
                         if (!entityExists)
                             throw new EntityNotFoundException("test");
 
-                        return 1;
+                        return Task.FromResult(1);
                     }
                 );
             }
 
-            public int? QueryForNullableValue()
+            public Task<int?> QueryForNullableValueAsync()
             {
-                return QueryNullableValue(
-                    () => { },
-                    () =>
+                return QueryAsync(
+                    () => Task.CompletedTask,
+                    () => Task.FromResult((int?)1)
+                );
+            }
+
+            public Task VoidCommandAsync(Func<Task> action)
+            {
+                return CommandAsync(
+                    () => Task.CompletedTask,
+                    async () =>
                     {
-                        return (int?)1;
+                        await action();
                     }
                 );
             }
 
-            public void VoidCommand(Action action)
+            public Task<Version?> CommandForObjectAsync()
             {
-                Command(
-                    () => { },
-                    () => { action(); }
+                return CommandAsync(
+                    () => Task.CompletedTask,
+                    () => Task.FromResult<Version?>(new Version("1.0.0"))
                 );
             }
 
-            public Version? CommandForObject()
+            public Task<Version?> CommandForNullableObjectAsync()
             {
-                return Command(
-                    () => { },
-                    () =>
-                    {
-                        return new Version("1.0.0");
-                    }
+                return CommandAsync(
+                    () => Task.CompletedTask,
+                    () => Task.FromResult((Version?)null)
                 );
             }
 
-            public Version? CommandForNullableObject()
+            public Task<int> CommandForValueAsync()
             {
-                return Command(
-                    () => { },
-                    () =>
-                    {
-                        return (Version?)null;
-                    }
+                return CommandAsync(
+                    () => Task.CompletedTask,
+                    () => Task.FromResult(1)
                 );
             }
 
-            public int? CommandForValue()
+            public Task<int?> CommandForNullableValueAsync()
             {
-                return CommandValue(
-                    () => { },
-                    () =>
-                    {
-                        return 1;
-                    }
-                );
-            }
-
-            public int? CommandForNullableValue()
-            {
-                return QueryNullableValue(
-                    () => { },
-                    () =>
-                    {
-                        return (int?)1;
-                    }
+                return CommandAsync(
+                    () => Task.CompletedTask,
+                    () => Task.FromResult((int?)1)
                 );
             }
         }
 
-        private MyApplicationService CreateAppService()
+        private static MyApplicationService CreateAppService()
         {
             var builder = new ContainerBuilder();
             DDDAppConfig.AddRegistrations(builder);
@@ -147,77 +134,77 @@ namespace UnitTests.Application
         }
 
         [TestMethod]
-        public void QueryForObject()
+        public async Task QueryForObject()
         {
             var appService = CreateAppService();
 
-            Assert.AreEqual(new Version("1.0.0"), appService.QueryForObject(true, true));
-            Assert.IsNull(appService.QueryForObject(true, false));
-            Assert.ThrowsException<NotAuthorizedException>(
-                () => appService.QueryForObject(false, true)
+            Assert.AreEqual(new Version("1.0.0"), await appService.QueryForObjectAsync(true, true));
+            Assert.IsNull(await appService.QueryForObjectAsync(true, false));
+            await Assert.ThrowsExceptionAsync<NotAuthorizedException>(
+                () => appService.QueryForObjectAsync(false, true)
             );
         }
 
         [TestMethod]
-        public void QueryForNullableObject()
+        public async Task QueryForNullableObject()
         {
             var appService = CreateAppService();
-            Assert.IsNull(appService.QueryForNullableObject());
+            Assert.IsNull(await appService.QueryForNullableObjectAsync());
         }
 
         [TestMethod]
-        public void QueryForValue()
+        public async Task QueryForValue()
         {
             var appService = CreateAppService();
 
-            Assert.AreEqual(1, appService.QueryForValue(true));
-            Assert.AreEqual(0, appService.QueryForValue(false));    // nullable reference types disabled currently
+            Assert.AreEqual(1, await appService.QueryForValueAsync(true));
+            Assert.AreEqual(0, await appService.QueryForValueAsync(false));
         }
 
         [TestMethod]
-        public void QueryForNullableValue()
+        public async Task QueryForNullableValue()
         {
             var appService = CreateAppService();
-            Assert.AreEqual(1, appService.QueryForNullableValue());
+            Assert.AreEqual(1, await appService.QueryForNullableValueAsync());
         }
 
         [TestMethod]
-        public void VoidCommand()
+        public async Task VoidCommand()
         {
             var appService = CreateAppService();
-            var action = Substitute.For<Action>();
-            appService.VoidCommand(action);
+            var action = Substitute.For<Func<Task>>();
+            await appService.VoidCommandAsync(action);
 
-            action.Received().Invoke();
+            await action.Received().Invoke();
         }
 
         [TestMethod]
-        public void CommandForObject()
+        public async Task CommandForObject()
         {
             var appService = CreateAppService();
-            Assert.AreEqual(new Version("1.0.0"), appService.CommandForObject());
+            Assert.AreEqual(new Version("1.0.0"), await appService.CommandForObjectAsync());
         }
 
         [TestMethod]
-        public void CommandForNullableObject()
+        public async Task CommandForNullableObject()
         {
             var appService = CreateAppService();
-            Assert.IsNull(appService.CommandForNullableObject());
+            Assert.IsNull(await appService.CommandForNullableObjectAsync());
         }
 
         [TestMethod]
-        public void CommandForValue()
+        public async Task CommandForValue()
         {
             var appService = CreateAppService();
 
-            Assert.AreEqual(1, appService.CommandForValue());
+            Assert.AreEqual(1, await appService.CommandForValueAsync());
         }
 
         [TestMethod]
-        public void CommandForNullableValue()
+        public async Task CommandForNullableValue()
         {
             var appService = CreateAppService();
-            Assert.AreEqual(1, appService.CommandForNullableValue());
+            Assert.AreEqual(1, await appService.CommandForNullableValueAsync());
         }
     }
 }

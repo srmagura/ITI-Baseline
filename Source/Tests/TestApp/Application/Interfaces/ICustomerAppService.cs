@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using TestApp.Application.Dto;
 using TestApp.Domain;
 using TestApp.Domain.Identities;
@@ -11,20 +12,20 @@ namespace TestApp.Application.Interfaces
 {
     public interface ICustomerAppService
     {
-        CustomerDto? Get(CustomerId id);
+        Task<CustomerDto?> GetAsync(CustomerId id);
 
-        CustomerId Add(
+        Task<CustomerId> AddAsync(
             string name, 
             AddressDto? address = null,
             PersonNameDto? contactName = null,
             PhoneNumberDto? contactPhone = null
         );
-        void Remove(CustomerId id);
+        Task RemoveAsync(CustomerId id);
 
-        void SetContact(CustomerId id, PersonNameDto? contactName, PhoneNumberDto? contactPhone);
+        Task SetContactAsync(CustomerId id, PersonNameDto? contactName, PhoneNumberDto? contactPhone);
 
-        void AddLtcPharmacy(CustomerId id, string name);
-        void RenameLtcPharmacy(CustomerId id, LtcPharmacyId ltcPharmacyId, string name);
-        void RemoveLtcPharmacy(CustomerId id, LtcPharmacyId ltcPharmacyId);
+        Task AddLtcPharmacyAsync(CustomerId id, string name);
+        Task RenameLtcPharmacyAsync(CustomerId id, LtcPharmacyId ltcPharmacyId, string name);
+        Task RemoveLtcPharmacyAsync(CustomerId id, LtcPharmacyId ltcPharmacyId);
     }
 }

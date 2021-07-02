@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using TestApp.Application.Interfaces;
 using TestApp.DataContext;
 
@@ -30,10 +31,10 @@ namespace IntegrationTests
         }
 
         [TestMethod]
-        public void LogWrittenWhenCustomerAdded()
+        public async Task LogWrittenWhenCustomerAdded()
         {
             var customerSvc = _container!.Resolve<ICustomerAppService>();
-            customerSvc.Add("myCustomer");
+            await customerSvc.AddAsync("myCustomer");
 
             using var db = _container!.Resolve<AppDataContext>();
             var logEntries = db.LogEntries!.ToList();

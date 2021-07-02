@@ -12,6 +12,7 @@ using TestApp.Domain;
 using TestApp.Application.Interfaces.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
 using TestApp.Domain.Identities;
+using System.Threading.Tasks;
 
 namespace TestApp.Repositories
 {
@@ -25,9 +26,9 @@ namespace TestApp.Repositories
         private IQueryable<DbFacility> Aggregate => Context.Facilities!
             .AsQueryable();
 
-        public Facility? Get(FacilityId id)
+        public async Task<Facility?> GetAsync(FacilityId id)
         {
-            var dbFacility = Aggregate.FirstOrDefault(c => c.Id == id.Guid);
+            var dbFacility = await Aggregate.FirstOrDefaultAsync(c => c.Id == id.Guid);
             
             return dbFacility != null
                 ? DbMapper.ToEntity<Facility>(dbFacility)
@@ -40,10 +41,10 @@ namespace TestApp.Repositories
             Context.Facilities!.Add(dbFacility);
         }
 
-        public void Remove(FacilityId id)
+        public async Task RemoveAsync(FacilityId id)
         {
-            var dbFacility = Aggregate
-                .FirstOrDefault(c => c.Id == id.Guid);
+            var dbFacility = await Aggregate
+                .FirstOrDefaultAsync(c => c.Id == id.Guid);
 
             if(dbFacility != null)
                 Context.Facilities!.Remove(dbFacility);

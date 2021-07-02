@@ -8,6 +8,7 @@ using ITI.DDD.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using TestApp.Application.Dto;
 using TestApp.Application.Interfaces;
 using TestApp.Application.Interfaces.QueryInterfaces;
@@ -35,20 +36,20 @@ namespace TestApp.Application
             _facilityRepo = facilityRepo;
         }
 
-        public FacilityDto? Get(FacilityId id)
+        public Task<FacilityDto?> GetAsync(FacilityId id)
         {
-            return Query(
-                () => { },
-                () => _facilityQueries.Get(id)
+            return QueryAsync(
+                () => Task.CompletedTask,
+                () => _facilityQueries.GetAsync(id)
             );
         }
 
-        public FacilityId Add(
+        public Task<FacilityId> AddAsync(
             string name
         )
         {
-            return Command(
-                () => { },
+            return CommandAsync(
+                () => Task.CompletedTask,
                 () =>
                 {
                     var facility = new Facility(
@@ -56,17 +57,17 @@ namespace TestApp.Application
                         null
                     );                
                     _facilityRepo.Add(facility);
-                    return facility.Id;
+                    return Task.FromResult(facility.Id);
                 }
             );
         }
   
-        public void SetContact(FacilityId id, FacilityContactDto? contact)
+        public Task SetContactAsync(FacilityId id, FacilityContactDto? contact)
         {
-            Command(
-                () => { },
-                () => {
-                    var facility = _facilityRepo.Get(id)
+            return CommandAsync(
+                () => Task.CompletedTask,
+                async () => {
+                    var facility = await _facilityRepo.GetAsync(id)
                         ?? throw new ValidationException("Facility");
 
                     facility.SetContact(contact?.ToValueObject());

@@ -12,6 +12,7 @@ using TestApp.Domain;
 using TestApp.Application.Interfaces.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
 using TestApp.Domain.Identities;
+using System.Threading.Tasks;
 
 namespace TestApp.Repositories
 {
@@ -26,9 +27,9 @@ namespace TestApp.Repositories
             .Include(c => c.LtcPharmacies)
             .AsQueryable();
 
-        public Customer? Get(CustomerId id)
+        public async Task<Customer?> GetAsync(CustomerId id)
         {
-            var dbCustomer = Aggregate.FirstOrDefault(c => c.Id == id.Guid);
+            var dbCustomer = await Aggregate.FirstOrDefaultAsync(c => c.Id == id.Guid);
 
             return dbCustomer != null
                 ? DbMapper.ToEntity<Customer>(dbCustomer)
@@ -41,11 +42,11 @@ namespace TestApp.Repositories
             Context.Customers!.Add(dbCustomer);
         }
 
-        public void Remove(CustomerId id)
+        public async Task RemoveAsync(CustomerId id)
         {
-            var dbCustomer = Aggregate
+            var dbCustomer = await Aggregate
                 .Include(c => c.LtcPharmacies)
-                .FirstOrDefault(c => c.Id == id.Guid);
+                .FirstOrDefaultAsync(c => c.Id == id.Guid);
 
             if (dbCustomer != null)
             {

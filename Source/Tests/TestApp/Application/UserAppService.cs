@@ -8,6 +8,7 @@ using ITI.DDD.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using TestApp.Application.Dto;
 using TestApp.Application.Interfaces;
 using TestApp.Application.Interfaces.QueryInterfaces;
@@ -27,7 +28,6 @@ namespace TestApp.Application
             IUnitOfWork uow, 
             ILogger logger, 
             IAuthContext auth,
-            IMapper mapper,
             IUserQueries userQueries,
             IUserRepository userRepo
         ) : base(uow, logger, auth)
@@ -36,52 +36,52 @@ namespace TestApp.Application
             _userRepo = userRepo;
         }
 
-        public UserDto? Get(Guid id)
+        public Task<UserDto?> GetAsync(UserId id)
         {
-            return Query(
-                () => { },
-                () => _userQueries.Get(new UserId(id))
+            return QueryAsync(
+                () => Task.CompletedTask,
+                () => _userQueries.GetAsync(id)
             );
         }
 
-        public List<UserDto> List()
+        public async Task<List<UserDto>> ListAsync()
         {
-            return Query(
-                () => { },
-                () => _userQueries.List()
+            return await QueryAsync(
+                () => Task.CompletedTask,
+                () => _userQueries.ListAsync()
             ) ?? new List<UserDto>();
         }
 
-        public Guid AddCustomerUser(Guid customerId, EmailAddressDto email)
+        public Task<UserId> AddCustomerUserAsync(CustomerId customerId, EmailAddressDto email)
         {
-            return CommandValue(
-                () => { },
+            return CommandAsync(
+                () => Task.CompletedTask,
                 () =>
                 {
                     var customerUser = new CustomerUser(
-                        new CustomerId(customerId),
+                        customerId,
                         email.ToValueObject()
                     );
 
                     _userRepo.Add(customerUser);
-                    return customerUser.Id.Guid;
+                    return Task.FromResult(customerUser.Id);
                 }
             );
         }
 
-        public Guid AddOnCallUser(Guid onCallProviderId, EmailAddressDto email)
+        public Task<UserId> AddOnCallUserAsync(OnCallProviderId onCallProviderId, EmailAddressDto email)
         {
-            return CommandValue(
-                () => { },
+            return CommandAsync(
+                () => Task.CompletedTask,
                 () =>
                 {
                     var onCallUser = new OnCallUser(
-                        new OnCallProviderId(onCallProviderId),
+                        onCallProviderId,
                         email.ToValueObject()
                     );
 
                     _userRepo.Add(onCallUser);
-                    return onCallUser.Id.Guid;
+                    return Task.FromResult(onCallUser.Id);
                 }
             );
         }

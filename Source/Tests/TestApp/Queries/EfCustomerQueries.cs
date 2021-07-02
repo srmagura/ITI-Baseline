@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using TestApp.Application.Dto;
 using TestApp.Application.Interfaces.QueryInterfaces;
 using TestApp.DataContext;
@@ -25,12 +26,12 @@ namespace TestApp.Queries
             _mapper = mapper;
         }
 
-        public CustomerDto? Get(CustomerId id)
+        public Task<CustomerDto?> GetAsync(CustomerId id)
         {
             var q = Context.Customers
                 .Where(p => p.Id == id.Guid);
 
-            return _mapper.ProjectToDto<DbCustomer, CustomerDto>(q);
+            return _mapper.ProjectToDtoAsync<DbCustomer, CustomerDto>(q);
         }
     }
 }

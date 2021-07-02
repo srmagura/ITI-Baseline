@@ -39,9 +39,9 @@ namespace IntegrationTests
             _container = IntegrationTestInitialize.Initialize(TestContext).Build();
         }
 
-        private static CustomerId AddCustomer(ICustomerAppService customerSvc)
+        private static async Task<CustomerId> AddCustomerAsync(ICustomerAppService customerSvc)
         {
-            var customerId = customerSvc.Add(
+            var customerId = await customerSvc.AddAsync(
                 "myCustomer",
                 new AddressDto
                 {
@@ -71,7 +71,7 @@ namespace IntegrationTests
             var customerSvc = _container!.Resolve<ICustomerAppService>();
             var auditSvc = _container!.Resolve<IAuditAppService>();
 
-            var customerId = AddCustomer(customerSvc);
+            var customerId = await AddCustomerAsync(customerSvc);
             var auditRecords = (await auditSvc.ListAsync("Customer", customerId.Guid.ToString(), 0, 1000))!.Items;
 
             var auditRecord = auditRecords.Single(r => r.Entity == "Customer");
@@ -128,10 +128,10 @@ namespace IntegrationTests
             var customerSvc = _container!.Resolve<ICustomerAppService>();
             var auditSvc = _container!.Resolve<IAuditAppService>();
 
-            var customerId = AddCustomer(customerSvc);
-            var customer = customerSvc.Get(customerId);
+            var customerId = await AddCustomerAsync(customerSvc);
+            var customer = await customerSvc.GetAsync(customerId);
             var pruittId = customer!.LtcPharmacies.Single(p => p.Name == "Pruitt").Id;
-            customerSvc.RenameLtcPharmacy(customerId, pruittId, "Pruitt2");
+            await customerSvc.RenameLtcPharmacyAsync(customerId, pruittId, "Pruitt2");
 
             var auditRecords = (await auditSvc.ListAsync("LtcPharmacy", pruittId.Guid.ToString(), 0, 1000))!.Items;
             var auditRecord = auditRecords.Single(r => r.Entity == "LtcPharmacy" && r.Event == "Modified");
@@ -162,9 +162,9 @@ namespace IntegrationTests
             var customerSvc = _container!.Resolve<ICustomerAppService>();
             var auditSvc = _container!.Resolve<IAuditAppService>();
 
-            var customerId = AddCustomer(customerSvc);
-            var customer = customerSvc.Get(customerId);
-            customerSvc.SetContact(
+            var customerId = await AddCustomerAsync(customerSvc);
+            var customer = await customerSvc.GetAsync(customerId);
+            await customerSvc.SetContactAsync(
                 customerId,
                 new PersonNameDto { First = "John", Last = "Todd" },
                 new PhoneNumberDto { Value = "19195551111" }
@@ -200,15 +200,15 @@ namespace IntegrationTests
             var customerSvc = _container!.Resolve<ICustomerAppService>();
             var auditSvc = _container!.Resolve<IAuditAppService>();
 
-            var customerId = AddCustomer(customerSvc);
-            var customer = customerSvc.Get(customerId);
+            var customerId = await AddCustomerAsync(customerSvc);
+            var customer = await customerSvc.GetAsync(customerId);
 
             foreach (var ltcPharmacy in customer!.LtcPharmacies)
             {
-                customerSvc.RemoveLtcPharmacy(customerId, ltcPharmacy.Id);
+                await customerSvc.RemoveLtcPharmacyAsync(customerId, ltcPharmacy.Id);
             }
 
-            customerSvc.Remove(customerId);
+            await customerSvc.RemoveAsync(customerId);
 
             var auditRecords = (await auditSvc.ListAsync("Customer", customerId.Guid.ToString(), 0, 1000))!.Items;
             var auditRecord = auditRecords.Single(r => r.Entity == "Customer" && r.Event == "Deleted");
@@ -250,11 +250,11 @@ namespace IntegrationTests
             var customerSvc = _container!.Resolve<ICustomerAppService>();
             var auditSvc = _container!.Resolve<IAuditAppService>();
 
-            var customerId = AddCustomer(customerSvc);
+            var customerId = await AddCustomerAsync(customerSvc);
 
             using(var scope = uow.Begin())
             {
-                customerRepo.Get(customerId);
+                await customerRepo.GetAsync(customerId);
                 scope.Commit();
             };
 

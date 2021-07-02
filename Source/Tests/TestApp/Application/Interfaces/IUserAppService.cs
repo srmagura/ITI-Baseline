@@ -2,16 +2,18 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using TestApp.Application.Dto;
+using TestApp.Domain.Identities;
 
 namespace TestApp.Application.Interfaces
 {
     public interface IUserAppService
     {
-        UserDto? Get(Guid id);
-        List<UserDto> List();
+        Task<UserDto?> GetAsync(UserId id);
+        Task<List<UserDto>> ListAsync();
 
-        Guid AddCustomerUser(Guid customerId, EmailAddressDto email);
-        Guid AddOnCallUser(Guid onCallProviderId, EmailAddressDto email);
+        Task<UserId> AddCustomerUserAsync(CustomerId customerId, EmailAddressDto email);
+        Task<UserId> AddOnCallUserAsync(OnCallProviderId onCallProviderId, EmailAddressDto email);
     }
 }

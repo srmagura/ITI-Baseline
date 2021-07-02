@@ -34,9 +34,9 @@ namespace IntegrationTests
             _container = IntegrationTestInitialize.Initialize(TestContext).Build();
         }
 
-        private static FacilityId AddFacility(IFacilityAppService facilitySvc)
+        private static async Task<FacilityId> AddFacilityAsync(IFacilityAppService facilitySvc)
         {
-            var facilityId = facilitySvc.Add("myFacility");
+            var facilityId = await facilitySvc.AddAsync("myFacility");
             Assert.IsNotNull(facilityId);
             Assert.AreNotEqual(facilityId, default);
 
@@ -49,9 +49,9 @@ namespace IntegrationTests
             var facilitySvc = _container!.Resolve<IFacilityAppService>();
             var auditSvc = _container!.Resolve<IAuditAppService>();
 
-            var facilityId = AddFacility(facilitySvc);
+            var facilityId = await AddFacilityAsync(facilitySvc);
 
-            facilitySvc.SetContact(facilityId,
+            await facilitySvc.SetContactAsync(facilityId,
                 new FacilityContactDto
                 {
                     Name = new PersonNameDto
@@ -65,7 +65,7 @@ namespace IntegrationTests
                     }
                 }
             );
-            facilitySvc.SetContact(facilityId,
+            await facilitySvc.SetContactAsync(facilityId,
                 new FacilityContactDto
                 {
                     Name = new PersonNameDto

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using TestApp.Application.Dto;
 using TestApp.Domain;
 using TestApp.Domain.Identities;
@@ -11,9 +12,9 @@ namespace TestApp.Application.Interfaces
 {
     public interface IFacilityAppService
     {
-        FacilityDto? Get(FacilityId id);
+        Task<FacilityDto?> GetAsync(FacilityId id);
 
-        FacilityId Add(string name);
-        void SetContact(FacilityId id, FacilityContactDto? contact);
+        Task<FacilityId> AddAsync(string name);
+        Task SetContactAsync(FacilityId id, FacilityContactDto? contact);
     }
 }

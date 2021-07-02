@@ -8,6 +8,7 @@ using ITI.DDD.Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using TestApp.AppConfig;
 using TestApp.Application.Dto;
 using TestApp.Application.Interfaces;
@@ -36,23 +37,23 @@ namespace TestApp.Application
             _customerRepo = customerRepo;
         }
 
-        public CustomerDto? Get(CustomerId id)
+        public Task<CustomerDto?> GetAsync(CustomerId id)
         {
-            return Query(
-                () => { },
-                () => _customerQueries.Get(id)
+            return QueryAsync(
+                () => Task.CompletedTask,
+                () => _customerQueries.GetAsync(id)
             );
         }
 
-        public CustomerId Add(
+        public Task<CustomerId> AddAsync(
             string name,
             AddressDto? address = null,
             PersonNameDto? contactName = null,
             PhoneNumberDto? contactPhone = null
         )
         {
-            return Command(
-                () => { },
+            return CommandAsync(
+                () => Task.CompletedTask,
                 () =>
                 {
                     var customer = new Customer(
@@ -71,29 +72,26 @@ namespace TestApp.Application
                     );
 
                     _customerRepo.Add(customer);
-                    return customer.Id;
+                    return Task.FromResult(customer.Id);
                 }
             );
         }
 
-        public void Remove(CustomerId id)
+        public Task RemoveAsync(CustomerId id)
         {
-            Command(
-                () => { },
-                () =>
-                {
-                    _customerRepo.Remove(id);
-                }
+            return CommandAsync(
+                () => Task.CompletedTask,
+                () => _customerRepo.RemoveAsync(id)
             );
         }
 
-        public void SetContact(CustomerId id, PersonNameDto? contactName, PhoneNumberDto? contactPhone)
+        public Task SetContactAsync(CustomerId id, PersonNameDto? contactName, PhoneNumberDto? contactPhone)
         {
-            Command(
-                () => { },
-                () =>
+            return CommandAsync(
+                () => Task.CompletedTask,
+                async () =>
                 {
-                    var customer = _customerRepo.Get(id)
+                    var customer = await _customerRepo.GetAsync(id)
                         ?? throw new ValidationException("Customer");
 
                     customer.SetContact(
@@ -104,13 +102,13 @@ namespace TestApp.Application
             );
         }
 
-        public void AddLtcPharmacy(CustomerId id, string name)
+        public Task AddLtcPharmacyAsync(CustomerId id, string name)
         {
-            Command(
-                () => { },
-                () =>
+            return CommandAsync(
+                () => Task.CompletedTask,
+                async () =>
                 {
-                    var customer = _customerRepo.Get(id)
+                    var customer = await _customerRepo.GetAsync(id)
                         ?? throw new ValidationException("Customer");
 
                     customer.AddLtcPharmacy(name);
@@ -118,13 +116,13 @@ namespace TestApp.Application
             );
         }
 
-        public void RenameLtcPharmacy(CustomerId id, LtcPharmacyId ltcPharmacyId, string name)
+        public Task RenameLtcPharmacyAsync(CustomerId id, LtcPharmacyId ltcPharmacyId, string name)
         {
-            Command(
-                () => { },
-                () =>
+            return CommandAsync(
+                () => Task.CompletedTask,
+                async () =>
                 {
-                    var customer = _customerRepo.Get(id)
+                    var customer = await _customerRepo.GetAsync(id)
                         ?? throw new ValidationException("Customer");
 
                     customer.RenameLtcPharmacy(ltcPharmacyId, name);
@@ -132,13 +130,13 @@ namespace TestApp.Application
            );
         }
 
-        public void RemoveLtcPharmacy(CustomerId id, LtcPharmacyId ltcPharmacyId)
+        public Task RemoveLtcPharmacyAsync(CustomerId id, LtcPharmacyId ltcPharmacyId)
         {
-            Command(
-                () => { },
-                () =>
+            return CommandAsync(
+                () => Task.CompletedTask,
+                async () =>
                 {
-                    var customer = _customerRepo.Get(id)
+                    var customer = await _customerRepo.GetAsync(id)
                         ?? throw new ValidationException("Customer");
 
                     customer.RemoveLtcPharmacy(ltcPharmacyId);
