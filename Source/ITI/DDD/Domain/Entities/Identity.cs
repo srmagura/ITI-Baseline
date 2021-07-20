@@ -2,14 +2,16 @@
 
 namespace ITI.DDD.Domain.Entities
 {
-    public abstract record Identity : IEquatable<Identity>
+    // Not abstract because it is useful to have a generic identity when
+    // writing code that could be used with multiple different entities
+    public record Identity : IEquatable<Identity>
     {
-        protected Identity()
+        public Identity()
         {
             Guid = SequentialGuid.Next();
         }
 
-        protected Identity(Guid guid)
+        public Identity(Guid guid)
         {
             Guid = guid;
         }
