@@ -44,20 +44,20 @@ namespace ITI.Baseline.Audit
         public string? UserName { get; protected set; }
 
         [MaxLength(64)]
-        public string? Aggregate { get; protected set; }
+        public string Aggregate { get; protected set; }
 
         [MaxLength(64)]
-        public string? AggregateId { get; protected set; }
+        public string AggregateId { get; protected set; }
 
         [MaxLength(64)]
-        public string? Entity { get; protected set; }
+        public string Entity { get; protected set; }
 
         [MaxLength(64)]
-        public string? EntityId { get; protected set; }
+        public string EntityId { get; protected set; }
 
         [MaxLength(64)]
-        public string? Event { get; protected set; }
+        public string Event { get; protected set; }
 
-        public string? Changes { get; protected set; }
+        public string Changes { get; protected set; }
     }
 }
