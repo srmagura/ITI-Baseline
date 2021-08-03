@@ -7,14 +7,6 @@
             public const int Value = 256;
         }
 
-        public class SimplePersonName
-        {
-            public const int Prefix = 64;
-            public const int First = 64;
-            public const int Last = 64;
-            public const int Middle = 64;
-        }
-
         public class PhoneNumber
         {
             public const int Value = 16;

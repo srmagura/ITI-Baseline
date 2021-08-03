@@ -3,6 +3,7 @@ using ITI.DDD.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using TestApp.DataContext;
 
 namespace ITI.Baseline.ValueObjects
 {
@@ -13,24 +14,24 @@ namespace ITI.Baseline.ValueObjects
 
         public SimplePersonName(string first, string? middle, string last, string? prefix = null)
         {
-            Prefix = prefix?.Trim().MaxLength(FieldLengths.SimplePersonName.Prefix);
-            First = first.Trim().MaxLength(FieldLengths.SimplePersonName.First);
-            Middle = middle?.Trim().MaxLength(FieldLengths.SimplePersonName.Middle);
-            Last = last.Trim().MaxLength(FieldLengths.SimplePersonName.Last);
+            Prefix = prefix?.Trim().MaxLength(TestAppFieldLengths.SimplePersonName.Prefix);
+            First = first.Trim().MaxLength(TestAppFieldLengths.SimplePersonName.First);
+            Middle = middle?.Trim().MaxLength(TestAppFieldLengths.SimplePersonName.Middle);
+            Last = last.Trim().MaxLength(TestAppFieldLengths.SimplePersonName.Last);
         }
 
         //
 
-        [MaxLength(FieldLengths.SimplePersonName.Prefix)]
+        [MaxLength(TestAppFieldLengths.SimplePersonName.Prefix)]
         public string? Prefix { get; protected init; }
 
-        [MaxLength(FieldLengths.SimplePersonName.First)]
+        [MaxLength(TestAppFieldLengths.SimplePersonName.First)]
         public string? First { get; protected init; }
 
-        [MaxLength(FieldLengths.SimplePersonName.Middle)]
+        [MaxLength(TestAppFieldLengths.SimplePersonName.Middle)]
         public string? Middle { get; protected init; }
 
-        [MaxLength(FieldLengths.SimplePersonName.Last)]
+        [MaxLength(TestAppFieldLengths.SimplePersonName.Last)]
         public string? Last { get; protected init; }
 
         public override string ToString()
