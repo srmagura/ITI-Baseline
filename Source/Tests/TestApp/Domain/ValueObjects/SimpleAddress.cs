@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using ITI.DDD.Core.Util;
 using ITI.DDD.Domain.ValueObjects;

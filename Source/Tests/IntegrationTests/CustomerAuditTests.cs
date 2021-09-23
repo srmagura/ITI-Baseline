@@ -1,42 +1,29 @@
 ﻿using Autofac;
 using IntegrationTests.Harness;
 using ITI.Baseline.Audit;
+using ITI.Baseline.Util;
 using ITI.DDD.Application.UnitOfWork;
-using ITI.DDD.Core;
 using ITI.DDD.Core.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TestApp.AppConfig;
 using TestApp.Application.Dto;
 using TestApp.Application.Interfaces;
 using TestApp.Application.Interfaces.RepositoryInterfaces;
-using TestApp.DataContext;
 using TestApp.Domain;
 using TestApp.Domain.Identities;
 
 namespace IntegrationTests
 {
     [TestClass]
-    public class CustomerAuditTests
+    public class CustomerAuditTests : IntegrationTest
     {
-        private static TestContext? TestContext;
-        private IContainer? _container;
-
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
             TestContext = context;
-        }
-
-        [TestInitialize]
-        public void TestInitialize()
-        {
-            _container = IntegrationTestInitialize.Initialize(TestContext).Build();
         }
 
         private static async Task<CustomerId> AddCustomerAsync(ICustomerAppService customerSvc)
@@ -68,8 +55,8 @@ namespace IntegrationTests
         [TestMethod]
         public async Task Add()
         {
-            var customerSvc = _container!.Resolve<ICustomerAppService>();
-            var auditSvc = _container!.Resolve<IAuditAppService>();
+            var customerSvc = Container!.Resolve<ICustomerAppService>();
+            var auditSvc = Container!.Resolve<IAuditAppService>();
 
             var customerId = await AddCustomerAsync(customerSvc);
             var auditRecords = (await auditSvc.ListAsync("Customer", customerId.Guid.ToString(), 0, 1000))!.Items;
@@ -82,7 +69,7 @@ namespace IntegrationTests
             Assert.AreEqual("Customer", auditRecord.Entity);
             Assert.AreEqual("Added", auditRecord.Event);
 
-            var changes = JsonConvert.DeserializeObject<List<AuditPropertyDto>>(auditRecord.Changes!)!;
+            var changes = auditRecord.Changes.FromDbJson<List<AuditPropertyDto>>()!;
             Assert.IsNotNull(
                 changes.SingleOrDefault(p => p.Name == "Name" && p.From == null && p.To == "myCustomer")
             );
@@ -115,7 +102,7 @@ namespace IntegrationTests
 
             foreach (var ltcAddedRecord in ltcAddedRecords)
             {
-                changes = JsonConvert.DeserializeObject<List<AuditPropertyDto>>(auditRecord.Changes!)!;
+                changes = ltcAddedRecord.Changes.FromDbJson<List<AuditPropertyDto>>()!;
                 Assert.IsNotNull(
                     changes.SingleOrDefault(p => p.Name == "Name" && p.From == null && p.To.HasValue())
                 );
@@ -125,8 +112,8 @@ namespace IntegrationTests
         [TestMethod]
         public async Task ChangeProperty()
         {
-            var customerSvc = _container!.Resolve<ICustomerAppService>();
-            var auditSvc = _container!.Resolve<IAuditAppService>();
+            var customerSvc = Container!.Resolve<ICustomerAppService>();
+            var auditSvc = Container!.Resolve<IAuditAppService>();
 
             var customerId = await AddCustomerAsync(customerSvc);
             var customer = await customerSvc.GetAsync(customerId);
@@ -143,7 +130,7 @@ namespace IntegrationTests
             Assert.AreEqual("LtcPharmacy", auditRecord.Entity);
             Assert.AreEqual(pruittId.Guid.ToString(), auditRecord.EntityId);
 
-            var changes = JsonConvert.DeserializeObject<List<AuditPropertyDto>>(auditRecord.Changes!)!;
+            var changes = auditRecord.Changes.FromDbJson<List<AuditPropertyDto>>()!;
             Assert.AreEqual(1, changes.Count);
             Assert.IsNotNull(
                 changes.SingleOrDefault(p => p.Name == "Name" && p.From == "Pruitt" && p.To == "Pruitt2")
@@ -159,8 +146,8 @@ namespace IntegrationTests
         [TestMethod]
         public async Task ChangeValueObject()
         {
-            var customerSvc = _container!.Resolve<ICustomerAppService>();
-            var auditSvc = _container!.Resolve<IAuditAppService>();
+            var customerSvc = Container!.Resolve<ICustomerAppService>();
+            var auditSvc = Container!.Resolve<IAuditAppService>();
 
             var customerId = await AddCustomerAsync(customerSvc);
             var customer = await customerSvc.GetAsync(customerId);
@@ -179,7 +166,7 @@ namespace IntegrationTests
             Assert.AreEqual(customerId.Guid.ToString(), auditRecord.AggregateId);
             Assert.AreEqual("Customer", auditRecord.Entity);
 
-            var changes = JsonConvert.DeserializeObject<List<AuditPropertyDto>>(auditRecord.Changes!)!;
+            var changes = auditRecord.Changes.FromDbJson<List<AuditPropertyDto>>()!;
             Assert.IsNull(changes.SingleOrDefault(p => p.Name == "Name"));
             Assert.IsNull(changes.SingleOrDefault(p => p.Name == "Address.Line1"));
             Assert.IsNotNull(
@@ -197,8 +184,8 @@ namespace IntegrationTests
         [TestMethod]
         public async Task Remove()
         {
-            var customerSvc = _container!.Resolve<ICustomerAppService>();
-            var auditSvc = _container!.Resolve<IAuditAppService>();
+            var customerSvc = Container!.Resolve<ICustomerAppService>();
+            var auditSvc = Container!.Resolve<IAuditAppService>();
 
             var customerId = await AddCustomerAsync(customerSvc);
             var customer = await customerSvc.GetAsync(customerId);
@@ -213,7 +200,7 @@ namespace IntegrationTests
             var auditRecords = (await auditSvc.ListAsync("Customer", customerId.Guid.ToString(), 0, 1000))!.Items;
             var auditRecord = auditRecords.Single(r => r.Entity == "Customer" && r.Event == "Deleted");
 
-            var changes = JsonConvert.DeserializeObject<List<AuditPropertyDto>>(auditRecord.Changes!)!;
+            var changes = auditRecord.Changes.FromDbJson<List<AuditPropertyDto>>()!;
             Assert.IsNotNull(
                 changes.SingleOrDefault(p => p.Name == "Name" && p.From == "myCustomer" && p.To == null)
             );
@@ -245,10 +232,10 @@ namespace IntegrationTests
         [TestMethod]
         public async Task DoesNotAddRecordIfNothingChanged()
         {
-            var uow = _container!.Resolve<IUnitOfWork>();
-            var customerRepo = _container!.Resolve<ICustomerRepository>();
-            var customerSvc = _container!.Resolve<ICustomerAppService>();
-            var auditSvc = _container!.Resolve<IAuditAppService>();
+            var uow = Container!.Resolve<IUnitOfWork>();
+            var customerRepo = Container!.Resolve<ICustomerRepository>();
+            var customerSvc = Container!.Resolve<ICustomerAppService>();
+            var auditSvc = Container!.Resolve<IAuditAppService>();
 
             var customerId = await AddCustomerAsync(customerSvc);
 

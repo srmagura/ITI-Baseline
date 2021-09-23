@@ -42,7 +42,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Documentation", "_Documentation", "{2AC9BD1A-0AE3-4098-8964-E9AD0F3EB779}"
 	ProjectSection(SolutionItems) = preProject
 		..\.gitignore = ..\.gitignore
-		..\Readme.md = ..\Readme.md
+		..\CHANGELOG.md = ..\CHANGELOG.md
+		..\README.md = ..\README.md
 		Update-NuGetPackages.ps1 = Update-NuGetPackages.ps1
 	EndProjectSection
 EndProject

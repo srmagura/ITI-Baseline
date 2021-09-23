@@ -1,38 +1,20 @@
 using Autofac;
 using IntegrationTests.Harness;
-using ITI.Baseline.Audit;
-using ITI.Baseline.ValueObjects;
-using ITI.DDD.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using TestApp.Application;
 using TestApp.Application.Dto;
 using TestApp.Application.Interfaces;
 using TestApp.Domain.Identities;
-using TestApp.Domain.ValueObjects;
 
 namespace IntegrationTests
 {
     [TestClass]
-    public class FacilityAppServiceTests
+    public class FacilityAppServiceTests : IntegrationTest
     {
-        private static TestContext? TestContext;
-        private IContainer? _container;
-
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
             TestContext = context;
-        }
-
-        [TestInitialize]
-        public void TestInitialize()
-        {
-            _container = IntegrationTestInitialize.Initialize(TestContext).Build();
         }
 
         private static async Task<FacilityId> AddFacilityAsync(IFacilityAppService facilitySvc)
@@ -47,7 +29,7 @@ namespace IntegrationTests
         [TestMethod]
         public async Task SetContactNull()
         {
-            var facilitySvc = _container!.Resolve<IFacilityAppService>();
+            var facilitySvc = Container!.Resolve<IFacilityAppService>();
 
             var facilityId = await AddFacilityAsync(facilitySvc);
             var facility = await facilitySvc.GetAsync(facilityId);
@@ -60,7 +42,7 @@ namespace IntegrationTests
         [TestMethod]
         public async Task SetContactNonNullButPropertiesNull()
         {
-            var facilitySvc = _container!.Resolve<IFacilityAppService>();
+            var facilitySvc = Container!.Resolve<IFacilityAppService>();
 
             var facilityId = await AddFacilityAsync(facilitySvc);
             await facilitySvc.SetContactAsync(facilityId, new FacilityContactDto());
@@ -76,7 +58,7 @@ namespace IntegrationTests
         [TestMethod]
         public async Task SetContactNonNull()
         {
-            var facilitySvc = _container!.Resolve<IFacilityAppService>();
+            var facilitySvc = Container!.Resolve<IFacilityAppService>();
 
             var facilityId = await AddFacilityAsync(facilitySvc);
 

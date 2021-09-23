@@ -1,6 +1,4 @@
-﻿using Autofac;
-using ITI.DDD.Core;
-using ITI.DDD.Domain.DomainEvents;
+﻿using ITI.DDD.Core;
 using System;
 using System.Collections.Generic;
 

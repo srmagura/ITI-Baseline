@@ -1,7 +1,6 @@
 ﻿using ITI.Baseline.Util.Validation;
 using ITI.DDD.Domain.ValueObjects;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ITI.Baseline.Passwords

@@ -1,11 +1,8 @@
 ﻿using Autofac;
 using IntegrationTests.Harness;
-using ITI.DDD.Core;
+using ITI.DDD.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TestApp.Application.Interfaces;
 using TestApp.DataContext;
@@ -13,30 +10,26 @@ using TestApp.DataContext;
 namespace IntegrationTests
 {
     [TestClass]
-    public class DomainEventTests
+    public class DomainEventTests : IntegrationTest
     {
-        private static TestContext? TestContext;
-        private IContainer? _container;
-
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
             TestContext = context;
         }
 
-        [TestInitialize]
-        public void TestInitialize()
-        {
-            _container = IntegrationTestInitialize.Initialize(TestContext).Build();
-        }
-
         [TestMethod]
-        public async Task LogWrittenWhenCustomerAdded()
+        public async Task ItLogsWhenCustomerAdded()
         {
-            var customerSvc = _container!.Resolve<ICustomerAppService>();
+            var builder = new ContainerBuilder();
+            RegisterServices(builder);
+            builder.RegisterType<DbLogWriter>().As<ILogWriter>();
+            Container = builder.Build();
+
+            var customerSvc = Container!.Resolve<ICustomerAppService>();
             await customerSvc.AddAsync("myCustomer");
 
-            using var db = _container!.Resolve<AppDataContext>();
+            using var db = Container!.Resolve<AppDataContext>();
             var logEntries = db.LogEntries!.ToList();
             Assert.AreEqual(1, logEntries.Count);
 

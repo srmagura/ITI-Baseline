@@ -1,8 +1,5 @@
 ﻿using ITI.DDD.Domain.Entities;
 using ITI.DDD.Infrastructure.DataContext;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ITI.DDD.Infrastructure.DataMapping
 {

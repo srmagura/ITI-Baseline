@@ -1,11 +1,9 @@
 ﻿using ITI.Baseline.Audit;
 using ITI.Baseline.ValueObjects;
 using ITI.DDD.Infrastructure.DataContext;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 using TestApp.Domain.ValueObjects;
 
 namespace TestApp.DataContext.DataModel

@@ -1,8 +1,5 @@
 ﻿using ITI.DDD.Logging;
 using ITI.Baseline.RequestTrace;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace TestApp.DataContext
 {

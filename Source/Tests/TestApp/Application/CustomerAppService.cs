@@ -1,22 +1,16 @@
-﻿using AutoMapper;
-using ITI.Baseline.Util.Validation;
-using ITI.Baseline.ValueObjects;
+﻿using ITI.Baseline.Util.Validation;
 using ITI.DDD.Application;
 using ITI.DDD.Application.UnitOfWork;
 using ITI.DDD.Auth;
 using ITI.DDD.Logging;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using TestApp.AppConfig;
 using TestApp.Application.Dto;
 using TestApp.Application.Interfaces;
 using TestApp.Application.Interfaces.QueryInterfaces;
 using TestApp.Application.Interfaces.RepositoryInterfaces;
 using TestApp.Domain;
 using TestApp.Domain.Identities;
-using TestApp.Domain.ValueObjects;
 
 namespace TestApp.Application
 {

@@ -1,12 +1,6 @@
-﻿using ITI.Baseline.ValueObjects;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using TestApp.Application.Dto;
-using TestApp.Domain;
 using TestApp.Domain.Identities;
-using TestApp.Domain.ValueObjects;
 
 namespace TestApp.Application.Interfaces
 {

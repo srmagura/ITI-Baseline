@@ -1,11 +1,7 @@
 ﻿using ITI.DDD.Application.UnitOfWork;
-using ITI.DDD.Infrastructure.DataContext;
 using ITI.DDD.Infrastructure.DataMapping;
 using ITI.DDD.Infrastructure;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TestApp.DataContext;
 using TestApp.DataContext.DataModel;
 using TestApp.Domain;

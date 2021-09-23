@@ -1,6 +1,5 @@
 ﻿using ITI.DDD.Application;
 using ITI.DDD.Application.UnitOfWork;
-using ITI.DDD.Infrastructure.DataContext;
 using ITI.DDD.Infrastructure.DataMapping;
 
 namespace ITI.DDD.Infrastructure

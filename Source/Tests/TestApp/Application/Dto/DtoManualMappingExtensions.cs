@@ -1,9 +1,5 @@
 ﻿using ITI.Baseline.Util.Validation;
 using ITI.Baseline.ValueObjects;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using TestApp.Application.Dto;
 using TestApp.Domain.ValueObjects;
 
 namespace TestApp.Application.Dto

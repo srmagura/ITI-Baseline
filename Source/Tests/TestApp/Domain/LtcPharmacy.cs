@@ -1,8 +1,6 @@
 ﻿using ITI.Baseline.Util.Validation;
 using ITI.DDD.Domain.Entities;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using TestApp.Domain.Identities;
 
 namespace TestApp.Domain

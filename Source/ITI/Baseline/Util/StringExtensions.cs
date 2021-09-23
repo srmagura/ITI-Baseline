@@ -1,8 +1,5 @@
 ﻿using ITI.DDD.Core.Util;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace ITI.Baseline.Util
 {

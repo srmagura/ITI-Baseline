@@ -4,14 +4,11 @@ using ITI.DDD.Application;
 using ITI.DDD.Application.Exceptions;
 using ITI.DDD.Application.UnitOfWork;
 using ITI.DDD.Auth;
-using ITI.DDD.Core;
 using ITI.DDD.Domain.DomainEvents;
 using ITI.DDD.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace UnitTests.Application

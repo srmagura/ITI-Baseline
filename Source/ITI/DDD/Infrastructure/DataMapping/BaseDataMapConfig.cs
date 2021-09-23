@@ -1,12 +1,8 @@
 ﻿using AutoMapper;
 using AutoMapper.EquivalencyExpression;
 using ITI.DDD.Domain.Entities;
-using ITI.DDD.Infrastructure.DataContext;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace ITI.DDD.Infrastructure.DataMapping
 {

@@ -1,39 +1,25 @@
 using Autofac;
 using IntegrationTests.Harness;
-using ITI.Baseline.ValueObjects;
-using ITI.DDD.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TestApp.Application;
 using TestApp.Application.Dto;
 using TestApp.Application.Interfaces;
 using TestApp.Domain.Identities;
-using TestApp.Domain.ValueObjects;
 
 namespace IntegrationTests
 {
     [TestClass]
-    public class CustomerAppServiceTests
+    public class CustomerAppServiceTests : IntegrationTest
     {
-        private static TestContext? TestContext;
-        private IContainer? _container;
-
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
             TestContext = context;
         }
 
-        [TestInitialize]
-        public void TestInitialize()
-        {
-            _container = IntegrationTestInitialize.Initialize(TestContext).Build();
-        }
-
-        private async Task<CustomerId> AddCustomerAsync(ICustomerAppService customerSvc)
+        private static async Task<CustomerId> AddCustomerAsync(ICustomerAppService customerSvc)
         {
             var customerId = await customerSvc.AddAsync(
                 "myCustomer",
@@ -57,7 +43,7 @@ namespace IntegrationTests
         [TestMethod]
         public async Task Add()
         {
-            var customerSvc = _container!.Resolve<ICustomerAppService>();
+            var customerSvc = Container!.Resolve<ICustomerAppService>();
 
             var customerId = await AddCustomerAsync(customerSvc);
 
@@ -88,7 +74,7 @@ namespace IntegrationTests
         [TestMethod]
         public async Task SetContact()
         {
-            var customerSvc = _container!.Resolve<ICustomerAppService>();
+            var customerSvc = Container!.Resolve<ICustomerAppService>();
 
             var customerId = await AddCustomerAsync(customerSvc);
             
@@ -115,7 +101,7 @@ namespace IntegrationTests
         [TestMethod]
         public async Task Remove()
         {
-            var customerSvc = _container!.Resolve<ICustomerAppService>();
+            var customerSvc = Container!.Resolve<ICustomerAppService>();
 
             var customerId = await AddCustomerAsync(customerSvc);
             var customer = await customerSvc.GetAsync(customerId);
@@ -129,7 +115,7 @@ namespace IntegrationTests
         [TestMethod]
         public async Task AddLtcPharmacy()
         {
-            var customerSvc = _container!.Resolve<ICustomerAppService>();
+            var customerSvc = Container!.Resolve<ICustomerAppService>();
 
             var customerId = await AddCustomerAsync(customerSvc);
             await customerSvc.AddLtcPharmacyAsync(customerId, "1st Choice");
@@ -144,7 +130,7 @@ namespace IntegrationTests
         [TestMethod]
         public async Task RenameLtcPharmacy()
         {
-            var customerSvc = _container!.Resolve<ICustomerAppService>();
+            var customerSvc = Container!.Resolve<ICustomerAppService>();
 
             var customerId = await AddCustomerAsync(customerSvc);
             var customer = await customerSvc.GetAsync(customerId);
@@ -162,7 +148,7 @@ namespace IntegrationTests
         [TestMethod]
         public async Task RemoveLtcPharmacy()
         {
-            var customerSvc = _container!.Resolve<ICustomerAppService>();
+            var customerSvc = Container!.Resolve<ICustomerAppService>();
 
             var customerId = await AddCustomerAsync(customerSvc);
             var customer = await customerSvc.GetAsync(customerId);

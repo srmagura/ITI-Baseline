@@ -1,16 +1,11 @@
 ﻿using Autofac;
 using Autofac.Features.ResolveAnything;
 using ITI.DDD.Auth;
-using ITI.DDD.Core;
 using ITI.DDD.Domain.DomainEvents;
-using ITI.DDD.Domain.Entities;
 using ITI.DDD.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using TestApp.Domain.Identities;
 using UnitTests.Mocks;

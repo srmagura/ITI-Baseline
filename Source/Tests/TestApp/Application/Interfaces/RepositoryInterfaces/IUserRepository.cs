@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using TestApp.Domain;
+﻿using TestApp.Domain;
 
 namespace TestApp.Application.Interfaces.RepositoryInterfaces
 {

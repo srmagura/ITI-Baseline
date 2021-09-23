@@ -1,11 +1,7 @@
 ﻿using Autofac;
 using IntegrationTests.Harness;
-using ITI.DDD.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TestApp.Application.Dto;
 using TestApp.Application.Interfaces;
@@ -14,27 +10,18 @@ using TestApp.Domain.Identities;
 namespace IntegrationTests
 {
     [TestClass]
-    public class UserAppServiceTests
+    public class UserAppServiceTests : IntegrationTest
     {
-        private static TestContext? TestContext;
-        private IContainer? _container;
-
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
             TestContext = context;
         }
 
-        [TestInitialize]
-        public void TestInitialize()
-        {
-            _container = IntegrationTestInitialize.Initialize(TestContext).Build();
-        }
-
         [TestMethod]
         public async Task GetCustomerUser()
         {
-            var userSvc = _container!.Resolve<IUserAppService>();
+            var userSvc = Container!.Resolve<IUserAppService>();
             var customerId = new CustomerId();
 
             var userId = await userSvc.AddCustomerUserAsync(
@@ -57,7 +44,7 @@ namespace IntegrationTests
         [TestMethod]
         public async Task GetOnCallUser()
         {
-            var userSvc = _container!.Resolve<IUserAppService>();
+            var userSvc = Container!.Resolve<IUserAppService>();
             var onCallProviderId = new OnCallProviderId();
 
             var userId = await userSvc.AddOnCallUserAsync(
@@ -80,7 +67,7 @@ namespace IntegrationTests
         [TestMethod]
         public async Task List()
         {
-            var userSvc = _container!.Resolve<IUserAppService>();
+            var userSvc = Container!.Resolve<IUserAppService>();
             
             var customerId = new CustomerId();
             var onCallProviderId = new OnCallProviderId();

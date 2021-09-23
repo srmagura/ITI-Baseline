@@ -1,16 +1,9 @@
 ﻿using ITI.Baseline.Audit;
 using ITI.DDD.Application;
-using ITI.DDD.Core;
-using ITI.DDD.Core.Util;
-using ITI.DDD.Domain.DomainEvents;
 using ITI.DDD.Infrastructure.DataContext;
 using ITI.DDD.Logging;
 using Microsoft.EntityFrameworkCore;
 using ITI.Baseline.RequestTrace;
-using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text;
 using TestApp.DataContext.DataModel;
 using TestApp.Domain.Enums;
 

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TestApp.DataContext
+﻿namespace TestApp.DataContext
 {
     public static class TestAppFieldLengths
     {

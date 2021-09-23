@@ -1,10 +1,5 @@
 ﻿using Autofac;
-using ITI.DDD.Core;
-using ITI.DDD.Infrastructure.DataContext;
 using ITI.DDD.Infrastructure.DataMapping;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ITI.DDD.Infrastructure
 {

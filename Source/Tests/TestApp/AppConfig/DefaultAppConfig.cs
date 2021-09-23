@@ -1,20 +1,16 @@
 ﻿using Autofac;
 using ITI.Baseline.Audit;
+using ITI.Baseline.RequestTrace;
 using ITI.DDD.Application;
 using ITI.DDD.Auth;
-using ITI.DDD.Core;
 using ITI.DDD.Domain.DomainEvents;
 using ITI.DDD.Infrastructure;
 using ITI.DDD.Logging;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using TestApp.Application;
 using TestApp.Application.Interfaces;
 using TestApp.Application.Interfaces.QueryInterfaces;
 using TestApp.Application.Interfaces.RepositoryInterfaces;
 using TestApp.DataContext;
-using TestApp.Domain.Events;
 using TestApp.Infrastructure;
 using TestApp.Queries;
 using TestApp.Repositories;
@@ -31,8 +27,8 @@ namespace TestApp.AppConfig
             BaselineAuditConfig.AddRegistrations(builder);
 
             builder.RegisterType<AuditFieldConfiguration>().As<IAuditFieldConfiguration>();
-            builder.RegisterType<DbLogWriter>().As<ILogWriter>();
-            
+            builder.RegisterType<DapperRequestTrace>().As<IRequestTrace>();
+
             DataMapConfig.RegisterMapper(builder);
 
             ConfigureDomainEvents(builder);

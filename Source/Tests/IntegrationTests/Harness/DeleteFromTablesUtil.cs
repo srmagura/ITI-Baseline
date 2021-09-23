@@ -1,58 +1,56 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace IntegrationTests.Harness
 {
     public static class DeleteFromTablesUtil
     {
-        public static void DeleteFromTables(string connectionString)
+        public static async Task DeleteFromTablesAsync(string connectionString)
         {
-            DeleteFromTables(connectionString, new List<string>() { "QuickCommentNodes" });
+            await DeleteFromTablesAsync(connectionString, new List<string>() { });
         }
 
-        private static void DeleteFromTables(string connectionString, List<string> except)
+        private static async Task DeleteFromTablesAsync(string connectionString, List<string> except)
         {
-            using (var conn = new SqlConnection(connectionString))
-            {
-                conn.Open();
-                var tableNames = GetTableNames(conn, except);
+            using var conn = new SqlConnection(connectionString);
+            conn.Open();
 
-                try
+            var tableNames = await GetTableNamesAsync(conn, except);
+
+            try
+            {
                 {
-                    {
-                        // disable constraints
-                        var cmdText = "EXEC sp_MSforeachtable @command1 = 'ALTER TABLE ? NOCHECK CONSTRAINT all'";
-                        using (var cmd = new SqlCommand(cmdText, conn))
-                        {
-                            cmd.ExecuteNonQuery();
-                        }
-                    }
+                    // disable constraints
+                    var cmdText = @"EXEC sp_MSforeachtable @command1 = 'ALTER TABLE ? NOCHECK CONSTRAINT all'";
+                    using var cmd = new SqlCommand(cmdText, conn);
+                    await cmd.ExecuteNonQueryAsync();
+                }
+
+                {
+                    var cmdText = new StringBuilder();
 
                     foreach (var tableName in tableNames)
                     {
-                        var cmdText = $"DELETE FROM {tableName}";
-                        using (var cmd = new SqlCommand(cmdText, conn))
-                        {
-                            cmd.ExecuteNonQuery();
-                        }
+                        cmdText.AppendLine($"DELETE FROM {tableName};");
                     }
+
+                    using var cmd = new SqlCommand(cmdText.ToString(), conn);
+                    await cmd.ExecuteNonQueryAsync();
                 }
-                finally
-                {
-                    // enable constraints
-                    var cmdText = "EXEC sp_MSforeachtable @command1 = 'ALTER TABLE ? CHECK CONSTRAINT all'";
-                    using (var cmd = new SqlCommand(cmdText, conn))
-                    {
-                        cmd.ExecuteNonQuery();
-                    }
-                }
+            }
+            finally
+            {
+                // enable constraints
+                var cmdText = @"EXEC sp_MSforeachtable @command1 = 'ALTER TABLE ? CHECK CONSTRAINT all'";
+                using var cmd = new SqlCommand(cmdText, conn);
+                await cmd.ExecuteNonQueryAsync();
             }
         }
 
-        private static List<string> GetTableNames(SqlConnection conn, List<string> except)
+        private static async Task<List<string>> GetTableNamesAsync(SqlConnection conn, List<string> except)
         {
             var tableNames = new List<string>();
 
@@ -61,12 +59,11 @@ namespace IntegrationTests.Harness
 
             using (var cmd = new SqlCommand(cmdText, conn))
             {
-                using (var reader = cmd.ExecuteReader())
+                using var reader = await cmd.ExecuteReaderAsync();
+
+                while (reader.Read())
                 {
-                    while (reader.Read())
-                    {
-                        tableNames.Add(reader.GetString(0));
-                    }
+                    tableNames.Add(reader.GetString(0));
                 }
             }
 

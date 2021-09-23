@@ -10,9 +10,7 @@ using ITI.DDD.Domain.Entities;
 using ITI.DDD.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using TestApp.Domain.Identities;
 using UnitTests.Mocks;
 

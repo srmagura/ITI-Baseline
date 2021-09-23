@@ -1,13 +1,10 @@
 ﻿using Autofac;
 using IntegrationTests.Harness;
 using ITI.Baseline.Audit;
-using ITI.DDD.Core;
+using ITI.Baseline.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TestApp.Application.Dto;
 using TestApp.Application.Interfaces;
@@ -15,23 +12,13 @@ using TestApp.Domain.Identities;
 
 namespace IntegrationTests
 {
-
     [TestClass]
-    public class FacilityAuditTests
+    public class FacilityAuditTests : IntegrationTest
     {
-        private static TestContext? TestContext;
-        private IContainer? _container;
-
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
             TestContext = context;
-        }
-
-        [TestInitialize]
-        public void TestInitialize()
-        {
-            _container = IntegrationTestInitialize.Initialize(TestContext).Build();
         }
 
         private static async Task<FacilityId> AddFacilityAsync(IFacilityAppService facilitySvc)
@@ -46,8 +33,8 @@ namespace IntegrationTests
         [TestMethod]
         public async Task ChangeContact()
         {
-            var facilitySvc = _container!.Resolve<IFacilityAppService>();
-            var auditSvc = _container!.Resolve<IAuditAppService>();
+            var facilitySvc = Container!.Resolve<IFacilityAppService>();
+            var auditSvc = Container!.Resolve<IAuditAppService>();
 
             var facilityId = await AddFacilityAsync(facilitySvc);
 
@@ -84,7 +71,7 @@ namespace IntegrationTests
             Assert.IsTrue(filteredList!.TotalFilteredCount > 0);
             var auditRecords = filteredList!.Items;
             var auditRecord = auditRecords.First();
-            var changes = JsonConvert.DeserializeObject<List<AuditPropertyDto>>(auditRecord.Changes!)!;
+            var changes = auditRecord.Changes.FromDbJson<List<AuditPropertyDto>>()!;
 
             Assert.IsNotNull(
                 changes.SingleOrDefault(c => c.Name == "Contact.Name.First" && c.From == "Kelly" && c.To == "Sam")

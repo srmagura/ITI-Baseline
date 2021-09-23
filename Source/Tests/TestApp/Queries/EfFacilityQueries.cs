@@ -1,19 +1,13 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using ITI.DDD.Application.UnitOfWork;
 using ITI.DDD.Infrastructure;
 using ITI.DDD.Infrastructure.DataMapping;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TestApp.Application.Dto;
 using TestApp.Application.Interfaces.QueryInterfaces;
 using TestApp.DataContext;
 using TestApp.DataContext.DataModel;
-using TestApp.Domain;
 using TestApp.Domain.Identities;
 
 namespace TestApp.Queries

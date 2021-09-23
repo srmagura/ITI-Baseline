@@ -1,9 +1,6 @@
 ﻿using ITI.DDD.Auth;
 using ITI.DDD.Domain.DomainEvents;
 using ITI.DDD.Logging;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using TestApp.Domain.Events;
 

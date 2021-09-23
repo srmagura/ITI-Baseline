@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using ITI.DDD.Core;
-using ITI.DDD.Domain.DomainEvents;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 

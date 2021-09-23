@@ -9,7 +9,6 @@ using ITI.DDD.Domain.ValueObjects;
 using ITI.DDD.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Newtonsoft.Json;
 
 namespace ITI.Baseline.Audit
 {
@@ -28,7 +27,7 @@ namespace ITI.Baseline.Audit
 
         public void Process(DbContext context)
         {
-            if (!(context is IAuditDataContext auditDataContext))
+            if (context is not IAuditDataContext auditDataContext)
                 return;
 
             try
@@ -43,7 +42,7 @@ namespace ITI.Baseline.Audit
             catch (Exception exc)
             {
                 // eat exception
-                _logger?.Error("Could not process audit", exc);
+                _logger?.Error("Could not process audit.", exc);
             }
         }
 
@@ -130,7 +129,7 @@ namespace ITI.Baseline.Audit
 
             foreach (var reference in entry.References)
             {
-                if (reference?.TargetEntry?.Entity is DbValueObject)
+                if (reference.TargetEntry?.Entity is DbValueObject)
                 {
                     var valueObjectProps = GetValueObjectAuditProperties(entityName, reference);
                     auditProperties.AddRange(valueObjectProps);
@@ -154,8 +153,11 @@ namespace ITI.Baseline.Audit
             
             foreach(var childReference in reference.TargetEntry.References)
             {
-                var childProps = GetValueObjectAuditProperties(entityName, childReference, prefix: reference.Metadata.Name);
-                auditProperties.AddRange(childProps);
+                if (childReference.TargetEntry?.Entity is DbValueObject)
+                {
+                    var childProps = GetValueObjectAuditProperties(entityName, childReference, prefix: reference.Metadata.Name);
+                    auditProperties.AddRange(childProps);
+                }
             }
 
             return auditProperties;

@@ -1,10 +1,6 @@
 ﻿using Autofac;
 using ITI.DDD.Auth;
-using ITI.DDD.Core;
 using ITI.DDD.Domain.DomainEvents;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using TestApp.AppConfig;
 
 namespace UnitTests.Mocks

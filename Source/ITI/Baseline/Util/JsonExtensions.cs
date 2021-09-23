@@ -1,7 +1,5 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using System.Text.Json;
 
 namespace ITI.Baseline.Util
 {
@@ -12,9 +10,14 @@ namespace ITI.Baseline.Util
             Dump(obj, tag, Console.WriteLine);
         }
 
+        private static readonly JsonSerializerOptions DumpSerializerOptions = new()
+        {
+            WriteIndented = true
+        };
+
         public static void Dump(this object obj, string? tag, Action<string> output)
         {
-            var json = ""; // obj.ToJson(); TODO:SAM
+            var json = JsonSerializer.Serialize(obj, DumpSerializerOptions);
 
             tag ??= GetTypeName(obj);
             output($"=== {tag} ===================================================");
@@ -28,26 +31,17 @@ namespace ITI.Baseline.Util
 
         public static string ToDbJson(this object obj)
         {
-            var json = JsonConvert.SerializeObject(obj, Formatting.None, DbJsonSettings);
-            return json;
+            return JsonSerializer.Serialize(obj);
         }
 
         public static T? FromDbJson<T>(this string json) where T : class
         {
-            var entity = JsonConvert.DeserializeObject<T>(json, DbJsonSettings);
-            return entity;
+            return JsonSerializer.Deserialize<T>(json);
         }
 
         public static object? FromDbJson(this string json, Type t)
         {
-            return JsonConvert.DeserializeObject(json, t, DbJsonSettings);
+            return JsonSerializer.Deserialize(json, t);
         }
-
-        public static readonly JsonSerializerSettings DbJsonSettings = new JsonSerializerSettings()
-        {
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-            ObjectCreationHandling = ObjectCreationHandling.Replace,
-            ContractResolver = new PrivateStateContractResolver()
-        };
     }
 }
