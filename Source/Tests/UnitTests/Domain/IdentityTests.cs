@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using ITI.DDD.Domain.Entities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
 
 namespace UnitTests.Domain
 {
@@ -57,7 +57,7 @@ namespace UnitTests.Domain
         public void ItDeserializesJsonIntoGenericIdentity()
         {
             var guid = Guid.Parse("693b08a1-d1a8-4538-baaa-402b736b55b8");
-            var id = JsonConvert.DeserializeObject<Identity>($"{{\"Guid\": \"{guid}\"}}");
+            var id = JsonSerializer.Deserialize<Identity>($"{{\"Guid\": \"{guid}\"}}");
 
             Assert.IsNotNull(id);
             Assert.AreEqual(guid, id.Guid);
