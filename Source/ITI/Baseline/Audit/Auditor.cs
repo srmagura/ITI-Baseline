@@ -137,7 +137,7 @@ namespace ITI.Baseline.Audit
                 }
             }
 
-            return auditProperties.ToJson(Formatting.None);
+            return auditProperties.ToDbJson();
         }
 
         private List<AuditPropertyDto> GetValueObjectAuditProperties(string entityName, ReferenceEntry reference, string? prefix = null)

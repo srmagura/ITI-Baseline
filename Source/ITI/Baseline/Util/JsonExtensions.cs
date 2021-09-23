@@ -14,7 +14,7 @@ namespace ITI.Baseline.Util
 
         public static void Dump(this object obj, string? tag, Action<string> output)
         {
-            var json = obj.ToJson();
+            var json = ""; // obj.ToJson(); TODO:SAM
 
             tag ??= GetTypeName(obj);
             output($"=== {tag} ===================================================");
@@ -23,16 +23,7 @@ namespace ITI.Baseline.Util
 
         private static string GetTypeName(object obj)
         {
-            return (obj == null ? "(null)" : obj.GetType().Name);
-        }
-
-        public static string ToJson(this object obj, Formatting formatting = Formatting.Indented)
-        {
-            return JsonConvert.SerializeObject(obj, formatting, new JsonSerializerSettings()
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                ObjectCreationHandling = ObjectCreationHandling.Replace,
-            });
+            return obj == null ? "(null)" : obj.GetType().Name;
         }
 
         public static string ToDbJson(this object obj)
