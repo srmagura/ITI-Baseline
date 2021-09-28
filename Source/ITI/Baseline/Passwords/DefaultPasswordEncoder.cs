@@ -10,7 +10,7 @@ namespace ITI.Baseline.Passwords
     {
         private readonly DefaultPasswordEncoderSettings _settings;
 
-        // The following constants may be changed without breaking existing hashes.
+        // Changing these will break existing hashes
         public const int IterationIndex = 0;
         public const int SaltIndex = 1;
         public const int Pbkdf2Index = 2;
@@ -23,9 +23,9 @@ namespace ITI.Baseline.Passwords
         public EncodedPassword Encode(string password)
         {
             // Generate a random salt
-            var csprng = new RNGCryptoServiceProvider();
+            using var rng = new RNGCryptoServiceProvider();
             var salt = new byte[_settings.SaltByteSize];
-            csprng.GetBytes(salt);
+            rng.GetBytes(salt);
 
             // Hash the password and encode the parameters
             var hash = PBKDF2(password, salt, _settings.Pbkdf2Iterations, _settings.HashByteSize);
@@ -37,29 +37,22 @@ namespace ITI.Baseline.Passwords
 
         public bool Validate(string password, EncodedPassword encodedPassword)
         {
-            try
-            {
-                var enc = encodedPassword?.Value;
-                if (enc == null)
-                    throw new DomainException("Invalid Encoded Password type", DomainException.AppServiceLogAs.Error);
+            var enc = encodedPassword?.Value;
+            if (enc == null)
+                throw new DomainException("Invalid Encoded Password type.", DomainException.AppServiceLogAs.Error);
 
-                // Extract the parameters from the hash
-                char[] delimiter = { ':' };
+            // Extract the parameters from the hash
+            char[] delimiter = { ':' };
 
-                var split = enc.Split(delimiter);
+            var split = enc.Split(delimiter);
 
-                var iterations = Int32.Parse(split[IterationIndex]);
-                var salt = Convert.FromBase64String(split[SaltIndex]);
-                var hash = Convert.FromBase64String(split[Pbkdf2Index]);
+            var iterations = int.Parse(split[IterationIndex]);
+            var salt = Convert.FromBase64String(split[SaltIndex]);
+            var hash = Convert.FromBase64String(split[Pbkdf2Index]);
 
-                var testHash = PBKDF2(password, salt, iterations, hash.Length);
+            var testHash = PBKDF2(password, salt, iterations, hash.Length);
 
-                return BinaryEquals(hash, testHash);
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+            return BinaryEquals(hash, testHash);
         }
 
         public bool IsValid(string password)
@@ -84,14 +77,14 @@ namespace ITI.Baseline.Passwords
             return hasUpperCase && hasNonAlpha;
         }
 
-        private bool BinaryEquals(byte[] hash, byte[] testHash)
+        private static bool BinaryEquals(byte[] hash, byte[] testHash)
         {
             return (hash.Length == testHash.Length) && !hash.Where((t, i) => t != testHash[i]).Any();
         }
 
-        private byte[] PBKDF2(string password, byte[] salt, int iterations, int outputBytes)
+        private static byte[] PBKDF2(string password, byte[] salt, int iterations, int outputBytes)
         {
-            var pbkdf2 = new Rfc2898DeriveBytes(password, salt)
+            using var pbkdf2 = new Rfc2898DeriveBytes(password, salt)
             {
                 IterationCount = iterations
             };
