@@ -1,5 +1,8 @@
 @@@ = breaking change
 
+# WIP
+
+- `DefaultPasswordEncoder`: disallow leading or trailing whitespace in passwords
 
 # 2.1.0
 

@@ -57,6 +57,9 @@ namespace ITI.Baseline.Passwords
 
         public bool IsValid(string password)
         {
+            if (password != password.Trim())
+                return false;
+
             var hasUpperCase = false;
             var hasNonAlpha = false;
 
