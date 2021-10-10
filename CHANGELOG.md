@@ -3,6 +3,7 @@
 # WIP
 
 - `DefaultPasswordEncoder`: disallow leading or trailing whitespace in passwords
+- Remove `FieldLengths.GeoLocation`
 
 # 2.1.0
 

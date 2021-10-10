@@ -16,13 +16,5 @@
         {
             public const int Value = 64;
         }
-
-        public class GeoLocation
-        {
-            public const int Source = 16;
-            public const int Status = 64;
-            public const int LocationType = 64;
-            public const int FormattedAddress = 128;
-        }
     }
 }
