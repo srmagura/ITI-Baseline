@@ -1,6 +1,6 @@
 using Autofac;
 using IntegrationTests.Harness;
-using ITI.DDD.Application.Exceptions;
+using ITI.DDD.Application;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;

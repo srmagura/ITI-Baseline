@@ -1,11 +1,13 @@
 @@@ = breaking change
 
-# WIP
+## 2.1.1
 
+- @@@ Remove `FieldLengths.GeoLocation`
+- @@@ Remove the `ITI.DDD.Application.Exceptions` namespace
+- @@@ Remove `EntityNotFoundException`
 - `DefaultPasswordEncoder`: disallow leading or trailing whitespace in passwords
-- Remove `FieldLengths.GeoLocation`
 
-# 2.1.0
+## 2.1.0
 
 - @@@ Switch from Newtonsoft.Json to System.Text.Json
 - @@@ Remove `PrivateStateContractResolver`

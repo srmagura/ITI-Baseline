@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using AutoMapper;
 using ITI.DDD.Application;
-using ITI.DDD.Application.Exceptions;
 using ITI.DDD.Application.UnitOfWork;
 using ITI.DDD.Auth;
 using ITI.DDD.Domain.DomainEvents;
@@ -32,8 +31,7 @@ namespace UnitTests.Application
                     },
                     () =>
                     {
-                        if (!entityExists)
-                            throw new EntityNotFoundException("test");
+                        if (!entityExists) return Task.FromResult<Version?>(null);
 
                         return Task.FromResult<Version?>(new Version("1.0.0"));
                     }
@@ -54,8 +52,7 @@ namespace UnitTests.Application
                     () => Task.CompletedTask,
                     () =>
                     {
-                        if (!entityExists)
-                            throw new EntityNotFoundException("test");
+                        if (!entityExists) return Task.FromResult(0);
 
                         return Task.FromResult(1);
                     }

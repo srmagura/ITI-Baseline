@@ -1,5 +1,4 @@
-﻿using ITI.DDD.Application.Exceptions;
-using ITI.DDD.Application.UnitOfWork;
+﻿using ITI.DDD.Application.UnitOfWork;
 using ITI.DDD.Auth;
 using ITI.DDD.Core;
 using ITI.DDD.Logging;
@@ -36,10 +35,6 @@ namespace ITI.DDD.Application
                     await uow.CommitAsync();
                 }
             }
-            catch (EntityNotFoundException enfExc)
-            {
-                Handle(enfExc);
-            }
             catch (Exception exc)
             {
                 Handle(exc);
@@ -60,11 +55,6 @@ namespace ITI.DDD.Application
                     return result;
                 }
             }
-            catch (EntityNotFoundException enfExc)
-            {
-                Handle(enfExc);
-                return default;
-            }
             catch (Exception exc)
             {
                 Handle(exc);
@@ -83,11 +73,6 @@ namespace ITI.DDD.Application
                     return await exec();
                 }
             }
-            catch (EntityNotFoundException enfExc)
-            {
-                Handle(enfExc);
-                return default;
-            }
             catch (Exception exc)
             {
                 Handle(exc);
@@ -95,24 +80,24 @@ namespace ITI.DDD.Application
             }
         }
 
-        protected void Handle(Exception exc)
+        protected void Handle(Exception e)
         {
-            if (exc is DbUpdateException)
+            if (e is DbUpdateException)
             {
-                HandleDbUpdateException(exc);
+                HandleDbUpdateException(e);
                 return;
             }
 
-            if (exc is DomainException dexc)
+            if (e is DomainException domainException)
             {
-                if (dexc.AppServiceShouldLog == DomainException.AppServiceLogAs.None)
+                if (domainException.AppServiceShouldLog == DomainException.AppServiceLogAs.None)
                     return;
 
-                LogDomainException(dexc);
+                LogDomainException(domainException);
             }
 
             // by default, we log it... if we ever need more (like admin alerts) we'll address then
-            Log?.Error("Unhandled application exception", exc);
+            Log?.Error("Unhandled application exception", e);
         }
 
         private void LogDomainException(DomainException dexc)
@@ -153,7 +138,7 @@ namespace ITI.DDD.Application
             }
         }
 
-        public static void GetDbUpdateInfo(string message, out string table, out string value)
+        private static void GetDbUpdateInfo(string message, out string table, out string value)
         {
             table = "";
             value = "";

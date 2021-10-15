@@ -1,7 +1,7 @@
 ﻿using ITI.DDD.Core;
 using System;
 
-namespace ITI.DDD.Application.Exceptions
+namespace ITI.DDD.Application
 {
     public class DuplicateKeyException : DomainException
     {
