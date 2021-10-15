@@ -1,14 +1,10 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace ITI.Baseline.RequestTrace
 {
-    // Make sure to add an index like this:
-    //
-    //     modelBuilder.Entity<DbRequestTrace>()
-    //         .HasIndex(t => new { t.Service, t.Direction })
-    //     });
-    //
+    // Make sure to call OnModelCreating to create an import database index!
     public class DbRequestTrace
     {
         public long Id { get; set; }
@@ -27,7 +23,7 @@ namespace ITI.Baseline.RequestTrace
         public string Response { get; set; }
         public string? Exception { get; set; }
 
-        // For persistence use
+        [Obsolete("For persistency use only")]
         public DbRequestTrace(
             string service,
             string direction,
@@ -58,6 +54,7 @@ namespace ITI.Baseline.RequestTrace
             string request,
             string response,
             Exception? exception
+#pragma warning disable CS0618 // Type or member is obsolete
         ) : this(
             service,
             direction.ToString(),
@@ -68,7 +65,14 @@ namespace ITI.Baseline.RequestTrace
             response,
             exception?.ToString()
         )
+#pragma warning restore CS0618 // Type or member is obsolete
         {
+        }
+
+        public static void OnModelCreating(ModelBuilder mb)
+        {
+            mb.Entity<DbRequestTrace>()
+             .HasIndex(t => new { t.Service, t.Direction });
         }
     }
 }

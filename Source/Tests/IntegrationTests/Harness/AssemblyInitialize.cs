@@ -7,9 +7,9 @@ namespace IntegrationTests.Harness
     public class AssemblyInitialize
     {
         [AssemblyInitialize]
-        public static void MigrateDatabase(TestContext testContext)
+        public static void MigrateDatabase(TestContext _)
         {
-            var connectionStrings = IntegrationTest.GetConnectionStrings(testContext);
+            var connectionStrings = IntegrationTest.GetConnectionStrings();
             AppDataContext.Migrate(connectionStrings);
         }
     }

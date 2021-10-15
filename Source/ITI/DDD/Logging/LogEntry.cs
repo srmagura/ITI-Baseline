@@ -1,9 +1,11 @@
 ﻿using ITI.DDD.Core.Util;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace ITI.DDD.Logging
 {
+    // Make sure to call OnModelCreating to create an important index!
     public class LogEntry
     {
         [Obsolete("Serialization use only")]
@@ -56,5 +58,10 @@ namespace ITI.DDD.Logging
 
         public string? Message { get; protected set; }
         public string? Exception { get; protected set; }
+
+        public static void OnModelCreating(ModelBuilder mb)
+        {
+            mb.Entity<LogEntry>().HasIndex(p => p.WhenUtc);
+        }
     }
 }

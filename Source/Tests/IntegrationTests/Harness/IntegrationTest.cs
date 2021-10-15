@@ -12,18 +12,7 @@ namespace IntegrationTests.Harness
 {
     public abstract class IntegrationTest
     {
-        protected const string TestDatabaseName = "ITIBaseline_e2e_test";
-
-        protected static TestContext? TestContext;
-
         protected IContainer? Container { get; set; }
-
-        // NO! This method won't be called if defined on the base class
-        //[ClassInitialize]
-        //public static void ClassInitialize(TestContext context)
-        //{
-        //    _testContext = context;
-        //}
 
         [TestCleanup]
         public void TestCleanup()
@@ -37,21 +26,15 @@ namespace IntegrationTests.Harness
 
             builder.RegisterType<ConsoleLogWriter>().As<ILogWriter>();
 
-            var connectionStrings = GetConnectionStrings(TestContext);
+            var connectionStrings = GetConnectionStrings();
             builder.RegisterInstance(connectionStrings);
             builder.RegisterInstance<IDbLoggerSettings>(connectionStrings);
             builder.RegisterInstance<IDbRequestTraceSettings>(connectionStrings);
         }
 
-        public static ConnectionStrings GetConnectionStrings(TestContext? testContext)
+        public static ConnectionStrings GetConnectionStrings()
         {
-            var connectionString = $"Server=localhost;Database={TestDatabaseName};Trusted_Connection=True;Connection Timeout=180;MultipleActiveResultSets=True;";
-
-            if (testContext?.Properties.Contains("ConnectionString") ?? false)
-            {
-                var tmp = (string?)testContext.Properties["ConnectionString"];
-                if (tmp != null) connectionString = tmp;
-            }
+            var connectionString = $"Server=localhost;Database=ITIBaseline_e2e_test;Trusted_Connection=True;Connection Timeout=180;MultipleActiveResultSets=True;";
 
             return new ConnectionStrings
             {
@@ -70,7 +53,7 @@ namespace IntegrationTests.Harness
             RegisterServices(builder);
             Container = builder.Build();
 
-            var connectionString = GetConnectionStrings(TestContext).DefaultDataContext;
+            var connectionString = GetConnectionStrings().DefaultDataContext;
             await DeleteFromTablesUtil.DeleteFromTablesAsync(connectionString);
         }
     }

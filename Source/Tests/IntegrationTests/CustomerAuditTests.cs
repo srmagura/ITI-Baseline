@@ -20,12 +20,6 @@ namespace IntegrationTests
     [TestClass]
     public class CustomerAuditTests : IntegrationTest
     {
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext context)
-        {
-            TestContext = context;
-        }
-
         private static async Task<CustomerId> AddCustomerAsync(ICustomerAppService customerSvc)
         {
             var customerId = await customerSvc.AddAsync(

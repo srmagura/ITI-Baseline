@@ -35,5 +35,7 @@ namespace TestApp.Domain
         {
             Name = name ?? throw new ValidationException("Name");
         }
+
+
     }
 }

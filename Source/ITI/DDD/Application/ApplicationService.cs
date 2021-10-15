@@ -8,9 +8,8 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-[assembly: InternalsVisibleToAttribute("UnitTests")]
+[assembly: InternalsVisibleTo("UnitTests")]
 
-// TODO:SAM Give nice DbUpdateExceptions (feature that was in Baseline 1) ??!?
 namespace ITI.DDD.Application
 {
     public abstract class ApplicationService

@@ -12,12 +12,6 @@ namespace IntegrationTests
     [TestClass]
     public class LoggingTests : IntegrationTest
     {
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext context)
-        {
-            TestContext = context;
-        }
-
         [TestMethod]
         public void WritesLog()
         {

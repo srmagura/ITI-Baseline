@@ -12,12 +12,6 @@ namespace IntegrationTests
     [TestClass]
     public class DomainEventTests : IntegrationTest
     {
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext context)
-        {
-            TestContext = context;
-        }
-
         [TestMethod]
         public async Task ItLogsWhenCustomerAdded()
         {

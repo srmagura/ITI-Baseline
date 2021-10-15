@@ -6,20 +6,20 @@ namespace ITI.DDD.Application.Exceptions
     public class DuplicateKeyException : DomainException
     {
         public DuplicateKeyException(string table, string value)
-            : base($"Duplicate Key: {table} value '{value}'", AppServiceLogAs.None)
+            : base($"Duplicate key: {table} value '{value}'", AppServiceLogAs.None)
         {
             Table = table;
             Value = value;
         }
 
         public DuplicateKeyException(string table, string value, Exception innerException)
-            : base($"Duplicate Key: {table} value '{value}'", innerException, AppServiceLogAs.None)
+            : base($"Duplicate key: {table} value '{value}'", innerException, AppServiceLogAs.None)
         {
             Table = table;
             Value = value;
         }
 
-        public string Table { get; protected set; }
-        public string Value { get; protected set; }
+        public string Table { get; protected init; }
+        public string Value { get; protected init; }
     }
 }

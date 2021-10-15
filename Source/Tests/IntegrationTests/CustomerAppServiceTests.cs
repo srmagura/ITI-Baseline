@@ -1,6 +1,8 @@
 using Autofac;
 using IntegrationTests.Harness;
+using ITI.DDD.Application.Exceptions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,12 +15,6 @@ namespace IntegrationTests
     [TestClass]
     public class CustomerAppServiceTests : IntegrationTest
     {
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext context)
-        {
-            TestContext = context;
-        }
-
         private static async Task<CustomerId> AddCustomerAsync(ICustomerAppService customerSvc)
         {
             var customerId = await customerSvc.AddAsync(
@@ -161,6 +157,20 @@ namespace IntegrationTests
                 new List<string> { "Alixa" },
                 customer!.LtcPharmacies.Select(p => p.Name).ToList()
             );
+        }
+
+        [TestMethod]
+        public async Task ItThrowsDuplicateKeyException()
+        {
+            var customerSvc = Container.Resolve<ICustomerAppService>();
+
+            var customerId = await AddCustomerAsync(customerSvc);
+
+            var e = await Assert.ThrowsExceptionAsync<DuplicateKeyException>(
+                () => customerSvc.AddLtcPharmacyAsync(customerId, "Pruitt")
+            );
+
+            Assert.AreEqual("Duplicate key: LtcPharmacies value 'Pruitt'", e.Message);
         }
     }
 }

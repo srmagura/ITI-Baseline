@@ -11,12 +11,6 @@ namespace IntegrationTests
     [TestClass]
     public class RequestTraceTests : IntegrationTest
     {
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext context)
-        {
-            TestContext = context;
-        }
-
         [TestMethod]
         public void WritesTrace()
         {

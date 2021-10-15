@@ -11,12 +11,6 @@ namespace IntegrationTests
     [TestClass]
     public class FacilityAppServiceTests : IntegrationTest
     {
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext context)
-        {
-            TestContext = context;
-        }
-
         private static async Task<FacilityId> AddFacilityAsync(IFacilityAppService facilitySvc)
         {
             var facilityId = await facilitySvc.AddAsync("myFacility");

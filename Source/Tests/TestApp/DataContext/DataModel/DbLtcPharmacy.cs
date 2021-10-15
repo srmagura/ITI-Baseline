@@ -1,5 +1,6 @@
 ﻿using ITI.Baseline.Audit;
 using ITI.DDD.Infrastructure.DataContext;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -20,5 +21,11 @@ namespace TestApp.DataContext.DataModel
         public string AuditEntityName => "LtcPharmacy";
         public string AuditEntityId => Id.ToString();
 
+        public static void OnModelCreating(ModelBuilder mb)
+        {
+            mb.Entity<DbLtcPharmacy>()
+                .HasIndex(p => p.Name)
+                .IsUnique();
+        }
     }
 }

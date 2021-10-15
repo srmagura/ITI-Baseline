@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using ITI.Baseline.RequestTrace;
 using TestApp.DataContext.DataModel;
 using TestApp.Domain.Enums;
+using System;
 
 namespace TestApp.DataContext
 {
@@ -24,6 +25,9 @@ namespace TestApp.DataContext
         public DbSet<LogEntry> LogEntries => Set<LogEntry>();
 
         private readonly string _connectionString;
+
+        [Obsolete("For Add-Migration only")]
+        public AppDataContext() : this(new ConnectionStrings()) { }
 
         public AppDataContext(ConnectionStrings connectionStrings)
         {
@@ -48,17 +52,13 @@ namespace TestApp.DataContext
             }
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder mb)
         {
-            modelBuilder.Entity<DbRequestTrace>()
-                .HasIndex(t => new { t.Service, t.Direction });
+            LogEntry.OnModelCreating(mb);
+            DbRequestTrace.OnModelCreating(mb);
 
-            modelBuilder.Entity<DbUser>()
-                .HasDiscriminator(u => u.Type)
-                .HasValue<DbCustomerUser>(UserType.Customer)
-                .HasValue<DbOnCallUser>(UserType.OnCall);
-
-            modelBuilder.Entity<LogEntry>().HasIndex(p => p.WhenUtc);
+            DbUser.OnModelCreating(mb);
+            DbLtcPharmacy.OnModelCreating(mb);
         }
     }
 }
