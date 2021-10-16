@@ -56,6 +56,7 @@ namespace TestApp.DataContext
         {
             LogEntry.OnModelCreating(mb);
             DbRequestTrace.OnModelCreating(mb);
+            AuditRecord.OnModelCreating(mb);
 
             DbUser.OnModelCreating(mb);
             DbLtcPharmacy.OnModelCreating(mb);

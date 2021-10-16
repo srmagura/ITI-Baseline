@@ -1,11 +1,12 @@
 @@@ = breaking change
 
-## 2.1.1
+## 2.1.2
 
 - @@@ Remove `FieldLengths.GeoLocation`
 - @@@ Remove the `ITI.DDD.Application.Exceptions` namespace
 - @@@ Remove `EntityNotFoundException`
 - `DefaultPasswordEncoder`: disallow leading or trailing whitespace in passwords
+- Add `OnModelCreating` methods to `AuditRecord`, `LogEntry`, and `DbRequestTrace`
 
 ## 2.1.0
 
