@@ -27,18 +27,16 @@ namespace ITI.DDD.Infrastructure.DataMapping
             where TIdent : Identity, new()
         {
             cfg.CreateMap<TIdent, Guid?>()
-                .ConvertUsing(id => id == null ? null : id.Guid)
-                ;
+                .ConvertUsing(id => id == null ? null : id.Guid);
+
             cfg.CreateMap<Guid?, TIdent>()
-                .ConvertUsing(guid => guid == null ? null : constr(guid.Value))
-                ;
+                .ConvertUsing(guid => guid == null ? null : constr(guid.Value));
 
             cfg.CreateMap<TIdent, Guid>()
-                .ConvertUsing(id => id.Guid)
-                ;
+                .ConvertUsing(id => id.Guid);
+
             cfg.CreateMap<Guid, TIdent>()
-                .ConvertUsing(guid => constr(guid))
-                ;
+                .ConvertUsing(guid => constr(guid));
         }
 
         protected static void SetPrivateField(object obj, string fieldName, object? value)
