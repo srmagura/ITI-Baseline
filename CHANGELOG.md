@@ -1,5 +1,9 @@
 @@@ = breaking change
 
+## 2.1.3
+
+- Make `FromDbJson()` do case-insensitive property names
+
 ## 2.1.2
 
 - @@@ Remove `FieldLengths.GeoLocation`

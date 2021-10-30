@@ -21,6 +21,10 @@ namespace UnitTests.Util
 
             var obj = json.FromDbJson<MyObject>();
             Assert.AreEqual("value", obj?.Property);
+
+            // Verify that property name case does not matter
+            obj = json.ToLowerInvariant().FromDbJson<MyObject>();
+            Assert.AreEqual("value", obj?.Property);
         }
 
         [TestMethod]

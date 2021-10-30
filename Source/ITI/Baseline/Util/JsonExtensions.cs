@@ -29,19 +29,24 @@ namespace ITI.Baseline.Util
             return obj == null ? "(null)" : obj.GetType().Name;
         }
 
+        private static JsonSerializerOptions DbJsonSerializerOptions = new()
+        {
+            PropertyNameCaseInsensitive = true
+        };
+
         public static string ToDbJson(this object obj)
         {
-            return JsonSerializer.Serialize(obj);
+            return JsonSerializer.Serialize(obj, DbJsonSerializerOptions);
         }
 
         public static T? FromDbJson<T>(this string json) where T : class
         {
-            return JsonSerializer.Deserialize<T>(json);
+            return JsonSerializer.Deserialize<T>(json, DbJsonSerializerOptions);
         }
 
         public static object? FromDbJson(this string json, Type t)
         {
-            return JsonSerializer.Deserialize(json, t);
+            return JsonSerializer.Deserialize(json, t, DbJsonSerializerOptions);
         }
     }
 }

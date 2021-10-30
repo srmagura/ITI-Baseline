@@ -4,12 +4,11 @@
 
 Each project is its own NuGet package.
 
-0. Install https://github.com/microsoft/artifacts-credprovider
-
-1. Update the version number in every `.csproj` file using Replace-All on (for example) `<Version>2.1.0</Version>`.
+0. Install https://github.com/microsoft/artifacts-credprovider  
+1. Update the version number in every `.csproj` file using Replace-All on (for example) `<Version>2.1.0</Version>`.  
 2. In PowerShell run
 
-   ```
+   ```pwsh
    ./Update-NuGetPackages.ps1 x.x.x
    ```
 
