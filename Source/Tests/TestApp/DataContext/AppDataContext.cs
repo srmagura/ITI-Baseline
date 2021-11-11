@@ -26,7 +26,6 @@ namespace TestApp.DataContext
 
         private readonly string _connectionString;
 
-        [Obsolete("For Add-Migration only")]
         public AppDataContext() : this(new ConnectionStrings()) { }
 
         public AppDataContext(ConnectionStrings connectionStrings)
