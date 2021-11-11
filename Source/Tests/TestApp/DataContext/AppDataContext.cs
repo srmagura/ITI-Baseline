@@ -45,11 +45,9 @@ namespace TestApp.DataContext
 
         public static void Migrate(ConnectionStrings connectionStrings)
         {
-            using (var context = new AppDataContext(connectionStrings))
-            {
-                context.Database.SetCommandTimeout(600);
-                context.Database.Migrate();
-            }
+            using var context = new AppDataContext(connectionStrings);
+            context.Database.SetCommandTimeout(600);
+            context.Database.Migrate();
         }
 
         protected override void OnModelCreating(ModelBuilder mb)

@@ -13,6 +13,8 @@ namespace ITI.DDD.Infrastructure.DataMapping
             _mapper = mapper;
         }
 
+        // This always creates a new instance of the DbEntity, even if a DbEntity
+        // with this ID is already being tracked
         public TDb ToDb<TDb>(Entity entity) where TDb : DbEntity
         {
             return _mapper.Map<TDb>(entity);
