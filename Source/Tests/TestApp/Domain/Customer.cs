@@ -12,9 +12,6 @@ namespace TestApp.Domain
 {
     public class Customer : AggregateRoot
     {
-        [Obsolete("Serialization use only")]
-        protected Customer() { }
-
         public Customer(
             string name,
             List<LtcPharmacy> ltcPharmacies, 

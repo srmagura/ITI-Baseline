@@ -30,8 +30,6 @@ namespace TestApp.AppConfig
                 ConfigureUser(cfg);
             });
 
-            config.AssertConfigurationIsValid();
-
             var mapper = new Mapper(config);
             builder.RegisterInstance<IMapper>(mapper);
 
@@ -79,10 +77,12 @@ namespace TestApp.AppConfig
                 })
                 .ReverseMap()
                 .ForMember(p => p.SomeInts, opt => opt.Ignore())
-                .AfterMap((db, e) =>
-                {
-                    SetPrivateField(e, "_someInts", db.SomeInts.FromDbJson<List<int>>());
-                });
+                .ConstructUsing((db, ctx) => new Customer(
+                    name: db.Name,
+                    ltcPharmacies: ctx.Mapper.Map<List<LtcPharmacy>>(db.LtcPharmacies),
+                    someInts: db.SomeInts.FromDbJson<List<int>>() ?? new(),
+                    someNumber: db.SomeNumber)
+                );
 
             cfg.CreateMap<DbLtcPharmacy, LtcPharmacyDto>();
 

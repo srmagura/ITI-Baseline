@@ -19,7 +19,6 @@ namespace ITI.DDD.Infrastructure.DataMapping
 
         protected static void BaseConfig(IMapperConfigurationExpression cfg)
         {
-            cfg.DisableConstructorMapping();
             cfg.AddCollectionMappers();
         }
 

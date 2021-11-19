@@ -3,8 +3,10 @@
 ## 2.2.0
 
 - @@@ Upgrade to .NET 6 and EF Core 6
-- `EmailAddress`: Fix `value` being nullable
-- `PhoneNumber`: Fix `value` being nullable
+- @@@ `BaseDataMapConfig`: Enable constructor mapping
+- @@@ `EmailAddress`: Fix `value` being nullable
+- @@@ `PhoneNumber`: Fix `value` being nullable
+- Enable nullable in all packages
 
 ## 2.1.3
 
