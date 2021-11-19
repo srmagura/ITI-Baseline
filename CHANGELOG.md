@@ -1,5 +1,9 @@
 @@@ = breaking change
 
+## 2.2.0
+
+- @@@ Upgrade to .NET 6 and EF Core 6
+
 ## 2.1.3
 
 - Make `FromDbJson()` do case-insensitive property names
