@@ -32,7 +32,7 @@ namespace ITI.Baseline.Audit
             _mapper = mapper;
         }
 
-        public Task<FilteredList<AuditRecordDto>?> ListAsync(string entityName, string entityId, int skip, int take)
+        public Task<FilteredList<AuditRecordDto>> ListAsync(string entityName, string entityId, int skip, int take)
         {
             return QueryAsync(
                 async () => Authorize.Require(await _perms.CanViewAuditAsync(entityName, entityId)),

@@ -1,6 +1,6 @@
 @@@ = breaking change
 
-## 2.2.0
+## 2.2.1
 
 - @@@ Upgrade to .NET 6 and EF Core 6
 - @@@ `BaseDataMapConfig`: Enable constructor mapping
