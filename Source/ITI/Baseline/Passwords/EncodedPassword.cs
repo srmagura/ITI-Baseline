@@ -7,11 +7,11 @@ namespace ITI.Baseline.Passwords
 {
     public record EncodedPassword : DbValueObject
     {
-        public EncodedPassword(string encodedValue)
+        public EncodedPassword(string value)
         {
-            Require.NotEmpty(encodedValue, "Invalid encoded password (empty).");
+            Require.NotEmpty(value, "Invalid encoded password (empty).");
 
-            Value = encodedValue;
+            Value = value;
         }
 
         [MaxLength(128)]
