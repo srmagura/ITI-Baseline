@@ -15,7 +15,7 @@ namespace ITI.Baseline.Audit
             string aggregateId, 
             string entity, 
             string entityId, 
-            string eventName, 
+            string @event, 
             string changes
         )
         {
@@ -26,7 +26,7 @@ namespace ITI.Baseline.Audit
             AggregateId = aggregateId;
             Entity = entity.MaxLength(64);
             EntityId = entityId;
-            Event = eventName;
+            Event = @event;
             Changes = changes;
         }
 
