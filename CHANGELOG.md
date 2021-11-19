@@ -3,6 +3,8 @@
 ## 2.2.0
 
 - @@@ Upgrade to .NET 6 and EF Core 6
+- `EmailAddress`: Fix `value` being nullable
+- `PhoneNumber`: Fix `value` being nullable
 
 ## 2.1.3
 
