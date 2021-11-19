@@ -19,8 +19,8 @@ namespace UnitTests.Passwords
             var enc = encoder.Encode("LetMeIn98");
             Console.WriteLine(enc);
 
-            var validated = encoder.Validate("LetMeIn98", enc);
-            Assert.IsTrue(validated);
+            Assert.IsTrue(encoder.IsCorrect("LetMeIn98", enc));
+            Assert.IsFalse(encoder.IsCorrect("LetMeIn99", enc));
         }
     }
 }

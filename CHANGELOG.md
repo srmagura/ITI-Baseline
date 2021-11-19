@@ -1,8 +1,9 @@
 @@@ = breaking change
 
-## 2.2.1
+## 2.2.2
 
 - @@@ Upgrade to .NET 6 and EF Core 6
+- @@@ Refactor IPasswordEncoder
 - @@@ `BaseDataMapConfig`: Enable constructor mapping
 - @@@ `EmailAddress`: Fix `value` being nullable
 - @@@ `PhoneNumber`: Fix `value` being nullable

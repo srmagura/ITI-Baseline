@@ -6,14 +6,9 @@ using System.Security.Cryptography;
 
 namespace ITI.Baseline.Passwords
 {
-    public class DefaultPasswordEncoder : IPasswordEncoder<EncodedPassword>
+    public class DefaultPasswordEncoder : IPasswordEncoder
     {
         private readonly DefaultPasswordEncoderSettings _settings;
-
-        // Changing these will break existing hashes
-        public const int IterationIndex = 0;
-        public const int SaltIndex = 1;
-        public const int Pbkdf2Index = 2;
 
         public DefaultPasswordEncoder(DefaultPasswordEncoderSettings settings)
         {
@@ -35,7 +30,7 @@ namespace ITI.Baseline.Passwords
             return new EncodedPassword(enc);
         }
 
-        public bool Validate(string password, EncodedPassword encodedPassword)
+        public bool IsCorrect(string password, EncodedPassword encodedPassword)
         {
             var enc = encodedPassword?.Value;
             if (enc == null)
@@ -46,9 +41,9 @@ namespace ITI.Baseline.Passwords
 
             var split = enc.Split(delimiter);
 
-            var iterations = int.Parse(split[IterationIndex]);
-            var salt = Convert.FromBase64String(split[SaltIndex]);
-            var hash = Convert.FromBase64String(split[Pbkdf2Index]);
+            var iterations = int.Parse(split[0]);
+            var salt = Convert.FromBase64String(split[1]);
+            var hash = Convert.FromBase64String(split[2]);
 
             var testHash = PBKDF2(password, salt, iterations, hash.Length);
 

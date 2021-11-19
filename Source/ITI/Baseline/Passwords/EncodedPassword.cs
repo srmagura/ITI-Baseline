@@ -5,9 +5,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ITI.Baseline.Passwords
 {
-    public record EncodedPassword : DbValueObject, IEncodedPassword
+    public record EncodedPassword : DbValueObject
     {
-        internal EncodedPassword(string encodedValue)
+        public EncodedPassword(string encodedValue)
         {
             Require.NotEmpty(encodedValue, "Invalid encoded password (empty).");
 

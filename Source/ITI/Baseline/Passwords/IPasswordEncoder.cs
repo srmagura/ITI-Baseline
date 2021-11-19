@@ -1,9 +1,9 @@
 ﻿namespace ITI.Baseline.Passwords
 {
-    public interface IPasswordEncoder<TEncodedPassword>
+    public interface IPasswordEncoder
     {
-        TEncodedPassword Encode(string plainTextPassword);
-        bool Validate(string password, TEncodedPassword userEncPassword);
+        EncodedPassword Encode(string plainTextPassword);
+        bool IsCorrect(string password, EncodedPassword encodedPassword);
         bool IsValid(string password);
     }
 }
