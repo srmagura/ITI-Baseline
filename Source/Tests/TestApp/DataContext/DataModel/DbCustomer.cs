@@ -1,6 +1,7 @@
 ﻿using ITI.Baseline.Audit;
 using ITI.Baseline.ValueObjects;
 using ITI.DDD.Infrastructure.DataContext;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,6 +11,13 @@ namespace TestApp.DataContext.DataModel
 {
     public class DbCustomer : DbEntity, IDbAudited
     {
+        public DbCustomer(string name, decimal someMoney, long someNumber)
+        {
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+            SomeMoney = someMoney;
+            SomeNumber = someNumber;
+        }
+
         [MaxLength(64)]
         public string Name { get; set; }
 

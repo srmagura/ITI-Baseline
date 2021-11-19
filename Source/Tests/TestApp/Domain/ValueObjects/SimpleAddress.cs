@@ -8,16 +8,13 @@ namespace TestApp.Domain.ValueObjects
 {
     public record SimpleAddress : DbValueObject
     {
-        [Obsolete("Persistence user only")]
-        protected SimpleAddress() { }
-
         public SimpleAddress(string line1, string? line2, string city, string state, string zip)
         {
-            Line1 = line1.Trim().MaxLength(TestAppFieldLengths.SimpleAddress.Line1);
-            Line2 = line2?.Trim().MaxLength(TestAppFieldLengths.SimpleAddress.Line2);
-            City = city.Trim().MaxLength(TestAppFieldLengths.SimpleAddress.City);
-            State = state.Trim().MaxLength(TestAppFieldLengths.SimpleAddress.State);
-            Zip = zip.Trim().MaxLength(TestAppFieldLengths.SimpleAddress.Zip);
+            Line1 = line1;
+            Line2 = line2;
+            City = city;
+            State = state;
+            Zip = zip;
         }
 
         [MaxLength(TestAppFieldLengths.SimpleAddress.Line1)]

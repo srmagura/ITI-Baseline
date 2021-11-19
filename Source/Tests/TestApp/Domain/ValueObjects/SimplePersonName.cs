@@ -4,18 +4,15 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using TestApp.DataContext;
 
-namespace ITI.Baseline.ValueObjects
+namespace TestApp.Domain.ValueObjects
 {
     public record SimplePersonName : DbValueObject
     {
-        [Obsolete("Persistence user only")]
-        protected SimplePersonName() { }
-
         public SimplePersonName(string first, string? middle, string last)
         {
-            First = first.Trim().MaxLength(TestAppFieldLengths.SimplePersonName.First);
-            Middle = middle?.Trim().MaxLength(TestAppFieldLengths.SimplePersonName.Middle);
-            Last = last.Trim().MaxLength(TestAppFieldLengths.SimplePersonName.Last);
+            First = first;
+            Middle = middle;
+            Last = last;
         }
 
         [MaxLength(TestAppFieldLengths.SimplePersonName.First)]

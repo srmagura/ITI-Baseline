@@ -1,10 +1,16 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TestApp.Domain.Identities;
 
 namespace TestApp.Application.Dto
 {
     public class CustomerDto
     {
+        public CustomerDto(CustomerId id)
+        {
+            Id = id ?? throw new ArgumentNullException(nameof(id));
+        }
+
         public CustomerId Id { get; set; }
         public string? Name { get; set; }
 

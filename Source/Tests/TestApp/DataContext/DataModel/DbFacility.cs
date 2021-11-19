@@ -7,7 +7,11 @@ namespace TestApp.DataContext.DataModel
 {
     public class DbFacility : DbEntity, IDbAudited
     {
-        public DbFacility() { }
+        public DbFacility(string? name, FacilityContact contact)
+        {
+            Name = name;
+            Contact = contact;
+        }
 
         [MaxLength(64)]
         public string? Name { get; set; }

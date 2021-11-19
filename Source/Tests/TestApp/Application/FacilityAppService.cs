@@ -57,7 +57,7 @@ namespace TestApp.Application
             );
         }
   
-        public Task SetContactAsync(FacilityId id, FacilityContactDto? contact)
+        public Task SetContactAsync(FacilityId id, FacilityContactDto contact)
         {
             return CommandAsync(
                 () => Task.CompletedTask,
@@ -65,7 +65,7 @@ namespace TestApp.Application
                     var facility = await _facilityRepo.GetAsync(id)
                         ?? throw new ValidationException("Facility");
 
-                    facility.SetContact(contact?.ToValueObject());
+                    facility.SetContact(contact.ToValueObject());
                 }
             );
         }

@@ -1,13 +1,13 @@
 ﻿using Autofac;
 using ITI.DDD.Auth;
 using ITI.DDD.Domain.DomainEvents;
-using TestApp.AppConfig;
+using System;
 
-namespace UnitTests.Mocks
+namespace TestApp.AppConfig
 {
     internal class DomainEventAuthScopeResolver : IDomainEventAuthScopeResolver
     {
-        private static ILifetimeScope RootLifetimeScope;
+        private static ILifetimeScope? RootLifetimeScope;
 
         public static void OnContainerBuilt(ILifetimeScope rootLifetimeScope)
         {
@@ -16,7 +16,11 @@ namespace UnitTests.Mocks
 
         public ILifetimeScope BeginLifetimeScope()
         {
-            return RootLifetimeScope.BeginLifetimeScope(c => {
+            if (RootLifetimeScope == null)
+                throw new Exception("OnContainerBuilt must be calld before BeginLifetimeScope.");
+
+            return RootLifetimeScope.BeginLifetimeScope(c =>
+            {
                 c.RegisterType<TestAppSystemAuthContext>().As<IAuthContext>();
             });
         }

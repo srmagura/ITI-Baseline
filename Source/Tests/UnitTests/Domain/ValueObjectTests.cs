@@ -1,6 +1,7 @@
 ﻿using ITI.Baseline.ValueObjects;
 using ITI.DDD.Domain.ValueObjects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TestApp.Domain.ValueObjects;
 
 namespace UnitTests.Domain
 {

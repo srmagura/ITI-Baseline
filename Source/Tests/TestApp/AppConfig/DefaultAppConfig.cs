@@ -14,7 +14,6 @@ using TestApp.DataContext;
 using TestApp.Infrastructure;
 using TestApp.Queries;
 using TestApp.Repositories;
-using UnitTests.Mocks;
 
 namespace TestApp.AppConfig
 {

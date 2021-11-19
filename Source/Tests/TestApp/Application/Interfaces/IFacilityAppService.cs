@@ -9,6 +9,6 @@ namespace TestApp.Application.Interfaces
         Task<FacilityDto?> GetAsync(FacilityId id);
 
         Task<FacilityId> AddAsync(string name);
-        Task SetContactAsync(FacilityId id, FacilityContactDto? contact);
+        Task SetContactAsync(FacilityId id, FacilityContactDto contact);
     }
 }

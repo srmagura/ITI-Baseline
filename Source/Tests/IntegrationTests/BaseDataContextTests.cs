@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 using TestApp.DataContext;
 using TestApp.DataContext.DataModel;
+using TestApp.Domain.ValueObjects;
 
 namespace IntegrationTests
 {
@@ -13,10 +14,10 @@ namespace IntegrationTests
         [TestMethod]
         public async Task ItWorksOutsideOfUnitOfWork()
         {
-            var dbFacility = new DbFacility
+            var contact = new FacilityContact(null, null);
+            var dbFacility = new DbFacility("myFacility", contact)
             {
                 Id = SequentialGuid.Next(),
-                Name = "myFacility"
             };
 
             using (var db = new AppDataContext())
