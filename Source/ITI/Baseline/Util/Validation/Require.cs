@@ -1,14 +1,16 @@
-﻿namespace ITI.Baseline.Util.Validation
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace ITI.Baseline.Util.Validation
 {
     public static class Require
     {
-        public static void NotNull(object? obj, string message)
+        public static void NotNull([NotNull] object? obj, string message)
         {
             if (obj == null)
                 throw new ValidationException(message);
         }
 
-        public static void NotEmpty(string? s, string message)
+        public static void NotEmpty([NotNull] string? s, string message)
         {
             s = s?.Trim();
             if (string.IsNullOrEmpty(s))
@@ -21,7 +23,7 @@
                 throw new ValidationException(message);
         }
 
-        public static void HasValue(string? value, string name, int minLength, int maxLength)
+        public static void HasValue([NotNull] string? value, string name, int minLength, int maxLength)
         {
             if (string.IsNullOrWhiteSpace(value))
                 throw new ValidationException($"{name} is required");
