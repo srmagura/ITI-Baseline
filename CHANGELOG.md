@@ -1,10 +1,11 @@
 @@@ = breaking change
 
-## 2.2.3
+## 2.2.4
 
 - @@@ Upgrade to .NET 6 and EF Core 6
-- @@@ Refactor IPasswordEncoder
+- @@@ Refactor `IPasswordEncoder`
 - @@@ `BaseDataMapConfig`: Enable constructor mapping
+- @@@ `IAuthContext`: Rename `UserId` to `UserIdString`
 - @@@ `EmailAddress`: Fix `value` being nullable
 - @@@ `PhoneNumber`: Fix `value` being nullable
 - Enable nullable in all packages

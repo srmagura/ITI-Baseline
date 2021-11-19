@@ -82,7 +82,7 @@ namespace ITI.Baseline.Audit
                         if (changes.HasValue() && changes != "[]")
                         {
                             var audit = new AuditRecord(
-                                _auth?.UserId,
+                                _auth?.UserIdString,
                                 _auth?.UserName,
                                 aggregateName,
                                 aggregateId,

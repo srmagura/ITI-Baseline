@@ -49,7 +49,7 @@ namespace ITI.DDD.Logging
             string? userName = null;
             if (_auth != null)
             {
-                userId = _auth.UserId;
+                userId = _auth.UserIdString;
                 userName = _auth.UserName;
             }
 

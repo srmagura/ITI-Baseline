@@ -76,7 +76,7 @@ namespace TestApp.Migrations
 
                     b.HasIndex("Entity", "EntityId");
 
-                    b.ToTable("AuditRecords");
+                    b.ToTable("AuditRecords", (string)null);
                 });
 
             modelBuilder.Entity("ITI.Baseline.RequestTrace.DbRequestTrace", b =>
@@ -122,7 +122,7 @@ namespace TestApp.Migrations
 
                     b.HasIndex("Service", "Direction");
 
-                    b.ToTable("RequestTraces");
+                    b.ToTable("RequestTraces", (string)null);
                 });
 
             modelBuilder.Entity("ITI.DDD.Logging.LogEntry", b =>
@@ -170,7 +170,7 @@ namespace TestApp.Migrations
 
                     b.HasIndex("WhenUtc");
 
-                    b.ToTable("LogEntries");
+                    b.ToTable("LogEntries", (string)null);
                 });
 
             modelBuilder.Entity("TestApp.DataContext.DataModel.DbCustomer", b =>
@@ -198,7 +198,7 @@ namespace TestApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customers", (string)null);
                 });
 
             modelBuilder.Entity("TestApp.DataContext.DataModel.DbFacility", b =>
@@ -215,7 +215,7 @@ namespace TestApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Facilities");
+                    b.ToTable("Facilities", (string)null);
                 });
 
             modelBuilder.Entity("TestApp.DataContext.DataModel.DbLtcPharmacy", b =>
@@ -241,7 +241,7 @@ namespace TestApp.Migrations
                         .IsUnique()
                         .HasFilter("[Name] IS NOT NULL");
 
-                    b.ToTable("LtcPharmacies");
+                    b.ToTable("LtcPharmacies", (string)null);
                 });
 
             modelBuilder.Entity("TestApp.DataContext.DataModel.DbUser", b =>
@@ -257,7 +257,7 @@ namespace TestApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
 
                     b.HasDiscriminator<int>("Type");
                 });
@@ -268,8 +268,6 @@ namespace TestApp.Migrations
 
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.HasDiscriminator().HasValue(0);
                 });
 
             modelBuilder.Entity("TestApp.DataContext.DataModel.DbOnCallUser", b =>
@@ -284,58 +282,7 @@ namespace TestApp.Migrations
 
             modelBuilder.Entity("TestApp.DataContext.DataModel.DbCustomer", b =>
                 {
-                    b.OwnsOne("ITI.Baseline.ValueObjects.PhoneNumber", "ContactPhone", b1 =>
-                        {
-                            b1.Property<Guid>("DbCustomerId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<bool?>("HasValue")
-                                .HasColumnType("bit");
-
-                            b1.Property<string>("Value")
-                                .IsRequired()
-                                .HasMaxLength(16)
-                                .HasColumnType("nvarchar(16)");
-
-                            b1.HasKey("DbCustomerId");
-
-                            b1.ToTable("Customers");
-
-                            b1.WithOwner()
-                                .HasForeignKey("DbCustomerId");
-                        });
-
-                    b.OwnsOne("ITI.Baseline.ValueObjects.SimplePersonName", "ContactName", b1 =>
-                        {
-                            b1.Property<Guid>("DbCustomerId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("First")
-                                .IsRequired()
-                                .HasMaxLength(64)
-                                .HasColumnType("nvarchar(64)");
-
-                            b1.Property<bool?>("HasValue")
-                                .HasColumnType("bit");
-
-                            b1.Property<string>("Last")
-                                .IsRequired()
-                                .HasMaxLength(64)
-                                .HasColumnType("nvarchar(64)");
-
-                            b1.Property<string>("Middle")
-                                .HasMaxLength(64)
-                                .HasColumnType("nvarchar(64)");
-
-                            b1.HasKey("DbCustomerId");
-
-                            b1.ToTable("Customers");
-
-                            b1.WithOwner()
-                                .HasForeignKey("DbCustomerId");
-                        });
-
-                    b.OwnsOne("TestApp.Domain.ValueObjects.SimpleAddress", "Address", b1 =>
+                    b.OwnsOne("TestApp.DataContext.DataModel.DbCustomer.Address#TestApp.Domain.ValueObjects.SimpleAddress", "Address", b1 =>
                         {
                             b1.Property<Guid>("DbCustomerId")
                                 .HasColumnType("uniqueidentifier");
@@ -369,7 +316,58 @@ namespace TestApp.Migrations
 
                             b1.HasKey("DbCustomerId");
 
-                            b1.ToTable("Customers");
+                            b1.ToTable("Customers", (string)null);
+
+                            b1.WithOwner()
+                                .HasForeignKey("DbCustomerId");
+                        });
+
+                    b.OwnsOne("TestApp.DataContext.DataModel.DbCustomer.ContactName#ITI.Baseline.ValueObjects.SimplePersonName", "ContactName", b1 =>
+                        {
+                            b1.Property<Guid>("DbCustomerId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<string>("First")
+                                .IsRequired()
+                                .HasMaxLength(64)
+                                .HasColumnType("nvarchar(64)");
+
+                            b1.Property<bool?>("HasValue")
+                                .HasColumnType("bit");
+
+                            b1.Property<string>("Last")
+                                .IsRequired()
+                                .HasMaxLength(64)
+                                .HasColumnType("nvarchar(64)");
+
+                            b1.Property<string>("Middle")
+                                .HasMaxLength(64)
+                                .HasColumnType("nvarchar(64)");
+
+                            b1.HasKey("DbCustomerId");
+
+                            b1.ToTable("Customers", (string)null);
+
+                            b1.WithOwner()
+                                .HasForeignKey("DbCustomerId");
+                        });
+
+                    b.OwnsOne("TestApp.DataContext.DataModel.DbCustomer.ContactPhone#ITI.Baseline.ValueObjects.PhoneNumber", "ContactPhone", b1 =>
+                        {
+                            b1.Property<Guid>("DbCustomerId")
+                                .HasColumnType("uniqueidentifier");
+
+                            b1.Property<bool?>("HasValue")
+                                .HasColumnType("bit");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasMaxLength(16)
+                                .HasColumnType("nvarchar(16)");
+
+                            b1.HasKey("DbCustomerId");
+
+                            b1.ToTable("Customers", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("DbCustomerId");
@@ -384,7 +382,7 @@ namespace TestApp.Migrations
 
             modelBuilder.Entity("TestApp.DataContext.DataModel.DbFacility", b =>
                 {
-                    b.OwnsOne("TestApp.Domain.ValueObjects.FacilityContact", "Contact", b1 =>
+                    b.OwnsOne("TestApp.DataContext.DataModel.DbFacility.Contact#TestApp.Domain.ValueObjects.FacilityContact", "Contact", b1 =>
                         {
                             b1.Property<Guid>("DbFacilityId")
                                 .HasColumnType("uniqueidentifier");
@@ -394,12 +392,12 @@ namespace TestApp.Migrations
 
                             b1.HasKey("DbFacilityId");
 
-                            b1.ToTable("Facilities");
+                            b1.ToTable("Facilities", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("DbFacilityId");
 
-                            b1.OwnsOne("ITI.Baseline.ValueObjects.EmailAddress", "Email", b2 =>
+                            b1.OwnsOne("TestApp.DataContext.DataModel.DbFacility.Contact#TestApp.Domain.ValueObjects.FacilityContact.Email#ITI.Baseline.ValueObjects.EmailAddress", "Email", b2 =>
                                 {
                                     b2.Property<Guid>("FacilityContactDbFacilityId")
                                         .HasColumnType("uniqueidentifier");
@@ -414,13 +412,13 @@ namespace TestApp.Migrations
 
                                     b2.HasKey("FacilityContactDbFacilityId");
 
-                                    b2.ToTable("Facilities");
+                                    b2.ToTable("Facilities", (string)null);
 
                                     b2.WithOwner()
                                         .HasForeignKey("FacilityContactDbFacilityId");
                                 });
 
-                            b1.OwnsOne("ITI.Baseline.ValueObjects.SimplePersonName", "Name", b2 =>
+                            b1.OwnsOne("TestApp.DataContext.DataModel.DbFacility.Contact#TestApp.Domain.ValueObjects.FacilityContact.Name#ITI.Baseline.ValueObjects.SimplePersonName", "Name", b2 =>
                                 {
                                     b2.Property<Guid>("FacilityContactDbFacilityId")
                                         .HasColumnType("uniqueidentifier");
@@ -444,7 +442,7 @@ namespace TestApp.Migrations
 
                                     b2.HasKey("FacilityContactDbFacilityId");
 
-                                    b2.ToTable("Facilities");
+                                    b2.ToTable("Facilities", (string)null);
 
                                     b2.WithOwner()
                                         .HasForeignKey("FacilityContactDbFacilityId");
@@ -472,7 +470,7 @@ namespace TestApp.Migrations
 
             modelBuilder.Entity("TestApp.DataContext.DataModel.DbUser", b =>
                 {
-                    b.OwnsOne("ITI.Baseline.ValueObjects.EmailAddress", "Email", b1 =>
+                    b.OwnsOne("TestApp.DataContext.DataModel.DbUser.Email#ITI.Baseline.ValueObjects.EmailAddress", "Email", b1 =>
                         {
                             b1.Property<Guid>("DbUserId")
                                 .HasColumnType("uniqueidentifier");
@@ -487,7 +485,7 @@ namespace TestApp.Migrations
 
                             b1.HasKey("DbUserId");
 
-                            b1.ToTable("Users");
+                            b1.ToTable("Users", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("DbUserId");

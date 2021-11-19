@@ -27,7 +27,7 @@ namespace IntegrationTests
             using var db = Container!.Resolve<AppDataContext>();
             var logEntry = db.LogEntries!.Single();
 
-            Assert.AreEqual(new TestAppAuthContext().UserId, logEntry.UserId);
+            Assert.AreEqual(new TestAppAuthContext().UserIdString, logEntry.UserId);
             Assert.AreEqual(new TestAppAuthContext().UserName, logEntry.UserName);
             Assert.AreEqual("error", logEntry.Level?.ToLowerInvariant());
             Assert.AreEqual("myMessage", logEntry.Message);

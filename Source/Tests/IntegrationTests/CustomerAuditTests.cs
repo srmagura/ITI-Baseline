@@ -56,7 +56,7 @@ namespace IntegrationTests
             var auditRecords = (await auditSvc.ListAsync("Customer", customerId.Guid.ToString(), 0, 1000))!.Items;
 
             var auditRecord = auditRecords.Single(r => r.Entity == "Customer");
-            Assert.AreEqual(new TestAppAuthContext().UserId, auditRecord.UserId);
+            Assert.AreEqual(new TestAppAuthContext().UserIdString, auditRecord.UserId);
             Assert.AreEqual(new TestAppAuthContext().UserName, auditRecord.UserName);
             Assert.AreEqual("Customer", auditRecord.Aggregate);
             Assert.AreEqual(customerId.Guid.ToString(), auditRecord.AggregateId);
@@ -117,7 +117,7 @@ namespace IntegrationTests
             var auditRecords = (await auditSvc.ListAsync("LtcPharmacy", pruittId.Guid.ToString(), 0, 1000))!.Items;
             var auditRecord = auditRecords.Single(r => r.Entity == "LtcPharmacy" && r.Event == "Modified");
 
-            Assert.AreEqual(new TestAppAuthContext().UserId, auditRecord.UserId);
+            Assert.AreEqual(new TestAppAuthContext().UserIdString, auditRecord.UserId);
             Assert.AreEqual(new TestAppAuthContext().UserName, auditRecord.UserName);
             Assert.AreEqual("Customer", auditRecord.Aggregate);
             Assert.AreEqual(customerId.Guid.ToString(), auditRecord.AggregateId);
@@ -154,7 +154,7 @@ namespace IntegrationTests
             var auditRecords = (await auditSvc.ListAsync("Customer", customerId.Guid.ToString(), 0, 1000))!.Items;
             var auditRecord = auditRecords.Single(r => r.Entity == "Customer" && r.Event == "Modified");
 
-            Assert.AreEqual(new TestAppAuthContext().UserId, auditRecord.UserId);
+            Assert.AreEqual(new TestAppAuthContext().UserIdString, auditRecord.UserId);
             Assert.AreEqual(new TestAppAuthContext().UserName, auditRecord.UserName);
             Assert.AreEqual("Customer", auditRecord.Aggregate);
             Assert.AreEqual(customerId.Guid.ToString(), auditRecord.AggregateId);
