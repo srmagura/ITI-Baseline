@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace ITI.DDD.Core.Util
 {
     public static class StringExtensions
     {
-        public static bool EqualsIgnoreCase(this string s, string value)
+        public static bool EqualsIgnoreCase(this string? s, string value)
         {
             if (s == null)
                 return value == null;
@@ -14,12 +15,12 @@ namespace ITI.DDD.Core.Util
 
         public static string MaxLength(this string s, int maxLength)
         {
-            return s.Length < maxLength
+            return s.Length <= maxLength
                 ? s
-                : s.Substring(0, maxLength);
+                : s[..maxLength];
         }
 
-        public static bool HasValue(this string? s)
+        public static bool HasValue([NotNullWhen(true)] this string? s)
         {
             return !string.IsNullOrWhiteSpace(s);
         }

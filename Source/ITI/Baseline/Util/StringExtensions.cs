@@ -5,7 +5,7 @@ namespace ITI.Baseline.Util
 {
     public static class StringExtensions
     {
-        public static bool IsValidEmail(this string email)
+        public static bool IsValidEmail(this string? email)
         {
             try
             {

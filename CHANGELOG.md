@@ -1,6 +1,6 @@
 @@@ = breaking change
 
-## 2.2.5
+## 2.2.6
 
 - @@@ Upgrade to .NET 6 and EF Core 6
 - @@@ Refactor `IPasswordEncoder`
