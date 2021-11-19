@@ -21,9 +21,17 @@ namespace UnitTests.Application
             {
             }
 
-            public Task<Version?> QueryForObjectAsync(bool allow, bool entityExists)
+            public Task<Version> QueryForObjectAsync()
             {
-                return QueryAsync<Version?>(
+                return QueryAsync(
+                    () => Task.CompletedTask,
+                    () => Task.FromResult(new Version("1.0.0"))
+                );
+            }
+
+            public Task<Version?> QueryForNullableObjectAsync(bool allow, bool entityExists)
+            {
+                return QueryAsync(
                     () =>
                     {
                         if (!allow) throw new NotAuthorizedException();
@@ -35,14 +43,6 @@ namespace UnitTests.Application
 
                         return Task.FromResult<Version?>(new Version("1.0.0"));
                     }
-                );
-            }
-
-            public Task<Version?> QueryForNullableObjectAsync()
-            {
-                return QueryAsync(
-                    () => Task.CompletedTask,
-                    () => Task.FromResult((Version?)null)
                 );
             }
 
@@ -78,11 +78,11 @@ namespace UnitTests.Application
                 );
             }
 
-            public Task<Version?> CommandForObjectAsync()
+            public Task<Version> CommandForObjectAsync()
             {
                 return CommandAsync(
                     () => Task.CompletedTask,
-                    () => Task.FromResult<Version?>(new Version("1.0.0"))
+                    () => Task.FromResult(new Version("1.0.0"))
                 );
             }
 
@@ -90,7 +90,7 @@ namespace UnitTests.Application
             {
                 return CommandAsync(
                     () => Task.CompletedTask,
-                    () => Task.FromResult((Version?)null)
+                    () => Task.FromResult<Version?>(new Version("1.0.0"))
                 );
             }
 
@@ -128,22 +128,15 @@ namespace UnitTests.Application
         }
 
         [TestMethod]
-        public async Task QueryForObject()
-        {
-            var appService = CreateAppService();
-
-            Assert.AreEqual(new Version("1.0.0"), await appService.QueryForObjectAsync(true, true));
-            Assert.IsNull(await appService.QueryForObjectAsync(true, false));
-            await Assert.ThrowsExceptionAsync<NotAuthorizedException>(
-                () => appService.QueryForObjectAsync(false, true)
-            );
-        }
-
-        [TestMethod]
         public async Task QueryForNullableObject()
         {
             var appService = CreateAppService();
-            Assert.IsNull(await appService.QueryForNullableObjectAsync());
+
+            Assert.AreEqual(new Version("1.0.0"), await appService.QueryForNullableObjectAsync(allow: true, entityExists: true));
+            Assert.IsNull(await appService.QueryForNullableObjectAsync(allow: true, entityExists: false));
+            await Assert.ThrowsExceptionAsync<NotAuthorizedException>(
+                () => appService.QueryForNullableObjectAsync(allow: false, entityExists: true)
+            );
         }
 
         [TestMethod]
@@ -173,24 +166,16 @@ namespace UnitTests.Application
         }
 
         [TestMethod]
-        public async Task CommandForObject()
-        {
-            var appService = CreateAppService();
-            Assert.AreEqual(new Version("1.0.0"), await appService.CommandForObjectAsync());
-        }
-
-        [TestMethod]
         public async Task CommandForNullableObject()
         {
             var appService = CreateAppService();
-            Assert.IsNull(await appService.CommandForNullableObjectAsync());
+            Assert.AreEqual(new Version("1.0.0"), await appService.CommandForNullableObjectAsync());
         }
 
         [TestMethod]
         public async Task CommandForValue()
         {
             var appService = CreateAppService();
-
             Assert.AreEqual(1, await appService.CommandForValueAsync());
         }
 

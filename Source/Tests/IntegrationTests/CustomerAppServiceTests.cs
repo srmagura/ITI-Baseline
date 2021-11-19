@@ -162,7 +162,7 @@ namespace IntegrationTests
         [TestMethod]
         public async Task ItThrowsDuplicateKeyException()
         {
-            var customerSvc = Container.Resolve<ICustomerAppService>();
+            var customerSvc = Container!.Resolve<ICustomerAppService>();
 
             var customerId = await AddCustomerAsync(customerSvc);
 

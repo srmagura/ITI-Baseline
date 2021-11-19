@@ -12,10 +12,8 @@ namespace ITI.DDD.Core.Util
             return string.Compare(s, value, StringComparison.InvariantCultureIgnoreCase) == 0;
         }
 
-        public static string? MaxLength(this string? s, int maxLength)
+        public static string MaxLength(this string s, int maxLength)
         {
-            if (s == null) return null;
-
             return s.Length < maxLength
                 ? s
                 : s.Substring(0, maxLength);

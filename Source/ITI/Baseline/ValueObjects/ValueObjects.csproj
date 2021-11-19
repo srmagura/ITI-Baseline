@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>ITI.Baseline.ValueObjects</AssemblyName>
     <RootNamespace>ITI.Baseline.ValueObjects</RootNamespace>
-    <Nullable>annotations</Nullable>
+    <Nullable>enable</Nullable>
     <Version>2.2.0</Version>
   </PropertyGroup>
 

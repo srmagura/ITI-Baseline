@@ -8,9 +8,6 @@ namespace ITI.Baseline.Audit
     // Make sure to call OnModelCreating to create an important index!
     public class AuditRecord
     {
-        [Obsolete("Persistence use only")]
-        protected AuditRecord() { }
-
         public AuditRecord(
             string? userId, 
             string? userName, 
@@ -23,13 +20,13 @@ namespace ITI.Baseline.Audit
         )
         {
             WhenUtc = DateTimeOffset.UtcNow;
-            UserId = userId?.MaxLength(64);
+            UserId = userId;
             UserName = userName?.MaxLength(64);
             Aggregate = aggregate.MaxLength(64);
-            AggregateId = aggregateId.MaxLength(64);
+            AggregateId = aggregateId;
             Entity = entity.MaxLength(64);
-            EntityId = entityId.MaxLength(64);
-            Event = eventName.MaxLength(64);
+            EntityId = entityId;
+            Event = eventName;
             Changes = changes;
         }
 

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ITI.DDD.Domain.Entities;
 using ITI.DDD.Infrastructure.DataContext;
+using System;
 
 namespace ITI.DDD.Infrastructure.DataMapping
 {
@@ -23,7 +24,7 @@ namespace ITI.DDD.Infrastructure.DataMapping
         public TEntity ToEntity<TEntity>(DbEntity dbEntity) where TEntity : Entity
         {
             if (dbEntity == null)
-                return null;
+                throw new ArgumentNullException(nameof(dbEntity));
 
             var entity = _mapper.Map<TEntity>(dbEntity);
             dbEntity.MappedEntity = entity;

@@ -7,8 +7,6 @@ namespace ITI.Baseline.ValueObjects
 {
     public record EmailAddress : DbValueObject
     {
-        protected EmailAddress() { }
-
         public EmailAddress(string value)
         {
             Value = value.Trim();
@@ -22,7 +20,7 @@ namespace ITI.Baseline.ValueObjects
 
         public override string ToString()
         {
-            return Value ?? "";
+            return Value;
         }
     }
 }

@@ -29,7 +29,7 @@ namespace ITI.DDD.Infrastructure.DataMapping
             cfg.CreateMap<TIdent, Guid?>()
                 .ConvertUsing(id => id == null ? null : id.Guid);
 
-            cfg.CreateMap<Guid?, TIdent>()
+            cfg.CreateMap<Guid?, TIdent?>()
                 .ConvertUsing(guid => guid == null ? null : constr(guid.Value));
 
             cfg.CreateMap<TIdent, Guid>()

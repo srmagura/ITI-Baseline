@@ -7,7 +7,7 @@ namespace ITI.DDD.Infrastructure.DataMapping
 {
     public static class QueryableExtensions
     {
-        public static async Task<TDto> ProjectToDtoAsync<TDbEntity, TDto>(this IQueryable<TDbEntity> q, IMapper mapper)
+        public static async Task<TDto?> ProjectToDtoAsync<TDbEntity, TDto>(this IQueryable<TDbEntity> q, IMapper mapper)
             where TDbEntity : class
             where TDto : class
         {

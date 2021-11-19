@@ -28,12 +28,11 @@ namespace ITI.DDD.Application
         {
             try
             {
-                using (var uow = UnitOfWork.Begin())
-                {
-                    await authorize();
-                    await exec();
-                    await uow.CommitAsync();
-                }
+                using var uow = UnitOfWork.Begin();
+
+                await authorize();
+                await exec();
+                await uow.CommitAsync();
             }
             catch (Exception exc)
             {
@@ -42,18 +41,17 @@ namespace ITI.DDD.Application
             }
         }
 
-        protected async Task<T?> CommandAsync<T>(Func<Task> authorize, Func<Task<T?>> exec) 
+        protected async Task<T> CommandAsync<T>(Func<Task> authorize, Func<Task<T>> exec) 
         {
             try
             {
-                using (var uow = UnitOfWork.Begin())
-                {
-                    await authorize();
-                    var result = await exec();
-                    await uow.CommitAsync();
+                using var uow = UnitOfWork.Begin();
 
-                    return result;
-                }
+                await authorize();
+                var result = await exec();
+                await uow.CommitAsync();
+
+                return result;
             }
             catch (Exception exc)
             {
@@ -62,7 +60,7 @@ namespace ITI.DDD.Application
             }
         }
 
-        protected async Task<T?> QueryAsync<T>(Func<Task> authorize, Func<Task<T?>> exec)
+        protected async Task<T> QueryAsync<T>(Func<Task> authorize, Func<Task<T>> exec)
         {
             try
             {
@@ -97,7 +95,7 @@ namespace ITI.DDD.Application
             }
 
             // by default, we log it... if we ever need more (like admin alerts) we'll address then
-            Log?.Error("Unhandled application exception", e);
+            Log.Error("Unhandled application exception", e);
         }
 
         private void LogDomainException(DomainException dexc)
@@ -107,14 +105,14 @@ namespace ITI.DDD.Application
                 case DomainException.AppServiceLogAs.None:
                     break;
                 case DomainException.AppServiceLogAs.Info:
-                    Log?.Info("Unhandled Domain Exception", dexc);
+                    Log.Info("Unhandled Domain Exception", dexc);
                     break;
                 case DomainException.AppServiceLogAs.Warning:
-                    Log?.Warning("Unhandled Domain Exception", dexc);
+                    Log.Warning("Unhandled Domain Exception", dexc);
                     break;
                 default:
                 case DomainException.AppServiceLogAs.Error:
-                    Log?.Error("Unhandled Domain Exception", dexc);
+                    Log.Error("Unhandled Domain Exception", dexc);
                     break;
             }
         }

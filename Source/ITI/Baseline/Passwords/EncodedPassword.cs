@@ -7,20 +7,15 @@ namespace ITI.Baseline.Passwords
 {
     public record EncodedPassword : DbValueObject, IEncodedPassword
     {
-        [Obsolete("Serialization Only", true)]
-        protected EncodedPassword() { }
-
         internal EncodedPassword(string encodedValue)
         {
-            Require.NotEmpty(encodedValue, "Invalid password (empty)");
+            Require.NotEmpty(encodedValue, "Invalid encoded password (empty).");
 
             Value = encodedValue;
         }
 
-        //
-
         [MaxLength(128)]
-        public string? Value { get; protected set; }
+        public string Value { get; protected init; }
 
         public override string ToString()
         {

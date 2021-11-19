@@ -141,6 +141,9 @@ namespace ITI.Baseline.Audit
 
         private List<AuditPropertyDto> GetValueObjectAuditProperties(string entityName, ReferenceEntry reference, string? prefix = null)
         {
+            if (reference.TargetEntry == null)
+                throw new Exception("TargetEntry is null.");
+
             var state = reference.TargetEntry.State;
 
             var fromValues = reference.TargetEntry.OriginalValues;
