@@ -12,7 +12,7 @@ namespace TestApp.DataContext.DataModel
         [MaxLength(64)]
         public string? Name { get; set; }
 
-        public FacilityContact? Contact { get; set; }
+        public FacilityContact Contact { get; set; }
 
         public string AuditEntityName => "Facility";
         public string AuditEntityId => Id.ToString();

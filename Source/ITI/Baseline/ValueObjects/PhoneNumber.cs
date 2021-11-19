@@ -21,6 +21,6 @@ namespace ITI.Baseline.ValueObjects
         }
 
         [MaxLength(FieldLengths.PhoneNumber.Value)]
-        public string? Value { get; protected init; }
+        public string Value { get; protected init; }
     }
 }

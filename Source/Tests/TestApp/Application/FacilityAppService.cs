@@ -10,6 +10,7 @@ using TestApp.Application.Interfaces.QueryInterfaces;
 using TestApp.Application.Interfaces.RepositoryInterfaces;
 using TestApp.Domain;
 using TestApp.Domain.Identities;
+using TestApp.Domain.ValueObjects;
 
 namespace TestApp.Application
 {
@@ -47,8 +48,8 @@ namespace TestApp.Application
                 () =>
                 {
                     var facility = new Facility(
-                        name, 
-                        null
+                        name,
+                        new FacilityContact(null, null)
                     );                
                     _facilityRepo.Add(facility);
                     return Task.FromResult(facility.Id);

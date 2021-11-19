@@ -18,7 +18,7 @@ namespace ITI.Baseline.ValueObjects
         }
 
         [MaxLength(FieldLengths.EmailAddress.Value)]
-        public string? Value { get; protected init; }
+        public string Value { get; protected init; }
 
         public override string ToString()
         {

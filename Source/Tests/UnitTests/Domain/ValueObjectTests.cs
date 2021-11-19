@@ -23,10 +23,10 @@ namespace UnitTests.Domain
         [TestMethod]
         public void MultiFieldEquality()
         {
-            var name1 = new SimplePersonName("Sam", null, "Magura", "Mr.");
-            var name1Copy = new SimplePersonName("Sam", null, "Magura", "Mr.");
-            var name2 = new SimplePersonName("Sam", "Rosso", "Magura", "Mr.");
-            var name3 = new SimplePersonName("Sam1", null, "Magura", "Mr.");
+            var name1 = new SimplePersonName("Sam", null, "Magura");
+            var name1Copy = new SimplePersonName("Sam", null, "Magura");
+            var name2 = new SimplePersonName("Sam", "Rosso", "Magura");
+            var name3 = new SimplePersonName("Sam1", null, "Magura");
 
             Assert.AreEqual(name1, name1Copy);
             Assert.AreNotEqual(name1, name2);
@@ -49,19 +49,19 @@ namespace UnitTests.Domain
         public void NestedEquality()
         {
             var person1 = new Person(
-                new SimplePersonName("Sam", "Rosso", "Magura", "Mr."),
+                new SimplePersonName("Sam", "Rosso", "Magura"),
                 26
             );
             var person1Copy = new Person(
-                new SimplePersonName("Sam", "Rosso", "Magura", "Mr."),
+                new SimplePersonName("Sam", "Rosso", "Magura"),
                 26
             );
             var person2 = new Person(
-                new SimplePersonName("Sam", "Rosso", "Magura", null),
+                new SimplePersonName("Sam", "Rosso", "Magura1"),
                 26
             );
             var person3 = new Person(
-                new SimplePersonName("Sam", "Rosso", "Magura", "Mr."),
+                new SimplePersonName("Sam", "Rosso", "Magura"),
                 27
             );
 

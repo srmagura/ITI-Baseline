@@ -23,7 +23,7 @@ namespace ITI.Baseline.Passwords
         public EncodedPassword Encode(string password)
         {
             // Generate a random salt
-            using var rng = new RNGCryptoServiceProvider();
+            using var rng = RandomNumberGenerator.Create(); 
             var salt = new byte[_settings.SaltByteSize];
             rng.GetBytes(salt);
 

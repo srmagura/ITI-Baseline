@@ -1,4 +1,5 @@
-﻿using ITI.DDD.Domain.Entities;
+﻿using ITI.Baseline.Util.Validation;
+using ITI.DDD.Domain.Entities;
 using System;
 using TestApp.Domain.Identities;
 using TestApp.Domain.ValueObjects;
@@ -11,7 +12,7 @@ namespace TestApp.Domain
         [Obsolete]
         protected Facility() { }
 
-        public Facility(string name, FacilityContact? contact)
+        public Facility(string name, FacilityContact contact)
         {
             Name = name;
             SetContact(contact);
@@ -19,10 +20,11 @@ namespace TestApp.Domain
 
         public FacilityId Id { get; set; } = new FacilityId();
         public string? Name { get; set; }
-        public FacilityContact? Contact { get; set; }
+        public FacilityContact Contact { get; set; }
 
-        public void SetContact(FacilityContact? contact)
+        public void SetContact(FacilityContact contact)
         {
+            Require.NotNull(contact, "Contact is required.");
             Contact = contact;
         }
     }

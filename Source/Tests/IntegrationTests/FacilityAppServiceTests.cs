@@ -21,19 +21,6 @@ namespace IntegrationTests
         }
 
         [TestMethod]
-        public async Task SetContactNull()
-        {
-            var facilitySvc = Container!.Resolve<IFacilityAppService>();
-
-            var facilityId = await AddFacilityAsync(facilitySvc);
-            var facility = await facilitySvc.GetAsync(facilityId);
-
-            Assert.IsNotNull(facility);
-            Assert.AreEqual("myFacility", facility!.Name);
-            Assert.IsNull(facility.Contact);
-        }
-
-        [TestMethod]
         public async Task SetContactNonNullButPropertiesNull()
         {
             var facilitySvc = Container!.Resolve<IFacilityAppService>();

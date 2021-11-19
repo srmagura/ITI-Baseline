@@ -11,8 +11,7 @@ namespace TestApp.Application.Dto
             return new SimplePersonName(
                 name.First ?? throw new ValidationException("First"), 
                 name.Middle, 
-                name.Last ?? throw new ValidationException("Last"), 
-                name.Prefix
+                name.Last ?? throw new ValidationException("Last")
             );
         }
 
