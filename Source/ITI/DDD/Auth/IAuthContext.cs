@@ -1,9 +1,8 @@
-﻿namespace ITI.DDD.Auth
+﻿namespace ITI.DDD.Auth;
+
+public interface IAuthContext
 {
-    public interface IAuthContext
-    {
-        bool IsAuthenticated { get; }
-        string? UserIdString { get; }
-        string? UserName { get; }
-    }
+    bool IsAuthenticated { get; }
+    string? UserIdString { get; }
+    string? UserName { get; }
 }

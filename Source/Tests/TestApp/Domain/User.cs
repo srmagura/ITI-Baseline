@@ -1,6 +1,5 @@
 ﻿using ITI.Baseline.ValueObjects;
 using ITI.DDD.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 using TestApp.Domain.Enums;
 using TestApp.Domain.Identities;
 

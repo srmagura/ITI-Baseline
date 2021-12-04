@@ -1,15 +1,9 @@
 ﻿using ITI.DDD.Core;
 using System;
 
-namespace ITI.DDD.Domain.DomainEvents
-{
-    public abstract class BaseDomainEvent : IDomainEvent
-    {
-        protected BaseDomainEvent()
-        {
-            DateCreatedUtc = DateTimeOffset.UtcNow;
-        }
+namespace ITI.DDD.Domain.DomainEvents;
 
-        public DateTimeOffset DateCreatedUtc { get; }
-    }
+public abstract class BaseDomainEvent : IDomainEvent
+{
+    public DateTimeOffset DateCreatedUtc { get; } = DateTimeOffset.UtcNow;
 }

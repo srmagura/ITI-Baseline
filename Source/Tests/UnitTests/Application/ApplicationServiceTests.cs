@@ -1,9 +1,9 @@
 ﻿using Autofac;
 using AutoMapper;
 using ITI.DDD.Application;
-using ITI.DDD.Application.UnitOfWork;
 using ITI.DDD.Auth;
-using ITI.DDD.Domain.DomainEvents;
+using ITI.DDD.Core;
+using ITI.DDD.Infrastructure.DataContext;
 using ITI.DDD.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
@@ -114,7 +114,7 @@ namespace UnitTests.Application
         private static MyApplicationService CreateAppService()
         {
             var builder = new ContainerBuilder();
-            DDDAppConfig.AddRegistrations(builder);
+            builder.RegisterModule<ITIDDDModule>();
             builder.RegisterType<MyApplicationService>();
 
             builder.RegisterInstance(Substitute.For<IDomainEventAuthScopeResolver>());

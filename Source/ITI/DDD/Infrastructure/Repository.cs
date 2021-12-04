@@ -1,5 +1,4 @@
-﻿using ITI.DDD.Application;
-using ITI.DDD.Application.UnitOfWork;
+﻿using ITI.DDD.Core;
 using ITI.DDD.Infrastructure.DataMapping;
 
 namespace ITI.DDD.Infrastructure

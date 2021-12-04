@@ -1,5 +1,4 @@
-﻿using ITI.DDD.Application.UnitOfWork;
-using ITI.DDD.Auth;
+﻿using ITI.DDD.Auth;
 using ITI.DDD.Core;
 using ITI.DDD.Logging;
 using Microsoft.EntityFrameworkCore;
@@ -88,9 +87,6 @@ namespace ITI.DDD.Application
 
             if (e is DomainException domainException)
             {
-                if (domainException.AppServiceShouldLog == DomainException.AppServiceLogAs.None)
-                    return;
-
                 LogDomainException(domainException);
             }
 
@@ -145,7 +141,6 @@ namespace ITI.DDD.Application
                 return;
 
             // find TABLE
-
             var cols = message.Split('\'');
             if (cols.Length < 2)
                 return;
@@ -156,9 +151,9 @@ namespace ITI.DDD.Application
             var pos = message.IndexOf('(');
             if (pos >= 0)
             {
-                value = message.Substring(pos + 1);
+                value = message[(pos + 1)..];
                 pos = value.LastIndexOf(')');
-                value = value.Substring(0, pos);
+                value = value[..pos];
             }
         }
     }

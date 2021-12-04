@@ -1,7 +1,7 @@
 ﻿using ITI.Baseline.Util.Validation;
 using ITI.DDD.Application;
-using ITI.DDD.Application.UnitOfWork;
 using ITI.DDD.Auth;
+using ITI.DDD.Core;
 using ITI.DDD.Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;

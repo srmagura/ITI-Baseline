@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ITI.DDD.Application.UnitOfWork;
+using ITI.DDD.Core;
 using ITI.DDD.Infrastructure;
 using ITI.DDD.Infrastructure.DataMapping;
 using System.Linq;

@@ -1,11 +1,10 @@
 ﻿using Autofac;
 using ITI.DDD.Auth;
-using ITI.DDD.Domain.DomainEvents;
 using System;
 
 namespace TestApp.AppConfig
 {
-    internal class DomainEventAuthScopeResolver : IDomainEventAuthScopeResolver
+    internal class DomainEventAuthScopeResolver //: IDomainEventAuthScopeResolver
     {
         private static ILifetimeScope? RootLifetimeScope;
 

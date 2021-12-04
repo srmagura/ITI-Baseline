@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using ITI.DDD.Application;
 using ITI.DDD.Core;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -11,18 +10,17 @@ namespace ITI.DDD.Infrastructure.DataContext
 {
     public abstract class BaseDataContext : DbContext, IDataContext
     {
-        private IMapper? _mapper;
-        private IAuditor? _auditor;
+        private readonly IMapper? _mapper;
+        private readonly IAuditor? _auditor;
 
-        public void Initialize(IMapper mapper, IAuditor auditor)
+        protected BaseDataContext()
+        {
+        }
+
+        protected BaseDataContext(IMapper mapper, IAuditor auditor)
         {
             _mapper = mapper;
             _auditor = auditor;
-        }
-
-        void IDataContext.SaveChanges()
-        {
-            SaveChanges();
         }
 
         public override int SaveChanges()

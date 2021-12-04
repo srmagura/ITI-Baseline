@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace ITI.DDD.Core
+namespace ITI.DDD.Core;
+
+public interface IDomainEvent
 {
-    public interface IDomainEvent
-    {
-        public DateTimeOffset DateCreatedUtc { get; }
-    }
+    public DateTimeOffset DateCreatedUtc { get; }
 }

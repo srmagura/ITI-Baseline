@@ -1,25 +1,23 @@
 ﻿using ITI.Baseline.Util.Validation;
-using ITI.DDD.Domain.ValueObjects;
-using System;
+using ITI.DDD.Domain;
 using System.ComponentModel.DataAnnotations;
 
-namespace ITI.Baseline.Passwords
+namespace ITI.Baseline.Passwords;
+
+public record EncodedPassword : DbValueObject
 {
-    public record EncodedPassword : DbValueObject
+    public EncodedPassword(string value)
     {
-        public EncodedPassword(string value)
-        {
-            Require.NotEmpty(value, "Invalid encoded password (empty).");
+        Require.HasValue(value, "Invalid encoded password (empty).");
 
-            Value = value;
-        }
+        Value = value;
+    }
 
-        [MaxLength(128)]
-        public string Value { get; protected init; }
+    [MaxLength(128)]
+    public string Value { get; protected init; }
 
-        public override string ToString()
-        {
-            return Value;
-        }
+    public override string ToString()
+    {
+        return Value;
     }
 }

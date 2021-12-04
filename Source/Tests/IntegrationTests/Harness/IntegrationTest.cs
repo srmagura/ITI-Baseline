@@ -1,18 +1,19 @@
-﻿using ITI.DDD.Application.UnitOfWork;
-using ITI.DDD.Domain.DomainEvents;
-using ITI.Baseline.RequestTrace;
+﻿using ITI.Baseline.RequestTrace;
 using ITI.DDD.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestApp.AppConfig;
 using TestApp.DataContext;
 using Autofac;
 using System.Threading.Tasks;
+using ITI.DDD.Application;
 
 namespace IntegrationTests.Harness
 {
     public abstract class IntegrationTest
     {
-        protected IContainer? Container { get; set; }
+#nullable disable // To avoid unnecessary null checks in every test
+        protected IContainer Container { get; set; }
+#nullable enable
 
         [TestCleanup]
         public void TestCleanup()
@@ -22,7 +23,7 @@ namespace IntegrationTests.Harness
 
         protected static void RegisterServices(ContainerBuilder builder)
         {
-            DefaultAppConfig.AddRegistrations(builder);
+            builder.RegisterModule<AppModule>();
 
             builder.RegisterType<ConsoleLogWriter>().As<ILogWriter>();
 
@@ -45,8 +46,9 @@ namespace IntegrationTests.Harness
         [TestInitialize]
         public async Task TestInitialize()
         {
-            DomainEvents.ClearRegistrations();
-            UnitOfWorkImpl.ShouldWaitForDomainEvents(true);
+            // TODO:SAM
+            // DomainEvents.ClearRegistrations();
+            UnitOfWork.ShouldWaitForDomainEvents(true);
             ConsoleLogWriter.ClearErrors();
 
             var builder = new ContainerBuilder();

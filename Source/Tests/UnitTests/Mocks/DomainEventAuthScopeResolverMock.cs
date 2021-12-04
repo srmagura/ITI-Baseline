@@ -1,9 +1,8 @@
 ﻿using Autofac;
-using ITI.DDD.Domain.DomainEvents;
 
 namespace UnitTests.Mocks
 {
-    internal class DomainEventAuthScopeResolverMock : IDomainEventAuthScopeResolver
+    internal class DomainEventAuthScopeResolverMock // TODO:SAM : IDomainEventAuthScopeResolver
     {
         private readonly ILifetimeScope _scope;
 

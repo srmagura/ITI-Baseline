@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace ITI.DDD.Application
+namespace ITI.DDD.Infrastructure.DataContext
 {
     public interface IAuditor
     {

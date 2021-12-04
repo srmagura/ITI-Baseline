@@ -2,8 +2,7 @@
 using IntegrationTests.Harness;
 using ITI.Baseline.Audit;
 using ITI.Baseline.Util;
-using ITI.DDD.Application.UnitOfWork;
-using ITI.DDD.Core.Util;
+using ITI.DDD.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
@@ -236,7 +235,7 @@ namespace IntegrationTests
             using(var scope = uow.Begin())
             {
                 await customerRepo.GetAsync(customerId);
-                scope.Commit();
+                await scope.CommitAsync();
             };
 
             var auditRecords =( await auditSvc.ListAsync("Customer", customerId.Guid.ToString(), 0, 1000))!.Items;

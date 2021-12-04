@@ -2,11 +2,11 @@
 using Autofac.Features.ResolveAnything;
 using AutoMapper;
 using ITI.DDD.Application;
-using ITI.DDD.Application.UnitOfWork;
 using ITI.DDD.Auth;
 using ITI.DDD.Core;
 using ITI.DDD.Domain.DomainEvents;
 using ITI.DDD.Domain.Entities;
+using ITI.DDD.Infrastructure.DataContext;
 using ITI.DDD.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
@@ -28,17 +28,17 @@ namespace UnitTests.Application.UnitOfWork
         [TestMethod]
         public void SetsCurrentUnitOfWork()
         {
-            var domainEvents = Substitute.For<IDomainEvents>();
+            var domainEvents = Substitute.For<IDomainEventBuffer>();
             var mapper = Substitute.For<IMapper>();
             var auditor = Substitute.For<IAuditor>();
             var lifetimeScope = new ContainerBuilder().Build().BeginLifetimeScope();
             var uow = new UnitOfWorkImpl(domainEvents, mapper, auditor, lifetimeScope);
 
-            Assert.IsNull(UnitOfWorkImpl.CurrentUnitOfWork);
+            Assert.IsNull(ITI.DDD.Application.UnitOfWork.CurrentUnitOfWork);
             uow.Begin();
-            Assert.AreEqual(uow, UnitOfWorkImpl.CurrentUnitOfWork);
+            Assert.AreEqual<IUnitOfWork>((IUnitOfWork)uow, ITI.DDD.Application.UnitOfWork.CurrentUnitOfWork);
             uow.Dispose();
-            Assert.IsNull(UnitOfWorkImpl.CurrentUnitOfWork);
+            Assert.IsNull(ITI.DDD.Application.UnitOfWork.CurrentUnitOfWork);
         }
 
         public class CustomerAddedEvent : BaseDomainEvent
@@ -66,7 +66,7 @@ namespace UnitTests.Application.UnitOfWork
         {
             var builder = new ContainerBuilder();
             builder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
-            DDDAppConfig.AddRegistrations(builder);
+            ITIDDDModule.AddRegistrations(builder);
             builder.RegisterInstance(Substitute.For<ILogger>());
             builder.RegisterInstance(Substitute.For<IAuthContext>());
             builder.RegisterInstance(Substitute.For<IMapper>());
@@ -91,7 +91,7 @@ namespace UnitTests.Application.UnitOfWork
             builder.RegisterInstance(eventHandler);
 
             var container = builder.Build();
-            var uow = container.Resolve<UnitOfWorkImpl>();
+            var uow = container.Resolve<UnitOfWork>();
 
             using (var scope = uow.Begin())
             {

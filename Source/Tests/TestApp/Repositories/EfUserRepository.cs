@@ -1,10 +1,10 @@
-﻿using ITI.DDD.Application.UnitOfWork;
-using ITI.DDD.Infrastructure.DataMapping;
+﻿using ITI.DDD.Infrastructure.DataMapping;
 using ITI.DDD.Infrastructure;
 using TestApp.DataContext;
 using TestApp.DataContext.DataModel;
 using TestApp.Domain;
 using TestApp.Application.Interfaces.RepositoryInterfaces;
+using ITI.DDD.Core;
 
 namespace TestApp.Repositories
 {

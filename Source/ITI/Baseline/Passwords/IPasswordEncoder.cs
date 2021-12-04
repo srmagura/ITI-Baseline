@@ -4,6 +4,5 @@
     {
         EncodedPassword Encode(string plainTextPassword);
         bool IsCorrect(string password, EncodedPassword encodedPassword);
-        bool IsValid(string password);
     }
 }

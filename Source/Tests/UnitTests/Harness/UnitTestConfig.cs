@@ -1,4 +1,4 @@
-﻿using ITI.DDD.Application.UnitOfWork;
+﻿using ITI.DDD.Application;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Harness
@@ -9,7 +9,7 @@ namespace UnitTests.Harness
         [AssemblyInitialize]
         public static void AssemblyInitialize(TestContext _)
         {
-            UnitOfWorkImpl.ShouldWaitForDomainEvents(true);
+            UnitOfWork.ShouldWaitForDomainEvents(true);
         }
     }
 }

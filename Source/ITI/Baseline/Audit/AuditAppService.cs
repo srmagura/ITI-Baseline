@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using ITI.Baseline.Util;
 using ITI.DDD.Application;
-using ITI.DDD.Application.UnitOfWork;
 using ITI.DDD.Auth;
+using ITI.DDD.Core;
 using ITI.DDD.Logging;
 using Microsoft.EntityFrameworkCore;
 using System;

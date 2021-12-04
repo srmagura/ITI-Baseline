@@ -1,5 +1,4 @@
-﻿using ITI.Baseline.Passwords;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
 namespace UnitTests.Passwords

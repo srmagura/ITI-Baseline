@@ -1,18 +1,9 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 
-namespace ITI.DDD.Core.Util
+namespace ITI.DDD.Core
 {
     public static class StringExtensions
     {
-        public static bool EqualsIgnoreCase(this string? s, string value)
-        {
-            if (s == null)
-                return value == null;
-
-            return string.Compare(s, value, StringComparison.InvariantCultureIgnoreCase) == 0;
-        }
-
         public static string MaxLength(this string s, int maxLength)
         {
             return s.Length <= maxLength

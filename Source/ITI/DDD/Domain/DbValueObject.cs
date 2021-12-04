@@ -1,7 +1,6 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace ITI.DDD.Domain.ValueObjects
+namespace ITI.DDD.Domain
 {
     [Owned]
     public abstract record DbValueObject

@@ -1,6 +1,4 @@
-﻿using ITI.DDD.Core.Util;
-using ITI.DDD.Domain.ValueObjects;
-using System;
+﻿using ITI.DDD.Domain;
 using System.ComponentModel.DataAnnotations;
 using TestApp.DataContext;
 

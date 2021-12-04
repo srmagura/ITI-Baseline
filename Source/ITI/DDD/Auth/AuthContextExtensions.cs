@@ -4,19 +4,18 @@
     {
         public static void AnyUser(this IAuthContext auth)
         {
-            if(auth == null || !auth.IsAuthenticated )
-                throw new NotAuthenticatedException();
+            if (!auth.IsAuthenticated)
+                throw new NotAuthorizedException();
         }
 
         public static void Require(this IAuthContext auth, bool b)
         {
             auth.AnyUser();
 
-            if(!b)
-                throw new NotAuthorizedException();
+            if (!b) throw new NotAuthorizedException();
         }
 
-        public static void Unauthenticated(this IAuthContext auth)
+        public static void Unauthenticated(this IAuthContext _)
         {
             // do nothing
         }

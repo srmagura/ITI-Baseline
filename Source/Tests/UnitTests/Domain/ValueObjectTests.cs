@@ -1,5 +1,5 @@
 ﻿using ITI.Baseline.ValueObjects;
-using ITI.DDD.Domain.ValueObjects;
+using ITI.DDD.Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestApp.Domain.ValueObjects;
 

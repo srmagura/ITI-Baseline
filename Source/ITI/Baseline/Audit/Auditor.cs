@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using ITI.Baseline.Util;
-using ITI.DDD.Application;
 using ITI.DDD.Auth;
-using ITI.DDD.Core.Util;
-using ITI.DDD.Domain.ValueObjects;
+using ITI.DDD.Core;
+using ITI.DDD.Domain;
+using ITI.DDD.Infrastructure.DataContext;
 using ITI.DDD.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;

@@ -1,12 +1,10 @@
 ﻿using ITI.Baseline.Audit;
-using ITI.DDD.Application;
 using ITI.DDD.Infrastructure.DataContext;
 using ITI.DDD.Logging;
 using Microsoft.EntityFrameworkCore;
 using ITI.Baseline.RequestTrace;
 using TestApp.DataContext.DataModel;
-using TestApp.Domain.Enums;
-using System;
+using ITI.DDD.Core;
 
 namespace TestApp.DataContext
 {

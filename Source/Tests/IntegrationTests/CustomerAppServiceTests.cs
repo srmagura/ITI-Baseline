@@ -2,7 +2,6 @@ using Autofac;
 using IntegrationTests.Harness;
 using ITI.DDD.Application;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

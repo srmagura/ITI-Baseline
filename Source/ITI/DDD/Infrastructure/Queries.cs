@@ -1,5 +1,4 @@
-﻿using ITI.DDD.Application;
-using ITI.DDD.Application.UnitOfWork;
+﻿using ITI.DDD.Core;
 
 namespace ITI.DDD.Infrastructure
 {

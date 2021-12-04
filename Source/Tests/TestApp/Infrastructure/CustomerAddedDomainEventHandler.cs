@@ -10,7 +10,8 @@ namespace TestApp.Infrastructure
     {
         public static void Register()
         {
-            DomainEvents.Register<CustomerAddedEvent, CustomerAddedDomainEventHandler>();
+            // TODO:SAM
+            // DomainEvents.Register<CustomerAddedEvent, CustomerAddedDomainEventHandler>();
         }
 
         private readonly ILogger _logger;
