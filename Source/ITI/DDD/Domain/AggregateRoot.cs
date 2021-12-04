@@ -1,4 +1,4 @@
-﻿namespace ITI.DDD.Domain.Entities
+﻿namespace ITI.DDD.Domain
 {
     public abstract class AggregateRoot : Entity { }
 }

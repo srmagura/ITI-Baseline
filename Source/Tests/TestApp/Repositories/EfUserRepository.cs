@@ -10,7 +10,7 @@ namespace TestApp.Repositories
 {
     public class EfUserRepository : Repository<AppDataContext>, IUserRepository
     {
-        public EfUserRepository(IUnitOfWork uow, IDbEntityMapper dbMapper) 
+        public EfUserRepository(IUnitOfWorkProvider uow, IDbEntityMapper dbMapper) 
             : base(uow, dbMapper)
         {
         }

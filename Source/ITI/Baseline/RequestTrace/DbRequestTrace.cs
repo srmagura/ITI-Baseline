@@ -1,78 +1,65 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Data.SqlClient;
+using Dapper;
+using ITI.DDD.Logging;
 
 namespace ITI.Baseline.RequestTrace
 {
-    // Make sure to call OnModelCreating to create an import database index!
-    public class DbRequestTrace
+    public class DbRequestTrace : IRequestTrace
     {
-        public long Id { get; set; }
+        private readonly ILogger _logger;
+        private readonly IDbRequestTraceSettings _settings;
 
-        [MaxLength(32)]
-        public string Service { get; set; }
-
-        [MaxLength(16)]
-        public string Direction { get; set; }
-
-        public DateTimeOffset DateBeginUtc { get; set; }
-        public DateTimeOffset DateEndUtc { get; set; }
-
-        public string Url { get; set; }
-        public string Request { get; set; }
-        public string Response { get; set; }
-        public string? Exception { get; set; }
-
-        [Obsolete("For persistency use only")]
-        public DbRequestTrace(
-            string service,
-            string direction,
-            DateTimeOffset dateBeginUtc,
-            DateTimeOffset dateEndUtc,
-            string url,
-            string request,
-            string response,
-            string? exception
-        )
+        public DbRequestTrace(ILogger logger, IDbRequestTraceSettings settings)
         {
-            Service = service;
-            Direction = direction;
-            DateBeginUtc = dateBeginUtc;
-            DateEndUtc = dateEndUtc;
-            Url = url;
-            Request = request;
-            Response = response;
-            Exception = exception;
+            _logger = logger;
+            _settings = settings;
         }
 
-        public DbRequestTrace(
-            string service,
+        public void WriteTrace(
+            string service, 
             RequestTraceDirection direction,
             DateTimeOffset dateBeginUtc,
-            DateTimeOffset dateEndUtc,
             string url,
             string request,
             string response,
             Exception? exception
-#pragma warning disable CS0618 // Type or member is obsolete
-        ) : this(
-            service,
-            direction.ToString(),
-            dateBeginUtc,
-            dateEndUtc,
-            url,
-            request,
-            response,
-            exception?.ToString()
         )
-#pragma warning restore CS0618 // Type or member is obsolete
         {
-        }
+            try
+            {
+                var trace = new Baseline.RequestTrace.RequestTrace(
+                    service, 
+                    direction, 
+                    dateBeginUtc,
+                    DateTimeOffset.UtcNow, 
+                    url, 
+                    request, 
+                    response, 
+                    exception
+                );
 
-        public static void OnModelCreating(ModelBuilder mb)
-        {
-            mb.Entity<DbRequestTrace>()
-             .HasIndex(t => new { t.Service, t.Direction });
+                using (var connection = new SqlConnection(_settings.RequestTraceConnectionString))
+                {
+                    connection.Open();
+                    var sqlStatement = $@"
+INSERT INTO {_settings.RequestTraceTableName}
+VALUES (
+@Service,
+@Direction,
+@DateBeginUtc,
+@DateEndUtc,
+@Url,
+@Request,
+@Response,
+@Exception)";
+                    connection.Execute(sqlStatement, trace);
+                }
+            }
+            catch (Exception exc)
+            {
+                _logger.Error("Could not create request trace", exc);
+            }
         }
     }
 }

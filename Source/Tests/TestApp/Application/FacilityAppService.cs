@@ -20,7 +20,7 @@ namespace TestApp.Application
         private readonly IFacilityRepository _facilityRepo;
 
         public FacilityAppService(
-            IUnitOfWork uow, 
+            IUnitOfWorkProvider uow, 
             ILogger logger, 
             IAuthContext auth,
             IFacilityQueries facilityQueries,

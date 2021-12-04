@@ -27,8 +27,8 @@ namespace IntegrationTests
         [TestMethod]
         public async Task ChangeContact()
         {
-            var facilitySvc = Container!.Resolve<IFacilityAppService>();
-            var auditSvc = Container!.Resolve<IAuditAppService>();
+            var facilitySvc = Container.Resolve<IFacilityAppService>();
+            var auditSvc = Container.Resolve<IAuditAppService>();
 
             var facilityId = await AddFacilityAsync(facilitySvc);
 
@@ -61,9 +61,9 @@ namespace IntegrationTests
                 }
             );
 
-            var filteredList = await auditSvc.ListAsync("Facility", facilityId.Guid.ToString(), 0, 1000);
-            Assert.IsTrue(filteredList!.TotalFilteredCount > 0);
-            var auditRecords = filteredList!.Items;
+            var list = await auditSvc.ListAsync("Facility", facilityId.Guid.ToString(), 0, 1000);
+            Assert.IsTrue(list.TotalFilteredCount > 0);
+            var auditRecords = list.Items;
             var auditRecord = auditRecords.First();
             var changes = auditRecord.Changes.FromDbJson<List<AuditPropertyDto>>()!;
 

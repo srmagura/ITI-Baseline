@@ -5,12 +5,10 @@ namespace ITI.DDD.Core;
 
 public interface IUnitOfWork : IDisposable
 {
-    IUnitOfWorkScope Begin();
-
-    TParticipant Current<TParticipant>()
-        where TParticipant : IDataContext;
-
-    Task OnScopeCommitAsync();
+    TDataContext GetDataContext<TDataContext>()
+        where TDataContext : IDataContext;
 
     void RaiseDomainEvent(IDomainEvent domainEvent);
+
+    Task CommitAsync();
 }

@@ -15,7 +15,7 @@ namespace IntegrationTests
         [TestMethod]
         public async Task GetCustomerUser()
         {
-            var userSvc = Container!.Resolve<IUserAppService>();
+            var userSvc = Container.Resolve<IUserAppService>();
             var customerId = new CustomerId();
 
             var userId = await userSvc.AddCustomerUserAsync(
@@ -38,7 +38,7 @@ namespace IntegrationTests
         [TestMethod]
         public async Task GetOnCallUser()
         {
-            var userSvc = Container!.Resolve<IUserAppService>();
+            var userSvc = Container.Resolve<IUserAppService>();
             var onCallProviderId = new OnCallProviderId();
 
             var userId = await userSvc.AddOnCallUserAsync(
@@ -61,7 +61,7 @@ namespace IntegrationTests
         [TestMethod]
         public async Task List()
         {
-            var userSvc = Container!.Resolve<IUserAppService>();
+            var userSvc = Container.Resolve<IUserAppService>();
             
             var customerId = new CustomerId();
             var onCallProviderId = new OnCallProviderId();

@@ -1,8 +1,7 @@
-﻿namespace ITI.Baseline.RequestTrace
+﻿namespace ITI.Baseline.RequestTrace;
+
+public interface IDbRequestTraceSettings
 {
-    public interface IDbRequestTraceSettings
-    {
-        string RequestTraceConnectionString { get; }
-        string RequestTraceTableName { get; }
-    }
+    string RequestTraceConnectionString { get; }
+    string RequestTraceTableName { get; }
 }

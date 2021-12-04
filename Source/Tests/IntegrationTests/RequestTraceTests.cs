@@ -14,7 +14,7 @@ namespace IntegrationTests
         [TestMethod]
         public void WritesTrace()
         {
-            var requestTrace = Container!.Resolve<IRequestTrace>();
+            var requestTrace = Container.Resolve<IRequestTrace>();
 
             requestTrace.WriteTrace(
                 service: "Google",
@@ -26,8 +26,8 @@ namespace IntegrationTests
                 exc: new Exception("myException")
             );
 
-            using var db = Container!.Resolve<AppDataContext>();
-            var trace = db.RequestTraces!.Single();
+            using var db = Container.Resolve<AppDataContext>();
+            var trace = db.RequestTraces.Single();
 
             Assert.AreEqual("Google", trace.Service);
             Assert.AreEqual("Incoming", trace.Direction);

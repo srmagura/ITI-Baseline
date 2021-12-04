@@ -2,49 +2,45 @@
 using System.Data.SqlClient;
 using Dapper;
 
-namespace ITI.DDD.Logging
+namespace ITI.DDD.Logging;
+
+public class DbLogWriter : ILogWriter
 {
-    public class DbLogWriter : ILogWriter
+    private readonly IDbLoggerSettings _settings;
+
+    public DbLogWriter(IDbLoggerSettings settings)
     {
-        private readonly IDbLoggerSettings _settings;
+        _settings = settings;
+    }
 
-        public DbLogWriter(IDbLoggerSettings settings)
+    public void Write(
+        string level,
+        string? userId,
+        string? userName,
+        string hostname,
+        string process,
+        string message,
+        Exception? exc
+    )
+    {
+        try
         {
-            _settings = settings;
+            using var conn = new SqlConnection(_settings.LogConnectionString);
+            var sql = $@"INSERT INTO {_settings.LogTableName} 
+                                    (WhenUtc,Level,UserId,UserName,Hostname,Process,Message,Exception) 
+                                    VALUES (@WhenUtc,@Level,@UserId,@UserName,@Hostname,@Process,@Message,@Exception)";
+
+            var logEntry = new LogEntry(level, userId, userName, hostname, process, message, exc);
+
+            conn.Execute(sql, logEntry);
         }
-
-        public void Write(
-            string level,
-            string? userId,
-            string? userName,
-            string hostname,
-            string process,
-            string? thread,
-            string message,
-            Exception? exc = null
-        )
+        catch (Exception logException)
         {
-            try
-            {
-                using (var conn = new SqlConnection(_settings.LogConnectionString))
-                {
-                    var sql = $@"INSERT INTO {_settings.LogTableName} 
-                                    (WhenUtc,Level,UserId,UserName,Hostname,Process,Thread,Message,Exception) 
-                                    VALUES (@WhenUtc,@Level,@UserId,@UserName,@Hostname,@Process,@Thread,@Message,@Exception)";
+            // eat it... nothing we can do, and don't want to fail anything because of logging issues
+            // ... so we send the message screaming into the void...
 
-                    var logEntry = new LogEntry(level, userId, userName, hostname, process, thread, message, exc);
-
-                    conn.Execute(sql, logEntry, commandTimeout: 30);
-                }
-            }
-            catch (Exception logException)
-            {
-                // eat it... nothing we can do, and don't want to fail anything because of logging issues
-                // ... so we send the message screaming into the void...
-
-                // last ditch attempt...
-                Console.WriteLine($"DBLOGGER INTERNAL EXCEPTION: {logException}");
-            }
+            // last ditch attempt...
+            Console.WriteLine($"DBLOGWRITER INTERNAL EXCEPTION: {logException}");
         }
     }
 }

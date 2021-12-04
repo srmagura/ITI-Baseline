@@ -23,7 +23,7 @@ namespace IntegrationTests
         [TestMethod]
         public async Task SetContactNonNullButPropertiesNull()
         {
-            var facilitySvc = Container!.Resolve<IFacilityAppService>();
+            var facilitySvc = Container.Resolve<IFacilityAppService>();
 
             var facilityId = await AddFacilityAsync(facilitySvc);
             await facilitySvc.SetContactAsync(facilityId, new FacilityContactDto());
@@ -39,7 +39,7 @@ namespace IntegrationTests
         [TestMethod]
         public async Task SetContactNonNull()
         {
-            var facilitySvc = Container!.Resolve<IFacilityAppService>();
+            var facilitySvc = Container.Resolve<IFacilityAppService>();
 
             var facilityId = await AddFacilityAsync(facilitySvc);
 

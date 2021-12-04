@@ -8,7 +8,6 @@ using TestApp.Application.Interfaces;
 using TestApp.Application.Interfaces.QueryInterfaces;
 using TestApp.Application.Interfaces.RepositoryInterfaces;
 using TestApp.DataContext;
-using TestApp.Infrastructure;
 using TestApp.Queries;
 using TestApp.Repositories;
 
@@ -22,14 +21,12 @@ public class AppModule : Module
         builder.RegisterModule<ITIAuditModule>();
 
         builder.RegisterType<AuditFieldConfiguration>().As<IAuditFieldConfiguration>();
-        builder.RegisterType<DapperRequestTrace>().As<IRequestTrace>();
+        builder.RegisterType<DbRequestTrace>().As<IRequestTrace>();
+        builder.RegisterType<NullDomainEventPublisher>().As<IDomainEventPublisher>();
 
-        DataMapConfig.RegisterMapper(builder);
+        builder.RegisterModule<MapperModule>();
 
-        ConfigureDomainEvents(builder);
-
-        builder.RegisterType<TestAppAuthContext>().As<IAuthContext>();
-        // TODO:SAM builder.RegisterType<DomainEventAuthScopeResolver>().As<IDomainEventAuthScopeResolver>();
+        builder.RegisterType<AppAuthContext>().As<IAuthContext>();
         builder.RegisterType<AppPermissions>().As<IAuditAppPermissions>();
         builder.RegisterType<AppDataContext>();
 
@@ -46,13 +43,5 @@ public class AppModule : Module
         builder.RegisterType<EfCustomerQueries>().As<ICustomerQueries>();
         builder.RegisterType<EfFacilityQueries>().As<IFacilityQueries>();
         builder.RegisterType<EfUserQueries>().As<IUserQueries>();
-    }
-
-    private static void ConfigureDomainEvents(ContainerBuilder builder)
-    {
-        builder.RegisterBuildCallback(DomainEventAuthScopeResolver.OnContainerBuilt);
-
-        CustomerAddedDomainEventHandler.Register();
-        builder.RegisterType<CustomerAddedDomainEventHandler>();
     }
 }

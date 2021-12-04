@@ -1,4 +1,4 @@
-﻿using ITI.DDD.Domain.Entities;
+﻿using ITI.DDD.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;

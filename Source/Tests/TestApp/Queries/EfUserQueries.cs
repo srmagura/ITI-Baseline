@@ -16,7 +16,7 @@ namespace TestApp.Queries
     {
         private readonly IMapper _mapper;
 
-        public EfUserQueries(IUnitOfWork uow, IMapper mapper) : base(uow)
+        public EfUserQueries(IUnitOfWorkProvider uow, IMapper mapper) : base(uow)
         {
             _mapper = mapper;
         }

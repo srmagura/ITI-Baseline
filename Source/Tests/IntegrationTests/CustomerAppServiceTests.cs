@@ -38,7 +38,7 @@ namespace IntegrationTests
         [TestMethod]
         public async Task Add()
         {
-            var customerSvc = Container!.Resolve<ICustomerAppService>();
+            var customerSvc = Container.Resolve<ICustomerAppService>();
 
             var customerId = await AddCustomerAsync(customerSvc);
 
@@ -69,7 +69,7 @@ namespace IntegrationTests
         [TestMethod]
         public async Task SetContact()
         {
-            var customerSvc = Container!.Resolve<ICustomerAppService>();
+            var customerSvc = Container.Resolve<ICustomerAppService>();
 
             var customerId = await AddCustomerAsync(customerSvc);
             
@@ -96,7 +96,7 @@ namespace IntegrationTests
         [TestMethod]
         public async Task Remove()
         {
-            var customerSvc = Container!.Resolve<ICustomerAppService>();
+            var customerSvc = Container.Resolve<ICustomerAppService>();
 
             var customerId = await AddCustomerAsync(customerSvc);
             var customer = await customerSvc.GetAsync(customerId);
@@ -110,7 +110,7 @@ namespace IntegrationTests
         [TestMethod]
         public async Task AddLtcPharmacy()
         {
-            var customerSvc = Container!.Resolve<ICustomerAppService>();
+            var customerSvc = Container.Resolve<ICustomerAppService>();
 
             var customerId = await AddCustomerAsync(customerSvc);
             await customerSvc.AddLtcPharmacyAsync(customerId, "1st Choice");
@@ -125,7 +125,7 @@ namespace IntegrationTests
         [TestMethod]
         public async Task RenameLtcPharmacy()
         {
-            var customerSvc = Container!.Resolve<ICustomerAppService>();
+            var customerSvc = Container.Resolve<ICustomerAppService>();
 
             var customerId = await AddCustomerAsync(customerSvc);
             var customer = await customerSvc.GetAsync(customerId);
@@ -143,7 +143,7 @@ namespace IntegrationTests
         [TestMethod]
         public async Task RemoveLtcPharmacy()
         {
-            var customerSvc = Container!.Resolve<ICustomerAppService>();
+            var customerSvc = Container.Resolve<ICustomerAppService>();
 
             var customerId = await AddCustomerAsync(customerSvc);
             var customer = await customerSvc.GetAsync(customerId);
@@ -161,7 +161,7 @@ namespace IntegrationTests
         [TestMethod]
         public async Task ItThrowsDuplicateKeyException()
         {
-            var customerSvc = Container!.Resolve<ICustomerAppService>();
+            var customerSvc = Container.Resolve<ICustomerAppService>();
 
             var customerId = await AddCustomerAsync(customerSvc);
 

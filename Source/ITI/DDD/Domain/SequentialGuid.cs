@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ITI.DDD.Domain.Entities;
+namespace ITI.DDD.Domain;
 
 public static class SequentialGuid
 {

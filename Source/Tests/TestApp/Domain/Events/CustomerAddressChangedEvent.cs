@@ -1,15 +1,13 @@
-﻿using ITI.DDD.Domain.DomainEvents;
-using TestApp.Domain.Identities;
+﻿using TestApp.Domain.Identities;
 
-namespace TestApp.Domain.Events
+namespace TestApp.Domain.Events;
+
+public class CustomerAddressChangedEvent : BaseDomainEvent
 {
-    public class CustomerAddressChangedEvent : BaseDomainEvent
-    {
-        public CustomerId Id { get; set; }
+    public CustomerId Id { get; }
 
-        public CustomerAddressChangedEvent(CustomerId id)
-        {
-            Id = id;
-        }
+    public CustomerAddressChangedEvent(CustomerId id)
+    {
+        Id = id;
     }
 }

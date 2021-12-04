@@ -1,5 +1,5 @@
 ﻿using ITI.Baseline.Util.Validation;
-using ITI.DDD.Domain.Entities;
+using ITI.DDD.Domain;
 using TestApp.Domain.Identities;
 using TestApp.Domain.ValueObjects;
 

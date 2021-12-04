@@ -48,15 +48,15 @@ namespace IntegrationTests
         [TestMethod]
         public async Task Add()
         {
-            var customerSvc = Container!.Resolve<ICustomerAppService>();
-            var auditSvc = Container!.Resolve<IAuditAppService>();
+            var customerSvc = Container.Resolve<ICustomerAppService>();
+            var auditSvc = Container.Resolve<IAuditAppService>();
 
             var customerId = await AddCustomerAsync(customerSvc);
             var auditRecords = (await auditSvc.ListAsync("Customer", customerId.Guid.ToString(), 0, 1000))!.Items;
 
             var auditRecord = auditRecords.Single(r => r.Entity == "Customer");
-            Assert.AreEqual(new TestAppAuthContext().UserIdString, auditRecord.UserId);
-            Assert.AreEqual(new TestAppAuthContext().UserName, auditRecord.UserName);
+            Assert.AreEqual(new AppAuthContext().UserIdString, auditRecord.UserId);
+            Assert.AreEqual(new AppAuthContext().UserName, auditRecord.UserName);
             Assert.AreEqual("Customer", auditRecord.Aggregate);
             Assert.AreEqual(customerId.Guid.ToString(), auditRecord.AggregateId);
             Assert.AreEqual("Customer", auditRecord.Entity);
@@ -105,8 +105,8 @@ namespace IntegrationTests
         [TestMethod]
         public async Task ChangeProperty()
         {
-            var customerSvc = Container!.Resolve<ICustomerAppService>();
-            var auditSvc = Container!.Resolve<IAuditAppService>();
+            var customerSvc = Container.Resolve<ICustomerAppService>();
+            var auditSvc = Container.Resolve<IAuditAppService>();
 
             var customerId = await AddCustomerAsync(customerSvc);
             var customer = await customerSvc.GetAsync(customerId);
@@ -116,8 +116,8 @@ namespace IntegrationTests
             var auditRecords = (await auditSvc.ListAsync("LtcPharmacy", pruittId.Guid.ToString(), 0, 1000))!.Items;
             var auditRecord = auditRecords.Single(r => r.Entity == "LtcPharmacy" && r.Event == "Modified");
 
-            Assert.AreEqual(new TestAppAuthContext().UserIdString, auditRecord.UserId);
-            Assert.AreEqual(new TestAppAuthContext().UserName, auditRecord.UserName);
+            Assert.AreEqual(new AppAuthContext().UserIdString, auditRecord.UserId);
+            Assert.AreEqual(new AppAuthContext().UserName, auditRecord.UserName);
             Assert.AreEqual("Customer", auditRecord.Aggregate);
             Assert.AreEqual(customerId.Guid.ToString(), auditRecord.AggregateId);
             Assert.AreEqual("LtcPharmacy", auditRecord.Entity);
@@ -139,8 +139,8 @@ namespace IntegrationTests
         [TestMethod]
         public async Task ChangeValueObject()
         {
-            var customerSvc = Container!.Resolve<ICustomerAppService>();
-            var auditSvc = Container!.Resolve<IAuditAppService>();
+            var customerSvc = Container.Resolve<ICustomerAppService>();
+            var auditSvc = Container.Resolve<IAuditAppService>();
 
             var customerId = await AddCustomerAsync(customerSvc);
             var customer = await customerSvc.GetAsync(customerId);
@@ -153,8 +153,8 @@ namespace IntegrationTests
             var auditRecords = (await auditSvc.ListAsync("Customer", customerId.Guid.ToString(), 0, 1000))!.Items;
             var auditRecord = auditRecords.Single(r => r.Entity == "Customer" && r.Event == "Modified");
 
-            Assert.AreEqual(new TestAppAuthContext().UserIdString, auditRecord.UserId);
-            Assert.AreEqual(new TestAppAuthContext().UserName, auditRecord.UserName);
+            Assert.AreEqual(new AppAuthContext().UserIdString, auditRecord.UserId);
+            Assert.AreEqual(new AppAuthContext().UserName, auditRecord.UserName);
             Assert.AreEqual("Customer", auditRecord.Aggregate);
             Assert.AreEqual(customerId.Guid.ToString(), auditRecord.AggregateId);
             Assert.AreEqual("Customer", auditRecord.Entity);
@@ -177,8 +177,8 @@ namespace IntegrationTests
         [TestMethod]
         public async Task Remove()
         {
-            var customerSvc = Container!.Resolve<ICustomerAppService>();
-            var auditSvc = Container!.Resolve<IAuditAppService>();
+            var customerSvc = Container.Resolve<ICustomerAppService>();
+            var auditSvc = Container.Resolve<IAuditAppService>();
 
             var customerId = await AddCustomerAsync(customerSvc);
             var customer = await customerSvc.GetAsync(customerId);
@@ -225,10 +225,10 @@ namespace IntegrationTests
         [TestMethod]
         public async Task DoesNotAddRecordIfNothingChanged()
         {
-            var uow = Container!.Resolve<IUnitOfWork>();
-            var customerRepo = Container!.Resolve<ICustomerRepository>();
-            var customerSvc = Container!.Resolve<ICustomerAppService>();
-            var auditSvc = Container!.Resolve<IAuditAppService>();
+            var uow = Container.Resolve<IUnitOfWorkProvider>();
+            var customerRepo = Container.Resolve<ICustomerRepository>();
+            var customerSvc = Container.Resolve<ICustomerAppService>();
+            var auditSvc = Container.Resolve<IAuditAppService>();
 
             var customerId = await AddCustomerAsync(customerSvc);
 

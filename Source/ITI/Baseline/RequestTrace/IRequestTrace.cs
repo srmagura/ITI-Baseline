@@ -1,17 +1,16 @@
 ﻿using System;
 
-namespace ITI.Baseline.RequestTrace
+namespace ITI.Baseline.RequestTrace;
+
+public interface IRequestTrace
 {
-    public interface IRequestTrace
-    {
-        void WriteTrace(
-            string service, 
-            RequestTraceDirection direction,
-            DateTimeOffset dateBeginUtc, 
-            string url, 
-            string request, 
-            string response, 
-            Exception? exc = null
-        );
-    }
+    void WriteTrace(
+        string service,
+        RequestTraceDirection direction,
+        DateTimeOffset dateBeginUtc,
+        string url,
+        string request,
+        string response,
+        Exception? exc = null
+    );
 }

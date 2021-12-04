@@ -14,7 +14,7 @@ namespace TestApp.Repositories
 {
     public class EfCustomerRepository : Repository<AppDataContext>, ICustomerRepository
     {
-        public EfCustomerRepository(IUnitOfWork uow, IDbEntityMapper dbMapper) 
+        public EfCustomerRepository(IUnitOfWorkProvider uow, IDbEntityMapper dbMapper) 
             : base(uow, dbMapper)
         {
         }

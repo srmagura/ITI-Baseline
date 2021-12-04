@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.Json;
-using ITI.DDD.Domain.Entities;
+using ITI.DDD.Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Domain

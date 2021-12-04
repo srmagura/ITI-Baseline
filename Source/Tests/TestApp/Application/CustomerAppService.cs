@@ -20,7 +20,7 @@ namespace TestApp.Application
         private readonly ICustomerRepository _customerRepo;
 
         public CustomerAppService(
-            IUnitOfWork uow,
+            IUnitOfWorkProvider uow,
             ILogger logger,
             IAuthContext auth,
             ICustomerQueries customerQueries,

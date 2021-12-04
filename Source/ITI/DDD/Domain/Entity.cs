@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ITI.DDD.Domain.Entities;
+namespace ITI.DDD.Domain;
 
 /// <summary>
 /// Should not be used directly in applications. Use AggregateRoot or Member instead.

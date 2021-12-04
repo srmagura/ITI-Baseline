@@ -1,110 +1,78 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Autofac;
+﻿using Autofac;
 using ITI.DDD.Core;
-using ITI.DDD.Domain.DomainEvents;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ITI.DDD.Application;
 
-public class UnitOfWork : IUnitOfWork
+internal sealed class UnitOfWork : IUnitOfWork
 {
-    private readonly IDomainEventPublisher _domainEventPublisher;
     private readonly ILifetimeScope _lifetimeScope;
-
-    private readonly List<IDomainEvent> _domainEvents = new();
+    private readonly IDomainEventPublisher _domainEventPublisher;
+    private readonly Action _onDispose;
 
     public UnitOfWork(
-        IDomainEventPublisher domainEventPublisher,
-        ILifetimeScope lifetimeScope
+        ILifetimeScope lifetimeScope,
+        IDomainEventPublisher domainEventPublisher, 
+        Action onDispose
     )
     {
-        _domainEventPublisher = domainEventPublisher;
         _lifetimeScope = lifetimeScope;
+        _domainEventPublisher = domainEventPublisher;
+        _onDispose = onDispose;
     }
 
-    public IUnitOfWorkScope Begin()
-    {
-        return new UnitOfWorkScope(this);
-    }
-
-    private readonly Dictionary<Type, IDataContext> _participants = new();
+    private readonly Dictionary<Type, IDataContext> _dataContexts = new();
     private readonly object _lock = new();
 
-    public TParticipant Current<TParticipant>() where TParticipant : IDataContext
+    public TDataContext GetDataContext<TDataContext>() where TDataContext : IDataContext
     {
-        var type = typeof(TParticipant);
+        var type = typeof(TDataContext);
+
+        if (_dataContexts.ContainsKey(type))
+            return (TDataContext)_dataContexts[type];
 
         lock (_lock)
         {
-            if (_participants.ContainsKey(type))
-            {
-                return (TParticipant)_participants[type];
-            }
+            var dataContext = _lifetimeScope.Resolve<TDataContext>();
+            _dataContexts.Add(type, dataContext);
 
-            var instance = _lifetimeScope.Resolve<TParticipant>();
-
-            _participants.Add(type, instance);
-            return instance;
+            return dataContext;
         }
     }
+
+    private readonly List<IDomainEvent> _domainEvents = new();
 
     public void RaiseDomainEvent(IDomainEvent domainEvent)
     {
         _domainEvents.Add(domainEvent);
     }
 
-    private static bool WaitForDomainEvents = false;
-
-    public static void ShouldWaitForDomainEvents(bool waitForDomainEvents)
+    private bool _committed = false;
+    
+    public async Task CommitAsync()
     {
-        WaitForDomainEvents = waitForDomainEvents;
-    }
+        if(_committed)
+            throw new Exception("This unit of work has already been committed.");
 
-    async Task IUnitOfWork.OnScopeCommitAsync()
-    {
-        foreach (var db in _participants.Values)
+        _committed = true;
+
+        var allDomainEvents = _domainEvents.ToList();
+
+        foreach (var dataContext in _dataContexts.Values)
         {
-            await db.SaveChangesAsync();
-
-            foreach (var domainEvent in db.GetAllDomainEvents())
-            {
-                RaiseDomainEvent(domainEvent);
-            }
+            await dataContext.SaveChangesAsync();
+            allDomainEvents.AddRange(dataContext.GetAllDomainEvents());
         }
 
-        if (_domainEvents.Count != 0)
-        {
-            // PublishAsync is required not to throw exceptions
-            var domainEventTask = _domainEventPublisher.PublishAsync(_domainEvents);
-
-            if (WaitForDomainEvents)
-                await domainEventTask;
-        }
-
-        ClearParticipants();
+        await _domainEventPublisher.PublishAsync(allDomainEvents);
     }
-
+    
     public void Dispose()
     {
         GC.SuppressFinalize(this);
-        ClearParticipants();
-    }
-
-    private void ClearParticipants()
-    {
-        foreach (var p in _participants.Values)
-        {
-            try
-            {
-                p?.Dispose();
-            }
-            catch (Exception)
-            {
-                // eat it
-            }
-        }
-
-        _participants.Clear();
+        _onDispose();
     }
 }

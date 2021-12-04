@@ -1,20 +1,32 @@
 ﻿using ITI.DDD.Core;
 using ITI.DDD.Infrastructure.DataMapping;
 
-namespace ITI.DDD.Infrastructure
+namespace ITI.DDD.Infrastructure;
+
+public abstract class Repository<TDataContext>
+    where TDataContext : IDataContext
 {
-    public abstract class Repository<TDbContext> 
-        where TDbContext : IDataContext
+    private readonly IUnitOfWorkProvider _unitOfWorkProvider;
+    protected readonly IDbEntityMapper DbMapper;
+
+    protected Repository(IUnitOfWorkProvider unitOfWorkProvider, IDbEntityMapper dbMapper)
     {
-        private readonly IUnitOfWork _uow;
-        protected readonly IDbEntityMapper DbMapper;
+        _unitOfWorkProvider = unitOfWorkProvider;
+        DbMapper = dbMapper;
+    }
 
-        protected Repository(IUnitOfWork uow, IDbEntityMapper dbMapper)
+    protected TDataContext Context
+    {
+        get
         {
-            _uow = uow;
-            DbMapper = dbMapper;
-        }
+            if (_unitOfWorkProvider.Current == null)
+            {
+                throw new NotSupportedException(
+                    $"Attempted to use {GetType().Name} outside of a unit of work."
+                );
+            }
 
-        protected TDbContext Context => _uow.Current<TDbContext>();
+            return _unitOfWorkProvider.Current.GetDataContext<TDataContext>();
+        }
     }
 }

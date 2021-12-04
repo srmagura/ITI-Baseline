@@ -1,5 +1,5 @@
 ﻿using ITI.Baseline.ValueObjects;
-using ITI.DDD.Domain.Entities;
+using ITI.DDD.Domain;
 using TestApp.Domain.Enums;
 using TestApp.Domain.Identities;
 

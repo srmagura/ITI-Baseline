@@ -14,7 +14,7 @@ namespace TestApp.Repositories
 {
     public class EfFacilityRepository : Repository<AppDataContext>, IFacilityRepository
     {
-        public EfFacilityRepository(IUnitOfWork uow, IDbEntityMapper dbMapper) 
+        public EfFacilityRepository(IUnitOfWorkProvider uow, IDbEntityMapper dbMapper) 
             : base(uow, dbMapper)
         {
         }

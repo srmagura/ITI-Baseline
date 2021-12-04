@@ -1,17 +1,29 @@
 ﻿using ITI.DDD.Core;
 
-namespace ITI.DDD.Infrastructure
+namespace ITI.DDD.Infrastructure;
+
+public abstract class Queries<TDataContext>
+    where TDataContext : IDataContext
 {
-    public abstract class Queries<TDbContext>
-        where TDbContext : IDataContext
+    private readonly IUnitOfWorkProvider _unitOfWorkProvider;
+
+    protected Queries(IUnitOfWorkProvider unitOfWorkProvider)
     {
-        private readonly IUnitOfWork _uow;
+        _unitOfWorkProvider = unitOfWorkProvider;
+    }
 
-        protected Queries(IUnitOfWork uow)
+    protected TDataContext Context
+    {
+        get
         {
-            _uow = uow;
-        }
+            if (_unitOfWorkProvider.Current == null)
+            {
+                throw new NotSupportedException(
+                    $"Attempted to use {GetType().Name} outside of a unit of work."
+                );
+            }
 
-        protected TDbContext Context => _uow.Current<TDbContext>();
+            return _unitOfWorkProvider.Current.GetDataContext<TDataContext>();
+        }
     }
 }

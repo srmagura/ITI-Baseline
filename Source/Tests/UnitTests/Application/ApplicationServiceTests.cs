@@ -8,7 +8,10 @@ using ITI.DDD.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using TestApp.Domain.Events;
+using TestApp.Domain.Identities;
 
 namespace UnitTests.Application
 {
@@ -17,7 +20,7 @@ namespace UnitTests.Application
     {
         private class MyApplicationService : ApplicationService
         {
-            public MyApplicationService(IUnitOfWork uow, ILogger logger, IAuthContext baseAuth) : base(uow, logger, baseAuth)
+            public MyApplicationService(IUnitOfWorkProvider uow, ILogger logger, IAuthContext baseAuth) : base(uow, logger, baseAuth)
             {
             }
 
@@ -109,28 +112,40 @@ namespace UnitTests.Application
                     () => Task.FromResult((int?)1)
                 );
             }
+
+            public Task RaiseADomainEventAsync()
+            {
+                return CommandAsync(
+                    () => Task.CompletedTask,
+                    () =>
+                    {
+                        RaiseDomainEvent(new CustomerAddedEvent(new CustomerId(), "Foobar Customer"));
+                        return Task.CompletedTask;
+                    }
+                );
+            }
         }
 
-        private static MyApplicationService CreateAppService()
+        private static IContainer BuildContainer()
         {
             var builder = new ContainerBuilder();
             builder.RegisterModule<ITIDDDModule>();
             builder.RegisterType<MyApplicationService>();
 
-            builder.RegisterInstance(Substitute.For<IDomainEventAuthScopeResolver>());
             builder.RegisterInstance(Substitute.For<ILogger>());
             builder.RegisterInstance(Substitute.For<IAuthContext>());
-            builder.RegisterInstance(Substitute.For<IMapper>());
-            builder.RegisterInstance(Substitute.For<IAuditor>());
 
-            var container = builder.Build();
-            return container.Resolve<MyApplicationService>();
+            var domainEventPublisher = Substitute.For<IDomainEventPublisher>();
+            builder.RegisterInstance(domainEventPublisher);
+
+            return builder.Build();
         }
 
         [TestMethod]
         public async Task QueryForNullableObject()
         {
-            var appService = CreateAppService();
+            using var container = BuildContainer();
+            var appService = container.Resolve<MyApplicationService>();
 
             Assert.AreEqual(new Version("1.0.0"), await appService.QueryForNullableObjectAsync(allow: true, entityExists: true));
             Assert.IsNull(await appService.QueryForNullableObjectAsync(allow: true, entityExists: false));
@@ -142,7 +157,8 @@ namespace UnitTests.Application
         [TestMethod]
         public async Task QueryForValue()
         {
-            var appService = CreateAppService();
+            using var container = BuildContainer();
+            var appService = container.Resolve<MyApplicationService>();
 
             Assert.AreEqual(1, await appService.QueryForValueAsync(true));
             Assert.AreEqual(0, await appService.QueryForValueAsync(false));
@@ -151,14 +167,16 @@ namespace UnitTests.Application
         [TestMethod]
         public async Task QueryForNullableValue()
         {
-            var appService = CreateAppService();
+            using var container = BuildContainer();
+            var appService = container.Resolve<MyApplicationService>();
             Assert.AreEqual(1, await appService.QueryForNullableValueAsync());
         }
 
         [TestMethod]
         public async Task VoidCommand()
         {
-            var appService = CreateAppService();
+            using var container = BuildContainer();
+            var appService = container.Resolve<MyApplicationService>();
             var action = Substitute.For<Func<Task>>();
             await appService.VoidCommandAsync(action);
 
@@ -168,22 +186,39 @@ namespace UnitTests.Application
         [TestMethod]
         public async Task CommandForNullableObject()
         {
-            var appService = CreateAppService();
+            using var container = BuildContainer();
+            var appService = container.Resolve<MyApplicationService>();
             Assert.AreEqual(new Version("1.0.0"), await appService.CommandForNullableObjectAsync());
         }
 
         [TestMethod]
         public async Task CommandForValue()
         {
-            var appService = CreateAppService();
+            using var container = BuildContainer();
+            var appService = container.Resolve<MyApplicationService>();
             Assert.AreEqual(1, await appService.CommandForValueAsync());
         }
 
         [TestMethod]
         public async Task CommandForNullableValue()
         {
-            var appService = CreateAppService();
+            using var container = BuildContainer();
+            var appService = container.Resolve<MyApplicationService>();
             Assert.AreEqual(1, await appService.CommandForNullableValueAsync());
+        }
+
+        [TestMethod]
+        public async Task RaiseADomainEvent()
+        {
+            using var container = BuildContainer();
+            var appService = container.Resolve<MyApplicationService>();
+            var domainEventPublisher = container.Resolve<IDomainEventPublisher>();
+
+            await appService.RaiseADomainEventAsync();
+            
+            await domainEventPublisher.Received(1).PublishAsync(
+                Arg.Is<IReadOnlyCollection<IDomainEvent>>(c => c.Count == 1)
+            );
         }
     }
 }

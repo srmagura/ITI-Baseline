@@ -27,36 +27,22 @@ namespace IntegrationTests.Harness
 
             builder.RegisterType<ConsoleLogWriter>().As<ILogWriter>();
 
-            var connectionStrings = GetConnectionStrings();
+            var connectionStrings = new ConnectionStrings();
             builder.RegisterInstance(connectionStrings);
             builder.RegisterInstance<IDbLoggerSettings>(connectionStrings);
             builder.RegisterInstance<IDbRequestTraceSettings>(connectionStrings);
         }
 
-        public static ConnectionStrings GetConnectionStrings()
-        {
-            var connectionString = $"Server=localhost;Database=ITIBaseline_e2e_test;Trusted_Connection=True;Connection Timeout=180;MultipleActiveResultSets=True;";
-
-            return new ConnectionStrings
-            {
-                DefaultDataContext = connectionString
-            };
-        }
-
         [TestInitialize]
         public async Task TestInitialize()
         {
-            // TODO:SAM
-            // DomainEvents.ClearRegistrations();
-            UnitOfWork.ShouldWaitForDomainEvents(true);
             ConsoleLogWriter.ClearErrors();
 
             var builder = new ContainerBuilder();
             RegisterServices(builder);
             Container = builder.Build();
 
-            var connectionString = GetConnectionStrings().DefaultDataContext;
-            await DeleteFromTablesUtil.DeleteFromTablesAsync(connectionString);
+            await DeleteFromTablesUtil.DeleteFromTablesAsync(new ConnectionStrings().AppDataContext);
         }
     }
 }

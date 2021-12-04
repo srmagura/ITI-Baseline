@@ -1,4 +1,4 @@
-﻿using ITI.DDD.Domain.Entities;
+﻿using ITI.DDD.Domain;
 using ITI.DDD.Infrastructure.DataContext;
 
 namespace ITI.DDD.Infrastructure.DataMapping

@@ -20,15 +20,15 @@ namespace IntegrationTests
             builder.RegisterType<DbLogWriter>().As<ILogWriter>();
             Container = builder.Build();
 
-            var logger = Container!.Resolve<ILogger>();
+            var logger = Container.Resolve<ILogger>();
 
             logger.Error("myMessage", new Exception("myException"));
 
-            using var db = Container!.Resolve<AppDataContext>();
+            using var db = Container.Resolve<AppDataContext>();
             var logEntry = db.LogEntries!.Single();
 
-            Assert.AreEqual(new TestAppAuthContext().UserIdString, logEntry.UserId);
-            Assert.AreEqual(new TestAppAuthContext().UserName, logEntry.UserName);
+            Assert.AreEqual(new AppAuthContext().UserIdString, logEntry.UserId);
+            Assert.AreEqual(new AppAuthContext().UserName, logEntry.UserName);
             Assert.AreEqual("error", logEntry.Level?.ToLowerInvariant());
             Assert.AreEqual("myMessage", logEntry.Message);
             Assert.IsTrue(logEntry.Exception!.Contains("myException"));

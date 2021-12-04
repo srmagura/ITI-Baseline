@@ -1,25 +1,31 @@
 ﻿using System;
 
-namespace ITI.DDD.Logging
+namespace ITI.DDD.Logging;
+
+public class ConsoleLogWriter : ILogWriter
 {
-    public class ConsoleLogWriter : ILogWriter
+    public static void ClearErrors()
     {
-        public static void ClearErrors()
-        {
-            HasErrors = false;
-        }
+        HasErrors = false;
+    }
 
-        public static bool HasErrors { get; protected set; } = false;
+    public static bool HasErrors { get; protected set; } = false;
 
-        public void Write(string? level, string? userId, string? userName, string? hostname, string? process, string? thread, string? message,
-            Exception? exc = null)
-        {
-            if (exc != null || level?.ToUpper() == "ERROR")
-                HasErrors = true;
+    public void Write(
+        string? level,
+        string? userId,
+        string? userName,
+        string? hostname,
+        string? process,
+        string? message,
+        Exception? exception
+    )
+    {
+        if (exception != null || level?.ToUpper() == "ERROR")
+            HasErrors = true;
 
-            Console.WriteLine($"{DateTime.Now}: {level}: {userId}|{userName}|{hostname}|{process}|{thread}: {message}");
-            if(exc != null)
-                Console.WriteLine($"EXCEPTION: {exc}");
-        }
+        Console.WriteLine($"{DateTime.Now}: {level}: {userId}|{userName}|{hostname}|{process}: {message}");
+        if (exception != null)
+            Console.WriteLine($"EXCEPTION: {exception}");
     }
 }

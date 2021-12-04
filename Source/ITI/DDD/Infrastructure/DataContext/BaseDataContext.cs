@@ -70,9 +70,7 @@ namespace ITI.DDD.Infrastructure.DataContext
                 }
             }
 
-            return domainEvents
-                .OrderBy(e => e.DateCreatedUtc)
-                .ToList();
+            return domainEvents;
         }
     }
 }

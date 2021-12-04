@@ -19,7 +19,7 @@ namespace ITI.Baseline.Audit
         private readonly IMapper _mapper;
 
         public AuditAppService(
-            IUnitOfWork uow,
+            IUnitOfWorkProvider uow,
             ILogger logger,
             IAuthContext auth,
             IAuditAppPermissions perms,
@@ -32,7 +32,7 @@ namespace ITI.Baseline.Audit
             _mapper = mapper;
         }
 
-        public Task<FilteredList<AuditRecordDto>> ListAsync(string entityName, string entityId, int skip, int take)
+        public Task<PagedList<AuditRecordDto>> ListAsync(string entityName, string entityId, int skip, int take)
         {
             return QueryAsync(
                 async () => Authorize.Require(await _perms.CanViewAuditAsync(entityName, entityId)),
@@ -60,7 +60,7 @@ namespace ITI.Baseline.Audit
 
                     var dtos = _mapper.Map<List<AuditRecordDto>>(items);
 
-                    return new FilteredList<AuditRecordDto>(count, dtos);
+                    return new PagedList<AuditRecordDto>(dtos, count);
                 }
             );
 

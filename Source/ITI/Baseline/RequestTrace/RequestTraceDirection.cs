@@ -1,8 +1,7 @@
-﻿namespace ITI.Baseline.RequestTrace
+﻿namespace ITI.Baseline.RequestTrace;
+
+public enum RequestTraceDirection
 {
-    public enum RequestTraceDirection
-    {
-        Incoming,
-        Outgoing
-    }
+    Incoming,
+    Outgoing
 }

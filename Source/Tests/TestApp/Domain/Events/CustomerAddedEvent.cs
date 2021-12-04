@@ -1,17 +1,15 @@
-﻿using ITI.DDD.Domain.DomainEvents;
-using TestApp.Domain.Identities;
+﻿using TestApp.Domain.Identities;
 
-namespace TestApp.Domain.Events
+namespace TestApp.Domain.Events;
+
+public class CustomerAddedEvent : BaseDomainEvent
 {
-    public class CustomerAddedEvent : BaseDomainEvent
-    {
-        public CustomerId CustomerId { get; set; }
-        public string Name { get; set; }
+    public CustomerId CustomerId { get; }
+    public string Name { get; }
 
-        public CustomerAddedEvent(CustomerId customerId, string name)
-        {
-            CustomerId = customerId;
-            Name = name;
-        }
+    public CustomerAddedEvent(CustomerId customerId, string name)
+    {
+        CustomerId = customerId;
+        Name = name;
     }
 }

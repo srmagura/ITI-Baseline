@@ -1,7 +1,11 @@
 ﻿using ITI.DDD.Core;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ITI.DDD.Domain.DomainEvents;
+namespace TestApp.Domain.Events;
 
 public abstract class BaseDomainEvent : IDomainEvent
 {

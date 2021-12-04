@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using ITI.DDD.Core;
-using ITI.DDD.Domain.Entities;
+using ITI.DDD.Domain;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,11 +14,11 @@ namespace ITI.DDD.Infrastructure.DataContext
 
         [NotMapped]
         [IgnoreMap]
-        public Entity? MappedEntity { get; set; }
+        public Entity? MappedEntity { get; internal set; }
 
         public DateTimeOffset DateCreatedUtc { get; set; } = DateTimeOffset.UtcNow;
 
         [NotMapped]
-        public List<IDomainEvent> DomainEvents { get; set; } = new List<IDomainEvent>();
+        public List<IDomainEvent> DomainEvents { get; } = new List<IDomainEvent>();
     }
 }

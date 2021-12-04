@@ -19,7 +19,7 @@ namespace TestApp.Application
         private readonly IUserRepository _userRepo;
 
         public UserAppService(
-            IUnitOfWork uow, 
+            IUnitOfWorkProvider uow, 
             ILogger logger, 
             IAuthContext auth,
             IUserQueries userQueries,
