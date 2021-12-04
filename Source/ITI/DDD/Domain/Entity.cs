@@ -1,6 +1,4 @@
 ﻿using ITI.DDD.Core;
-using System;
-using System.Collections.Generic;
 
 namespace ITI.DDD.Domain;
 

@@ -1,8 +1,6 @@
 ﻿using IntegrationTests.Harness;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ITI.Baseline.RequestTrace;
-using System;
-using System.Linq;
 using TestApp.DataContext;
 using Autofac;
 

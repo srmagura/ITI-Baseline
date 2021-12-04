@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using ITI.DDD.Core;
 using ITI.DDD.Domain;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ITI.DDD.Infrastructure.DataContext

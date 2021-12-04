@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ITI.Baseline.Audit
+﻿namespace ITI.Baseline.Audit
 {
     public class AuditRecordDto
     {

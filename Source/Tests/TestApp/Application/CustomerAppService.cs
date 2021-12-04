@@ -3,8 +3,6 @@ using ITI.DDD.Application;
 using ITI.DDD.Auth;
 using ITI.DDD.Core;
 using ITI.DDD.Logging;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using TestApp.Application.Dto;
 using TestApp.Application.Interfaces;
 using TestApp.Application.Interfaces.QueryInterfaces;

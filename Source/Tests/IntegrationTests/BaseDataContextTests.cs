@@ -1,7 +1,6 @@
 ﻿using ITI.DDD.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Threading.Tasks;
 using TestApp.DataContext;
 using TestApp.DataContext.DataModel;
 using TestApp.Domain.ValueObjects;

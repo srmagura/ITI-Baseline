@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TestApp.DataContext.DataModel
+﻿namespace TestApp.DataContext.DataModel
 {
     public class DbCustomerUser : DbUser
     {

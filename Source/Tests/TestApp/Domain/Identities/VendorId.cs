@@ -1,5 +1,4 @@
 ﻿using ITI.DDD.Domain;
-using System;
 
 namespace TestApp.Domain.Identities
 {

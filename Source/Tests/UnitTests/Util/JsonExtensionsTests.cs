@@ -1,6 +1,5 @@
 ﻿using ITI.Baseline.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 
 namespace UnitTests.Util
 {

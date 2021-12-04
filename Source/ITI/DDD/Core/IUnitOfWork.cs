@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace ITI.DDD.Core;
+﻿namespace ITI.DDD.Core;
 
 public interface IUnitOfWork : IDisposable
 {

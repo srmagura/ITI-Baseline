@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace ITI.Baseline.Audit
+﻿namespace ITI.Baseline.Audit
 {
     public interface IAuditFieldConfiguration
     {

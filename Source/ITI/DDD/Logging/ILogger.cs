@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ITI.DDD.Logging
+﻿namespace ITI.DDD.Logging
 {
     public interface ILogger
     {

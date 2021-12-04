@@ -2,9 +2,6 @@
 using ITI.DDD.Core;
 using ITI.DDD.Infrastructure;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TestApp.Application.Dto;
 using TestApp.Application.Interfaces.QueryInterfaces;
 using TestApp.DataContext;

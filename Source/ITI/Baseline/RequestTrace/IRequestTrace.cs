@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ITI.Baseline.RequestTrace;
+﻿namespace ITI.Baseline.RequestTrace;
 
 public interface IRequestTrace
 {

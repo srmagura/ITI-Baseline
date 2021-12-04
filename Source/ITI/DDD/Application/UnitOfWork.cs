@@ -1,9 +1,5 @@
 ﻿using Autofac;
 using ITI.DDD.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ITI.DDD.Application;
 

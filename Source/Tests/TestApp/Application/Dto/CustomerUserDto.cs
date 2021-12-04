@@ -1,5 +1,4 @@
-﻿using System;
-using TestApp.Domain.Enums;
+﻿using TestApp.Domain.Enums;
 using TestApp.Domain.Identities;
 
 namespace TestApp.Application.Dto

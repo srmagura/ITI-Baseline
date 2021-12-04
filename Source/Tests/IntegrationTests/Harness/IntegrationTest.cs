@@ -4,8 +4,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestApp.AppConfig;
 using TestApp.DataContext;
 using Autofac;
-using System.Threading.Tasks;
-using ITI.DDD.Application;
 
 namespace IntegrationTests.Harness
 {

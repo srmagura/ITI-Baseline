@@ -1,8 +1,6 @@
 ﻿using ITI.Baseline.Util.Validation;
 using ITI.Baseline.ValueObjects;
 using ITI.DDD.Domain;
-using System.Collections.Generic;
-using System.Linq;
 using TestApp.Domain.Events;
 using TestApp.Domain.Identities;
 using TestApp.Domain.ValueObjects;

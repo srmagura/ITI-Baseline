@@ -1,5 +1,4 @@
 ﻿using ITI.DDD.Core;
-using System;
 
 namespace ITI.DDD.Auth;
 

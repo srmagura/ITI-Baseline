@@ -1,8 +1,6 @@
 ﻿using IntegrationTests.Harness;
 using ITI.DDD.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Linq;
 using TestApp.AppConfig;
 using TestApp.DataContext;
 using Autofac;

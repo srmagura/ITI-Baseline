@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace ITI.Baseline.Util
+﻿namespace ITI.Baseline.Util
 {
     public static class ListExtensions
     {

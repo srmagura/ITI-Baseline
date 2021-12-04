@@ -1,15 +1,10 @@
 ﻿using Autofac;
-using AutoMapper;
 using ITI.DDD.Application;
 using ITI.DDD.Auth;
 using ITI.DDD.Core;
-using ITI.DDD.Infrastructure.DataContext;
 using ITI.DDD.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using TestApp.Domain.Events;
 using TestApp.Domain.Identities;
 

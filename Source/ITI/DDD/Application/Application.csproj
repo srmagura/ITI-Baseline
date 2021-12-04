@@ -5,7 +5,8 @@
     <AssemblyName>ITI.DDD.Application</AssemblyName>
     <RootNamespace>ITI.DDD.Application</RootNamespace>
     <Nullable>enable</Nullable>
-    <Version>2.2.6</Version>
+	<ImplicitUsings>true</ImplicitUsings>
+	<Version>3.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

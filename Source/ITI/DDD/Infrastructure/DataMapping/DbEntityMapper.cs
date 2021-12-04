@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using ITI.DDD.Domain;
 using ITI.DDD.Infrastructure.DataContext;
-using System;
 
 namespace ITI.DDD.Infrastructure.DataMapping;
 

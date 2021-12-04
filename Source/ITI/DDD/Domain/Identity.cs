@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ITI.DDD.Domain
+﻿namespace ITI.DDD.Domain
 {
     // Not abstract because it is useful to have a generic identity when
     // writing code that could be used with multiple different entities

@@ -1,7 +1,6 @@
 ﻿using ITI.Baseline.Audit;
 using ITI.DDD.Infrastructure.DataContext;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace TestApp.DataContext.DataModel

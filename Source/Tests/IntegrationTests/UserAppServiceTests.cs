@@ -1,8 +1,6 @@
 ﻿using Autofac;
 using IntegrationTests.Harness;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
-using System.Threading.Tasks;
 using TestApp.Application.Dto;
 using TestApp.Application.Interfaces;
 using TestApp.Domain.Identities;

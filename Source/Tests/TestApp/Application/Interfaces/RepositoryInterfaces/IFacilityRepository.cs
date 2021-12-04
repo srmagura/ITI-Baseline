@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using TestApp.Domain;
+﻿using TestApp.Domain;
 using TestApp.Domain.Identities;
 
 namespace TestApp.Application.Interfaces.RepositoryInterfaces

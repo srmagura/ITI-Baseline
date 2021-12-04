@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ITI.Baseline.Util
+﻿namespace ITI.Baseline.Util
 {
     public class DebugTimer : IDisposable
     {

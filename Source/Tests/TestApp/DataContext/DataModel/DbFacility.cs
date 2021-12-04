@@ -1,6 +1,5 @@
 ﻿using ITI.Baseline.Audit;
 using ITI.DDD.Infrastructure.DataContext;
-using System;
 using System.ComponentModel.DataAnnotations;
 using TestApp.Domain.ValueObjects;
 

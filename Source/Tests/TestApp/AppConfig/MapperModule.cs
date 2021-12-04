@@ -5,7 +5,6 @@ using ITI.Baseline.Audit;
 using ITI.Baseline.Util;
 using ITI.Baseline.ValueObjects;
 using ITI.DDD.Infrastructure.DataMapping;
-using System.Collections.Generic;
 using TestApp.Application.Dto;
 using TestApp.DataContext.DataModel;
 using TestApp.Domain;

@@ -5,10 +5,6 @@ using ITI.DDD.Auth;
 using ITI.DDD.Core;
 using ITI.DDD.Logging;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ITI.Baseline.Audit
 {

@@ -1,8 +1,5 @@
 ﻿using AutoMapper;
-using AutoMapper.EquivalencyExpression;
 using ITI.DDD.Domain;
-using System;
-using System.Reflection;
 
 namespace ITI.DDD.Infrastructure.DataMapping;
 

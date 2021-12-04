@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using TestApp.Application.Dto;
+﻿using TestApp.Application.Dto;
 using TestApp.Domain.Identities;
 
 namespace TestApp.Application.Interfaces

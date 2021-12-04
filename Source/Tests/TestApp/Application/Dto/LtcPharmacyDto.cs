@@ -1,5 +1,4 @@
-﻿using System;
-using TestApp.Domain.Identities;
+﻿using TestApp.Domain.Identities;
 
 namespace TestApp.Application.Dto
 {

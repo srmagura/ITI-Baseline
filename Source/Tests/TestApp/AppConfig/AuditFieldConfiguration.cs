@@ -1,5 +1,4 @@
 ﻿using ITI.Baseline.Audit;
-using System.Collections.Generic;
 using TestApp.Domain;
 
 namespace TestApp.AppConfig

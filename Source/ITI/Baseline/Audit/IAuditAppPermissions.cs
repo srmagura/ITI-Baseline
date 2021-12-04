@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace ITI.Baseline.Audit
+﻿namespace ITI.Baseline.Audit
 {
     public interface IAuditAppPermissions
     {

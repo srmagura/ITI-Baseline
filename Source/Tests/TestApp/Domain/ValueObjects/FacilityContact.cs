@@ -1,6 +1,5 @@
 ﻿using ITI.Baseline.ValueObjects;
 using ITI.DDD.Domain;
-using System;
 
 namespace TestApp.Domain.ValueObjects
 {

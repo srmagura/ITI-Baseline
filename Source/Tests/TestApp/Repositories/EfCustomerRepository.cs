@@ -1,13 +1,11 @@
 ﻿using ITI.DDD.Infrastructure.DataMapping;
 using ITI.DDD.Infrastructure;
-using System.Linq;
 using TestApp.DataContext;
 using TestApp.DataContext.DataModel;
 using TestApp.Domain;
 using TestApp.Application.Interfaces.RepositoryInterfaces;
 using Microsoft.EntityFrameworkCore;
 using TestApp.Domain.Identities;
-using System.Threading.Tasks;
 using ITI.DDD.Core;
 
 namespace TestApp.Repositories
