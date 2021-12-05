@@ -6,7 +6,7 @@
     <AssemblyName>ITI.DDD.Core</AssemblyName>
     <RootNamespace>ITI.DDD.Core</RootNamespace>
 	<ImplicitUsings>true</ImplicitUsings>
-	<Version>3.0.0</Version>
+	<Version>3.0.0-alpha.0</Version>
     <Authors />
   </PropertyGroup>
 
