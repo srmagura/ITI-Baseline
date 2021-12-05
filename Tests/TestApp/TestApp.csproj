@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Baseline\Audit\Audit.csproj" />
+    <ProjectReference Include="..\..\Baseline\Passwords\Passwords.csproj" />
     <ProjectReference Include="..\..\Baseline\RequestTrace\RequestTracing.csproj" />
     <ProjectReference Include="..\..\Baseline\Util\Util.csproj" />
     <ProjectReference Include="..\..\Baseline\ValueObjects\ValueObjects.csproj" />

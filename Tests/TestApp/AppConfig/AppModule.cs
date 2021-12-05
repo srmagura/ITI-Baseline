@@ -1,5 +1,6 @@
 using Autofac;
 using ITI.Baseline.Audit;
+using ITI.Baseline.Passwords;
 using ITI.Baseline.RequestTracing;
 using ITI.DDD.Application;
 using ITI.DDD.Application.DomainEvents;
@@ -22,6 +23,8 @@ public class AppModule : Module
     {
         builder.RegisterModule<ITIDDDModule>();
         builder.RegisterModule<ITIAuditModule>();
+        builder.RegisterModule<ITIPasswordsModule>();
+
         builder.RegisterType<AuditFieldConfiguration>().As<IAuditFieldConfiguration>();
         builder.RegisterType<DbRequestTrace>().As<IRequestTrace>();
 

@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -6,7 +6,7 @@
 	<ImplicitUsings>true</ImplicitUsings>
     <AssemblyName>ITI.DDD.Infrastructure</AssemblyName>
     <RootNamespace>ITI.DDD.Infrastructure</RootNamespace>
-	<Version>3.0.0-alpha.0</Version>
+	<Version>3.0.0-alpha.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
