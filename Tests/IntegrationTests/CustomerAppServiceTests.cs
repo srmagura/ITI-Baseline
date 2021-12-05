@@ -57,6 +57,24 @@ public class CustomerAppServiceTests : IntegrationTest
     }
 
     [TestMethod]
+    public async Task SetName()
+    {
+        var customerSvc = Container.Resolve<ICustomerAppService>();
+
+        var customerId = await AddCustomerAsync(customerSvc);
+
+        var customer = await customerSvc.GetAsync(customerId);
+        Assert.IsNotNull(customer);
+        Assert.AreEqual("myCustomer", customer.Name);
+
+        await customerSvc.SetNameAsync(customerId, "myCustomer2");
+
+        customer = await customerSvc.GetAsync(customerId);
+        Assert.IsNotNull(customer);
+        Assert.AreEqual("myCustomer2", customer.Name);
+    }
+
+    [TestMethod]
     public async Task SetContact()
     {
         var customerSvc = Container.Resolve<ICustomerAppService>();

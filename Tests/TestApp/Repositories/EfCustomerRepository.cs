@@ -17,7 +17,7 @@ public class EfCustomerRepository : Repository<AppDataContext>, ICustomerReposit
     {
     }
 
-    private IQueryable<DbCustomer> Aggregate => Context.Customers!
+    private IQueryable<DbCustomer> Aggregate => Context.Customers
         .Include(c => c.LtcPharmacies)
         .AsQueryable();
 

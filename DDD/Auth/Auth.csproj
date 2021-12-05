@@ -6,7 +6,7 @@
     <RootNamespace>ITI.DDD.Auth</RootNamespace>
     <Nullable>enable</Nullable>
 	<ImplicitUsings>true</ImplicitUsings>
-	<Version>3.0.0-alpha.1</Version>
+	<Version>3.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

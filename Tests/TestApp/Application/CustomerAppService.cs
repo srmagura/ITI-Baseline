@@ -69,6 +69,20 @@ public class CustomerAppService : ApplicationService, ICustomerAppService
         );
     }
 
+    public Task SetNameAsync(CustomerId id, string name)
+    {
+        return CommandAsync(
+            () => Task.CompletedTask,
+            async () =>
+            {
+                var customer = await _customerRepo.GetAsync(id)
+                    ?? throw new ValidationException("Customer");
+
+                customer.SetName(name);
+            }
+        );
+    }
+
     public Task RemoveAsync(CustomerId id)
     {
         return CommandAsync(

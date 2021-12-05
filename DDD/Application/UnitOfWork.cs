@@ -39,7 +39,7 @@ internal sealed class UnitOfWork : IUnitOfWork
         lock (_lock)
         {
             var dataContext = _lifetimeScope.Resolve<TDataContext>();
-            _dataContexts.Add(type, dataContext);
+            _dataContexts[type] = dataContext;
 
             return dataContext;
         }

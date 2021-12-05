@@ -15,6 +15,7 @@ public interface ICustomerAppService
     );
     Task RemoveAsync(CustomerId id);
 
+    Task SetNameAsync(CustomerId id, string name);
     Task SetContactAsync(CustomerId id, PersonNameDto? contactName, PhoneNumberDto? contactPhone);
 
     Task AddLtcPharmacyAsync(CustomerId id, string name);

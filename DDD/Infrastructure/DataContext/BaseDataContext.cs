@@ -13,7 +13,7 @@ public abstract class BaseDataContext : DbContext, IDataContext
     {
     }
 
-    protected BaseDataContext(IMapper mapper, IAuditor auditor)
+    protected BaseDataContext(IMapper mapper, IAuditor? auditor)
     {
         _mapper = mapper;
         _auditor = auditor;
