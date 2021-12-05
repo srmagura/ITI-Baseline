@@ -1,8 +1,17 @@
-﻿namespace TestApp.Application.Dto
+using TestApp.Domain.ValueObjects;
+
+namespace TestApp.Application.Dto;
+
+public class FacilityContactDto
 {
-    public class FacilityContactDto
+    public PersonNameDto? Name { get; set; }
+    public EmailAddressDto? Email { get; set; }
+
+    public FacilityContact ToValueObject()
     {
-        public PersonNameDto? Name { get; set; }
-        public EmailAddressDto? Email { get; set; }
+        return new FacilityContact(
+            Name?.ToValueObject(),
+            Email?.ToValueObject()
+        );
     }
 }

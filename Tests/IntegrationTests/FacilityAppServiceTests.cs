@@ -5,65 +5,58 @@ using TestApp.Application.Dto;
 using TestApp.Application.Interfaces;
 using TestApp.Domain.Identities;
 
-namespace IntegrationTests
+namespace IntegrationTests;
+
+[TestClass]
+public class FacilityAppServiceTests : IntegrationTest
 {
-    [TestClass]
-    public class FacilityAppServiceTests : IntegrationTest
+    private static async Task<FacilityId> AddFacilityAsync(IFacilityAppService facilitySvc)
     {
-        private static async Task<FacilityId> AddFacilityAsync(IFacilityAppService facilitySvc)
-        {
-            var facilityId = await facilitySvc.AddAsync("myFacility");
-            Assert.IsNotNull(facilityId);
-            Assert.AreNotEqual(facilityId, default);
+        var facilityId = await facilitySvc.AddAsync("myFacility");
+        Assert.IsNotNull(facilityId);
+        Assert.AreNotEqual(facilityId, default);
 
-            return facilityId;
-        }
+        return facilityId;
+    }
 
-        [TestMethod]
-        public async Task SetContactNonNullButPropertiesNull()
-        {
-            var facilitySvc = Container.Resolve<IFacilityAppService>();
+    [TestMethod]
+    public async Task SetContactNonNullButPropertiesNull()
+    {
+        var facilitySvc = Container.Resolve<IFacilityAppService>();
 
-            var facilityId = await AddFacilityAsync(facilitySvc);
-            await facilitySvc.SetContactAsync(facilityId, new FacilityContactDto());
+        var facilityId = await AddFacilityAsync(facilitySvc);
+        await facilitySvc.SetContactAsync(facilityId, new FacilityContactDto());
 
-            var facility = await facilitySvc.GetAsync(facilityId);
+        var facility = await facilitySvc.GetAsync(facilityId);
 
-            Assert.IsNotNull(facility);
-            Assert.IsNotNull(facility!.Contact);
-            Assert.IsNull(facility.Contact!.Name);
-            Assert.IsNull(facility.Contact!.Email);
-        }
+        Assert.IsNotNull(facility);
+        Assert.IsNotNull(facility!.Contact);
+        Assert.IsNull(facility.Contact!.Name);
+        Assert.IsNull(facility.Contact!.Email);
+    }
 
-        [TestMethod]
-        public async Task SetContactNonNull()
-        {
-            var facilitySvc = Container.Resolve<IFacilityAppService>();
+    [TestMethod]
+    public async Task SetContactNonNull()
+    {
+        var facilitySvc = Container.Resolve<IFacilityAppService>();
 
-            var facilityId = await AddFacilityAsync(facilitySvc);
+        var facilityId = await AddFacilityAsync(facilitySvc);
 
-            await facilitySvc.SetContactAsync(facilityId,
-                new FacilityContactDto
-                {
-                    Name = new PersonNameDto
-                    {
-                        First = "Kelly",
-                        Last = "Campbell"
-                    },
-                    Email = new EmailAddressDto
-                    {
-                        Value = "campbell@example2.com"
-                    }
-                }
-            );
+        await facilitySvc.SetContactAsync(
+            facilityId,
+            new FacilityContactDto
+            {
+                Name = new PersonNameDto("Kelly", null, "Campbell"),
+                Email = new EmailAddressDto("campbell@example2.com")
+            }
+        );
 
-            var facility = await facilitySvc.GetAsync(facilityId);
+        var facility = await facilitySvc.GetAsync(facilityId);
 
-            Assert.IsNotNull(facility);
-            Assert.IsNotNull(facility!.Contact);
-            Assert.AreEqual("Kelly", facility.Contact!.Name?.First);
-            Assert.AreEqual("Campbell", facility.Contact!.Name?.Last);
-            Assert.AreEqual("campbell@example2.com", facility.Contact.Email?.Value);       
-        }
+        Assert.IsNotNull(facility);
+        Assert.IsNotNull(facility!.Contact);
+        Assert.AreEqual("Kelly", facility.Contact!.Name?.First);
+        Assert.AreEqual("Campbell", facility.Contact!.Name?.Last);
+        Assert.AreEqual("campbell@example2.com", facility.Contact.Email?.Value);
     }
 }

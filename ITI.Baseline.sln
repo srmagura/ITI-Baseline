@@ -41,7 +41,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Audit", "Baseline\Audit\Aud
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Passwords", "Baseline\Passwords\Passwords.csproj", "{4DA54CBD-F9F6-4CF8-B6AD-A303469E2A2E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RequestTrace", "Baseline\RequestTrace\RequestTrace.csproj", "{30B444A8-36E1-491F-8436-3468E0BEB19E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RequestTracing", "Baseline\RequestTrace\RequestTracing.csproj", "{30B444A8-36E1-491F-8436-3468E0BEB19E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Util", "Baseline\Util\Util.csproj", "{E2984E61-3AA1-4150-864E-1942E7C773F1}"
 EndProject

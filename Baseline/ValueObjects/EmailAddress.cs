@@ -1,41 +1,40 @@
-﻿using System.ComponentModel.DataAnnotations;
-using ITI.Baseline.Util.Validation;
+using System.ComponentModel.DataAnnotations;
+using ITI.Baseline.Util;
 using ITI.DDD.Core;
 using ITI.DDD.Domain;
 
-namespace ITI.Baseline.ValueObjects
+namespace ITI.Baseline.ValueObjects;
+
+public record EmailAddress : DbValueObject
 {
-    public record EmailAddress : DbValueObject
+    public static bool IsValidEmail(string email)
     {
-        public static bool IsValidEmail(string email)
+        try
         {
-            try
-            {
-                if (!email.HasValue())
-                    return false;
-
-                var addr = new System.Net.Mail.MailAddress(email);
-                return addr.Address == email;
-            }
-            catch
-            {
+            if (!email.HasValue())
                 return false;
-            }
-        }
 
-        public EmailAddress(string value)
+            var addr = new System.Net.Mail.MailAddress(email);
+            return addr.Address == email;
+        }
+        catch
         {
-            Value = value.Trim();
-
-            Require.IsTrue(IsValidEmail(Value), $"Invalid email address: {Value}.");
+            return false;
         }
+    }
 
-        [MaxLength(FieldLengths.EmailAddress.Value)]
-        public string Value { get; protected init; }
+    public EmailAddress(string value)
+    {
+        Value = value.Trim();
 
-        public override string ToString()
-        {
-            return Value;
-        }
+        Require.IsTrue(IsValidEmail(Value), $"Invalid email address: {Value}.");
+    }
+
+    [MaxLength(FieldLengths.EmailAddress.Value)]
+    public string Value { get; protected init; }
+
+    public override string ToString()
+    {
+        return Value;
     }
 }

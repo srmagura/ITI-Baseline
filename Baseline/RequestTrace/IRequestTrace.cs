@@ -1,4 +1,4 @@
-﻿namespace ITI.Baseline.RequestTrace;
+namespace ITI.Baseline.RequestTracing;
 
 public interface IRequestTrace
 {
@@ -9,6 +9,6 @@ public interface IRequestTrace
         string url,
         string request,
         string response,
-        Exception? exc = null
+        Exception? exception = null
     );
 }

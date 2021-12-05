@@ -1,4 +1,4 @@
-﻿using ITI.DDD.Domain;
+using ITI.DDD.Domain;
 
 namespace TestApp.Domain.Identities
 {
@@ -6,6 +6,6 @@ namespace TestApp.Domain.Identities
     {
         public UserId() { }
         public UserId(Guid guid) : base(guid) { }
-        public UserId(Guid? guid) : base(guid ?? default) { }
+        public UserId(Guid? guid) : base(guid ?? Guid.Empty) { }
     }
 }

@@ -1,6 +1,6 @@
-﻿using ITI.Baseline.Util.Validation;
+﻿using System.ComponentModel.DataAnnotations;
+using ITI.Baseline.Util;
 using ITI.DDD.Domain;
-using System.ComponentModel.DataAnnotations;
 
 namespace ITI.Baseline.Passwords;
 

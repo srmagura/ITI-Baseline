@@ -1,4 +1,4 @@
-﻿using ITI.Baseline.Util.Validation;
+﻿using ITI.Baseline.Util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests.Util

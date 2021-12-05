@@ -35,11 +35,11 @@ internal class MapperModule : Module
 
     private static void ConfigureValueObjects(IMapperConfigurationExpression cfg)
     {
-        cfg.CreateMap<SimpleAddress, SimpleAddress>();
-        cfg.CreateMap<SimpleAddress, AddressDto>();
+        cfg.CreateMap<Address, Address>();
+        cfg.CreateMap<Address, AddressDto>();
 
-        cfg.CreateMap<SimplePersonName, SimplePersonName>();
-        cfg.CreateMap<SimplePersonName, PersonNameDto>();
+        cfg.CreateMap<PersonName, PersonName>();
+        cfg.CreateMap<PersonName, PersonNameDto>();
 
         cfg.CreateMap<PhoneNumber, PhoneNumber>();
         cfg.CreateMap<PhoneNumber, PhoneNumberDto>();

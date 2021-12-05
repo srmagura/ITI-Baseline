@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
-namespace ITI.Baseline.RequestTrace;
+namespace ITI.Baseline.RequestTracing;
 
 /// <summary>
 /// Make sure to call OnModelCreating to create an import database index!

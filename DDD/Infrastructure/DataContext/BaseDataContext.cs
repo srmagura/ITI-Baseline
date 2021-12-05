@@ -1,72 +1,68 @@
-﻿using AutoMapper;
+using AutoMapper;
 using ITI.DDD.Core;
 using Microsoft.EntityFrameworkCore;
 
-namespace ITI.DDD.Infrastructure.DataContext
+namespace ITI.DDD.Infrastructure.DataContext;
+
+public abstract class BaseDataContext : DbContext, IDataContext
 {
-    public abstract class BaseDataContext : DbContext, IDataContext
+    private readonly IMapper? _mapper;
+    private readonly IAuditor? _auditor;
+
+    protected BaseDataContext()
     {
-        private readonly IMapper? _mapper;
-        private readonly IAuditor? _auditor;
+    }
 
-        protected BaseDataContext()
+    protected BaseDataContext(IMapper mapper, IAuditor auditor)
+    {
+        _mapper = mapper;
+        _auditor = auditor;
+    }
+
+    public override int SaveChanges()
+    {
+        UpdateEntityMaps();
+        _auditor?.Process(this);
+
+        return base.SaveChanges();
+    }
+
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        UpdateEntityMaps();
+        _auditor?.Process(this);
+
+        return base.SaveChangesAsync(cancellationToken);
+    }
+
+    private void UpdateEntityMaps()
+    {
+        if (_mapper == null)
+            return;
+
+        foreach (var entry in ChangeTracker.Entries())
         {
-        }
-
-        protected BaseDataContext(IMapper mapper, IAuditor auditor)
-        {
-            _mapper = mapper;
-            _auditor = auditor;
-        }
-
-        public override int SaveChanges()
-        {
-            UpdateEntityMaps();
-            _auditor?.Process(this);
-
-            return base.SaveChanges();
-        }
-
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            UpdateEntityMaps();
-            _auditor?.Process(this);
-
-            return base.SaveChangesAsync(cancellationToken);
-        }
-
-        private void UpdateEntityMaps()
-        {
-            if(_mapper == null)
-                return;
-
-            foreach (var entry in ChangeTracker.Entries())
+            if (entry.Entity is DbEntity dbEntity && dbEntity.MappedEntity != null)
             {
-                if (entry.Entity is DbEntity dbEntity)
-                {
-                    if (dbEntity.MappedEntity != null)
-                    {
-                        _mapper.Map(dbEntity.MappedEntity, dbEntity);
-                    }
-                }
+                _mapper.Map(dbEntity.MappedEntity, dbEntity);
             }
-
-            ChangeTracker.DetectChanges();
         }
 
-        public List<IDomainEvent> GetAllDomainEvents()
+        ChangeTracker.DetectChanges();
+    }
+
+    public List<IDomainEvent> GetAllDomainEvents()
+    {
+        var domainEvents = new List<IDomainEvent>();
+
+        foreach (var entry in ChangeTracker.Entries())
         {
-            var domainEvents = new List<IDomainEvent>();
-
-            foreach (var entry in ChangeTracker.Entries())
+            if (entry.Entity is DbEntity dbEntity)
             {
-                if (entry.Entity is DbEntity dbEntity)
-                {
-                    domainEvents.AddRange(dbEntity.DomainEvents);
-                }
+                domainEvents.AddRange(dbEntity.DomainEvents);
             }
-
-            return domainEvents;
         }
+
+        return domainEvents;
     }
 }

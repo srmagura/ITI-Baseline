@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using ITI.Baseline.Audit;
-using ITI.Baseline.RequestTrace;
+using ITI.Baseline.RequestTracing;
 using ITI.DDD.Application;
 using ITI.DDD.Auth;
 using TestApp.Application;

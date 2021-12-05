@@ -9,10 +9,10 @@ public class ValueObjectTests
 {
     private record Person : DbValueObject
     {
-        public SimplePersonName Name { get; set; }
+        public PersonName Name { get; set; }
         public int Age { get; set; }
 
-        public Person(SimplePersonName name, int age)
+        public Person(PersonName name, int age)
         {
             Name = name;
             Age = age;
@@ -23,19 +23,19 @@ public class ValueObjectTests
     public void NestedEquality()
     {
         var person1 = new Person(
-            new SimplePersonName("Sam", "Rosso", "Magura"),
+            new PersonName("Sam", "Rosso", "Magura"),
             26
         );
         var person1Copy = new Person(
-            new SimplePersonName("Sam", "Rosso", "Magura"),
+            new PersonName("Sam", "Rosso", "Magura"),
             26
         );
         var person2 = new Person(
-            new SimplePersonName("Sam", "Rosso", "Magura1"),
+            new PersonName("Sam", "Rosso", "Magura1"),
             26
         );
         var person3 = new Person(
-            new SimplePersonName("Sam", "Rosso", "Magura"),
+            new PersonName("Sam", "Rosso", "Magura"),
             27
         );
 

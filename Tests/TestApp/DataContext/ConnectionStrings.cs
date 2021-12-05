@@ -1,5 +1,5 @@
-﻿using ITI.DDD.Logging;
-using ITI.Baseline.RequestTrace;
+﻿using ITI.Baseline.RequestTracing;
+using ITI.DDD.Logging;
 
 namespace TestApp.DataContext;
 

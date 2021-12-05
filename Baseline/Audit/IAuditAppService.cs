@@ -1,9 +1,8 @@
-﻿using ITI.Baseline.Util;
+using ITI.Baseline.Util;
 
-namespace ITI.Baseline.Audit
+namespace ITI.Baseline.Audit;
+
+public interface IAuditAppService
 {
-    public interface IAuditAppService
-    {
-        Task<PagedList<AuditRecordDto>> ListAsync(string entityName, string entityId, int skip, int take);
-    }
+    Task<FilteredList<AuditRecordDto>> ListAsync(string entityName, string entityId, int skip, int take);
 }

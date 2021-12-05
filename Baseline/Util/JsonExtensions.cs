@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 
 namespace ITI.Baseline.Util
 {
@@ -28,7 +28,7 @@ namespace ITI.Baseline.Util
             return obj == null ? "(null)" : obj.GetType().Name;
         }
 
-        private static JsonSerializerOptions DbJsonSerializerOptions = new()
+        private static readonly JsonSerializerOptions DbJsonSerializerOptions = new()
         {
             PropertyNameCaseInsensitive = true
         };
@@ -38,7 +38,8 @@ namespace ITI.Baseline.Util
             return JsonSerializer.Serialize(obj, DbJsonSerializerOptions);
         }
 
-        public static T? FromDbJson<T>(this string json) where T : class
+        public static T? FromDbJson<T>(this string json)
+            where T : class
         {
             return JsonSerializer.Deserialize<T>(json, DbJsonSerializerOptions);
         }

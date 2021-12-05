@@ -1,8 +1,7 @@
-﻿namespace ITI.Baseline.Audit
+namespace ITI.Baseline.Audit;
+
+public interface IDbAudited
 {
-    public interface IDbAudited
-    {
-        string AuditEntityName { get; }
-        string AuditEntityId { get; }
-    }
+    string AuditEntityName { get; }
+    string AuditEntityId { get; }
 }

@@ -1,7 +1,7 @@
-﻿using AutoMapper;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using AutoMapper;
 using ITI.DDD.Core;
 using ITI.DDD.Domain;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ITI.DDD.Infrastructure.DataContext
 {

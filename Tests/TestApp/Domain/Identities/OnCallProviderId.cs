@@ -1,11 +1,10 @@
-﻿using ITI.DDD.Domain;
+using ITI.DDD.Domain;
 
-namespace TestApp.Domain.Identities
+namespace TestApp.Domain.Identities;
+
+public record OnCallProviderId : Identity
 {
-    public record OnCallProviderId : Identity
-    {
-        public OnCallProviderId() { }
-        public OnCallProviderId(Guid guid) : base(guid) { }
-        public OnCallProviderId(Guid? guid) : base(guid ?? default) { }
-    }
+    public OnCallProviderId() { }
+    public OnCallProviderId(Guid guid) : base(guid) { }
+    public OnCallProviderId(Guid? guid) : base(guid ?? Guid.Empty) { }
 }

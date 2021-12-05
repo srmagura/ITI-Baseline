@@ -1,6 +1,6 @@
-﻿using ITI.DDD.Core;
+﻿using System.ComponentModel.DataAnnotations;
+using ITI.DDD.Core;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
 
 namespace ITI.DDD.Logging;
 

@@ -1,4 +1,4 @@
-﻿using Autofac;
+using Autofac;
 using ITI.DDD.Application;
 using ITI.DDD.Auth;
 using ITI.DDD.Core;
@@ -210,7 +210,7 @@ namespace UnitTests.Application
             var domainEventPublisher = container.Resolve<IDomainEventPublisher>();
 
             await appService.RaiseADomainEventAsync();
-            
+
             await domainEventPublisher.Received(1).PublishAsync(
                 Arg.Is<IReadOnlyCollection<IDomainEvent>>(c => c.Count == 1)
             );

@@ -1,6 +1,7 @@
-﻿using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.CodeAnalysis;
+using ITI.DDD.Core;
 
-namespace ITI.Baseline.Util.Validation;
+namespace ITI.Baseline.Util;
 
 public static class Require
 {

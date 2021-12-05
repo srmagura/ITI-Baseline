@@ -1,12 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
-namespace ITI.Baseline.Audit
+namespace ITI.Baseline.Audit;
+
+public interface IAuditDataContext : IDisposable
 {
-    public interface IAuditDataContext : IDisposable
-    {
-        DbSet<AuditRecord> AuditRecords { get; }
-        DatabaseFacade Database { get; }
-        int SaveChanges();
-    }
+    DbSet<AuditRecord> AuditRecords { get; }
+    DatabaseFacade Database { get; }
+    int SaveChanges();
 }

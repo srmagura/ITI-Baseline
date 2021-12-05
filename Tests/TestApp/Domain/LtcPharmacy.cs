@@ -1,40 +1,22 @@
-﻿using ITI.Baseline.Util.Validation;
+using ITI.DDD.Core;
 using ITI.DDD.Domain;
 using TestApp.Domain.Identities;
 
-namespace TestApp.Domain
+namespace TestApp.Domain;
+
+public class LtcPharmacy : Member<Customer>
 {
-    public class LtcPharmacy : Member<Customer>
+    public LtcPharmacy(string name)
     {
-        [Obsolete("AutoMapper only")]
-        protected LtcPharmacy() { }
+        SetName(name);
+    }
 
-        public LtcPharmacy(string name)
-        {
-            SetName(name);
-        }
+    public LtcPharmacyId Id { get; protected set; } = new LtcPharmacyId();
 
-        //
-        // IDENTITY
-        //
+    public string? Name { get; protected set; }
 
-        public LtcPharmacyId Id { get; protected set; } = new LtcPharmacyId();
-
-        //
-        // ATTRIBUTES
-        //
-
-        public string? Name { get; protected set; }
-
-        //
-        // OPERATIONS
-        //
-
-        internal void SetName(string name)
-        {
-            Name = name ?? throw new ValidationException("Name");
-        }
-
-
+    internal void SetName(string name)
+    {
+        Name = name ?? throw new ValidationException("Name");
     }
 }

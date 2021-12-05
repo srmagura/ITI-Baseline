@@ -1,5 +1,5 @@
-﻿using ITI.DDD.Core;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
+using ITI.DDD.Core;
 
 namespace ITI.Baseline.Passwords;
 

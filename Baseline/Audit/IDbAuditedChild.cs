@@ -1,10 +1,9 @@
-﻿namespace ITI.Baseline.Audit
-{
-    public interface IDbAuditedChild : IDbAudited
-    {
-        string AuditAggregateName { get; }
-        string AuditAggregateId { get; }
+namespace ITI.Baseline.Audit;
 
-        bool HasParent { get; }
-    }
+public interface IDbAuditedChild : IDbAudited
+{
+    string AuditAggregateName { get; }
+    string AuditAggregateId { get; }
+
+    bool HasParent { get; }
 }

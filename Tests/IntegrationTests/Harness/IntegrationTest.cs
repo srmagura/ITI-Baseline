@@ -1,46 +1,46 @@
-﻿using ITI.Baseline.RequestTrace;
+using Autofac;
+using ITI.Baseline.RequestTracing;
 using ITI.DDD.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestApp.AppConfig;
 using TestApp.DataContext;
-using Autofac;
 
-namespace IntegrationTests.Harness
+namespace IntegrationTests.Harness;
+
+public abstract class IntegrationTest
 {
-    public abstract class IntegrationTest
-    {
 #nullable disable // To avoid unnecessary null checks in every test
-        protected IContainer Container { get; set; }
+    protected IContainer Container { get; set; }
 #nullable enable
 
-        [TestCleanup]
-        public void TestCleanup()
-        {
-            Assert.IsFalse(ConsoleLogWriter.HasErrors);
-        }
+    protected static void RegisterServices(ContainerBuilder builder)
+    {
+        builder.RegisterModule<AppModule>();
 
-        protected static void RegisterServices(ContainerBuilder builder)
-        {
-            builder.RegisterModule<AppModule>();
+        builder.RegisterType<ConsoleLogWriter>().As<ILogWriter>();
 
-            builder.RegisterType<ConsoleLogWriter>().As<ILogWriter>();
+        var connectionStrings = new ConnectionStrings();
+        builder.RegisterInstance(connectionStrings);
+        builder.RegisterInstance<IDbLoggerSettings>(connectionStrings);
+        builder.RegisterInstance<IDbRequestTraceSettings>(connectionStrings);
+    }
 
-            var connectionStrings = new ConnectionStrings();
-            builder.RegisterInstance(connectionStrings);
-            builder.RegisterInstance<IDbLoggerSettings>(connectionStrings);
-            builder.RegisterInstance<IDbRequestTraceSettings>(connectionStrings);
-        }
+    [TestInitialize]
+    public async Task TestInitialize()
+    {
+        ConsoleLogWriter.ClearErrors();
 
-        [TestInitialize]
-        public async Task TestInitialize()
-        {
-            ConsoleLogWriter.ClearErrors();
+        var builder = new ContainerBuilder();
+        RegisterServices(builder);
+        Container = builder.Build();
 
-            var builder = new ContainerBuilder();
-            RegisterServices(builder);
-            Container = builder.Build();
+        await DeleteFromTablesUtil.DeleteFromTablesAsync(new ConnectionStrings().AppDataContext);
+    }
 
-            await DeleteFromTablesUtil.DeleteFromTablesAsync(new ConnectionStrings().AppDataContext);
-        }
+    [TestCleanup]
+    public void TestCleanup()
+    {
+        Container.Dispose();
+        Assert.IsFalse(ConsoleLogWriter.HasErrors);
     }
 }

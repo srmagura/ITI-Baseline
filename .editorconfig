@@ -102,6 +102,12 @@ dotnet_diagnostic.SA1512.severity = None
 # Partial elements should be documented
 dotnet_diagnostic.SA1601.severity = None
 
+# The documentation for parameter 'p' is missing
+dotnet_diagnostic.SA1611.severity = None
+
+# The documentation for type parameter 'T' is missing
+dotnet_diagnostic.SA1618.severity = None
+
 ##
 ## SonarAnalyzers.CSharp
 ##
@@ -236,6 +242,9 @@ dotnet_diagnostic.SA1512.severity = None
 
 # Partial elements should be documented
 dotnet_diagnostic.SA1601.severity = None
+
+# Element return value should be documented
+dotnet_diagnostic.SA1615.severity = None
 
 ##
 ## SonarAnalyzers.CSharp

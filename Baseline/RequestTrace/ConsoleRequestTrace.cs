@@ -1,4 +1,4 @@
-﻿namespace ITI.Baseline.RequestTrace;
+namespace ITI.Baseline.RequestTracing;
 
 public class ConsoleRequestTrace : IRequestTrace
 {
@@ -9,7 +9,7 @@ public class ConsoleRequestTrace : IRequestTrace
         string url,
         string request,
         string response,
-        Exception? exc
+        Exception? exception = null
     )
     {
         Console.WriteLine("-----------------------------------------");
@@ -20,10 +20,12 @@ public class ConsoleRequestTrace : IRequestTrace
         Console.WriteLine($"URL     : {url}");
         Console.WriteLine($"REQUEST : {request}");
         Console.WriteLine($"RESPONSE: {response}");
-        if (exc != null)
+
+        if (exception != null)
         {
-            Console.WriteLine($"EXCEPTION: {exc}");
+            Console.WriteLine($"EXCEPTION: {exception}");
         }
+
         Console.WriteLine("-----------------------------------------");
     }
 }

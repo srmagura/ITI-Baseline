@@ -1,4 +1,4 @@
-﻿namespace ITI.DDD.Logging;
+namespace ITI.DDD.Logging;
 
 public interface ILogWriter
 {
@@ -9,6 +9,6 @@ public interface ILogWriter
         string hostname,
         string process,
         string message,
-        Exception? exc
+        Exception? exception
     );
 }

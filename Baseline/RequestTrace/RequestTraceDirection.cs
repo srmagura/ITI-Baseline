@@ -1,4 +1,4 @@
-﻿namespace ITI.Baseline.RequestTrace;
+﻿namespace ITI.Baseline.RequestTracing;
 
 public enum RequestTraceDirection
 {

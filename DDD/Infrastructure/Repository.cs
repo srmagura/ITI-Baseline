@@ -1,4 +1,4 @@
-﻿using ITI.DDD.Core;
+using ITI.DDD.Core;
 using ITI.DDD.Infrastructure.DataMapping;
 
 namespace ITI.DDD.Infrastructure;
@@ -7,7 +7,7 @@ public abstract class Repository<TDataContext>
     where TDataContext : IDataContext
 {
     private readonly IUnitOfWorkProvider _unitOfWorkProvider;
-    protected readonly IDbEntityMapper DbMapper;
+    protected IDbEntityMapper DbMapper { get; }
 
     protected Repository(IUnitOfWorkProvider unitOfWorkProvider, IDbEntityMapper dbMapper)
     {

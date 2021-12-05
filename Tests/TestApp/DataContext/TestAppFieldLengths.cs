@@ -2,7 +2,7 @@
 {
     public static class TestAppFieldLengths
     {
-        public static class SimpleAddress
+        public static class Address
         {
             public const int Line1 = 64;
             public const int Line2 = 64;
@@ -11,7 +11,7 @@
             public const int Zip = 16;
         }
 
-        public static class SimplePersonName
+        public static class PersonName
         {
             public const int Prefix = 16;
             public const int First = 64;

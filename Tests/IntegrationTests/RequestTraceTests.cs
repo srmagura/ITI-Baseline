@@ -1,8 +1,8 @@
-﻿using IntegrationTests.Harness;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ITI.Baseline.RequestTrace;
-using TestApp.DataContext;
 using Autofac;
+using IntegrationTests.Harness;
+using ITI.Baseline.RequestTracing;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TestApp.DataContext;
 
 namespace IntegrationTests
 {
@@ -21,7 +21,7 @@ namespace IntegrationTests
                 url: "myUrl",
                 request: "myRequest",
                 response: "myResponse",
-                exc: new Exception("myException")
+                exception: new Exception("myException")
             );
 
             using var db = Container.Resolve<AppDataContext>();

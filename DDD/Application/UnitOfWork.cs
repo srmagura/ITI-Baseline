@@ -1,4 +1,4 @@
-﻿using Autofac;
+using Autofac;
 using ITI.DDD.Core;
 
 namespace ITI.DDD.Application;
@@ -11,7 +11,7 @@ internal sealed class UnitOfWork : IUnitOfWork
 
     public UnitOfWork(
         ILifetimeScope lifetimeScope,
-        IDomainEventPublisher domainEventPublisher, 
+        IDomainEventPublisher domainEventPublisher,
         Action onDispose
     )
     {
@@ -23,7 +23,8 @@ internal sealed class UnitOfWork : IUnitOfWork
     private readonly Dictionary<Type, IDataContext> _dataContexts = new();
     private readonly object _lock = new();
 
-    public TDataContext GetDataContext<TDataContext>() where TDataContext : IDataContext
+    public TDataContext GetDataContext<TDataContext>()
+        where TDataContext : IDataContext
     {
         var type = typeof(TDataContext);
 
@@ -47,10 +48,10 @@ internal sealed class UnitOfWork : IUnitOfWork
     }
 
     private bool _committed = false;
-    
+
     public async Task CommitAsync()
     {
-        if(_committed)
+        if (_committed)
             throw new Exception("This unit of work has already been committed.");
 
         _committed = true;
@@ -65,7 +66,7 @@ internal sealed class UnitOfWork : IUnitOfWork
 
         await _domainEventPublisher.PublishAsync(allDomainEvents);
     }
-    
+
     public void Dispose()
     {
         GC.SuppressFinalize(this);

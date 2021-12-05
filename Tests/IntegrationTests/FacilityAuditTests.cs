@@ -1,4 +1,4 @@
-﻿using Autofac;
+using Autofac;
 using IntegrationTests.Harness;
 using ITI.Baseline.Audit;
 using ITI.Baseline.Util;
@@ -29,32 +29,21 @@ namespace IntegrationTests
 
             var facilityId = await AddFacilityAsync(facilitySvc);
 
-            await facilitySvc.SetContactAsync(facilityId,
+            await facilitySvc.SetContactAsync(
+                facilityId,
                 new FacilityContactDto
                 {
-                    Name = new PersonNameDto
-                    {
-                        First = "Kelly",
-                        Last = "Campbell"
-                    },
-                    Email = new EmailAddressDto
-                    {
-                        Value = "campbell@example2.com"
-                    }
+                    Name = new PersonNameDto("Kelly", null, "Campbell"),
+                    Email = new EmailAddressDto("campbell@example2.com")
                 }
             );
-            await facilitySvc.SetContactAsync(facilityId,
+
+            await facilitySvc.SetContactAsync(
+                facilityId,
                 new FacilityContactDto
                 {
-                    Name = new PersonNameDto
-                    {
-                        First = "Sam",
-                        Last = "Magura"
-                    },
-                    Email = new EmailAddressDto
-                    {
-                        Value = "magura@example2.com"
-                    }
+                    Name = new PersonNameDto("Sam", null, "Magura"),
+                    Email = new EmailAddressDto("magura@example2.com")
                 }
             );
 

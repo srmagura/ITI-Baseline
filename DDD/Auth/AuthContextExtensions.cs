@@ -1,23 +1,22 @@
-﻿namespace ITI.DDD.Auth
+namespace ITI.DDD.Auth;
+
+public static class AuthContextExtensions
 {
-    public static class AuthContextExtensions
+    public static void AnyUser(this IAuthContext auth)
     {
-        public static void AnyUser(this IAuthContext auth)
-        {
-            if (!auth.IsAuthenticated)
-                throw new NotAuthorizedException();
-        }
+        if (!auth.IsAuthenticated)
+            throw new NotAuthorizedException();
+    }
 
-        public static void Require(this IAuthContext auth, bool b)
-        {
-            auth.AnyUser();
+    public static void Require(this IAuthContext auth, bool b)
+    {
+        auth.AnyUser();
 
-            if (!b) throw new NotAuthorizedException();
-        }
+        if (!b) throw new NotAuthorizedException();
+    }
 
-        public static void Unauthenticated(this IAuthContext _)
-        {
-            // do nothing
-        }
+    public static void Unauthenticated(this IAuthContext _)
+    {
+        // do nothing
     }
 }

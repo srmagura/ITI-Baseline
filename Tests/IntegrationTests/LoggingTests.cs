@@ -1,35 +1,34 @@
-﻿using IntegrationTests.Harness;
+using Autofac;
+using IntegrationTests.Harness;
 using ITI.DDD.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestApp.AppConfig;
 using TestApp.DataContext;
-using Autofac;
 
-namespace IntegrationTests
+namespace IntegrationTests;
+
+[TestClass]
+public class LoggingTests : IntegrationTest
 {
-    [TestClass]
-    public class LoggingTests : IntegrationTest
+    [TestMethod]
+    public void WritesLog()
     {
-        [TestMethod]
-        public void WritesLog()
-        {
-            var builder = new ContainerBuilder();
-            RegisterServices(builder);
-            builder.RegisterType<DbLogWriter>().As<ILogWriter>();
-            Container = builder.Build();
+        var builder = new ContainerBuilder();
+        RegisterServices(builder);
+        builder.RegisterType<DbLogWriter>().As<ILogWriter>();
+        Container = builder.Build();
 
-            var logger = Container.Resolve<ILogger>();
+        var logger = Container.Resolve<ILogger>();
 
-            logger.Error("myMessage", new Exception("myException"));
+        logger.Error("myMessage", new Exception("myException"));
 
-            using var db = Container.Resolve<AppDataContext>();
-            var logEntry = db.LogEntries!.Single();
+        using var db = Container.Resolve<AppDataContext>();
+        var logEntry = db.LogEntries!.Single();
 
-            Assert.AreEqual(new AppAuthContext().UserIdString, logEntry.UserId);
-            Assert.AreEqual(new AppAuthContext().UserName, logEntry.UserName);
-            Assert.AreEqual("error", logEntry.Level?.ToLowerInvariant());
-            Assert.AreEqual("myMessage", logEntry.Message);
-            Assert.IsTrue(logEntry.Exception!.Contains("myException"));
-        }
+        Assert.AreEqual(new AppAuthContext().UserIdString, logEntry.UserId);
+        Assert.AreEqual(new AppAuthContext().UserName, logEntry.UserName);
+        Assert.AreEqual("error", logEntry.Level?.ToLowerInvariant());
+        Assert.AreEqual("myMessage", logEntry.Message);
+        Assert.IsTrue(logEntry.Exception!.Contains("myException"));
     }
 }

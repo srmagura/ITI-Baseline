@@ -1,4 +1,4 @@
-﻿using System.Data.SqlClient;
+using System.Data.SqlClient;
 using Dapper;
 
 namespace ITI.DDD.Logging;
@@ -19,7 +19,7 @@ public class DbLogWriter : ILogWriter
         string hostname,
         string process,
         string message,
-        Exception? exc
+        Exception? exception
     )
     {
         try
@@ -29,7 +29,7 @@ public class DbLogWriter : ILogWriter
                                     (WhenUtc,Level,UserId,UserName,Hostname,Process,Message,Exception) 
                                     VALUES (@WhenUtc,@Level,@UserId,@UserName,@Hostname,@Process,@Message,@Exception)";
 
-            var logEntry = new LogEntry(level, userId, userName, hostname, process, message, exc);
+            var logEntry = new LogEntry(level, userId, userName, hostname, process, message, exception);
 
             conn.Execute(sql, logEntry);
         }

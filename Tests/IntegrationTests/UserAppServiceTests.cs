@@ -1,95 +1,82 @@
-﻿using Autofac;
+using Autofac;
 using IntegrationTests.Harness;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestApp.Application.Dto;
 using TestApp.Application.Interfaces;
 using TestApp.Domain.Identities;
 
-namespace IntegrationTests
+namespace IntegrationTests;
+
+[TestClass]
+public class UserAppServiceTests : IntegrationTest
 {
-    [TestClass]
-    public class UserAppServiceTests : IntegrationTest
+    [TestMethod]
+    public async Task GetCustomerUser()
     {
-        [TestMethod]
-        public async Task GetCustomerUser()
-        {
-            var userSvc = Container.Resolve<IUserAppService>();
-            var customerId = new CustomerId();
+        var userSvc = Container.Resolve<IUserAppService>();
+        var customerId = new CustomerId();
 
-            var userId = await userSvc.AddCustomerUserAsync(
-                customerId,
-                new EmailAddressDto
-                {
-                    Value = "magura@example2.com"
-                }
-            );
+        var userId = await userSvc.AddCustomerUserAsync(
+            customerId,
+            new EmailAddressDto("magura@example2.com")
+        );
 
-            var user = await userSvc.GetAsync(userId);
-            var customerUser = user as CustomerUserDto;
-            
-            Assert.IsNotNull(user);
-            Assert.IsNotNull(customerUser);
-            Assert.AreEqual("magura@example2.com", customerUser!.Email?.Value);
-            Assert.AreEqual(customerId, customerUser.CustomerId);
-        }
+        var user = await userSvc.GetAsync(userId);
+        var customerUser = user as CustomerUserDto;
 
-        [TestMethod]
-        public async Task GetOnCallUser()
-        {
-            var userSvc = Container.Resolve<IUserAppService>();
-            var onCallProviderId = new OnCallProviderId();
+        Assert.IsNotNull(user);
+        Assert.IsNotNull(customerUser);
+        Assert.AreEqual("magura@example2.com", customerUser!.Email?.Value);
+        Assert.AreEqual(customerId, customerUser.CustomerId);
+    }
 
-            var userId = await userSvc.AddOnCallUserAsync(
-                onCallProviderId,
-                new EmailAddressDto
-                {
-                    Value = "todd@example2.com"
-                }
-            );
+    [TestMethod]
+    public async Task GetOnCallUser()
+    {
+        var userSvc = Container.Resolve<IUserAppService>();
+        var onCallProviderId = new OnCallProviderId();
 
-            var user = await userSvc.GetAsync(userId);
-            var onCallUser = user as OnCallUserDto;
+        var userId = await userSvc.AddOnCallUserAsync(
+            onCallProviderId,
+            new EmailAddressDto("todd@example2.com")
+        );
 
-            Assert.IsNotNull(user);
-            Assert.IsNotNull(onCallUser);
-            Assert.AreEqual("todd@example2.com", onCallUser!.Email?.Value);
-            Assert.AreEqual(onCallProviderId, onCallUser.OnCallProviderId);
-        }
+        var user = await userSvc.GetAsync(userId);
+        var onCallUser = user as OnCallUserDto;
 
-        [TestMethod]
-        public async Task List()
-        {
-            var userSvc = Container.Resolve<IUserAppService>();
-            
-            var customerId = new CustomerId();
-            var onCallProviderId = new OnCallProviderId();
+        Assert.IsNotNull(user);
+        Assert.IsNotNull(onCallUser);
+        Assert.AreEqual("todd@example2.com", onCallUser!.Email?.Value);
+        Assert.AreEqual(onCallProviderId, onCallUser.OnCallProviderId);
+    }
 
-            await userSvc.AddCustomerUserAsync(
-                customerId,
-                new EmailAddressDto
-                {
-                    Value = "magura@example2.com"
-                }
-            );
-            await userSvc.AddOnCallUserAsync(
-                onCallProviderId,
-                new EmailAddressDto
-                {
-                    Value = "todd@example2.com"
-                }
-            );
+    [TestMethod]
+    public async Task List()
+    {
+        var userSvc = Container.Resolve<IUserAppService>();
 
-            var users = await userSvc.ListAsync();
-            var customerUser = users.Single(u => u.Email?.Value == "magura@example2.com") as CustomerUserDto;
-            var onCallUser = users.Single(u => u.Email?.Value == "todd@example2.com") as OnCallUserDto;
+        var customerId = new CustomerId();
+        var onCallProviderId = new OnCallProviderId();
 
-            Assert.IsNotNull(customerUser);
-            Assert.AreEqual("magura@example2.com", customerUser!.Email?.Value);
-            Assert.AreEqual(customerId, customerUser.CustomerId);
+        await userSvc.AddCustomerUserAsync(
+            customerId,
+            new EmailAddressDto("magura@example2.com")
+        );
+        await userSvc.AddOnCallUserAsync(
+            onCallProviderId,
+            new EmailAddressDto("todd@example2.com")
+        );
 
-            Assert.IsNotNull(onCallUser);
-            Assert.AreEqual("todd@example2.com", onCallUser!.Email?.Value);
-            Assert.AreEqual(onCallProviderId, onCallUser.OnCallProviderId);
-        }
+        var users = await userSvc.ListAsync();
+        var customerUser = users.Single(u => u.Email?.Value == "magura@example2.com") as CustomerUserDto;
+        var onCallUser = users.Single(u => u.Email?.Value == "todd@example2.com") as OnCallUserDto;
+
+        Assert.IsNotNull(customerUser);
+        Assert.AreEqual("magura@example2.com", customerUser!.Email?.Value);
+        Assert.AreEqual(customerId, customerUser.CustomerId);
+
+        Assert.IsNotNull(onCallUser);
+        Assert.AreEqual("todd@example2.com", onCallUser!.Email?.Value);
+        Assert.AreEqual(onCallProviderId, onCallUser.OnCallProviderId);
     }
 }

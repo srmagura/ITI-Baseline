@@ -1,4 +1,4 @@
-﻿using ITI.DDD.Application;
+using ITI.DDD.Application;
 using ITI.DDD.Auth;
 using ITI.DDD.Core;
 using ITI.DDD.Logging;
@@ -9,73 +9,72 @@ using TestApp.Application.Interfaces.RepositoryInterfaces;
 using TestApp.Domain;
 using TestApp.Domain.Identities;
 
-namespace TestApp.Application
+namespace TestApp.Application;
+
+public class UserAppService : ApplicationService, IUserAppService
 {
-    public class UserAppService : ApplicationService, IUserAppService
+    private readonly IUserQueries _userQueries;
+    private readonly IUserRepository _userRepo;
+
+    public UserAppService(
+        IUnitOfWorkProvider uow,
+        ILogger logger,
+        IAuthContext auth,
+        IUserQueries userQueries,
+        IUserRepository userRepo
+    ) : base(uow, logger, auth)
     {
-        private readonly IUserQueries _userQueries;
-        private readonly IUserRepository _userRepo;
+        _userQueries = userQueries;
+        _userRepo = userRepo;
+    }
 
-        public UserAppService(
-            IUnitOfWorkProvider uow, 
-            ILogger logger, 
-            IAuthContext auth,
-            IUserQueries userQueries,
-            IUserRepository userRepo
-        ) : base(uow, logger, auth)
-        {
-            _userQueries = userQueries;
-            _userRepo = userRepo;
-        }
+    public Task<UserDto?> GetAsync(UserId id)
+    {
+        return QueryAsync(
+            () => Task.CompletedTask,
+            () => _userQueries.GetAsync(id)
+        );
+    }
 
-        public Task<UserDto?> GetAsync(UserId id)
-        {
-            return QueryAsync(
-                () => Task.CompletedTask,
-                () => _userQueries.GetAsync(id)
-            );
-        }
+    public async Task<List<UserDto>> ListAsync()
+    {
+        return await QueryAsync(
+            () => Task.CompletedTask,
+            () => _userQueries.ListAsync()
+        ) ?? new List<UserDto>();
+    }
 
-        public async Task<List<UserDto>> ListAsync()
-        {
-            return await QueryAsync(
-                () => Task.CompletedTask,
-                () => _userQueries.ListAsync()
-            ) ?? new List<UserDto>();
-        }
+    public Task<UserId> AddCustomerUserAsync(CustomerId customerId, EmailAddressDto email)
+    {
+        return CommandAsync(
+            () => Task.CompletedTask,
+            () =>
+            {
+                var customerUser = new CustomerUser(
+                    customerId,
+                    email.ToValueObject()
+                );
 
-        public Task<UserId> AddCustomerUserAsync(CustomerId customerId, EmailAddressDto email)
-        {
-            return CommandAsync(
-                () => Task.CompletedTask,
-                () =>
-                {
-                    var customerUser = new CustomerUser(
-                        customerId,
-                        email.ToValueObject()
-                    );
+                _userRepo.Add(customerUser);
+                return Task.FromResult(customerUser.Id);
+            }
+        );
+    }
 
-                    _userRepo.Add(customerUser);
-                    return Task.FromResult(customerUser.Id);
-                }
-            );
-        }
+    public Task<UserId> AddOnCallUserAsync(OnCallProviderId onCallProviderId, EmailAddressDto email)
+    {
+        return CommandAsync(
+            () => Task.CompletedTask,
+            () =>
+            {
+                var onCallUser = new OnCallUser(
+                    onCallProviderId,
+                    email.ToValueObject()
+                );
 
-        public Task<UserId> AddOnCallUserAsync(OnCallProviderId onCallProviderId, EmailAddressDto email)
-        {
-            return CommandAsync(
-                () => Task.CompletedTask,
-                () =>
-                {
-                    var onCallUser = new OnCallUser(
-                        onCallProviderId,
-                        email.ToValueObject()
-                    );
-
-                    _userRepo.Add(onCallUser);
-                    return Task.FromResult(onCallUser.Id);
-                }
-            );
-        }
+                _userRepo.Add(onCallUser);
+                return Task.FromResult(onCallUser.Id);
+            }
+        );
     }
 }

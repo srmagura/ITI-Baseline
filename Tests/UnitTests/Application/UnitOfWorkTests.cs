@@ -1,4 +1,4 @@
-﻿using Autofac;
+using Autofac;
 using ITI.DDD.Application;
 using ITI.DDD.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -43,10 +43,11 @@ public class UnitOfWorkTests
         }
     }
 
-    private class DataContext : IDataContext
+    private sealed class DataContext : IDataContext
     {
         public void Dispose()
         {
+            // Does not need to be implemented
         }
 
         public List<IDomainEvent> GetAllDomainEvents()

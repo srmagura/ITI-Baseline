@@ -1,4 +1,4 @@
-﻿using System.Text.Json;
+using System.Text.Json;
 using ITI.DDD.Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -23,8 +23,6 @@ namespace UnitTests.Domain
             Assert.IsTrue(id1 == id1_copy);
 
             Assert.IsFalse(id1 == null);
-            Assert.IsFalse(null == id1);
-
             Assert.IsFalse(id1 == id_null1);
             Assert.IsFalse(id_null1 == id1);
 
@@ -66,6 +64,6 @@ namespace UnitTests.Domain
     {
         public TestId() { }
         public TestId(Guid guid) : base(guid) { }
-        public TestId(Guid? guid) : base(guid ?? default) { }
+        public TestId(Guid? guid) : base(guid ?? Guid.Empty) { }
     }
 }

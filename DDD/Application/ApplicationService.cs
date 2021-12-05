@@ -1,4 +1,4 @@
-﻿using ITI.DDD.Auth;
+using ITI.DDD.Auth;
 using ITI.DDD.Core;
 using ITI.DDD.Logging;
 using Microsoft.EntityFrameworkCore;
@@ -7,13 +7,13 @@ namespace ITI.DDD.Application;
 
 public abstract class ApplicationService
 {
-    protected readonly IUnitOfWorkProvider UnitOfWorkProvider;
-    protected readonly ILogger Logger;
-    protected readonly IAuthContext Authorize;
+    private readonly IUnitOfWorkProvider _unitOfWorkProvider;
+    protected ILogger Logger { get; }
+    protected IAuthContext Authorize { get; }
 
     protected ApplicationService(IUnitOfWorkProvider unitOfWorkProvider, ILogger logger, IAuthContext auth)
     {
-        UnitOfWorkProvider = unitOfWorkProvider;
+        _unitOfWorkProvider = unitOfWorkProvider;
         Logger = logger;
         Authorize = auth;
     }
@@ -22,7 +22,7 @@ public abstract class ApplicationService
     {
         try
         {
-            using var uow = UnitOfWorkProvider.Begin();
+            using var uow = _unitOfWorkProvider.Begin();
 
             await authorize();
             await exec();
@@ -39,7 +39,7 @@ public abstract class ApplicationService
     {
         try
         {
-            using var uow = UnitOfWorkProvider.Begin();
+            using var uow = _unitOfWorkProvider.Begin();
 
             await authorize();
             var result = await exec();
@@ -58,7 +58,7 @@ public abstract class ApplicationService
     {
         try
         {
-            using (UnitOfWorkProvider.Begin())
+            using (_unitOfWorkProvider.Begin())
             {
                 await authorize();
 
@@ -74,14 +74,14 @@ public abstract class ApplicationService
 
     protected void RaiseDomainEvent(IDomainEvent domainEvent)
     {
-        if(UnitOfWorkProvider.Current == null)
+        if (_unitOfWorkProvider.Current == null)
         {
             throw new NotSupportedException(
                 $"{nameof(RaiseDomainEvent)} was called outside a unit of work."
             );
         }
 
-        UnitOfWorkProvider.Current.RaiseDomainEvent(domainEvent);
+        _unitOfWorkProvider.Current.RaiseDomainEvent(domainEvent);
     }
 
     private void Handle(Exception e)
@@ -113,7 +113,6 @@ public abstract class ApplicationService
             case DomainException.AppServiceLogAs.Warning:
                 Logger.Warning("Unhandled Domain Exception", domainException);
                 break;
-            default:
             case DomainException.AppServiceLogAs.Error:
                 Logger.Error("Unhandled Domain Exception", domainException);
                 break;
