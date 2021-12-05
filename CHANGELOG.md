@@ -1,5 +1,11 @@
 @@@ = breaking change
 
+## 3.0.0
+
+- @@@ Remove domain event implementation
+- @@@ Refactor unit of work
+- @@@ Many small refactorings
+
 ## 2.2.6
 
 - @@@ Upgrade to .NET 6 and EF Core 6

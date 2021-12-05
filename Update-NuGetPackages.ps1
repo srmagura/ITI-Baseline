@@ -12,7 +12,7 @@ try {
 
 	dotnet nuget push --source "iti-azure-devops" --api-key az --interactive ./ITI/Baseline/Audit/bin/Release/ITI.Baseline.Audit.$version.nupkg
 	dotnet nuget push --source "iti-azure-devops" --api-key az --interactive ./ITI/Baseline/Passwords/bin/Release/ITI.Baseline.Passwords.$version.nupkg
-	dotnet nuget push --source "iti-azure-devops" --api-key az --interactive ./ITI/Baseline/RequestTrace/bin/Release/ITI.Baseline.RequestTrace.$version.nupkg
+	dotnet nuget push --source "iti-azure-devops" --api-key az --interactive ./ITI/Baseline/RequestTracing/bin/Release/ITI.Baseline.RequestTracing.$version.nupkg
 	dotnet nuget push --source "iti-azure-devops" --api-key az --interactive ./ITI/Baseline/Util/bin/Release/ITI.Baseline.Util.$version.nupkg
 	dotnet nuget push --source "iti-azure-devops" --api-key az --interactive ./ITI/Baseline/ValueObjects/bin/Release/ITI.Baseline.ValueObjects.$version.nupkg
 
