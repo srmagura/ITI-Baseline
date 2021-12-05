@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -27,13 +27,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\ITI\Baseline\Audit\Audit.csproj" />
-    <ProjectReference Include="..\..\ITI\Baseline\RequestTrace\RequestTrace.csproj" />
-    <ProjectReference Include="..\..\ITI\Baseline\Util\Util.csproj" />
-    <ProjectReference Include="..\..\ITI\Baseline\ValueObjects\ValueObjects.csproj" />
-    <ProjectReference Include="..\..\ITI\DDD\Application\Application.csproj" />
-    <ProjectReference Include="..\..\ITI\DDD\Domain\Domain.csproj" />
-    <ProjectReference Include="..\..\ITI\DDD\Infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Baseline\Audit\Audit.csproj" />
+    <ProjectReference Include="..\..\Baseline\RequestTrace\RequestTrace.csproj" />
+    <ProjectReference Include="..\..\Baseline\Util\Util.csproj" />
+    <ProjectReference Include="..\..\Baseline\ValueObjects\ValueObjects.csproj" />
+    <ProjectReference Include="..\..\DDD\Application\Application.csproj" />
+    <ProjectReference Include="..\..\DDD\Domain\Domain.csproj" />
+    <ProjectReference Include="..\..\DDD\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -17,17 +17,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="NSubstitute" Version="4.2.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\ITI\Baseline\Passwords\Passwords.csproj" />
-    <ProjectReference Include="..\..\ITI\Baseline\ValueObjects\ValueObjects.csproj" />
-    <ProjectReference Include="..\..\ITI\DDD\Application\Application.csproj" />
-    <ProjectReference Include="..\..\ITI\DDD\Auth\Auth.csproj" />
-    <ProjectReference Include="..\..\ITI\DDD\Core\Core.csproj" />
-    <ProjectReference Include="..\..\ITI\DDD\Domain\Domain.csproj" />
-    <ProjectReference Include="..\..\ITI\DDD\Logging\Logging.csproj" />
+    <ProjectReference Include="..\..\DDD\Application\Application.csproj" />
+    <ProjectReference Include="..\..\DDD\Core\Core.csproj" />
     <ProjectReference Include="..\TestApp\TestApp.csproj" />
   </ItemGroup>
 
