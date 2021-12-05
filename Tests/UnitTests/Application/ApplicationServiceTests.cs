@@ -1,5 +1,6 @@
 using Autofac;
 using ITI.DDD.Application;
+using ITI.DDD.Application.DomainEvents;
 using ITI.DDD.Auth;
 using ITI.DDD.Core;
 using ITI.DDD.Logging;

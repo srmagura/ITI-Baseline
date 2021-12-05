@@ -1,20 +1,25 @@
 using Autofac;
+using ITI.DDD.Application.DomainEvents;
 using ITI.DDD.Core;
+using ITI.DDD.Logging;
 
 namespace ITI.DDD.Application;
 
 internal sealed class UnitOfWork : IUnitOfWork
 {
+    private readonly ILogger _logger;
     private readonly ILifetimeScope _lifetimeScope;
     private readonly IDomainEventPublisher _domainEventPublisher;
     private readonly Action _onDispose;
 
     public UnitOfWork(
+        ILogger logger,
         ILifetimeScope lifetimeScope,
         IDomainEventPublisher domainEventPublisher,
         Action onDispose
     )
     {
+        _logger = logger;
         _lifetimeScope = lifetimeScope;
         _domainEventPublisher = domainEventPublisher;
         _onDispose = onDispose;
@@ -64,7 +69,14 @@ internal sealed class UnitOfWork : IUnitOfWork
             allDomainEvents.AddRange(dataContext.GetAllDomainEvents());
         }
 
-        await _domainEventPublisher.PublishAsync(allDomainEvents);
+        try
+        {
+            await _domainEventPublisher.PublishAsync(allDomainEvents);
+        }
+        catch (Exception e)
+        {
+            _logger.Error("Exception occurred while publishing domain events.", e);
+        }
     }
 
     public void Dispose()

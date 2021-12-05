@@ -1,5 +1,6 @@
 using Autofac;
 using ITI.Baseline.RequestTracing;
+using ITI.DDD.Application.DomainEvents.Direct;
 using ITI.DDD.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestApp.AppConfig;
@@ -29,6 +30,7 @@ public abstract class IntegrationTest
     public async Task TestInitialize()
     {
         ConsoleLogWriter.ClearErrors();
+        DirectDomainEventPublisher.ShouldWaitForHandlersToComplete(true);
 
         var builder = new ContainerBuilder();
         RegisterServices(builder);

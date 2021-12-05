@@ -39,7 +39,7 @@ public class Auditor : IAuditor
         catch (Exception exc)
         {
             // eat exception
-            _logger?.Error("Could not process audit.", exc);
+            _logger.Error("Could not process audit.", exc);
         }
     }
 
@@ -95,7 +95,7 @@ public class Auditor : IAuditor
             }
             catch (Exception exc)
             {
-                _logger?.Error("Audit Error", exc);
+                _logger.Error("Audit Error", exc);
             }
         }
 

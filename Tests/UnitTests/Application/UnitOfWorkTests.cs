@@ -1,6 +1,8 @@
 using Autofac;
 using ITI.DDD.Application;
+using ITI.DDD.Application.DomainEvents;
 using ITI.DDD.Core;
+using ITI.DDD.Logging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using TestApp.Domain.Events;
@@ -15,12 +17,14 @@ public class UnitOfWorkTests
     public void ItSetsCurrentUnitOfWork()
     {
         var builder = new ContainerBuilder();
+        builder.RegisterModule<ITIDDDModule>();
         builder.RegisterInstance(Substitute.For<IDomainEventPublisher>());
 
-        using var container = builder.Build();
-        using var lifetimeScope = container.BeginLifetimeScope();
+        var logger = Substitute.For<ILogger>();
+        builder.RegisterInstance(logger);
 
-        var unitOfWorkProvider = new UnitOfWorkProvider(lifetimeScope);
+        using var container = builder.Build();
+        var unitOfWorkProvider = container.Resolve<IUnitOfWorkProvider>();
 
         Assert.IsNull(unitOfWorkProvider.Current);
 
@@ -31,6 +35,7 @@ public class UnitOfWorkTests
         }
 
         Assert.IsNull(unitOfWorkProvider.Current);
+        logger.DidNotReceiveWithAnyArgs().Error("");
     }
 
     private class CustomerAddedEvent : BaseDomainEvent
@@ -65,16 +70,19 @@ public class UnitOfWorkTests
     }
 
     [TestMethod]
-    public async Task CommitHandlesDomainEvents()
+    public async Task CommitPublishesDomainEvents()
     {
         var builder = new ContainerBuilder();
         builder.RegisterModule<ITIDDDModule>();
         builder.RegisterType<DataContext>();
 
+        var logger = Substitute.For<ILogger>();
+        builder.RegisterInstance(logger);
+
         var domainEventPublisher = Substitute.For<IDomainEventPublisher>();
         builder.RegisterInstance(domainEventPublisher);
 
-        var container = builder.Build();
+        using var container = builder.Build();
         var unitOfWorkProvider = container.Resolve<IUnitOfWorkProvider>();
 
         using (var uow = unitOfWorkProvider.Begin())
@@ -94,5 +102,7 @@ public class UnitOfWorkTests
         await domainEventPublisher.Received(1).PublishAsync(
             Arg.Is<IReadOnlyCollection<IDomainEvent>>(c => c.Count == 1)
         );
+
+        logger.DidNotReceiveWithAnyArgs().Error("");
     }
 }

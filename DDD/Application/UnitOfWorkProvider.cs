@@ -1,5 +1,7 @@
-﻿using Autofac;
+using Autofac;
+using ITI.DDD.Application.DomainEvents;
 using ITI.DDD.Core;
+using ITI.DDD.Logging;
 
 namespace ITI.DDD.Application;
 
@@ -27,6 +29,7 @@ public sealed class UnitOfWorkProvider : IUnitOfWorkProvider
         _currentUnitOfWorkLifetimeScope = _lifetimeScope.BeginLifetimeScope();
 
         Current = new UnitOfWork(
+            _currentUnitOfWorkLifetimeScope.Resolve<ILogger>(),
             _currentUnitOfWorkLifetimeScope,
             _currentUnitOfWorkLifetimeScope.Resolve<IDomainEventPublisher>(),
             OnUnitOfWorkDispose

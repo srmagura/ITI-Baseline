@@ -9,7 +9,9 @@ namespace TestApp.Domain;
 
 public class Customer : AggregateRoot
 {
+    [Obsolete("Only for use by AutoMapper and other constructors.")]
     public Customer(
+        bool placeholder,
         string name,
         List<LtcPharmacy> ltcPharmacies,
         List<int> someInts,
@@ -20,7 +22,17 @@ public class Customer : AggregateRoot
         _ltcPharmacies = ltcPharmacies;
         _someInts = someInts;
         SomeNumber = someNumber;
+    }
 
+    public Customer(
+        string name,
+        List<LtcPharmacy> ltcPharmacies,
+        List<int> someInts,
+        long someNumber
+#pragma warning disable CS0618 // Type or member is obsolete
+    ) : this(placeholder: true, name, ltcPharmacies, someInts, someNumber)
+#pragma warning restore CS0618 // Type or member is obsolete
+    {
         Raise(new CustomerAddedEvent(Id, name));
     }
 
@@ -65,7 +77,6 @@ public class Customer : AggregateRoot
     public void SetAddress(Address? address)
     {
         Address = address;
-        Raise(new CustomerAddressChangedEvent(Id));
     }
 
     public void SetContact(PersonName? contactName, PhoneNumber? contactPhone)

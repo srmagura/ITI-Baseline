@@ -1,4 +1,4 @@
-﻿using Autofac;
+using Autofac;
 using AutoMapper;
 using AutoMapper.EquivalencyExpression;
 using ITI.Baseline.Audit;
@@ -74,12 +74,15 @@ internal class MapperModule : Module
             })
             .ReverseMap()
             .ForMember(p => p.SomeInts, opt => opt.Ignore())
+#pragma warning disable CS0618 // Type or member is obsolete
             .ConstructUsing((db, ctx) => new Customer(
+                placeholder: true,
                 name: db.Name,
                 ltcPharmacies: ctx.Mapper.Map<List<LtcPharmacy>>(db.LtcPharmacies),
                 someInts: db.SomeInts.FromDbJson<List<int>>() ?? new(),
                 someNumber: db.SomeNumber)
             );
+#pragma warning restore CS0618 // Type or member is obsolete
 
         cfg.CreateMap<DbLtcPharmacy, LtcPharmacyDto>();
 

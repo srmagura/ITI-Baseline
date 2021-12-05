@@ -12,10 +12,6 @@ public class ITIDDDModule : Module
         builder.RegisterType<DbEntityMapper>().As<IDbEntityMapper>();
         builder.RegisterType<Logger>().As<ILogger>();
 
-        builder.RegisterType<DomainEventHandlerResolver>()
-            .As<DomainEventHandlerResolver>()
-            .SingleInstance();
-
         builder.RegisterType<UnitOfWorkProvider>()
             .As<IUnitOfWorkProvider>()
             .InstancePerLifetimeScope();
