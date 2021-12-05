@@ -16,6 +16,8 @@ public class Logger : ILogger
 
     public void Debug(string message, Exception? exception = null)
     {
+        // This comment is just to prevent an analyzer warning when building in
+        // Release configuration
 #if DEBUG
         Write("Debug", message, exception);
 #endif
