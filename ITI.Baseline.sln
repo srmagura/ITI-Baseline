@@ -14,10 +14,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solution Items", "{2AC9BD1A-0AE3-4098-8964-E9AD0F3EB779}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		..\.gitignore = ..\.gitignore
-		..\CHANGELOG.md = ..\CHANGELOG.md
-		..\Directory.Build.props = ..\Directory.Build.props
-		..\README.md = ..\README.md
+		.gitignore = .gitignore
+		CHANGELOG.md = CHANGELOG.md
+		Directory.Build.props = Directory.Build.props
+		nuget.config = nuget.config
+		README.md = README.md
 		Update-NuGetPackages.ps1 = Update-NuGetPackages.ps1
 	EndProjectSection
 EndProject
