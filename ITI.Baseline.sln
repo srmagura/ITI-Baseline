@@ -18,8 +18,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solutio
 		CHANGELOG.md = CHANGELOG.md
 		Directory.Build.props = Directory.Build.props
 		nuget.config = nuget.config
+		Publish-NuGetPackages.ps1 = Publish-NuGetPackages.ps1
 		README.md = README.md
-		Update-NuGetPackages.ps1 = Update-NuGetPackages.ps1
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Baseline", "Baseline", "{25A59AF9-975A-43A6-B0D1-63A4C897F6FE}"

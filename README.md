@@ -9,7 +9,7 @@ Each project is its own NuGet package.
 2. In PowerShell run
 
    ```pwsh
-   ./Update-NuGetPackages.ps1 x.x.x
+   ./Publish-NuGetPackages.ps1 x.x.x
    ```
 
    where `x.x.x` is the version number.
