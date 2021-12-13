@@ -1,5 +1,10 @@
 @@@ = breaking change
 
+## 3.0.1
+
+- @@@ Change `FilteredList` use an array
+- Add `ProjectToDtoArrayAsync` methods
+
 ## 3.0.0
 
 - @@@ Remove domain event implementation

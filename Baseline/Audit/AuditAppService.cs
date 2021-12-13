@@ -54,7 +54,7 @@ public class AuditAppService : ApplicationService, IAuditAppService
                     .Take(take)
                     .ToListAsync();
 
-                var dtos = _mapper.Map<List<AuditRecordDto>>(items);
+                var dtos = _mapper.Map<AuditRecordDto[]>(items);
 
                 return new FilteredList<AuditRecordDto>(dtos, count);
             }

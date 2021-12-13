@@ -6,7 +6,7 @@
     <RootNamespace>ITI.DDD.Domain</RootNamespace>
     <Nullable>enable</Nullable>
 	<ImplicitUsings>true</ImplicitUsings>
-	<Version>3.0.0</Version>
+	<Version>3.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
