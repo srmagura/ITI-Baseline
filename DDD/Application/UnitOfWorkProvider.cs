@@ -8,45 +8,42 @@ namespace ITI.DDD.Application;
 public sealed class UnitOfWorkProvider : IUnitOfWorkProvider
 {
     private readonly ILifetimeScope _lifetimeScope;
+    private readonly ILogger _logger;
+    private readonly IDomainEventPublisher _domainEventPublisher;
 
-    public UnitOfWorkProvider(ILifetimeScope lifetimeScope)
+    public UnitOfWorkProvider(
+        ILifetimeScope lifetimeScope,
+        ILogger logger,
+        IDomainEventPublisher domainEventPublisher
+    )
     {
         _lifetimeScope = lifetimeScope;
+        _logger = logger;
+        _domainEventPublisher = domainEventPublisher;
     }
 
     public IUnitOfWork? Current { get; private set; }
-    private ILifetimeScope? _currentUnitOfWorkLifetimeScope;
 
     public IUnitOfWork Begin()
     {
         if (Current != null)
         {
             throw new NotSupportedException(
-                "You are attempting to use nested units of work which is not currently supported."
+                "You are attempting to use nested units of work which is not currently supported. " +
+                "Or you may have forgotten to dispose the last unit of work."
             );
         }
 
-        _currentUnitOfWorkLifetimeScope = _lifetimeScope.BeginLifetimeScope();
-
-        Current = new UnitOfWork(
-            _currentUnitOfWorkLifetimeScope.Resolve<ILogger>(),
-            _currentUnitOfWorkLifetimeScope,
-            _currentUnitOfWorkLifetimeScope.Resolve<IDomainEventPublisher>(),
+        return Current = new UnitOfWork(
+            _lifetimeScope,
+            _logger,
+            _domainEventPublisher,
             OnUnitOfWorkDispose
         );
-        return Current;
     }
 
     private void OnUnitOfWorkDispose()
     {
-        if (_currentUnitOfWorkLifetimeScope == null)
-        {
-            throw new Exception($"{nameof(_currentUnitOfWorkLifetimeScope)} is unexpectedly null.");
-        }
-
-        _currentUnitOfWorkLifetimeScope.Dispose();
-
         Current = null;
-        _currentUnitOfWorkLifetimeScope = null;
     }
 }

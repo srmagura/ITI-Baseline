@@ -13,8 +13,8 @@ internal sealed class UnitOfWork : IUnitOfWork
     private readonly Action _onDispose;
 
     public UnitOfWork(
-        ILogger logger,
         ILifetimeScope lifetimeScope,
+        ILogger logger,
         IDomainEventPublisher domainEventPublisher,
         Action onDispose
     )

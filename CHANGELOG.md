@@ -1,9 +1,10 @@
 @@@ = breaking change
 
-## 3.0.1
+## 3.0.2
 
 - @@@ Change `FilteredList` use an array
 - Add `ProjectToDtoArrayAsync` methods
+- Don't use a nested lifetime scope for `UnitOfWork`
 
 ## 3.0.0
 
