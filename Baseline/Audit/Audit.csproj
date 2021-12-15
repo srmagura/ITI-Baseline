@@ -6,7 +6,7 @@
     <RootNamespace>ITI.Baseline.Audit</RootNamespace>
 	<Nullable>enable</Nullable>
 	<ImplicitUsings>true</ImplicitUsings>
-    <Version>3.0.3</Version>
+    <Version>3.0.4</Version>
   </PropertyGroup>
 
   <ItemGroup>
