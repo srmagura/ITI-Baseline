@@ -53,12 +53,15 @@ public class DirectDomainEventPublisher : IDomainEventPublisher
             var handler = lifetimeScope.Resolve(handlerType);
 
             var handleMethod = handler.GetType()
-                .GetMethod(nameof(IDomainEventHandler<IDomainEvent>.HandleAsync), new[] { domainEvent.GetType() });
+                .GetMethod(
+                    nameof(IDomainEventHandler<IDomainEvent>.HandleAsync),
+                    new[] { domainEvent.GetType(), typeof(CancellationToken) }
+                );
 
             if (handleMethod == null)
                 throw new Exception("Could not find HandleAsync method.");
 
-            var returnValue = handleMethod.Invoke(handler, new object[] { domainEvent });
+            var returnValue = handleMethod.Invoke(handler, new object[] { domainEvent, CancellationToken.None });
 
             if (returnValue is not Task task)
                 throw new Exception("HandleAsync did not return a Task.");

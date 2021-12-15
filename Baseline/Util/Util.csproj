@@ -6,7 +6,7 @@
     <RootNamespace>ITI.Baseline.Util</RootNamespace>
     <Nullable>enable</Nullable>
 	<ImplicitUsings>true</ImplicitUsings>
-	<Version>3.0.2</Version>
+	<Version>3.0.3</Version>
   </PropertyGroup>
 
   <ItemGroup>

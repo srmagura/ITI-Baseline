@@ -5,7 +5,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
 	<ImplicitUsings>true</ImplicitUsings>
-	<Version>3.0.2</Version>
+	<Version>3.0.3</Version>
     <PackageId>ITI.Baseline.RequestTracing</PackageId>
     <AssemblyName>ITI.Baseline.RequestTracing</AssemblyName>
     <RootNamespace>ITI.Baseline.RequestTracing</RootNamespace>

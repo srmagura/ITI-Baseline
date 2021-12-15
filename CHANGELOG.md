@@ -1,5 +1,9 @@
 @@@ = breaking change
 
+## 3.0.3
+
+- @@@ Add cancellation token to `IDomainEventHandler`
+
 ## 3.0.2
 
 - @@@ Change `FilteredList` use an array

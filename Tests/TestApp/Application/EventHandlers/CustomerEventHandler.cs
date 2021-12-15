@@ -12,7 +12,7 @@ public class CustomerEventHandler : IDomainEventHandler<CustomerAddedEvent>
 
     public static CustomerAddedEvent? LastHandledEvent { get; private set; }
 
-    public Task HandleAsync(CustomerAddedEvent domainEvent)
+    public Task HandleAsync(CustomerAddedEvent domainEvent, CancellationToken cancellationToken = default)
     {
         LastHandledEvent = domainEvent;
         return Task.CompletedTask;
