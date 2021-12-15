@@ -1,5 +1,9 @@
 @@@ = breaking change
 
+## 3.0.4
+
+- `UnitOfWork`: Dispose data contexts immediately
+
 ## 3.0.3
 
 - @@@ Add cancellation token to `IDomainEventHandler`

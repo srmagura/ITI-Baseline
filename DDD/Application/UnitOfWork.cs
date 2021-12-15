@@ -82,6 +82,12 @@ internal sealed class UnitOfWork : IUnitOfWork
     public void Dispose()
     {
         GC.SuppressFinalize(this);
+
+        foreach (var dataContext in _dataContexts.Values)
+        {
+            dataContext.Dispose();
+        }
+
         _onDispose();
     }
 }
