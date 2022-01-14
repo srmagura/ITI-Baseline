@@ -14,7 +14,7 @@
 
 ## 3.0.2
 
-- @@@ Change `FilteredList` use an array
+- @@@ Change `FilteredList` to use an array
 - Add `ProjectToDtoArrayAsync` methods
 - Don't use a nested lifetime scope for `UnitOfWork`
 
