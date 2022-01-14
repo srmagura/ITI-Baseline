@@ -1,5 +1,9 @@
 @@@ = breaking change
 
+## 3.0.5
+
+- `DbValueObject`: Remove `HasValue` since it is unnecessary 95% of the time
+
 ## 3.0.4
 
 - `UnitOfWork`: Dispose data contexts immediately

@@ -6,7 +6,7 @@
 	<ImplicitUsings>true</ImplicitUsings>
     <AssemblyName>ITI.DDD.Infrastructure</AssemblyName>
     <RootNamespace>ITI.DDD.Infrastructure</RootNamespace>
-	<Version>3.0.4</Version>
+	<Version>3.0.5</Version>
   </PropertyGroup>
 
   <ItemGroup>
