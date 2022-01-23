@@ -31,7 +31,7 @@ public class UserAppService : ApplicationService, IUserAppService
     public Task<UserDto?> GetAsync(UserId id)
     {
         return QueryAsync(
-            () => Task.CompletedTask,
+            Authorize.Unauthenticated,
             () => _userQueries.GetAsync(id)
         );
     }
@@ -39,7 +39,7 @@ public class UserAppService : ApplicationService, IUserAppService
     public async Task<List<UserDto>> ListAsync()
     {
         return await QueryAsync(
-            () => Task.CompletedTask,
+            Authorize.Unauthenticated,
             () => _userQueries.ListAsync()
         ) ?? new List<UserDto>();
     }
@@ -47,7 +47,7 @@ public class UserAppService : ApplicationService, IUserAppService
     public Task<UserId> AddCustomerUserAsync(CustomerId customerId, EmailAddressDto email)
     {
         return CommandAsync(
-            () => Task.CompletedTask,
+            Authorize.Unauthenticated,
             () =>
             {
                 var customerUser = new CustomerUser(
@@ -64,7 +64,7 @@ public class UserAppService : ApplicationService, IUserAppService
     public Task<UserId> AddOnCallUserAsync(OnCallProviderId onCallProviderId, EmailAddressDto email)
     {
         return CommandAsync(
-            () => Task.CompletedTask,
+            Authorize.Unauthenticated,
             () =>
             {
                 var onCallUser = new OnCallUser(

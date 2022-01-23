@@ -6,7 +6,7 @@
     <RootNamespace>ITI.DDD.Application</RootNamespace>
     <Nullable>enable</Nullable>
 	<ImplicitUsings>true</ImplicitUsings>
-	<Version>3.0.5</Version>
+	<Version>3.0.6</Version>
   </PropertyGroup>
 
   <ItemGroup>

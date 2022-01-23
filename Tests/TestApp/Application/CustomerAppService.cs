@@ -31,7 +31,7 @@ public class CustomerAppService : ApplicationService, ICustomerAppService
     public Task<CustomerDto?> GetAsync(CustomerId id)
     {
         return QueryAsync(
-            () => Task.CompletedTask,
+            Authorize.Unauthenticated,
             () => _customerQueries.GetAsync(id)
         );
     }
@@ -44,7 +44,7 @@ public class CustomerAppService : ApplicationService, ICustomerAppService
     )
     {
         return CommandAsync(
-            () => Task.CompletedTask,
+            Authorize.Unauthenticated,
             () =>
             {
                 var customer = new Customer(
@@ -72,7 +72,7 @@ public class CustomerAppService : ApplicationService, ICustomerAppService
     public Task SetNameAsync(CustomerId id, string name)
     {
         return CommandAsync(
-            () => Task.CompletedTask,
+            Authorize.Unauthenticated,
             async () =>
             {
                 var customer = await _customerRepo.GetAsync(id)
@@ -86,7 +86,7 @@ public class CustomerAppService : ApplicationService, ICustomerAppService
     public Task RemoveAsync(CustomerId id)
     {
         return CommandAsync(
-            () => Task.CompletedTask,
+            Authorize.Unauthenticated,
             () => _customerRepo.RemoveAsync(id)
         );
     }
@@ -94,7 +94,7 @@ public class CustomerAppService : ApplicationService, ICustomerAppService
     public Task SetContactAsync(CustomerId id, PersonNameDto? contactName, PhoneNumberDto? contactPhone)
     {
         return CommandAsync(
-            () => Task.CompletedTask,
+            Authorize.Unauthenticated,
             async () =>
             {
                 var customer = await _customerRepo.GetAsync(id)
@@ -111,7 +111,7 @@ public class CustomerAppService : ApplicationService, ICustomerAppService
     public Task AddLtcPharmacyAsync(CustomerId id, string name)
     {
         return CommandAsync(
-            () => Task.CompletedTask,
+            Authorize.Unauthenticated,
             async () =>
             {
                 var customer = await _customerRepo.GetAsync(id)
@@ -125,7 +125,7 @@ public class CustomerAppService : ApplicationService, ICustomerAppService
     public Task RenameLtcPharmacyAsync(CustomerId id, LtcPharmacyId ltcPharmacyId, string name)
     {
         return CommandAsync(
-            () => Task.CompletedTask,
+            Authorize.Unauthenticated,
             async () =>
             {
                 var customer = await _customerRepo.GetAsync(id)
@@ -139,7 +139,7 @@ public class CustomerAppService : ApplicationService, ICustomerAppService
     public Task RemoveLtcPharmacyAsync(CustomerId id, LtcPharmacyId ltcPharmacyId)
     {
         return CommandAsync(
-            () => Task.CompletedTask,
+            Authorize.Unauthenticated,
             async () =>
             {
                 var customer = await _customerRepo.GetAsync(id)

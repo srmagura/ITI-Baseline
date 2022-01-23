@@ -1,5 +1,10 @@
 @@@ = breaking change
 
+## 3.0.6
+
+- Add extension method `IAuthContext.AuthorizedBelow`
+- Make `IAuthContext.AnyUser` and `IAuthContext.Unauthenticated` return `Task`
+
 ## 3.0.5
 
 - `DbValueObject`: Remove `HasValue` since it is unnecessary 95% of the time

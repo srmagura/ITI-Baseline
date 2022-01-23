@@ -32,7 +32,7 @@ public class FacilityAppService : ApplicationService, IFacilityAppService
     public Task<FacilityDto?> GetAsync(FacilityId id)
     {
         return QueryAsync(
-            () => Task.CompletedTask,
+            Authorize.Unauthenticated,
             () => _facilityQueries.GetAsync(id)
         );
     }
@@ -42,7 +42,7 @@ public class FacilityAppService : ApplicationService, IFacilityAppService
     )
     {
         return CommandAsync(
-            () => Task.CompletedTask,
+            Authorize.Unauthenticated,
             () =>
             {
                 var facility = new Facility(
@@ -58,7 +58,7 @@ public class FacilityAppService : ApplicationService, IFacilityAppService
     public Task SetContactAsync(FacilityId id, FacilityContactDto contact)
     {
         return CommandAsync(
-            () => Task.CompletedTask,
+            Authorize.Unauthenticated,
             async () =>
             {
                 var facility = await _facilityRepo.GetAsync(id)
