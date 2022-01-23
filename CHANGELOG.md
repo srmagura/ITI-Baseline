@@ -1,9 +1,10 @@
 @@@ = breaking change
 
-## 3.0.6
+## 3.0.7
 
 - Add extension method `IAuthContext.AuthorizedBelow`
 - Make `IAuthContext.AnyUser` and `IAuthContext.Unauthenticated` return `Task`
+- Allow specifying message when creating `NotAuthorizedException`
 
 ## 3.0.5
 
