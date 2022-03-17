@@ -1,6 +1,6 @@
-using Microsoft.Data.SqlClient;
 using Dapper;
 using ITI.DDD.Logging;
+using Microsoft.Data.SqlClient;
 
 namespace ITI.Baseline.RequestTracing;
 
