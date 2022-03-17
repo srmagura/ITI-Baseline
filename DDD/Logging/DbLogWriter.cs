@@ -1,5 +1,5 @@
-using System.Data.SqlClient;
 using Dapper;
+using Microsoft.Data.SqlClient;
 
 namespace ITI.DDD.Logging;
 

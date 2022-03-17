@@ -6,12 +6,12 @@
 	<ImplicitUsings>true</ImplicitUsings>
     <AssemblyName>ITI.DDD.Infrastructure</AssemblyName>
     <RootNamespace>ITI.DDD.Infrastructure</RootNamespace>
-	<Version>3.0.7</Version>
+	<Version>3.0.8</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="10.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
+    <PackageReference Include="AutoMapper" Version="10.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.3" />
   </ItemGroup>
 
   <ItemGroup>

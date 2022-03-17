@@ -6,13 +6,13 @@
     <RootNamespace>ITI.DDD.Domain</RootNamespace>
     <Nullable>enable</Nullable>
 	<ImplicitUsings>true</ImplicitUsings>
-	<Version>3.0.7</Version>
+	<Version>3.0.8</Version>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="6.3.0" />
-    <PackageReference Include="AutoMapper" Version="10.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="6.0.0" />
+    <PackageReference Include="AutoMapper" Version="10.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="6.0.3" />
   </ItemGroup>
 
   <ItemGroup>

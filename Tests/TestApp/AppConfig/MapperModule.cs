@@ -60,13 +60,13 @@ internal class MapperModule : Module
 
         MapperConfigurationUtil.MapIdentity(cfg, guid => new VendorId(guid));
 
-        cfg.CreateMap<LtcPharmacy, DbLtcPharmacy>()
+        cfg.CreateMap<LtcPharmacy, DbLtcPharmacy>(MemberList.Source)
             .ForMember(p => p.Customer, opt => opt.Ignore())
             .ForMember(p => p.CustomerId, opt => opt.Ignore())
             .EqualityComparison((e, db) => e.Id.Guid == db.Id)
             .ReverseMap();
 
-        cfg.CreateMap<Customer, DbCustomer>()
+        cfg.CreateMap<Customer, DbCustomer>(MemberList.Source)
             .ForMember(p => p.SomeInts, opt => opt.Ignore())
             .AfterMap((e, db) =>
             {
@@ -98,7 +98,7 @@ internal class MapperModule : Module
         cfg.CreateMap<FacilityContact, FacilityContactDto>()
             .ReverseMap();
 
-        cfg.CreateMap<Facility, DbFacility>()
+        cfg.CreateMap<Facility, DbFacility>(MemberList.Source)
             .ReverseMap();
 
         cfg.CreateMap<DbFacility, FacilityDto>();
@@ -109,13 +109,13 @@ internal class MapperModule : Module
         MapperConfigurationUtil.MapIdentity(cfg, guid => new UserId(guid));
         MapperConfigurationUtil.MapIdentity(cfg, guid => new OnCallProviderId(guid));
 
-        cfg.CreateMap<User, DbUser>()
+        cfg.CreateMap<User, DbUser>(MemberList.Source)
             .IncludeAllDerived()
             .ReverseMap();
 
-        cfg.CreateMap<CustomerUser, DbCustomerUser>()
+        cfg.CreateMap<CustomerUser, DbCustomerUser>(MemberList.Source)
             .ReverseMap();
-        cfg.CreateMap<OnCallUser, DbOnCallUser>()
+        cfg.CreateMap<OnCallUser, DbOnCallUser>(MemberList.Source)
             .ReverseMap();
 
         cfg.CreateMap<DbUser, UserDto>()

@@ -1,4 +1,5 @@
-﻿using ITI.DDD.Domain;
+using IntegrationTests.Harness;
+using ITI.DDD.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestApp.DataContext;
@@ -8,7 +9,7 @@ using TestApp.Domain.ValueObjects;
 namespace IntegrationTests
 {
     [TestClass]
-    public class BaseDataContextTests
+    public class BaseDataContextTests : IntegrationTest
     {
         [TestMethod]
         public async Task ItWorksOutsideOfUnitOfWork()
