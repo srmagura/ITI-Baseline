@@ -2,6 +2,7 @@
 
 ## 3.0.8
 
+- @@@ Remove `IgnoreMap` attribute from `DbEntity.MappedEntity`
 - Switch from `System.Data.SqlClient` to `Microsoft.Data.SqlClient`
 
 ## 3.0.7
