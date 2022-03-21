@@ -34,19 +34,34 @@ namespace UnitTests.Domain
         {
             var id1 = new TestId();
             var id2 = new TestId();
-            var id1_copy = new TestId(id1.Guid);
+            var id1Copy = new TestId(id1.Guid);
 
             var set = new HashSet<TestId> { id1 };
 
             Assert.IsTrue(set.Contains(id1));
-            Assert.IsTrue(set.Contains(id1_copy));
+            Assert.IsTrue(set.Contains(id1Copy));
 
             set.Add(id1);
-            set.Add(id1_copy);
+            set.Add(id1Copy);
             Assert.AreEqual(1, set.Count);
 
             set.Add(id2);
             Assert.AreEqual(2, set.Count);
+        }
+
+        [TestMethod]
+        public void Dictionary()
+        {
+            var id1 = new TestId();
+            var id1Copy = new TestId(id1.Guid);
+
+            var dictionary = new Dictionary<TestId, string>
+            {
+                [id1] = "id1"
+            };
+
+            Assert.AreEqual("id1", dictionary[id1]);
+            Assert.AreEqual("id1", dictionary[id1Copy]);
         }
 
         [TestMethod]
